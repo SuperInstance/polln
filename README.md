@@ -86,17 +86,32 @@ The body does NOT store information as files. It stores information as **probabi
 
 ## Research Progress
 
-### Round 1: Foundation Research (In Progress)
+### Round 1: Foundation Research (4/5 Complete)
 
-We're running 5 parallel research agents across 12+ languages:
+5 parallel research agents investigating core concepts across 12+ languages:
 
-| Agent | Topic | Status |
-|-------|-------|--------|
-| Multi-Agent Systems | MARL, swarm intelligence, coordination | Running |
-| Embodied Cognition | Distributed memory, gut brain | **Complete** |
-| Stochastic Decisions | Plinko, temperature, bandits | Running |
-| Privacy Learning | FL attacks, differential privacy | Running |
-| Cross-Cultural Philosophy | Attribution, emergence concepts | Running |
+| Agent | Topic | Status | Key Findings |
+|-------|-------|--------|--------------|
+| Multi-Agent Systems | MARL, swarm intelligence | In Progress | QMIX, MAPPO, MADDPG |
+| Embodied Cognition | Distributed memory | **Complete** | Subsumption architecture, gut brain |
+| Stochastic Decisions | Plinko, bandits | **Complete** | Gumbel-Softmax, cosine annealing |
+| Privacy Learning | FL attacks, DP | **Complete** | ε < 1.0 required, 6 attack vectors |
+| Cross-Cultural Philosophy | Attribution | **Complete** | FPIC requirements, 15+ traditions |
+
+#### Round 1 Cross-Cutting Themes
+
+1. **Distribution is Universal** - Across biology, philosophy, computer science
+2. **Emergence Over Control** - No central controller needed in any domain
+3. **Layered Processing** - Safety > Reflex > Habit > Deliberate
+4. **Privacy Requires Defense-in-Depth** - DP + aggregation + k-anonymity
+
+#### Key Research Outputs
+
+- `docs/research/embodied-cognition.md` (1,382 lines)
+- `docs/research/stochastic-decisions.md` (50+ pages)
+- `docs/research/privacy-attacks.md` (comprehensive attack catalog)
+- `docs/research/cross-cultural-philosophy.md` (FPIC requirements matrix)
+- `docs/round1-synthesis/README.md` (synthesis and Round 2 planning)
 
 #### Completed Research
 
