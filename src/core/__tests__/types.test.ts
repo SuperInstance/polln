@@ -15,7 +15,6 @@ import type {
   EmbeddingVector,
   EmbeddingMetadata,
   PollenGrain,
-  ConsensusType,
   ConsensusVote,
   ConsensusResult,
   PathwayState,
@@ -23,9 +22,13 @@ import type {
   SafetyCheckResult,
   ResourceBudget,
   EligibilityTrace,
+} from '../types';
+
+import {
   PrivacyLevel,
   SubsumptionLayer,
   SafetySeverity,
+  ConsensusType,
 } from '../types';
 
 describe('POLLN Core Types', () => {

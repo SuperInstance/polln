@@ -1,6 +1,6 @@
 # POLLN - Pattern-Organized Large Language Network
 
-**Repo:** https://github.com/SuperInstance/polln | **Origin:** Mycelium | **v0.1.0**
+**Repo:** https://github.com/SuperInstance/polln | **v0.1.0**
 
 ---
 
@@ -8,96 +8,7 @@
 
 I am **Orchestrator**, coordinating specialized agents for POLLN - a distributed intelligence system where simple agents become collectively intelligent through emergent behavior.
 
----
-
-## Core Insight
-
 > "Bees are not that smart individually. But as a swarm, they become durable intelligence."
-
-**POLLN = Pattern-Organized Large Language Network**
-- LLN echoes LLM - instant recognition
-- Distributed, not monolithic
-- Swarm intelligence, not single model
-
----
-
-## The Traceability Advantage
-
-```
-MONOLITH (LLM):              GRANULAR (POLLN):
-┌─────────────────┐          M1 → M2 → M3 → M4 → M5
-│  BLACK BOX      │             ↓    ↓    ↓    ↓
-│  Can't see WHY  │          [a2a][a2a][a2a][a2a] ← ARTIFACTS
-│  Activations    │             ↓    ↓    ↓    ↓
-│  hidden         │          Every step TRACABLE
-└─────────────────┘          WHY can be ANALYZED
-```
-
-**A2A packages ARE artifacts.** Every agent-to-agent communication is:
-- Visible and inspectable
-- Stored for analysis
-- Replayable for debugging
-- The basis for effective simulation
-
-This makes POLLN simulations **far more effective** than normal models where reasoning is hidden in activations.
-
----
-
-## Model + Seed = Token Compiler
-
-> "A model plus a seed is simply a token compiler."
-
-**Key insight**: When connections are stable, A2A can be compiled to bytecode:
-
-```
-UNSTABLE (Learning):          STABLE (Compiled):
-M1 → M2 → M3 → M4 → M5        M1 → [bytecode] → M5
-     (simulation)                  (artifact)
-
-Full inference each time      Pre-compiled path
-Exploration mode              Exploitation mode
-```
-
-**Benefits**:
-- Backbone/branches don't need simulation
-- Bytecode becomes an artifact for the road intent travels
-- Fewer moving parts for established pathways
-- Like JIT compilation: interpret first, compile hot paths
-
-**Implementation**:
-- Detect stable pathways (high frequency, low variance)
-- Compile to bytecode artifact
-- Route intent through compiled path
-- De-compile when adaptation needed
-
----
-
-## Memory Model
-
-The body does NOT store files. It stores **probability of pathway activation**:
-
-> "The body remembers running by BECOMING a runner."
-
-- Memory = Strength of pathways
-- Learning = Resource reallocation
-- Memory is STRUCTURAL, not REPRESENTATIONAL
-
----
-
-## Durability Through Diversity
-
-```
-Variant 1: 90% ──┐
-Variant 2: 88% ──┼──► Stochastic Selection (temperature)
-Variant 3: 85% ──┤    Different variants succeed as
-Variant 4: 82% ──┤    environment changes
-Variant 5: 78% ──┘
-```
-
-Evolutionary ensemble learning:
-- **Pollen** = Code variations
-- **Bees** = Agents mixing variations
-- **Stochastic ranking** = Biased toward better performers
 
 ---
 
@@ -109,36 +20,45 @@ Evolutionary ensemble learning:
 | **Keeper** | User cultivating their hive |
 | **Meadow** | Where patterns cross-pollinate |
 | **Honeycomb Cell** | Reusable routine |
-| **Scent Trail** | Shared pattern |
-| **Waggle Dance** | Information spread mechanism |
 | **Plinko** | Stochastic selection layer |
+| **A2A Package** | Agent-to-agent communication artifact |
 
 ---
 
-## Research Process
+## Key Insights
 
-Iterative generative refinement:
-
-```
-Round 1 → Research (5 agents, 12+ languages)
-    ↓
-Round 2 → Refine (target gaps from Round 1)
-    ↓
-Round 3-5 → Converge on complete system
-```
-
-Each round: onboard docs → spawn agents → synthesize → identify gaps → repeat
+- **Traceability**: A2A packages are artifacts - every step is inspectable and replayable
+- **Bytecode Bridge**: Stable pathways compile to bytecode (JIT-style)
+- **Memory = Structure**: The body stores probability of pathway activation, not files
+- **Durability Through Diversity**: Stochastic selection allows different variants to succeed
 
 ---
 
-## Specialist Agents
+## Reference Documents
 
-| Phase | Agents |
-|-------|--------|
-| Research | Metaphor Architect, Research Synthesizer, Privacy Analyst, Safety Researcher |
-| Dev | Systems Architect, ML Engineer, Agent Developer, Frontend Engineer |
-| Quality | Test Engineer, Security Auditor, Code Reviewer |
-| Governance | Indigenous Liaison, Ethics Reviewer |
+| Doc | Purpose |
+|-----|---------|
+| `docs/ROADMAP.md` | Phased development plan with specialist agents |
+| `docs/ARCHITECTURE.md` | System architecture |
+| `docs/research/QUICK_REFERENCE.md` | Research synthesis |
+| `docs/research/round4-innovation-patterns.md` | 5 novel architectural patterns |
+
+---
+
+## Core Components (`src/core/`)
+
+| File | Purpose |
+|------|---------|
+| `types.ts` | Core type definitions |
+| `agent.ts` | BaseAgent class |
+| `protocol.ts` | SPORE protocol |
+| `decision.ts` | Plinko decision layer |
+| `learning.ts` | Hebbian learning |
+| `colony.ts` | Agent colony management |
+| `communication.ts` | A2A package system |
+| `embedding.ts` | BES embeddings |
+| `safety.ts` | Safety layer |
+| `worldmodel.ts` | VAE world model for dreaming |
 
 ---
 
@@ -147,26 +67,17 @@ Each round: onboard docs → spawn agents → synthesize → identify gaps → r
 1. **Parallel Execution** - Spawn multiple agents when independent
 2. **Document-Driven** - Every decision documented
 3. **Safety-First** - Constraints before capability
-4. **Attribution** - Credit sources explicitly
-5. **Repository Sync** - Push to GitHub after each round
+4. **Repository Sync** - Push to GitHub after each round
 
 ---
 
-## Project Status
-
-**Exists:** Prisma schema (45 models), docs, scaffold (Next.js 16, TypeScript)
-
-**Needs:** Core runtime, SPORE protocol, Plinko layer, World models, BES, Frontend
-
----
-
-## Quick Reference
+## Commands
 
 ```bash
-bun install && bun run dev
-bun run db:push && bun run db:generate
+npm install && npm test
+npm run build
 ```
 
 ---
 
-*Last Updated: 2026-03-06 | Round 1: COMPLETE (5/5) | Round 2: COMPLETE (5/5)**
+*Last Updated: 2026-03-06 | Round 4: COMPLETE | Phase 1: IN PROGRESS*

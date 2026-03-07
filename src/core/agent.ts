@@ -12,7 +12,7 @@ import type { A2APackage, AgentConfig, SubsumptionLayer, PrivacyLevel } from './
  *
  * Following Svadharma: each agent has its proper duty according to nature
  */
-export abstract class BaseAgent<TConfig = unknown, unknown> = extends EventEmitter {
+export abstract class BaseAgent<TConfig = unknown> extends EventEmitter {
   public readonly id: string;
   protected readonly config: AgentConfig;
 
@@ -63,12 +63,12 @@ export abstract class BaseAgent<TConfig = unknown, unknown> = extends EventEmitt
     // Update value based on reward
     this.valueFunction = Math.max(0, Math.min(1,
       this.valueFunction + 0.1 * (reward - 0.5)
-    );
+    ));
     this.successCount += reward > 0 ? 1 : 0;
     this.failureCount += reward < 0 ? 1 : 0;
   }
 
-    // Activity tracking
+  // Activity tracking
   public touch(): void {
     this.lastActive = Date.now();
   }

@@ -66,7 +66,7 @@ export class PlinkoLayer {
    * Process proposals and stochastic selection
    */
   async process(proposals: AgentProposal[]): Promise<PlinkoResult> {
-    const id = uuidv4();
+    const id = v4();
 
     // Calculate entropy for exploration decision
     const entropy = this.calculateEntropy(proposals);
@@ -80,11 +80,14 @@ export class PlinkoLayer {
     // Run discriminator checks
     const discriminatorResults: Record<string, boolean> = {};
     for (const [name, check] of this.discriminators) {
-      discriminatorResults[name] = proposals.every(p => check(p));
+      // Check if any proposal fails this discriminator
+      const allPass = proposals.every(p => check(p));
+      discriminatorResults[name] = allPass;
     }
 
-    // Check for safety override
-    const safetyPassed = discriminatorResults['safety'] !== false;
+    // Check for safety override (if safety discriminator exists and any proposal fails)
+    const safetyDiscriminator = this.discriminators.get('safety');
+    const safetyPassed = safetyDiscriminator ? proposals.every(p => safetyDiscriminator(p)) : true;
     let wasOverridden = false;
     let overrideReason: string | undefined;
 
@@ -135,12 +138,16 @@ export class PlinkoLayer {
    * Adds Gumbel noise to logits for stochastic exploration
    */
   private gumbelSoftmax(proposals: AgentProposal[], temperature: number): string {
+    if (proposals.length === 0) {
+      throw new Error('Cannot select from empty proposals array');
+    }
+
     // Extract confidence scores
     const logits = proposals.map(p => p.confidence);
 
     // Add Gumbel noise: G = -log(-log(U)) where U ~ Uniform(0, 1)
     const gumbelNoise = logits.map(() =>
-      -Math.log(-Math.random())
+      -Math.log(-Math.log(Math.random()))
     );
 
     // Compute perturbed scores
@@ -149,7 +156,13 @@ export class PlinkoLayer {
     );
 
     // Select argmax of perturbed scores
-    const selectedIndex = perturbedScores.indexOf(Math.max(...perturbedScores));
+    const maxScore = Math.max(...perturbedScores);
+    const selectedIndex = perturbedScores.indexOf(maxScore);
+
+    if (selectedIndex === -1) {
+      throw new Error('Failed to select proposal from Gumbel-Softmax');
+    }
+
     return proposals[selectedIndex].agentId;
   }
 
@@ -167,9 +180,18 @@ export class PlinkoLayer {
    * Select safest agent when safety override
    */
   private selectSafestAgent(proposals: AgentProposal[]): string {
-    // For now, just select the one with highest confidence
-    // In a full implementation, this would consider safety scores
-    const safest = proposals.reduce((best, current) =>
+    // Filter proposals by safety discriminator if it exists
+    const safetyDiscriminator = this.discriminators.get('safety');
+    const safeProposals = safetyDiscriminator
+      ? proposals.filter(p => safetyDiscriminator(p))
+      : proposals;
+
+    if (safeProposals.length === 0) {
+      throw new Error('No safe proposals available');
+    }
+
+    // Select the one with highest confidence from safe proposals
+    const safest = safeProposals.reduce((best, current) =>
       current.confidence > best.confidence ? current : best
     );
     return safest.agentId;

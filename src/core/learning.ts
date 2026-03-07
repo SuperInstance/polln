@@ -94,9 +94,7 @@ export class HebbianLearning {
         preActivity *
         postActivity *
         (1 + reward) -
-        this.config.learningRate * synapse.weight * preActivity;
- postActivity;
-      );
+        this.config.learningRate * synapse.weight * preActivity * postActivity;
     } else {
       // Basic Hebbian rule
       weightDelta = this.config.learningRate *
@@ -184,7 +182,7 @@ export class HebbianLearning {
 
     return {
       totalSynapses: synapses.length,
-      avgWeight: weights.length > 00
+      avgWeight: weights.length > 0
         ? weights.reduce((a, b) => a + b, 0) / weights.length
         : 0,
       maxWeight: weights.length > 0 ? Math.max(...weights) : 0,

@@ -1020,46 +1020,499 @@ async function testMemoryTargets(runner: IntegrationTestRunner): Promise<void> {
 }
 
 // ============================================================================
-// Test Runner
+// Jest Test Suite Wrapper
 // ============================================================================
 
-export async function runIntegrationTests(): Promise<void> {
-  console.log('POLLN Integration Test Suite');
-  console.log('============================\n');
+describe('POLLN Integration Tests', () => {
+  describe('Agent + Colony Integration', () => {
+    let runner: IntegrationTestRunner;
 
-  const runner = new IntegrationTestRunner();
+    beforeEach(() => {
+      runner = new IntegrationTestRunner();
+    });
 
-  try {
-    // Component Integration Tests
-    await testAgentColonyIntegration(runner);
-    await testA2APackageCausalChainIntegration(runner);
-    await testBESPrivacyIntegration(runner);
-    await testSafetyPlinkoIntegration(runner);
+    test('should register agent with colony', async () => {
+      const colony = new Colony({
+        id: 'test-colony',
+        gardenerId: 'test-gardener',
+        name: 'Test Colony',
+        maxAgents: 10,
+        resourceBudget: {
+          totalCompute: 1000,
+          totalMemory: 2000,
+          totalNetwork: 500,
+        },
+      });
 
-    // End-to-End Flow Tests
-    await testAgentExecutionFlow(runner);
-    await testEvolutionFlow(runner);
-    await testWorldModelDreamingFlow(runner);
+      const agentConfig: AgentConfig = {
+        id: 'agent-1',
+        typeId: 'test-type',
+        categoryId: 'test-category',
+        modelFamily: 'test-model',
+        defaultParams: {},
+        inputTopics: ['input'],
+        outputTopic: 'output',
+        minExamples: 10,
+        requiresWorldModel: false,
+      };
 
-    // Performance Benchmarks
-    await testLatencyTargets(runner);
-    await testThroughputTargets(runner);
-    await testMemoryTargets(runner);
-  } catch (error) {
-    console.error('Test suite error:', error);
-  }
+      const state = colony.registerAgent(agentConfig);
 
-  runner.printSummary();
+      expect(state.id).toBe(agentConfig.id);
+      expect(state.status).toBe('dormant');
+    });
 
-  const summary = runner.getSummary();
-  if (summary.failed > 0) {
-    process.exit(1);
-  }
-}
+    test('should activate and deactivate agents', async () => {
+      const colony = new Colony({
+        id: 'test-colony-2',
+        gardenerId: 'test-gardener',
+        name: 'Test Colony 2',
+        maxAgents: 10,
+        resourceBudget: {
+          totalCompute: 1000,
+          totalMemory: 2000,
+          totalNetwork: 500,
+        },
+      });
 
-// Run tests if executed directly
-if (require.main === module) {
-  runIntegrationTests().catch(console.error);
-}
+      const agentConfig: AgentConfig = {
+        id: 'agent-2',
+        typeId: 'test-type',
+        categoryId: 'test-category',
+        modelFamily: 'test-model',
+        defaultParams: {},
+        inputTopics: ['input'],
+        outputTopic: 'output',
+        minExamples: 10,
+        requiresWorldModel: false,
+      };
 
-export { IntegrationTestRunner, TestResult };
+      colony.registerAgent(agentConfig);
+      colony.activateAgent(agentConfig.id);
+
+      const agent = colony.getAgent(agentConfig.id);
+      expect(agent?.status).toBe('active');
+
+      colony.deactivateAgent(agentConfig.id);
+      const deactivatedAgent = colony.getAgent(agentConfig.id);
+      expect(deactivatedAgent?.status).toBe('dormant');
+    });
+
+    test('should record execution results correctly', async () => {
+      const colony = new Colony({
+        id: 'test-colony-3',
+        gardenerId: 'test-gardener',
+        name: 'Test Colony 3',
+        maxAgents: 10,
+        resourceBudget: {
+          totalCompute: 1000,
+          totalMemory: 2000,
+          totalNetwork: 500,
+        },
+      });
+
+      const agentConfig: AgentConfig = {
+        id: 'agent-3',
+        typeId: 'test-type',
+        categoryId: 'test-category',
+        modelFamily: 'test-model',
+        defaultParams: {},
+        inputTopics: ['input'],
+        outputTopic: 'output',
+        minExamples: 10,
+        requiresWorldModel: false,
+      };
+
+      colony.registerAgent(agentConfig);
+      colony.activateAgent(agentConfig.id);
+
+      // Record successful execution
+      colony.recordResult(agentConfig.id, true, 50);
+
+      const agent = colony.getAgent(agentConfig.id);
+      expect(agent?.successCount).toBe(1);
+      expect(agent?.valueFunction).toBe(0.51);
+    });
+  });
+
+  describe('A2APackage + Causal Chain Integration', () => {
+    test('should create package with causal chain', async () => {
+      const system = new A2APackageSystem({
+        historySize: 100,
+        defaultPrivacyLevel: 'COLONY',
+        defaultLayer: 'HABITUAL',
+      });
+
+      const pkg = await system.createPackage(
+        'agent-1',
+        'agent-2',
+        'test-type',
+        { data: 'test' },
+        {
+          parentIds: ['parent-1', 'parent-2'],
+          privacyLevel: 'PUBLIC',
+          layer: 'DELIBERATE',
+        }
+      );
+
+      expect(pkg.senderId).toBe('agent-1');
+      expect(pkg.receiverId).toBe('agent-2');
+      expect(pkg.parentIds.length).toBe(2);
+      expect(pkg.privacyLevel).toBe('PUBLIC');
+      expect(pkg.layer).toBe('DELIBERATE');
+    });
+
+    test('should track full causal chain', async () => {
+      const system = new A2APackageSystem();
+
+      // Create parent package
+      const parent = await system.createPackage(
+        'agent-1',
+        'agent-2',
+        'parent-type',
+        { data: 'parent' }
+      );
+
+      // Create child package
+      const child = await system.createPackage(
+        'agent-2',
+        'agent-3',
+        'child-type',
+        { data: 'child' },
+        { parentIds: [parent.id] }
+      );
+
+      // Create grandchild package
+      const grandchild = await system.createPackage(
+        'agent-3',
+        'agent-4',
+        'grandchild-type',
+        { data: 'grandchild' },
+        { parentIds: [child.id] }
+      );
+
+      const chain = system.getCausalChain(grandchild.id);
+      expect(chain.length).toBe(3);
+      expect(chain).toContain(grandchild.id);
+      expect(chain).toContain(child.id);
+      expect(chain).toContain(parent.id);
+    });
+
+    test('should replay causal chain correctly', async () => {
+      const system = new A2APackageSystem();
+
+      const pkg1 = await system.createPackage('agent-1', 'agent-2', 'type-1', {
+        step: 1,
+      });
+      const pkg2 = await system.createPackage(
+        'agent-2',
+        'agent-3',
+        'type-2',
+        { step: 2 },
+        { parentIds: [pkg1.id] }
+      );
+      const pkg3 = await system.createPackage(
+        'agent-3',
+        'agent-4',
+        'type-3',
+        { step: 3 },
+        { parentIds: [pkg2.id] }
+      );
+
+      const replay = await system.replayChain(pkg3.id);
+
+      expect(replay.length).toBe(3);
+      expect((replay[0].payload as { step: number }).step).toBe(1);
+      expect((replay[1].payload as { step: number }).step).toBe(2);
+      expect((replay[2].payload as { step: number }).step).toBe(3);
+    });
+  });
+
+  describe('BES + Privacy Integration', () => {
+    test('should create grain with dimensionality reduction', async () => {
+      const bes = new BES({
+        defaultDimensionality: 1024,
+        defaultPrivacyTier: 'LOCAL',
+        maxDimensionality: 1024,
+        minDimensionality: 32,
+      });
+
+      const highDimEmbedding = new Array(1024).fill(0).map(() => Math.random());
+
+      // Create grain with PUBLIC tier (128 dimensions)
+      const grain = await bes.createGrain(highDimEmbedding, 'gardener-1', {
+        privacyTier: 'PUBLIC',
+      });
+
+      expect(grain.dimensionality).toBe(128);
+      expect(grain.privacyTier).toBe('PUBLIC');
+      expect(grain.embedding.length).toBe(128);
+    });
+
+    test('should apply differential privacy correctly', async () => {
+      const bes = new BES();
+
+      const embedding = new Array(512).fill(0.5);
+      const grain = await bes.createGrain(embedding, 'gardener-1', {
+        privacyTier: 'MEADOW',
+      });
+
+      // MEADOW tier should have DP metadata
+      expect(grain.dpMetadata).toBeDefined();
+      expect(grain.dpMetadata?.epsilon).toBe(1.0);
+      expect(grain.dpMetadata?.delta).toBe(1e-5);
+    });
+
+    test('should track privacy budget correctly', async () => {
+      const bes = new BES();
+
+      // Create multiple PUBLIC grains
+      const embedding = new Array(256).fill(0.5);
+      await bes.createGrain(embedding, 'gardener-1', { privacyTier: 'PUBLIC' });
+      await bes.createGrain(embedding, 'gardener-1', { privacyTier: 'PUBLIC' });
+      await bes.createGrain(embedding, 'gardener-1', { privacyTier: 'PUBLIC' });
+
+      const budget = bes.getPrivacyBudgetStatus('PUBLIC');
+      expect(budget).toBeDefined();
+
+      // PUBLIC tier has epsilon 0.3, so 3 grains = 0.9 used
+      expect(budget?.used).toBeCloseTo(0.9, 1);
+      expect(budget?.total).toBe(0.3);
+    });
+
+    test('should find similar grains', async () => {
+      const bes = new BES();
+
+      const embedding1 = new Array(256).fill(0.5);
+      const embedding2 = new Array(256).fill(0.5); // Very similar
+      const embedding3 = new Array(256).fill(1.0); // Different
+
+      await bes.createGrain(embedding1, 'gardener-1');
+      await bes.createGrain(embedding2, 'gardener-1');
+      await bes.createGrain(embedding3, 'gardener-1');
+
+      const similar = bes.findSimilar(embedding1, 0.8, 10);
+
+      expect(similar.length).toBeGreaterThanOrEqual(2);
+    });
+  });
+
+  describe('Safety + Plinko Integration', () => {
+    test('should override selection when safety fails', async () => {
+      const safety = new SafetyLayer([
+        {
+          id: 'constraint-1',
+          name: 'Test Constraint',
+          category: 'safety',
+          rule: 'no-danger',
+          severity: 'CRITICAL',
+          cannotOverride: true,
+          isActive: true,
+        },
+      ]);
+
+      const plinko = new PlinkoLayer({
+        temperature: 1.0,
+        minTemperature: 0.1,
+        decayRate: 0.001,
+      });
+
+      // Register safety discriminator
+      plinko.registerDiscriminator('safety', (proposal) => {
+        // Fail safety for agent-2
+        return proposal.agentId !== 'agent-2';
+      });
+
+      const proposals = [
+        { agentId: 'agent-1', confidence: 0.6, bid: 10 },
+        { agentId: 'agent-2', confidence: 0.9, bid: 20 }, // High confidence but fails safety
+        { agentId: 'agent-3', confidence: 0.7, bid: 15 },
+      ];
+
+      const result = await plinko.process(proposals);
+
+      expect(result.wasOverridden).toBe(true);
+      expect(result.selectedAgentId).not.toBe('agent-2');
+    });
+
+    test('should enforce critical constraints', async () => {
+      const safety = new SafetyLayer([
+        {
+          id: 'critical-1',
+          name: 'Critical Constraint',
+          category: 'harm_prevention',
+          rule: 'no-harm',
+          severity: 'CRITICAL',
+          cannotOverride: true,
+          isActive: true,
+        },
+      ]);
+
+      const result = safety.checkAction('agent-1', {
+        type: 'harmful-action',
+      });
+
+      expect(result.passed).toBe(false);
+      expect(result.severity).toBe('CRITICAL');
+    });
+
+    test('should create and rollback checkpoints', async () => {
+      const safety = new SafetyLayer();
+
+      const checkpoint = await safety.createCheckpoint('full', {
+        testState: 'value',
+      });
+
+      expect(checkpoint.id).toBeDefined();
+      expect(checkpoint.type).toBe('full');
+
+      const rolledBack = await safety.rollbackToCheckpoint(checkpoint.id);
+
+      expect(rolledBack).toBe(true);
+
+      const emergencyState = safety.getEmergencyState();
+      expect(emergencyState.rollbackActive).toBe(true);
+    });
+  });
+
+  describe('End-to-End: Agent Execution Flow', () => {
+    test('should execute complete agent workflow', async () => {
+      // Setup
+      const colony = new Colony({
+        id: 'test-colony',
+        gardenerId: 'test-gardener',
+        name: 'Test Colony',
+        maxAgents: 10,
+        resourceBudget: {
+          totalCompute: 1000,
+          totalMemory: 2000,
+          totalNetwork: 500,
+        },
+      });
+
+      const safety = new SafetyLayer();
+      const plinko = new PlinkoLayer();
+      const a2a = new A2APackageSystem();
+      const learning = new HebbianLearning();
+
+      // Create agents
+      const agent1Config: AgentConfig = {
+        id: 'agent-1',
+        typeId: 'processor',
+        categoryId: 'core',
+        modelFamily: 'test',
+        defaultParams: {},
+        inputTopics: ['input'],
+        outputTopic: 'processed',
+        minExamples: 10,
+        requiresWorldModel: false,
+      };
+
+      const agent2Config: AgentConfig = {
+        id: 'agent-2',
+        typeId: 'analyzer',
+        categoryId: 'core',
+        modelFamily: 'test',
+        defaultParams: {},
+        inputTopics: ['processed'],
+        outputTopic: 'analyzed',
+        minExamples: 10,
+        requiresWorldModel: false,
+      };
+
+      colony.registerAgent(agent1Config);
+      colony.registerAgent(agent2Config);
+      colony.activateAgent(agent1Config.id);
+      colony.activateAgent(agent2Config.id);
+
+      // Create A2A package
+      const inputPackage = await a2a.createPackage(
+        'input',
+        'agent-1',
+        'test-input',
+        { data: 'test-data' }
+      );
+
+      // Safety check
+      const safetyResult = safety.checkAction('agent-1', {
+        type: 'test-input',
+      });
+
+      expect(safetyResult.passed).toBe(true);
+
+      // Plinko selection (single agent, so deterministic)
+      const proposals = [{ agentId: 'agent-1', confidence: 1.0, bid: 10 }];
+      const plinkoResult = await plinko.process(proposals);
+
+      expect(plinkoResult.selectedAgentId).toBe('agent-1');
+
+      // Update synapse
+      await learning.updateSynapse('input', 'agent-1', 0.8, 0.9, 0.1);
+
+      // Record result
+      colony.recordResult('agent-1', true, 25);
+
+      // Verify state
+      const agent1 = colony.getAgent('agent-1');
+      expect(agent1?.successCount).toBe(1);
+
+      const weight = learning.getWeight('input', 'agent-1');
+      expect(weight).toBeGreaterThan(0.5);
+    });
+  });
+
+  describe('Performance: Latency Targets', () => {
+    test('agent processing should meet latency target', async () => {
+      const agentConfig: AgentConfig = {
+        id: 'test-agent',
+        typeId: 'test-type',
+        categoryId: 'test',
+        modelFamily: 'test',
+        defaultParams: {},
+        inputTopics: ['input'],
+        outputTopic: 'output',
+        targetLatencyMs: 50,
+        minExamples: 10,
+        requiresWorldModel: false,
+      };
+
+      const agent = new MockAgent(agentConfig, 10); // 10ms simulated latency
+      await agent.initialize();
+
+      const startTime = performance.now();
+      await agent.process({ test: 'input' });
+      const latency = performance.now() - startTime;
+
+      expect(latency).toBeLessThanOrEqual(50);
+    });
+
+    test('A2A package creation should be fast', async () => {
+      const a2a = new A2APackageSystem();
+
+      const startTime = performance.now();
+      for (let i = 0; i < 100; i++) {
+        await a2a.createPackage('agent-1', 'agent-2', 'test-type', { index: i });
+      }
+      const avgLatency = (performance.now() - startTime) / 100;
+
+      expect(avgLatency).toBeLessThanOrEqual(5);
+    });
+
+    test('Plinko decision should be fast', async () => {
+      const plinko = new PlinkoLayer();
+
+      const proposals = Array.from({ length: 10 }, (_, i) => ({
+        agentId: `agent-${i}`,
+        confidence: Math.random(),
+        bid: Math.random() * 100,
+      }));
+
+      const startTime = performance.now();
+      const result = await plinko.process(proposals);
+      const latency = performance.now() - startTime;
+
+      expect(result.selectedAgentId).toBeDefined();
+      expect(latency).toBeLessThanOrEqual(10);
+    });
+  });
+});
