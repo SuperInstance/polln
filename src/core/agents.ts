@@ -7,8 +7,8 @@
 
 import { v4 as uuidv4 } from 'uuid';
 import { EventEmitter } from 'events';
-import type { AgentConfig, AgentState } from './types';
-import { BaseAgent } from './agent';
+import type { AgentConfig, AgentState } from './types.js';
+import { A2APackage, PrivacyLevel, SubsumptionLayer } from './types.js';
 
 // ============================================================================
 // TILE CATEGORIES (from FINAL_INTEGRATION.md)
@@ -38,32 +38,42 @@ export enum TileCategory {
  * No knowledge succession (composted)
  * High mutation rate, low fidelity
  */
-export class TaskAgent extends BaseAgent {
+export class TaskAgent extends EventEmitter {
+  public readonly id: string;
   public readonly category = TileCategory.EPHEMERAL;
+  protected readonly config: AgentConfig;
+  protected state: Map<string, unknown> = new Map();
+  protected valueFunction: number = 0.5;
+  protected successCount: number = 0;
+  protected failureCount: number = 0;
+
   private taskComplete: boolean = false;
   private maxLifetimeMs: number;
 
   constructor(config: AgentConfig, maxLifetimeMs: number = 3600000) { // Default 1 hour
-    super(config);
+    super();
+    this.id = config.id;
+    this.config = config;
     this.maxLifetimeMs = maxLifetimeMs;
   }
 
   /**
    * Initialize the task agent
    */
-  async initialize(): Promise<void> {
+  initialize(): Promise<void> {
     this.setState('initializedAt', Date.now());
     this.setState('category', TileCategory.EPHEMERAL);
+    return Promise.resolve();
   }
 
   /**
    * Process input for the task
    */
-  async process<T>(input: T): Promise<import('./types').A2APackage<T>> {
+  process<T>(input: T): Promise<A2APackage<T>> {
     const startTime = Date.now();
 
     // Task-specific processing logic would be implemented by subclasses
-    const result = await this.executeTask(input);
+    const result = this.executeTask(input);
 
     const executionTime = Date.now() - startTime;
 
@@ -76,7 +86,7 @@ export class TaskAgent extends BaseAgent {
     }
 
     // Create A2A package
-    return {
+    const pkg: A2APackage = {
       id: uuidv4(),
       timestamp: Date.now(),
       senderId: this.id,
@@ -85,15 +95,17 @@ export class TaskAgent extends BaseAgent {
       payload: result,
       parentIds: [],
       causalChainId: uuidv4(),
-      privacyLevel: 'COLONY',
-      layer: 'HABITUAL',
+      privacyLevel: PrivacyLevel.COLONY,
+      layer: SubsumptionLayer.HABITUAL,
     };
+
+    return Promise.resolve(pkg);
   }
 
   /**
    * Execute the specific task - override in subclasses
    */
-  protected async executeTask<T>(input: T): Promise<{ success: boolean; output: unknown }> {
+  protected executeTask<T>(input: T): { success: boolean; output: unknown } {
     // Default implementation - override in subclasses
     return { success: true, output: input };
   }
@@ -101,9 +113,10 @@ export class TaskAgent extends BaseAgent {
   /**
    * Shutdown the task agent
    */
-  async shutdown(): Promise<void> {
+  shutdown(): Promise<void> {
     this.taskComplete = true;
     this.setState('shutdownAt', Date.now());
+    return Promise.resolve();
   }
 
   /**
@@ -123,6 +136,23 @@ export class TaskAgent extends BaseAgent {
   extractKnowledge(): null {
     return null; // No succession for ephemeral agents
   }
+
+  // State management (from BaseAgent)
+  getState<K>(key: string): K | undefined {
+    return this.state.get(key) as K;
+  }
+
+  setState<K>(key: string, value: K): void {
+    this.state.set(key, value);
+  }
+
+  updateValueFunction(reward: number): void {
+    this.valueFunction = Math.max(0, Math.min(1,
+      this.valueFunction + 0.1 * (reward - 0.5)
+    ));
+    this.successCount += reward > 0 ? 1 : 0;
+    this.failureCount += reward < 0 ? 1 : 0;
+  }
 }
 
 // ============================================================================
@@ -136,32 +166,42 @@ export class TaskAgent extends BaseAgent {
  * Knowledge transfer on death
  * Medium mutation rate, medium fidelity
  */
-export class RoleAgent extends BaseAgent {
+export class RoleAgent extends EventEmitter {
+  public readonly id: string;
   public readonly category = TileCategory.ROLE;
+  protected readonly config: AgentConfig;
+  protected state: Map<string, unknown> = new Map();
+  protected valueFunction: number = 0.5;
+  protected successCount: number = 0;
+  protected failureCount: number = 0;
+
   private successor: RoleAgent | null = null;
   private knowledgeAccumulated: Map<string, unknown> = new Map();
   private performanceWindow: number[] = []; // Rolling success/failure
 
   constructor(config: AgentConfig) {
-    super(config);
+    super();
+    this.id = config.id;
+    this.config = config;
   }
 
   /**
    * Initialize the role agent
    */
-  async initialize(): Promise<void> {
+  initialize(): Promise<void> {
     this.setState('initializedAt', Date.now());
     this.setState('category', TileCategory.ROLE);
+    return Promise.resolve();
   }
 
   /**
    * Process input with knowledge accumulation
    */
-  async process<T>(input: T): Promise<import('./types').A2APackage<T>> {
+  process<T>(input: T): Promise<A2APackage<T>> {
     const startTime = Date.now();
 
     // Role-specific processing
-    const result = await this.executeRole(input);
+    const result = this.executeRole(input);
 
     // Track performance
     this.performanceWindow.push(result.success ? 1 : 0);
@@ -175,9 +215,9 @@ export class RoleAgent extends BaseAgent {
     }
 
     // Update value function
-    this.updateValueFunction(result.success ? 1 : -0);
+    this.updateValueFunction(result.success ? 1 : 0);
 
-    return {
+    const pkg: A2APackage<T> = {
       id: uuidv4(),
       timestamp: Date.now(),
       senderId: this.id,
@@ -189,12 +229,14 @@ export class RoleAgent extends BaseAgent {
       privacyLevel: 'COLONY',
       layer: 'HABITUAL',
     };
+
+    return Promise.resolve(pkg);
   }
 
   /**
    * Execute role-specific logic - override in subclasses
    */
-  protected async executeRole<T>(input: T): Promise<{ success: boolean; output: unknown }> {
+  protected executeRole<T>(input: T): { success: boolean; output: unknown } {
     return { success: true, output: input };
   }
 
@@ -233,11 +275,12 @@ export class RoleAgent extends BaseAgent {
   /**
    * Shutdown with knowledge transfer
    */
-  async shutdown(): Promise<void> {
+  shutdown(): Promise<void> {
     if (this.successor) {
-      await this.transferKnowledge(this.successor);
+      this.transferKnowledge(this.successor);
     }
     this.setState('shutdownAt', Date.now());
+    return Promise.resolve();
   }
 
   /**
@@ -250,7 +293,7 @@ export class RoleAgent extends BaseAgent {
   /**
    * Transfer knowledge to successor
    */
-  private async transferKnowledge(successor: RoleAgent): Promise<void> {
+  private transferKnowledge(successor: RoleAgent): void {
     // Transfer accumulated patterns
     for (const [key, value] of this.knowledgeAccumulated) {
       successor.receiveKnowledge(key, value);
@@ -260,7 +303,7 @@ export class RoleAgent extends BaseAgent {
     successor.receivePerformanceHistory(this.performanceWindow);
 
     // Transfer value function (karmic record)
-    successor.receiveValueFunction(this['valueFunction']);
+    successor.receiveValueFunction(this.valueFunction);
   }
 
   /**
@@ -281,7 +324,7 @@ export class RoleAgent extends BaseAgent {
    * Receive value function from predecessor
    */
   receiveValueFunction(value: number): void {
-    this['valueFunction'] = value;
+    this.valueFunction = value;
   }
 
   /**
@@ -322,6 +365,23 @@ export class RoleAgent extends BaseAgent {
       knowledgePatterns: this.knowledgeAccumulated.size,
     };
   }
+
+  // State management
+  getState<K>(key: string): K | undefined {
+    return this.state.get(key) as K;
+  }
+
+  setState<K>(key: string, value: K): void {
+    this.state.set(key, value);
+  }
+
+  updateValueFunction(reward: number): void {
+    this.valueFunction = Math.max(0, Math.min(1,
+      this.valueFunction + 0.1 * (reward - 0.5)
+    ));
+    this.successCount += reward > 0 ? 1 : 0;
+    this.failureCount += reward < 0 ? 1 : 0;
+  }
 }
 
 // ============================================================================
@@ -335,45 +395,55 @@ export class RoleAgent extends BaseAgent {
  * Backup and recovery mechanisms
  * Low mutation rate, high fidelity
  */
-export class CoreAgent extends BaseAgent {
+export class CoreAgent extends EventEmitter {
+  public readonly id: string;
   public readonly category = TileCategory.CORE;
+  protected readonly config: AgentConfig;
+  protected state: Map<string, unknown> = new Map();
+  protected valueFunction: number = 0.5;
+  protected successCount: number = 0;
+  protected failureCount: number = 0;
+
   private backup: Map<string, unknown> = new Map();
   private lastBackupTime: number = 0;
   private backupIntervalMs: number = 3600000; // 1 hour default
 
   constructor(config: AgentConfig) {
-    super(config);
+    super();
+    this.id = config.id;
+    this.config = config;
   }
 
   /**
    * Initialize the core agent
    */
-  async initialize(): Promise<void> {
+  initialize(): Promise<void> {
     this.setState('initializedAt', Date.now());
     this.setState('category', TileCategory.CORE);
 
     // Attempt recovery from backup
-    await this.attemptRecovery();
+    this.attemptRecovery();
+    return Promise.resolve();
   }
 
   /**
    * Process input with backup
    */
-  async process<T>(input: T): Promise<import('./types').A2APackage<T>> {
+  process<T>(input: T): Promise<A2APackage<T>> {
     const startTime = Date.now();
 
     // Core-specific processing
-    const result = await this.executeCore(input);
+    const result = this.executeCore(input);
 
     // Update value function
     this.updateValueFunction(result.success ? 1 : -1);
 
     // Create periodic backup
     if (Date.now() - this.lastBackupTime > this.backupIntervalMs) {
-      await this.createBackup();
-    }
+    this.createBackup();
+  }
 
-    return {
+    const pkg: A2APackage<T> = {
       id: uuidv4(),
       timestamp: Date.now(),
       senderId: this.id,
@@ -385,23 +455,25 @@ export class CoreAgent extends BaseAgent {
       privacyLevel: 'PRIVATE',
       layer: 'DELIBERATE',
     };
+
+    return Promise.resolve(pkg);
   }
 
   /**
    * Execute core-specific logic - override in subclasses
    */
-  protected async executeCore<T>(input: T): Promise<{ success: boolean; output: unknown }> {
+  protected executeCore<T>(input: T): { success: boolean; output: unknown } {
     return { success: true, output: input };
   }
 
   /**
    * Create backup of current state
    */
-  async createBackup(): Promise<void> {
+  createBackup(): void {
     this.backup = new Map(this.state);
-    this.backup.set('valueFunction', this['valueFunction']);
-    this.backup.set('successCount', this['successCount']);
-    this.backup.set('failureCount', this['failureCount']);
+    this.backup.set('valueFunction', this.valueFunction);
+    this.backup.set('successCount', this.successCount);
+    this.backup.set('failureCount', this.failureCount);
     this.lastBackupTime = Date.now();
 
     this.setState('lastBackupTime', this.lastBackupTime);
@@ -410,7 +482,7 @@ export class CoreAgent extends BaseAgent {
   /**
    * Attempt recovery from backup
    */
-  private async attemptRecovery(): Promise<boolean> {
+  private attemptRecovery(): boolean {
     if (this.backup.size === 0) {
       return false;
     }
@@ -418,11 +490,11 @@ export class CoreAgent extends BaseAgent {
     // Restore state from backup
     for (const [key, value] of this.backup) {
       if (key === 'valueFunction') {
-        this['valueFunction'] = value as number;
+        this.valueFunction = value as number;
       } else if (key === 'successCount') {
-        this['successCount'] = value as number;
+        this.successCount = value as number;
       } else if (key === 'failureCount') {
-        this['failureCount'] = value as number;
+        this.failureCount = value as number;
       } else {
         this.state.set(key, value);
       }
@@ -434,10 +506,11 @@ export class CoreAgent extends BaseAgent {
   /**
    * Shutdown with backup preservation
    */
-  async shutdown(): Promise<void> {
+  shutdown(): Promise<void> {
     // Create final backup before shutdown
-    await this.createBackup();
+    this.createBackup();
     this.setState('shutdownAt', Date.now());
+    return Promise.resolve();
   }
 
   /**
@@ -445,7 +518,7 @@ export class CoreAgent extends BaseAgent {
    */
   shouldTerminate(): boolean {
     // Core agents only terminate on critical failure
-    const failureRate = this['failureCount'] / (this['successCount'] + this['failureCount'] + 1);
+    const failureRate = this.failureCount / (this.successCount + this.failureCount + 1);
     return failureRate > 0.8; // 80% failure rate
   }
 
@@ -455,7 +528,7 @@ export class CoreAgent extends BaseAgent {
   extractKnowledge(): { state: Map<string, unknown>; valueFunction: number } {
     return {
       state: new Map(this.state),
-      valueFunction: this['valueFunction'],
+      valueFunction: this.valueFunction,
     };
   }
 
@@ -472,5 +545,22 @@ export class CoreAgent extends BaseAgent {
       lastBackupTime: this.lastBackupTime,
       backupSize: this.backup.size,
     };
+  }
+
+  // State management
+  getState<K>(key: string): K | undefined {
+    return this.state.get(key) as K;
+  }
+
+  setState<K>(key: string, value: K): void {
+    this.state.set(key, value);
+  }
+
+  updateValueFunction(reward: number): void {
+    this.valueFunction = Math.max(0, Math.min(1,
+      this.valueFunction + 0.1 * (reward - 0.5)
+    ));
+    this.successCount += reward > 0 ? 1 : 0;
+    this.failureCount += reward < 0 ? 1 : 0;
   }
 }

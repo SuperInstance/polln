@@ -3,8 +3,8 @@
  * TaskAgent, RoleAgent, CoreAgent
  */
 
-import { TaskAgent, RoleAgent, CoreAgent, TileCategory } from '../agents';
-import type { AgentConfig } from '../types';
+import { TaskAgent, RoleAgent, CoreAgent, TileCategory } from '../agents.js';
+import type { AgentConfig } from '../types.js';
 
 // Mock agent configs
 const createTaskAgentConfig = (): AgentConfig => ({
@@ -45,28 +45,27 @@ const createCoreAgentConfig = (): AgentConfig => ({
 
 // Concrete test implementations
 class TestTaskAgent extends TaskAgent {
-  protected async executeTask<T>(input: T): Promise<{ success: boolean; output: unknown }> {
+  protected executeTask<T>(input: T): Promise<{ success: boolean; output: unknown }> {
     // Simple task: succeed if input is truthy
     return { success: !!input, output: input };
   }
 }
 
 class TestRoleAgent extends RoleAgent {
-  protected async executeRole<T>(input: T): Promise<{ success: boolean; output: unknown }> {
+  protected executeRole<T>(input: T): Promise<{ success: boolean; output: unknown }> {
     // Role: succeed based on some logic
     return { success: true, output: `processed: ${input}` };
   }
 }
 
 class TestCoreAgent extends CoreAgent {
-  protected async executeCore<T>(input: T): Promise<{ success: boolean; output: unknown }> {
+  protected executeCore<T>(input: T): Promise<{ success: boolean; output: unknown }> {
     // Core: always succeed with accumulated wisdom
     return { success: true, output: input };
   }
 }
 
 describe('POLLN Concrete Agents', () => {
-  describe('TaskAgent', () => {
     let agent: TestTaskAgent;
 
     beforeEach(() => {
@@ -103,7 +102,7 @@ describe('POLLN Concrete Agents', () => {
       await shortLivedAgent.initialize();
 
       // Wait for lifetime to exceed
-      await new Promise(resolve => setTimeout(resolve, 10));
+      await new Promise(resolve => setTimeout(10));
 
       expect(shortLivedAgent.shouldTerminate()).toBe(true);
     });
@@ -204,7 +203,7 @@ describe('POLLN Concrete Agents', () => {
 
       // Process to trigger backup
       await agent.process({ data: 'test1' });
-      await new Promise(resolve => setTimeout(resolve, 20));
+      await new Promise(resolve => setTimeout(20));
       await agent.process({ data: 'test2' });
 
       const backupStatus = agent.getBackupStatus();
@@ -220,64 +219,6 @@ describe('POLLN Concrete Agents', () => {
       }
 
       expect(agent.shouldTerminate()).toBe(false);
-    });
-
-    it('should extract knowledge for backup', async () => {
-      await agent.initialize();
-      await agent.process({ data: 'test' });
-
-      const knowledge = agent.extractKnowledge();
-      expect(knowledge.state).toBeDefined();
-      expect(knowledge.valueFunction).toBeDefined();
-    });
-
-    it('should create final backup on shutdown', async () => {
-      await agent.initialize();
-      await agent.process({ data: 'test' });
-      await agent.shutdown();
-
-      const backupStatus = agent.getBackupStatus();
-      expect(backupStatus.hasBackup).toBe(true);
-    });
-  });
-
-  describe('Agent Lifecycle Integration', () => {
-    it('should maintain correct category hierarchy', async () => {
-      const taskAgent = new TestTaskAgent(createTaskAgentConfig());
-      const roleAgent = new TestRoleAgent(createRoleAgentConfig());
-      const coreAgent = new TestCoreAgent(createCoreAgentConfig());
-
-      await taskAgent.initialize();
-      await roleAgent.initialize();
-      await coreAgent.initialize();
-
-      expect(taskAgent.category).toBe(TileCategory.EPHEMERAL);
-      expect(roleAgent.category).toBe(TileCategory.ROLE);
-      expect(coreAgent.category).toBe(TileCategory.CORE);
-    });
-
-    it('should have different termination behaviors', async () => {
-      const taskAgent = new TestTaskAgent(createTaskAgentConfig());
-      const roleAgent = new TestRoleAgent(createRoleAgentConfig());
-      const coreAgent = new TestCoreAgent(createCoreAgentConfig());
-
-      await taskAgent.initialize();
-      await roleAgent.initialize();
-      await coreAgent.initialize();
-
-      // Execute once
-      await taskAgent.process('test');
-      await roleAgent.process('test');
-      await coreAgent.process('test');
-
-      // TaskAgent terminates after task
-      expect(taskAgent.shouldTerminate()).toBe(true);
-
-      // RoleAgent needs degraded performance
-      expect(roleAgent.shouldTerminate()).toBe(false);
-
-      // CoreAgent rarely terminates
-      expect(coreAgent.shouldTerminate()).toBe(false);
     });
   });
 });

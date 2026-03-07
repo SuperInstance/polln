@@ -26,6 +26,7 @@ export interface ColonyStats {
   totalCompute: number;
   totalMemory: number;
   totalNetwork: number;
+  shannonDiversity: number;
 }
 
 /**
@@ -173,11 +174,37 @@ export class Colony extends EventEmitter {
   }
 
   /**
+   * Calculate Shannon Diversity Index
+   * H' = -Σ(p_i * ln(p_i)) where p_i is the proportion of each type
+   * Higher values = more diverse population
+   */
+  calculateShannonDiversity(agents: AgentState[]): number {
+    if (agents.length === 0) return 0;
+
+    // Count agents by type
+    const typeCounts = new Map<string, number>();
+    for (const agent of agents) {
+      const count = typeCounts.get(agent.typeId) || 0;
+      typeCounts.set(agent.typeId, count + 1);
+    }
+
+    // Calculate Shannon entropy
+    let diversity = 0;
+    for (const count of typeCounts.values()) {
+      const p = count / agents.length;
+      diversity -= p * Math.log2(p);
+    }
+
+    return diversity;
+  }
+
+  /**
    * Get colony statistics
    */
   getStats(): ColonyStats {
     const agents = this.getAllAgents();
     const activeAgents = agents.filter(a => a.status === 'active');
+    const diversity = this.calculateShannonDiversity(agents);
 
     return {
       totalAgents: agents.length,
@@ -186,6 +213,7 @@ export class Colony extends EventEmitter {
       totalCompute: this.config.resourceBudget.totalCompute,
       totalMemory: this.config.resourceBudget.totalMemory,
       totalNetwork: this.config.resourceBudget.totalNetwork,
+      shannonDiversity: diversity,
     };
   }
 
