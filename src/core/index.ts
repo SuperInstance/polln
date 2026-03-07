@@ -118,3 +118,30 @@ export type {
   ModerationAction,
   MeadowStats,
 } from './meadow.js';
+
+// Tile Dreaming (Overnight Optimization)
+export { TileDreamer, withDreaming } from './tiledreaming.js';
+export type {
+  TileDreamingConfig,
+  TileExperience,
+  TileDreamResult,
+  SleepReport,
+} from './tiledreaming.js';
+
+// Tile System
+export {
+  BaseTile,
+  TileCategory,
+  TilePipeline,
+  TileLifecycleManager,
+} from './tile.js';
+export type {
+  Tile,
+  TileConfig,
+  TileContext,
+  TileResult,
+  TileOutcome,
+  Observation,
+  PollenGrain as TilePollenGrain,
+  TileVariant,
+} from './tile.js';
