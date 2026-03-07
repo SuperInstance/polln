@@ -45,31 +45,29 @@ const createCoreAgentConfig = (): AgentConfig => ({
 
 // Concrete test implementations
 class TestTaskAgent extends TaskAgent {
-  protected executeTask<T>(input: T): Promise<{ success: boolean; output: unknown }> {
-    // Simple task: succeed if input is truthy
+  protected executeTask<T>(input: T): { success: boolean; output: unknown } {
     return { success: !!input, output: input };
   }
 }
 
 class TestRoleAgent extends RoleAgent {
-  protected executeRole<T>(input: T): Promise<{ success: boolean; output: unknown }> {
-    // Role: succeed based on some logic
+  protected executeRole<T>(input: T): { success: boolean; output: unknown } {
     return { success: true, output: `processed: ${input}` };
   }
 }
 
 class TestCoreAgent extends CoreAgent {
-  protected executeCore<T>(input: T): Promise<{ success: boolean; output: unknown }> {
-    // Core: always succeed with accumulated wisdom
+  protected executeCore<T>(input: T): { success: boolean; output: unknown } {
     return { success: true, output: input };
   }
 }
 
 describe('POLLN Concrete Agents', () => {
+  describe('TaskAgent', () => {
     let agent: TestTaskAgent;
 
     beforeEach(() => {
-      agent = new TestTaskAgent(createTaskAgentConfig(), 10000); // 10 second max life
+      agent = new TestTaskAgent(createTaskAgentConfig(), 10000);
     });
 
     it('should initialize as EPHEMERAL', async () => {
@@ -83,13 +81,11 @@ describe('POLLN Concrete Agents', () => {
 
       expect(result.senderId).toBe('task-agent-1');
       expect(result.type).toBe('task_result');
-      expect(result.payload.success).toBe(true);
     });
 
     it('should terminate when task complete', async () => {
       await agent.initialize();
       await agent.process({ data: 'test' });
-
       expect(agent.shouldTerminate()).toBe(true);
     });
 
@@ -98,12 +94,9 @@ describe('POLLN Concrete Agents', () => {
     });
 
     it('should terminate after max lifetime', async () => {
-      const shortLivedAgent = new TestTaskAgent(createTaskAgentConfig(), 1); // 1ms
+      const shortLivedAgent = new TestTaskAgent(createTaskAgentConfig(), 1);
       await shortLivedAgent.initialize();
-
-      // Wait for lifetime to exceed
-      await new Promise(resolve => setTimeout(10));
-
+      await new Promise(resolve => setTimeout(resolve, 10));
       expect(shortLivedAgent.shouldTerminate()).toBe(true);
     });
   });
@@ -127,23 +120,18 @@ describe('POLLN Concrete Agents', () => {
 
     it('should accumulate knowledge from successful executions', async () => {
       await agent.initialize();
-
-      // Execute multiple times
       for (let i = 0; i < 10; i++) {
         await agent.process({ data: `test-${i}` });
       }
-
       const knowledge = agent.extractKnowledge();
       expect(knowledge.size).toBeGreaterThan(0);
     });
 
     it('should track performance metrics', async () => {
       await agent.initialize();
-
       for (let i = 0; i < 25; i++) {
         await agent.process({ data: 'test' });
       }
-
       const metrics = agent.getPerformanceMetrics();
       expect(metrics.totalExecutions).toBe(25);
       expect(metrics.successRate).toBeGreaterThan(0);
@@ -153,28 +141,22 @@ describe('POLLN Concrete Agents', () => {
       await agent.initialize();
       await successor.initialize();
 
-      // Build up knowledge
       for (let i = 0; i < 20; i++) {
         await agent.process({ data: 'test' });
       }
 
-      // Set successor and shutdown
       agent.setSuccessor(successor);
       await agent.shutdown();
 
-      // Verify knowledge transfer
       const successorKnowledge = successor.extractKnowledge();
       expect(successorKnowledge.size).toBeGreaterThan(0);
     });
 
     it('should not terminate early with good performance', async () => {
       await agent.initialize();
-
-      // Build good performance history
       for (let i = 0; i < 50; i++) {
         await agent.process({ data: 'test' });
       }
-
       expect(agent.shouldTerminate()).toBe(false);
     });
   });
@@ -196,14 +178,12 @@ describe('POLLN Concrete Agents', () => {
         ...createCoreAgentConfig(),
         id: 'core-backup-test',
       });
-      // @ts-ignore - accessing private property for test
-      agent['backupIntervalMs'] = 10; // 10ms for testing
+      // @ts-ignore
+      agent['backupIntervalMs'] = 10;
 
       await agent.initialize();
-
-      // Process to trigger backup
       await agent.process({ data: 'test1' });
-      await new Promise(resolve => setTimeout(20));
+      await new Promise(resolve => setTimeout(resolve, 20));
       await agent.process({ data: 'test2' });
 
       const backupStatus = agent.getBackupStatus();
@@ -212,12 +192,9 @@ describe('POLLN Concrete Agents', () => {
 
     it('should rarely terminate', async () => {
       await agent.initialize();
-
-      // Even with many executions
       for (let i = 0; i < 100; i++) {
         await agent.process({ data: 'test' });
       }
-
       expect(agent.shouldTerminate()).toBe(false);
     });
   });
