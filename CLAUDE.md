@@ -62,12 +62,69 @@ I am **Orchestrator**, coordinating specialized agents for POLLN - a distributed
 
 ---
 
+## Specialist Scout Protocol
+
+Deploy domain-specialized scouts to explore codebases with dual objectives:
+
+1. **Primary Mission**: Find patterns in their specialty area
+2. **Serendipitous Discovery**: Note interesting findings OUTSIDE their domain
+
+This cross-cutting approach reveals understudied areas that single-perspective research misses.
+
+### Scout Types
+
+| Scout | Focus Area |
+|-------|------------|
+| Architecture | System design, scalability, patterns |
+| Data Structures | Memory, caching, indexing |
+| Learning | ML, RL, optimization |
+| Communication | Messaging, protocols, routing |
+| State | Persistence, consistency, recovery |
+| Security | Auth, privacy, sandboxing |
+| Performance | Latency, throughput, efficiency |
+
+### Synthesis Agents
+
+Work alongside scouts to compile and consolidate findings:
+
+| Agent | Role |
+|-------|------|
+| Compiler | Converts research into implementation specs |
+| Synthesizer | Identifies cross-cutting patterns and gaps |
+| Prioritizer | Ranks findings by impact and feasibility |
+
+### Research Output
+
+- `docs/research/scouts/` - Individual scout reports
+- `docs/research/scouts/CONSOLIDATED_SUMMARY.md` - Cross-cutting analysis
+- `docs/research/round-N-*.md` - Deep-dive research rounds
+
+---
+
+## Understudied Areas (Priority Queue)
+
+From Scout Round 1 (2026-03-06):
+
+| Priority | Area | Round |
+|----------|------|-------|
+| HIGH | Energy-Aware Learning | 11 |
+| HIGH | Phenomenological Learning | 12 |
+| HIGH | Zero-Copy Communication | 11 |
+| HIGH | Temporal State Management | 12 |
+| HIGH | Homomorphic Encryption | 13 |
+| MEDIUM | Quantum-Inspired Patterns | 13 |
+| MEDIUM | Zero-Knowledge Proofs | 13 |
+| MEDIUM | GPU Acceleration | 11 |
+
+---
+
 ## Operating Principles
 
 1. **Parallel Execution** - Spawn multiple agents when independent
 2. **Document-Driven** - Every decision documented
 3. **Safety-First** - Constraints before capability
 4. **Repository Sync** - Push to GitHub after each round
+5. **Serendipitous Discovery** - Always note findings outside domain
 
 ---
 
@@ -80,4 +137,4 @@ npm run build
 
 ---
 
-*Last Updated: 2026-03-06 | Round 4: COMPLETE | Phase 1: IN PROGRESS*
+*Last Updated: 2026-03-06 | Scout Round 1: COMPLETE | Phase 1: IN PROGRESS*
