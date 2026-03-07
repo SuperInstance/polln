@@ -43,6 +43,35 @@ This makes POLLN simulations **far more effective** than normal models where rea
 
 ---
 
+## Model + Seed = Token Compiler
+
+> "A model plus a seed is simply a token compiler."
+
+**Key insight**: When connections are stable, A2A can be compiled to bytecode:
+
+```
+UNSTABLE (Learning):          STABLE (Compiled):
+M1 → M2 → M3 → M4 → M5        M1 → [bytecode] → M5
+     (simulation)                  (artifact)
+
+Full inference each time      Pre-compiled path
+Exploration mode              Exploitation mode
+```
+
+**Benefits**:
+- Backbone/branches don't need simulation
+- Bytecode becomes an artifact for the road intent travels
+- Fewer moving parts for established pathways
+- Like JIT compilation: interpret first, compile hot paths
+
+**Implementation**:
+- Detect stable pathways (high frequency, low variance)
+- Compile to bytecode artifact
+- Route intent through compiled path
+- De-compile when adaptation needed
+
+---
+
 ## Memory Model
 
 The body does NOT store files. It stores **probability of pathway activation**:
@@ -140,4 +169,4 @@ bun run db:push && bun run db:generate
 
 ---
 
-*Last Updated: 2026-03-06 | Round 1: COMPLETE (5/5)*
+*Last Updated: 2026-03-06 | Round 1: COMPLETE (5/5) | Round 2: COMPLETE (5/5)**
