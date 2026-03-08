@@ -202,6 +202,147 @@ Exploration keeps the system from getting stuck. Temperature controls how much. 
 
 ---
 
+## Granular Reasoning: The Double-Slit of AI
+
+### The Problem with Black Box Learning
+
+Traditional neural networks are like a black box—you put in a question, you get out an answer. But when the answer is wrong, you can't see *why*.
+
+Worse: **learning systems often get bad data and can't recover.**
+
+When a large model trains on corrupted or flawed data, the problem "federates into weights" throughout the network. The bad patterns become distributed across billions of parameters, with no clear boundary between what's working and what isn't. You can't surgically remove the flaw—you have to retrain everything.
+
+### Our Solution: Checkpointed Decisions
+
+POLLN forces **checkpoints at every decision point**. Each agent-to-agent communication is an **A2A package**—a visible artifact that can be:
+- Inspected (trace the reasoning)
+- Debugged (find the flaw)
+- Manipulated (fix the bad pattern)
+- Discarded (throw away the corrupted part)
+
+This is like the **double-slit experiment** in quantum mechanics:
+
+```
+Traditional LLM (Wave collapse happens at the end):
+
+    Input
+      │
+      ▼
+    ┌────────────────────────────┐
+    │   Wave of computation      │ ← All possibilities exist
+    │   (hidden, unobservable)   │    simultaneously
+    └────────────────────────────┘
+              │
+              ▼
+        Collapse to output       ← Measurement happens ONCE
+                                      at the very end
+              │
+              ▼
+           Answer
+
+    If the answer is wrong, you have
+    NO IDEA where in the wave it
+    went wrong.
+
+POLLN (Forced collapse at every step):
+
+    Input
+      │
+      ▼
+    ┌─────────┐
+    │ Agent 1 │──▶ 📦 A2A Package 1  ← Checkpoint! Observe!
+    └─────────┘                          Decision is explicit
+              │
+              ▼
+    ┌─────────┐
+    │ Agent 2 │──▶ 📦 A2A Package 2  ← Checkpoint! Observe!
+    └─────────┘                          Decision is explicit
+              │
+              ▼
+    ... and so on ...
+
+    Every arrow is a measurement.
+    Every decision is a forced collapse.
+    Every step is granular and inspectable.
+```
+
+### Granularity by Model Size
+
+The smaller the model, the **higher the resolution of granularity**:
+
+| Model Size | Granularity | Description |
+|------------|-------------|-------------|
+| **7B parameters** | Low-level tokens | Decisions per token |
+| **1B parameters** | Phrase-level | Decisions per phrase |
+| **100M parameters** | Sentence-level | Decisions per sentence |
+| **10M parameters** | Task-level | Decisions per micro-task |
+| **1M parameters** | Step-level | Decisions per atomic step |
+
+Smaller models = more decision points = more checkpoints = finer control.
+
+### Large Models as Teachers, Small Models as Practitioners
+
+This creates a powerful **distillation pattern**:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                  LARGE MODEL (Teacher)                       │
+│                  175B parameters                            │
+│                                                             │
+│  "Here's how to write code:"                                 │
+│  1. Define the problem                                       │
+│  2. Break into subproblems                                   │
+│  3. ... [100 steps of reasoning] ...                        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+                            │
+                            │ Distillation
+                            ▼
+┌─────────────────────────────────────────────────────────────┐
+│              SMALL MODEL SWARM (Practitioners)               │
+│              1000 × 10M parameters each                      │
+│                                                             │
+│  Agent 1: "I handle step 1-10 of problem definition"         │
+│  Agent 2: "I handle step 11-20 of breaking down"            │
+│  Agent 3: "I handle step 21-30 of ..."                     │
+│  ...                                                         │
+│                                                             │
+│  Each agent:                                                │
+│  - Learns ONE slice from the large model                    │
+│  - Makes decisions visible (A2A packages)                   │
+│  - Can be debugged individually                             │
+│  - Can be replaced without retraining others                │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Why This Beats Mixture of Experts
+
+Mixture of Experts (MoE) systems route problems to specialized modules, but:
+
+1. **Routing is opaque**—you can't see why module A was chosen over module B
+2. **Experts are black boxes**—each expert is still a neural network
+3. **No cross-expert learning**—experts don't share reasoning, only outputs
+
+POLLN's approach:
+
+1. **Every decision is visible**—A2A packages show the full reasoning chain
+2. **Agents are inspectable**—you can trace any decision back to its origin
+3. **Learning propagates**—when one agent improves, neighbors learn via connection strengthening
+
+### The Human-in-the-Loop Advantage
+
+Because every decision is granular and visible:
+
+- **Debugging**: You can find the exact agent making bad decisions
+- **Fixing**: Replace or retrain just that agent
+- **Iterating**: The system adapts without full retraining
+- **Understanding**: You learn *how* the system works, not just *that* it works
+
+This is intelligence you can **collaborate with**, not just use.
+
+---
+
 ## The Vocabulary
 
 We didn't invent these concepts. We found them in nature.
