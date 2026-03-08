@@ -349,11 +349,14 @@ describe('RateLimitMiddleware', () => {
       const shortWindowRateLimit = new RateLimitMiddleware({
         requestsPerMinute: 10,
         burstLimit: 3,
-        windowMs: 1,
+        windowMs: 5, // Use 5ms instead of 1ms for more reliable timing
       });
       shortWindowRateLimit.checkLimit('client-2');
 
-      await wait(10);
+      // Wait long enough for the tracker to expire (resetAt + windowMs)
+      // resetAt is set to Date.now() + 5 when checkLimit is called
+      // We need to wait more than 5 + 5 = 10ms for cleanup to happen
+      await wait(20);
       const cleaned = shortWindowRateLimit.cleanup();
       expect(cleaned).toBeGreaterThan(0);
     });

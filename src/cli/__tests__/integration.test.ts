@@ -33,7 +33,9 @@ describe('CLI Integration Tests', () => {
 
   const runCLI = (args: string[]): string => {
     try {
-      return execSync(`node dist/cli/index.js ${args.join(' ')}`, {
+      // Use the full path to the dist folder from the project root
+      const distPath = path.join(originalCwd, 'dist', 'cli', 'index.js');
+      return execSync(`node "${distPath}" ${args.join(' ')}`, {
         encoding: 'utf-8',
         cwd: tempDir,
       });

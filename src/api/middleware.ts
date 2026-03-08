@@ -276,9 +276,10 @@ export class RateLimitMiddleware {
   cleanup(): number {
     let count = 0;
     const now = Date.now();
-    const threshold = now + this.config.windowMs;
 
     for (const [clientId, tracker] of this.trackers) {
+      // Clean up trackers that haven't been used for more than a window
+      // (i.e., their reset time has passed by more than the window duration)
       if (now > tracker.resetAt + this.config.windowMs) {
         this.trackers.delete(clientId);
         count++;
