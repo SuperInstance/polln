@@ -1,0 +1,47 @@
+apiVersion: v2
+name: polln
+description: POLLN - Pattern-Organized Large Language Network. A distributed intelligence system where specialized agents produce intelligent behavior through emergent coordination.
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+keywords:
+  - distributed-intelligence
+  - agent-system
+  - swarm-intelligence
+  - machine-learning
+  - llm
+home: https://github.com/SuperInstance/polln
+sources:
+  - https://github.com/SuperInstance/polln
+maintainers:
+  - name: POLLN Contributors
+    email: contributors@polln.dev
+icon: https://raw.githubusercontent.com/SuperInstance/polln/main/docs/assets/polln-logo.png
+annotations:
+  artifacthub.io/category: ai-machine-learning
+  artifacthub.io/license: MIT
+  artifacthub.io/links: |
+    - name: Documentation
+      url: https://docs.polln.dev
+    - name: GitHub
+      url: https://github.com/SuperInstance/polln
+  artifacthub.io/operator: "false"
+  artifacthub.io/prerelease: "false"
+  artifacthub.io/containsSecurityUpdates: "false"
+dependencies:
+  - name: redis
+    version: "~17.3.0"
+    repository: https://charts.bitnami.com/bitnami
+    condition: redis.enabled
+  - name: postgresql
+    version: "~12.1.0"
+    repository: https://charts.bitnami.com/bitnami
+    condition: postgresql.enabled
+  - name: prometheus
+    version: "~22.6.0"
+    repository: https://prometheus-community.github.io/helm-charts
+    condition: monitoring.enabled
+  - name: grafana
+    version: "~6.58.0"
+    repository: https://grafana.github.io/helm-charts
+    condition: monitoring.grafanaEnabled

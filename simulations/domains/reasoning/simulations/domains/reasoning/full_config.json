@@ -1,0 +1,166 @@
+{
+  "dialogue": {
+    "maxTurns": 100,
+    "contextWindow": "128K",
+    "summarizationThreshold": 10,
+    "entityTracking": true,
+    "personaConsistency": "high",
+    "temperature": 0.8,
+    "turnManagement": {
+      "maxConsecutiveTurns": 3,
+      "interruptionAllowed": false
+    },
+    "coherence": {
+      "target": 0.85,
+      "minContextRetention": 0.7
+    }
+  },
+  "chainOfThought": {
+    "enabled": true,
+    "checkpoints": {
+      "placement": "auto"
+    },
+    "selfConsistency": {
+      "samples": 5,
+      "aggregation": "majority",
+      "temperature": 0.7
+    },
+    "verifier": {
+      "enabled": true,
+      "confidence": 0.7
+    },
+    "maxSteps": 20,
+    "stepConfidenceThreshold": 0.6
+  },
+  "context": {
+    "compression": {
+      "strategy": "hybrid",
+      "summarizationThreshold": 10,
+      "hierarchicalLevels": 3
+    },
+    "kvCache": {
+      "enabled": true,
+      "strategy": "attention_prior",
+      "maxSize": "1GB",
+      "cacheBudget": 20,
+      "evictionPolicy": "lru"
+    },
+    "entityTracking": {
+      "enabled": true,
+      "relationshipInference": true,
+      "activeWindow": 10
+    },
+    "memoryRetrieval": {
+      "enabled": true,
+      "topK": 5,
+      "similarity": "cosine",
+      "timeDecay": true,
+      "importanceWeight": 1.0
+    }
+  },
+  "depth": {
+    "shallow": {
+      "maxSteps": 3,
+      "breadth": 10,
+      "beamWidth": 5,
+      "useCase": "simple_tasks"
+    },
+    "medium": {
+      "maxSteps": 7,
+      "breadth": 5,
+      "beamWidth": 3,
+      "useCase": "moderate_complexity"
+    },
+    "deep": {
+      "maxSteps": 15,
+      "breadth": 3,
+      "beamWidth": 2,
+      "useCase": "complex_reasoning"
+    },
+    "adaptive": {
+      "enabled": true,
+      "complexityThreshold": 0.5,
+      "features": [
+        "num_entities",
+        "question_length",
+        "semantic_complexity"
+      ]
+    },
+    "explorationStrategy": {
+      "default": "tree_of_thoughts",
+      "alternatives": [
+        "iterative_refinement",
+        "debate",
+        "beam_search"
+      ]
+    }
+  },
+  "consistency": {
+    "selfConsistency": {
+      "enabled": true,
+      "severityThreshold": "medium"
+    },
+    "factualConsistency": {
+      "enabled": true,
+      "knowledgeBase": true,
+      "confidenceThreshold": 0.7
+    },
+    "temporalConsistency": {
+      "enabled": true,
+      "historyWindow": 5,
+      "severityThreshold": "medium"
+    },
+    "logicalConsistency": {
+      "enabled": true,
+      "checkCircularReasoning": true,
+      "checkNonSequitur": true
+    },
+    "personaConsistency": {
+      "enabled": true,
+      "toneChecking": true,
+      "styleChecking": true
+    }
+  },
+  "agents": {
+    "reasoner": {
+      "type": "role",
+      "expertise": "logical_reasoning",
+      "checkpoints": 20,
+      "temperature": 0.5,
+      "valueNetwork": "reasoning_quality"
+    },
+    "verifier": {
+      "type": "task",
+      "expertise": "verification",
+      "valueNetwork": "verification_confidence",
+      "confidenceThreshold": 0.7
+    },
+    "summarizer": {
+      "type": "task",
+      "expertise": "summarization",
+      "compressionRatio": 0.3,
+      "maxSummaryLength": 500
+    },
+    "dialogueManager": {
+      "type": "role",
+      "expertise": "dialogue_coordination",
+      "maxTurns": 100,
+      "contextRetention": 0.8
+    },
+    "consistencyChecker": {
+      "type": "task",
+      "expertise": "consistency_validation",
+      "severityThreshold": "medium"
+    },
+    "entityTracker": {
+      "type": "task",
+      "expertise": "entity_extraction",
+      "activeWindow": 10
+    }
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "generated_by": "reasoning_optimizer.py",
+    "source": "POLLN reasoning domain simulations"
+  }
+}

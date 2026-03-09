@@ -1,0 +1,24 @@
+# LoRA Composition Mathematics Validation Suite
+# Python requirements
+
+# Core scientific computing
+numpy>=1.24.0
+torch>=2.0.0
+scipy>=1.10.0
+
+# Machine learning
+scikit-learn>=1.2.0
+
+# Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Data handling
+pandas>=2.0.0
+
+# Optional: For faster SVD on large matrices
+# scikit-learn>=1.2.0  # Already included above
+
+# Development dependencies (optional)
+# pytest>=7.0.0
+# jupyter>=1.0.0

@@ -1,0 +1,17 @@
+{
+  "name": "@polln/example-agent-management",
+  "version": "0.1.0",
+  "description": "POLLN SDK Example: Agent Management",
+  "type": "module",
+  "scripts": {
+    "start": "tsx index.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "polln": "*"
+  },
+  "devDependencies": {
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  }
+}

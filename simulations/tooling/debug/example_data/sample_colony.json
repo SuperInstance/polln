@@ -1,0 +1,100 @@
+{
+  "agents": [
+    {
+      "id": "agent-1",
+      "typeId": "TaskAgent",
+      "status": "active",
+      "lastActive": 1699123456.789,
+      "valueFunction": 0.75,
+      "successCount": 80,
+      "failureCount": 20,
+      "avgLatencyMs": 150,
+      "stateSnapshot": {
+        "last_task": "process_request"
+      },
+      "resources": {
+        "cpuPercent": 45.0,
+        "memoryMb": 350.0,
+        "networkIoMb": 25.0,
+        "activeConnections": 5,
+        "queueDepth": 120
+      },
+      "valueNetwork": {
+        "currentValue": 0.75,
+        "valueHistory": [0.5, 0.6, 0.65, 0.7, 0.72, 0.75],
+        "eligibilityTraces": {
+          "action-1": 0.9,
+          "action-2": 0.3
+        },
+        "learningRate": 0.1,
+        "discountFactor": 0.99
+      }
+    },
+    {
+      "id": "agent-2",
+      "typeId": "RoleAgent",
+      "status": "active",
+      "lastActive": 1699123450.123,
+      "valueFunction": 0.65,
+      "successCount": 65,
+      "failureCount": 35,
+      "avgLatencyMs": 200,
+      "stateSnapshot": {},
+      "resources": {
+        "cpuPercent": 55.0,
+        "memoryMb": 420.0,
+        "networkIoMb": 30.0,
+        "activeConnections": 7,
+        "queueDepth": 150
+      },
+      "valueNetwork": {
+        "currentValue": 0.65,
+        "valueHistory": [0.6, 0.62, 0.63, 0.64, 0.65],
+        "eligibilityTraces": {
+          "action-3": 0.8
+        },
+        "learningRate": 0.1,
+        "discountFactor": 0.99
+      }
+    }
+  ],
+  "a2a_packages": [
+    {
+      "id": "pkg-1",
+      "timestamp": 1699123456.789,
+      "senderId": "agent-1",
+      "receiverId": "agent-2",
+      "type": "request",
+      "layer": "DELIBERATE",
+      "privacyLevel": "PRIVATE",
+      "parentIds": [],
+      "causalChainId": "chain-1",
+      "payload": {
+        "task": "process_data",
+        "data": "sample"
+      },
+      "currentAgent": "agent-2",
+      "status": "delivered"
+    },
+    {
+      "id": "pkg-2",
+      "timestamp": 1699123457.123,
+      "senderId": "agent-2",
+      "receiverId": "agent-1",
+      "type": "response",
+      "layer": "HABITUAL",
+      "privacyLevel": "COLONY",
+      "parentIds": ["pkg-1"],
+      "causalChainId": "chain-1",
+      "payload": {
+        "result": "success"
+      },
+      "currentAgent": "agent-1",
+      "status": "processed"
+    }
+  ],
+  "communicationMatrix": {
+    "agent-1_agent-2": 150,
+    "agent-2_agent-1": 145
+  }
+}

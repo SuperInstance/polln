@@ -1,0 +1,1020 @@
+{
+  "colony_id": "test_colony",
+  "generated_at": "2026-03-07T21:15:59.734782",
+  "overall_health_score": 0.4,
+  "overall_status": "critical",
+  "summary": {
+    "total_agents": 2,
+    "critical_issues": 2,
+    "warning_issues": 0,
+    "deadlocked": false,
+    "cascade_risk": 0.0
+  },
+  "diagnostics": {
+    "a2a_tracing": {
+      "colony_id": "test_colony",
+      "generated_at": "2026-03-07T21:15:59.734609",
+      "summary": {
+        "total_packages": 2,
+        "total_events": 4,
+        "causal_chains": 1,
+        "lost_packages": 0,
+        "serialization_issues": 0
+      },
+      "packages": {
+        "pkg-1": {
+          "id": "pkg-1",
+          "timestamp": 1699123456.789,
+          "sender_id": "agent-1",
+          "receiver_id": "agent-2",
+          "type": "request",
+          "layer": "DELIBERATE",
+          "privacy_level": "PRIVATE",
+          "parent_ids": [],
+          "causal_chain_id": "chain-1",
+          "payload_hash": "ba14c55dd15d6f72cfd0ea5614c37cefe802798ef5d65aeb28b1aff245a5f337",
+          "payload_size": 42,
+          "current_agent": "agent-2",
+          "status": "delivered"
+        },
+        "pkg-2": {
+          "id": "pkg-2",
+          "timestamp": 1699123457.123,
+          "sender_id": "agent-2",
+          "receiver_id": "agent-1",
+          "type": "response",
+          "layer": "HABITUAL",
+          "privacy_level": "COLONY",
+          "parent_ids": [
+            "pkg-1"
+          ],
+          "causal_chain_id": "chain-1",
+          "payload_hash": "2db5c83947e9ea77e157e2cc0bc39aee8008dea9459684908f2742eec3a07d09",
+          "payload_size": 21,
+          "current_agent": "agent-1",
+          "status": "processed"
+        }
+      },
+      "events": [
+        {
+          "event_id": "pkg-1_1699123456.789_delivered",
+          "package_id": "pkg-1",
+          "timestamp": 1699123456.789,
+          "event_type": "delivered",
+          "agent_id": "agent-2",
+          "details": {
+            "layer": "DELIBERATE",
+            "type": "request",
+            "parent_count": 0
+          }
+        },
+        {
+          "event_id": "pkg-2_1699123457.123_processed",
+          "package_id": "pkg-2",
+          "timestamp": 1699123457.123,
+          "event_type": "processed",
+          "agent_id": "agent-1",
+          "details": {
+            "layer": "HABITUAL",
+            "type": "response",
+            "parent_count": 1
+          }
+        },
+        {
+          "event_id": "pkg-1_1699123456.789_delivered",
+          "package_id": "pkg-1",
+          "timestamp": 1699123456.789,
+          "event_type": "delivered",
+          "agent_id": "agent-2",
+          "details": {
+            "layer": "DELIBERATE",
+            "type": "request",
+            "parent_count": 0
+          }
+        },
+        {
+          "event_id": "pkg-2_1699123457.123_processed",
+          "package_id": "pkg-2",
+          "timestamp": 1699123457.123,
+          "event_type": "processed",
+          "agent_id": "agent-1",
+          "details": {
+            "layer": "HABITUAL",
+            "type": "response",
+            "parent_count": 1
+          }
+        }
+      ],
+      "causal_chain_analyses": {
+        "chain-1": {
+          "chain_id": "chain-1",
+          "depth": 2,
+          "branch_count": 1,
+          "total_packages": 2,
+          "root_package_id": "pkg-2",
+          "leaf_package_ids": [
+            "pkg-2"
+          ],
+          "cycle_detected": false,
+          "orphan_packages": [],
+          "avg_branching_factor": 0.5
+        }
+      },
+      "delay_statistics": {
+        "chain-1": {
+          "avg_delay": 0.11133329073588054,
+          "min_delay": 0.0,
+          "max_delay": 0.3339998722076416,
+          "total_delay": 0.3339998722076416,
+          "hop_count": 3
+        }
+      },
+      "lost_packages": [],
+      "serialization_issues": []
+    },
+    "agent_inspection": {
+      "colony_id": "test_colony",
+      "generated_at": "2026-03-07T21:15:59.734638",
+      "summary": {
+        "total_agents": 2,
+        "hung_agents": 2,
+        "corrupted_agents": 0,
+        "error_agents": 0,
+        "convergence_issues": 0,
+        "total_synapses": 0
+      },
+      "agent_snapshots": {
+        "agent-1": [
+          {
+            "agent_id": "agent-1",
+            "agent_type": "TaskAgent",
+            "timestamp": 1772950559.7256436,
+            "status": "active",
+            "last_active": 1699123456.789,
+            "value_function": 0.75,
+            "success_count": 80,
+            "failure_count": 20,
+            "success_rate": 0.8,
+            "avg_latency_ms": 150,
+            "state_snapshot": {
+              "last_task": "process_request"
+            },
+            "incoming_synapse_count": 0,
+            "outgoing_synapse_count": 0,
+            "strongest_synapse": null,
+            "is_meta": false,
+            "meta_potential": null,
+            "differentiation_signals": [],
+            "is_hung": true,
+            "is_corrupted": false,
+            "error_message": null
+          },
+          {
+            "agent_id": "agent-1",
+            "agent_type": "TaskAgent",
+            "timestamp": 1772950559.734514,
+            "status": "active",
+            "last_active": 1699123456.789,
+            "value_function": 0.75,
+            "success_count": 80,
+            "failure_count": 20,
+            "success_rate": 0.8,
+            "avg_latency_ms": 150,
+            "state_snapshot": {
+              "last_task": "process_request"
+            },
+            "incoming_synapse_count": 0,
+            "outgoing_synapse_count": 0,
+            "strongest_synapse": null,
+            "is_meta": false,
+            "meta_potential": null,
+            "differentiation_signals": [],
+            "is_hung": true,
+            "is_corrupted": false,
+            "error_message": null
+          }
+        ],
+        "agent-2": [
+          {
+            "agent_id": "agent-2",
+            "agent_type": "RoleAgent",
+            "timestamp": 1772950559.7256696,
+            "status": "active",
+            "last_active": 1699123450.123,
+            "value_function": 0.65,
+            "success_count": 65,
+            "failure_count": 35,
+            "success_rate": 0.65,
+            "avg_latency_ms": 200,
+            "state_snapshot": {},
+            "incoming_synapse_count": 0,
+            "outgoing_synapse_count": 0,
+            "strongest_synapse": null,
+            "is_meta": false,
+            "meta_potential": null,
+            "differentiation_signals": [],
+            "is_hung": true,
+            "is_corrupted": false,
+            "error_message": null
+          },
+          {
+            "agent_id": "agent-2",
+            "agent_type": "RoleAgent",
+            "timestamp": 1772950559.7345304,
+            "status": "active",
+            "last_active": 1699123450.123,
+            "value_function": 0.65,
+            "success_count": 65,
+            "failure_count": 35,
+            "success_rate": 0.65,
+            "avg_latency_ms": 200,
+            "state_snapshot": {},
+            "incoming_synapse_count": 0,
+            "outgoing_synapse_count": 0,
+            "strongest_synapse": null,
+            "is_meta": false,
+            "meta_potential": null,
+            "differentiation_signals": [],
+            "is_hung": true,
+            "is_corrupted": false,
+            "error_message": null
+          }
+        ]
+      },
+      "current_snapshots": {
+        "agent-1": {
+          "agent_id": "agent-1",
+          "agent_type": "TaskAgent",
+          "timestamp": 1772950559.734514,
+          "status": "active",
+          "last_active": 1699123456.789,
+          "value_function": 0.75,
+          "success_count": 80,
+          "failure_count": 20,
+          "success_rate": 0.8,
+          "avg_latency_ms": 150,
+          "state_snapshot": {
+            "last_task": "process_request"
+          },
+          "incoming_synapse_count": 0,
+          "outgoing_synapse_count": 0,
+          "strongest_synapse": null,
+          "is_meta": false,
+          "meta_potential": null,
+          "differentiation_signals": [],
+          "is_hung": true,
+          "is_corrupted": false,
+          "error_message": null
+        },
+        "agent-2": {
+          "agent_id": "agent-2",
+          "agent_type": "RoleAgent",
+          "timestamp": 1772950559.7345304,
+          "status": "active",
+          "last_active": 1699123450.123,
+          "value_function": 0.65,
+          "success_count": 65,
+          "failure_count": 35,
+          "success_rate": 0.65,
+          "avg_latency_ms": 200,
+          "state_snapshot": {},
+          "incoming_synapse_count": 0,
+          "outgoing_synapse_count": 0,
+          "strongest_synapse": null,
+          "is_meta": false,
+          "meta_potential": null,
+          "differentiation_signals": [],
+          "is_hung": true,
+          "is_corrupted": false,
+          "error_message": null
+        }
+      },
+      "value_network_states": {},
+      "synapse_inspections": {},
+      "health_issues": {
+        "hung_agents": [
+          "agent-1",
+          "agent-2"
+        ],
+        "corrupted_agents": [],
+        "error_agents": {},
+        "convergence_issues": {},
+        "synapse_health": {
+          "error": "No synapses found"
+        }
+      }
+    },
+    "colony_diagnostics": {
+      "colony_id": "test_colony",
+      "generated_at": "2026-03-07T21:15:59.734675",
+      "overall_status": "warning",
+      "health_score": 0.8,
+      "summary": {
+        "total_agents": 2,
+        "total_metrics": 4,
+        "critical_issues": 0,
+        "warning_issues": 4,
+        "deadlocked": false,
+        "bottlenecks": 0,
+        "cascade_risk": 0.0
+      },
+      "health_metrics": [
+        {
+          "name": "agent-1_activity",
+          "value": 73827102.93668413,
+          "threshold": 600,
+          "status": "warning",
+          "message": "Agent agent-1 has been idle for 73827103 seconds",
+          "recommendation": "Check if agent is stuck or has no work"
+        },
+        {
+          "name": "agent-2_activity",
+          "value": 73827109.60269928,
+          "threshold": 600,
+          "status": "warning",
+          "message": "Agent agent-2 has been idle for 73827110 seconds",
+          "recommendation": "Check if agent is stuck or has no work"
+        },
+        {
+          "name": "agent-1_activity",
+          "value": 73827102.94553947,
+          "threshold": 600,
+          "status": "warning",
+          "message": "Agent agent-1 has been idle for 73827103 seconds",
+          "recommendation": "Check if agent is stuck or has no work"
+        },
+        {
+          "name": "agent-2_activity",
+          "value": 73827109.61154914,
+          "threshold": 600,
+          "status": "warning",
+          "message": "Agent agent-2 has been idle for 73827110 seconds",
+          "recommendation": "Check if agent is stuck or has no work"
+        }
+      ],
+      "resource_usage": {
+        "agent-1": {
+          "agent_id": "agent-1",
+          "cpu_percent": 45.0,
+          "memory_mb": 350.0,
+          "network_io_mb": 25.0,
+          "active_connections": 5,
+          "queue_depth": 120,
+          "cpu_status": "healthy",
+          "memory_status": "healthy",
+          "network_status": "healthy",
+          "queue_status": "healthy"
+        },
+        "agent-2": {
+          "agent_id": "agent-2",
+          "cpu_percent": 55.0,
+          "memory_mb": 420.0,
+          "network_io_mb": 30.0,
+          "active_connections": 7,
+          "queue_depth": 150,
+          "cpu_status": "healthy",
+          "memory_status": "healthy",
+          "network_status": "healthy",
+          "queue_status": "healthy"
+        }
+      },
+      "deadlock_detection": {
+        "is_deadlocked": false,
+        "deadlock_cycle": [],
+        "deadlock_type": "none",
+        "severity": "none",
+        "description": "No deadlocks detected"
+      },
+      "bottleneck_analysis": {
+        "bottlenecks": [],
+        "throughput": 0.0,
+        "avg_latency": 13.5,
+        "p95_latency": 20.25,
+        "p99_latency": 27.0,
+        "overloaded_agents": [],
+        "underutilized_agents": []
+      },
+      "cascade_failure_prediction": {
+        "at_risk_agents": [],
+        "failure_probability": 0.0,
+        "propagation_path": [],
+        "triggers": [],
+        "mitigation_actions": []
+      },
+      "communication_summary": {
+        "total_messages": 0,
+        "active_pairs": 0,
+        "top_pairs": []
+      },
+      "error_summary": {
+        "total_errors": 0,
+        "agents_with_errors": 0,
+        "recent_errors": []
+      },
+      "recommendations": []
+    },
+    "value_network_debug": {
+      "colony_id": "test_colony",
+      "generated_at": "2026-03-07T21:15:59.734748",
+      "summary": {
+        "total_agents": 2,
+        "total_updates": 0,
+        "converged_agents": 0,
+        "oscillating_agents": 0,
+        "diverging_agents": 0
+      },
+      "update_events": {},
+      "value_history": {
+        "agent-1": [
+          0.5,
+          0.6,
+          0.65,
+          0.7,
+          0.72,
+          0.75
+        ],
+        "agent-2": [
+          0.6,
+          0.62,
+          0.63,
+          0.64,
+          0.65
+        ]
+      },
+      "reward_history": {},
+      "eligibility_traces": {
+        "agent-1": {
+          "agent_id": "agent-1",
+          "traces": {
+            "action-1": 0.9,
+            "action-2": 0.3
+          },
+          "last_updated": 1772950559.734525,
+          "total_trace_mass": 1.2,
+          "active_trace_count": 2,
+          "decay_rate": 0.99
+        },
+        "agent-2": {
+          "agent_id": "agent-2",
+          "traces": {
+            "action-3": 0.8
+          },
+          "last_updated": 1772950559.734535,
+          "total_trace_mass": 0.8,
+          "active_trace_count": 1,
+          "decay_rate": 0.99
+        }
+      },
+      "convergence_analyses": {
+        "agent-1": {
+          "agent_id": "agent-1",
+          "converged": false,
+          "convergence_rate": 0.0,
+          "stability_score": 0.0,
+          "oscillation_detected": false,
+          "oscillation_frequency": 0.0,
+          "divergence_detected": false,
+          "trend": "stable",
+          "recommendations": [
+            "Insufficient data for convergence analysis"
+          ]
+        },
+        "agent-2": {
+          "agent_id": "agent-2",
+          "converged": false,
+          "convergence_rate": 0.0,
+          "stability_score": 0.0,
+          "oscillation_detected": false,
+          "oscillation_frequency": 0.0,
+          "divergence_detected": false,
+          "trend": "stable",
+          "recommendations": [
+            "Insufficient data for convergence analysis"
+          ]
+        }
+      },
+      "value_distributions": {
+        "agent-1": {
+          "agent_id": "agent-1",
+          "mean": 0.6533333333333333,
+          "std": 0.08399735445569434,
+          "min": 0.5,
+          "max": 0.75,
+          "median": 0.675,
+          "percentile_25": 0.6125,
+          "percentile_75": 0.715,
+          "histogram": [
+            [
+              0.5025,
+              1
+            ],
+            [
+              0.5075000000000001,
+              0
+            ],
+            [
+              0.5125,
+              0
+            ],
+            [
+              0.5175000000000001,
+              0
+            ],
+            [
+              0.5225,
+              0
+            ],
+            [
+              0.5275000000000001,
+              0
+            ],
+            [
+              0.5325,
+              0
+            ],
+            [
+              0.5375000000000001,
+              0
+            ],
+            [
+              0.5425,
+              0
+            ],
+            [
+              0.5475000000000001,
+              0
+            ],
+            [
+              0.5525,
+              0
+            ],
+            [
+              0.5575000000000001,
+              0
+            ],
+            [
+              0.5625,
+              0
+            ],
+            [
+              0.5675,
+              0
+            ],
+            [
+              0.5725,
+              0
+            ],
+            [
+              0.5774999999999999,
+              0
+            ],
+            [
+              0.5825,
+              0
+            ],
+            [
+              0.5874999999999999,
+              0
+            ],
+            [
+              0.5925,
+              0
+            ],
+            [
+              0.5974999999999999,
+              0
+            ],
+            [
+              0.6025,
+              1
+            ],
+            [
+              0.6074999999999999,
+              0
+            ],
+            [
+              0.6125,
+              0
+            ],
+            [
+              0.6174999999999999,
+              0
+            ],
+            [
+              0.6225,
+              0
+            ],
+            [
+              0.6275,
+              0
+            ],
+            [
+              0.6325000000000001,
+              0
+            ],
+            [
+              0.6375,
+              0
+            ],
+            [
+              0.6425000000000001,
+              0
+            ],
+            [
+              0.6475,
+              0
+            ],
+            [
+              0.6525000000000001,
+              1
+            ],
+            [
+              0.6575,
+              0
+            ],
+            [
+              0.6625000000000001,
+              0
+            ],
+            [
+              0.6675,
+              0
+            ],
+            [
+              0.6725000000000001,
+              0
+            ],
+            [
+              0.6775,
+              0
+            ],
+            [
+              0.6825,
+              0
+            ],
+            [
+              0.6875,
+              0
+            ],
+            [
+              0.6925,
+              0
+            ],
+            [
+              0.6975,
+              0
+            ],
+            [
+              0.7025,
+              1
+            ],
+            [
+              0.7075,
+              0
+            ],
+            [
+              0.7124999999999999,
+              0
+            ],
+            [
+              0.7175,
+              0
+            ],
+            [
+              0.7224999999999999,
+              1
+            ],
+            [
+              0.7275,
+              0
+            ],
+            [
+              0.7324999999999999,
+              0
+            ],
+            [
+              0.7375,
+              0
+            ],
+            [
+              0.7424999999999999,
+              0
+            ],
+            [
+              0.7475,
+              1
+            ]
+          ]
+        },
+        "agent-2": {
+          "agent_id": "agent-2",
+          "mean": 0.628,
+          "std": 0.017204650534085267,
+          "min": 0.6,
+          "max": 0.65,
+          "median": 0.63,
+          "percentile_25": 0.62,
+          "percentile_75": 0.64,
+          "histogram": [
+            [
+              0.6005,
+              1
+            ],
+            [
+              0.6014999999999999,
+              0
+            ],
+            [
+              0.6025,
+              0
+            ],
+            [
+              0.6034999999999999,
+              0
+            ],
+            [
+              0.6045,
+              0
+            ],
+            [
+              0.6054999999999999,
+              0
+            ],
+            [
+              0.6065,
+              0
+            ],
+            [
+              0.6074999999999999,
+              0
+            ],
+            [
+              0.6085,
+              0
+            ],
+            [
+              0.6094999999999999,
+              0
+            ],
+            [
+              0.6105,
+              0
+            ],
+            [
+              0.6114999999999999,
+              0
+            ],
+            [
+              0.6125,
+              0
+            ],
+            [
+              0.6134999999999999,
+              0
+            ],
+            [
+              0.6145,
+              0
+            ],
+            [
+              0.6154999999999999,
+              0
+            ],
+            [
+              0.6165,
+              0
+            ],
+            [
+              0.6174999999999999,
+              0
+            ],
+            [
+              0.6185,
+              0
+            ],
+            [
+              0.6194999999999999,
+              0
+            ],
+            [
+              0.6205,
+              1
+            ],
+            [
+              0.6214999999999999,
+              0
+            ],
+            [
+              0.6225,
+              0
+            ],
+            [
+              0.6234999999999999,
+              0
+            ],
+            [
+              0.6245,
+              0
+            ],
+            [
+              0.6255,
+              0
+            ],
+            [
+              0.6265000000000001,
+              0
+            ],
+            [
+              0.6275,
+              0
+            ],
+            [
+              0.6285000000000001,
+              0
+            ],
+            [
+              0.6295,
+              0
+            ],
+            [
+              0.6305000000000001,
+              1
+            ],
+            [
+              0.6315,
+              0
+            ],
+            [
+              0.6325000000000001,
+              0
+            ],
+            [
+              0.6335,
+              0
+            ],
+            [
+              0.6345000000000001,
+              0
+            ],
+            [
+              0.6355,
+              0
+            ],
+            [
+              0.6365000000000001,
+              0
+            ],
+            [
+              0.6375,
+              0
+            ],
+            [
+              0.6385000000000001,
+              0
+            ],
+            [
+              0.6395,
+              0
+            ],
+            [
+              0.6405000000000001,
+              1
+            ],
+            [
+              0.6415,
+              0
+            ],
+            [
+              0.6425000000000001,
+              0
+            ],
+            [
+              0.6435,
+              0
+            ],
+            [
+              0.6445000000000001,
+              0
+            ],
+            [
+              0.6455,
+              0
+            ],
+            [
+              0.6465000000000001,
+              0
+            ],
+            [
+              0.6475,
+              0
+            ],
+            [
+              0.6485000000000001,
+              0
+            ],
+            [
+              0.6495,
+              1
+            ]
+          ]
+        }
+      },
+      "learning_parameters": {
+        "agent-1": {
+          "learning_rate": 0.1,
+          "lambda": 0.9
+        },
+        "agent-2": {
+          "learning_rate": 0.1,
+          "lambda": 0.9
+        }
+      },
+      "issues": []
+    },
+    "issue_detection": {
+      "colony_id": "test_colony",
+      "generated_at": "2026-03-07T21:15:59.734763",
+      "summary": {
+        "total_issues": 2,
+        "critical_issues": 2,
+        "warning_issues": 0,
+        "info_issues": 0,
+        "patterns_detected": 1
+      },
+      "issues_by_category": {
+        "agent_hang": 2
+      },
+      "detected_issues": {
+        "stuck_agent_agent-1_1772950559": {
+          "issue_id": "stuck_agent_agent-1_1772950559",
+          "severity": "critical",
+          "category": "agent_hang",
+          "agent_id": "agent-1",
+          "title": "Agent agent-1 appears to be stuck",
+          "description": "Agent agent-1 has been idle for 73827103 seconds but status is 'active'",
+          "evidence": {
+            "idle_time": 73827102.94555712,
+            "last_active": 1699123456.789,
+            "status": "active"
+          },
+          "timestamp": 1772950559.73456,
+          "suggested_fixes": [
+            "Check agent logs for errors",
+            "Verify agent is not in deadlock",
+            "Consider restarting the agent",
+            "Check if agent has work to do"
+          ],
+          "related_issues": []
+        },
+        "stuck_agent_agent-2_1772950559": {
+          "issue_id": "stuck_agent_agent-2_1772950559",
+          "severity": "critical",
+          "category": "agent_hang",
+          "agent_id": "agent-2",
+          "title": "Agent agent-2 appears to be stuck",
+          "description": "Agent agent-2 has been idle for 73827110 seconds but status is 'active'",
+          "evidence": {
+            "idle_time": 73827109.6115675,
+            "last_active": 1699123450.123,
+            "status": "active"
+          },
+          "timestamp": 1772950559.7345684,
+          "suggested_fixes": [
+            "Check agent logs for errors",
+            "Verify agent is not in deadlock",
+            "Consider restarting the agent",
+            "Check if agent has work to do"
+          ],
+          "related_issues": []
+        }
+      },
+      "patterns": {
+        "systematic_agent_hang_1772950559": {
+          "pattern_id": "systematic_agent_hang_1772950559",
+          "pattern_name": "Systematic Agent Hang",
+          "description": "2 agents appear stuck",
+          "matched_issues": [
+            "stuck_agent_agent-1_1772950559",
+            "stuck_agent_agent-2_1772950559"
+          ],
+          "confidence": 0.7,
+          "root_cause_hypothesis": "Possible deadlock or shared resource contention",
+          "recommended_actions": [
+            "Check for deadlock in communication graph",
+            "Review shared resource locks",
+            "Implement timeout mechanisms"
+          ]
+        }
+      },
+      "health_trends": {},
+      "recommendations": [
+        "URGENT: Address 2 critical issues immediately",
+        "Address 1 systemic patterns affecting colony health"
+      ]
+    }
+  },
+  "recommendations": [
+    "URGENT: Address 2 critical issues immediately",
+    "Address 1 systemic patterns affecting colony health"
+  ]
+}

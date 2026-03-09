@@ -1,0 +1,33 @@
+version: 2
+updates:
+  # Enable version updates for npm
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'sunday'
+    open-pull-requests-limit: 10
+    reviewers:
+      - 'SuperInstance'
+    labels:
+      - 'dependencies'
+      - 'npm'
+    commit-message:
+      prefix: 'chore'
+      include: 'scope'
+    ignore:
+      # Ignore major version updates for now
+      - dependency-name: '*'
+        update-types: ['version-update:semver-major']
+    groups:
+      # Group all dev dependencies together
+      dev-dependencies:
+        patterns:
+          - '@types/*'
+          - 'typescript'
+          - 'jest'
+          - '@types/*'
+      # Group all OpenTelemetry dependencies together
+      opentelemetry-dependencies:
+        patterns:
+          - '@opentelemetry/*'

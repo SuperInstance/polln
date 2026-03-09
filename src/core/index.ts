@@ -16,6 +16,7 @@ export type { ColonyConfig } from './colony.js';
 export type { ColonyStats } from './colony.js';
 export { A2APackageSystem } from './communication.js';
 export type { A2APackageSystemConfig } from './communication.js';
+export * from './a2a-signing.js';
 export { BES } from './embedding.js';
 export type { BESConfig } from './embedding.js';
 export type { PollenGrain } from './embedding.js';
@@ -722,3 +723,61 @@ export type {
 
 // Monitoring System
 export * from '../monitoring/index.js';
+
+// Microbiome Architecture (Phase 1: Foundation)
+export {
+  DigitalTerrarium,
+  createTerrarium,
+} from '../microbiome/index.js';
+export type {
+  // Taxonomy
+  AgentTaxonomy,
+  ResourceType,
+  // Core Agent Types
+  MicrobiomeAgent,
+  VirusAgent,
+  BacteriaAgent,
+  MacrophageAgent,
+  ExplorerAgent,
+  // Metabolism
+  MetabolicProfile,
+  ResourceFlow,
+  LifecycleState,
+  // Population Dynamics
+  PopulationDynamics,
+  LotkaVolterraParams,
+  PopulationState,
+  // Evolution
+  MutationConfig,
+  MutationType,
+  FitnessScore,
+  SymbiosisType,
+  Symbiosis,
+  // Colony
+  ColonyStructure,
+  // Ecosystem
+  EcosystemSnapshot,
+  EcosystemConfig,
+  GardenerAction,
+  // Events
+  EcosystemEvent,
+  EventListener,
+} from '../microbiome/index.js';
+
+// Optimized Configuration (Auto-generated from optimization framework)
+export {
+  OPTIMIZED_CONFIG,
+  PLINKO_CONFIG,
+  TD_LAMBDA_CONFIG,
+  VAE_CONFIG,
+  GRAPH_EVOLUTION_CONFIG,
+  META_CONFIG,
+} from './config/optimized.js';
+export type {
+  PlinkoConfig,
+  TDLambdaConfig,
+  VAEConfig,
+  GraphEvolutionConfig,
+  MetaConfig,
+  OptimizedConfig,
+} from './config/optimized.js';

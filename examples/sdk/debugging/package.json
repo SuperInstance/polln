@@ -1,0 +1,17 @@
+{
+  "name": "@polln/example-debugging",
+  "version": "0.1.0",
+  "description": "POLLN SDK Example: Debugging Workflows",
+  "type": "module",
+  "scripts": {
+    "start": "tsx index.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "polln": "*"
+  },
+  "devDependencies": {
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  }
+}

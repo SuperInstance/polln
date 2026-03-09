@@ -25,6 +25,14 @@
       "import": "./dist/api/client/index.js",
       "types": "./dist/api/client/index.d.ts"
     },
+    "./sdk": {
+      "import": "./dist/sdk/index.js",
+      "types": "./dist/sdk/index.d.ts"
+    },
+    "./debug": {
+      "import": "./dist/debug/index.js",
+      "types": "./dist/debug/index.d.ts"
+    },
     "./monitoring": {
       "import": "./dist/monitoring/index.js",
       "types": "./dist/monitoring/index.d.ts"
@@ -48,6 +56,10 @@
     "test:kv": "jest src/core/__tests__/kv*.test.ts",
     "test:lora": "jest src/core/lora/__tests__",
     "test:multi-colony": "jest src/core/colony-manager/__tests__ src/core/inter-colony/__tests__ src/core/colony-lifecycle/__tests__",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\"",
     "prepublishOnly": "npm run build",
     "cli": "node dist/cli/index.js",
     "lora:list": "node dist/cli/index.js lora list",
@@ -142,11 +154,17 @@
     "ws": "^8.18.0"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.10.6",
     "@types/uuid": "^10.0.0",
     "@types/ws": "^8.5.13",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
     "jest": "^29.7.0",
+    "prettier": "^3.2.5",
     "ts-jest": "^29.2.5",
     "typescript": "^5",
     "vitest": "^4.0.18"

@@ -42,6 +42,7 @@
     /* Advanced Options */
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
+    "downlevelIteration": true,
 
     /* Path Mapping */
     "baseUrl": "./",

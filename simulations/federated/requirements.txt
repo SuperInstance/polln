@@ -1,0 +1,13 @@
+# Federated Learning Simulation Requirements
+# For POLLN convergence proofs
+
+# Core Scientific Computing
+numpy>=1.24.0
+torch>=2.0.0
+scipy>=1.10.0
+
+# Visualization
+matplotlib>=3.7.0
+
+# Testing (optional)
+pytest>=7.3.0

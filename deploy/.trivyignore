@@ -1,0 +1,11 @@
+# Trivy ignore file for POLLN
+# Format: <vulnerability-id> <expiry-date>
+
+# Ignore vulnerabilities that don't affect our use case
+# Update these as needed based on actual security scan results
+
+# Example: Ignore a specific vulnerability until it's patched
+# CVE-2023-1234 2024-06-01
+
+# Development dependencies (not used in production)
+CVE-2021-23406 2025-12-31 # debug package, only in devDependencies

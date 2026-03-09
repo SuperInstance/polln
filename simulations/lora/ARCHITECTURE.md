@@ -1,0 +1,370 @@
+# LoRA Composition Validation - Architecture Overview
+
+## System Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    LoRA Composition Validation Suite              │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                ┌─────────────┼─────────────┐
+                │             │             │
+                ▼             ▼             ▼
+        ┌──────────┐  ┌──────────┐  ┌──────────┐
+        │   Rank   │  │Interfere-│  │Composi-  │
+        │ Analysis │  │nce Det.  │  │tion Opt. │
+        └──────────┘  └──────────┘  └──────────┘
+                │             │             │
+                └─────────────┼─────────────┘
+                              │
+                              ▼
+                    ┌──────────────────┐
+                    │  Scaling Laws    │
+                    │  Analyzer        │
+                    └──────────────────┘
+                              │
+                              ▼
+                    ┌──────────────────┐
+                    │  Summary Report  │
+                    └──────────────────┘
+```
+
+## Module Dependencies
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│                     Core Modules                             │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  ┌──────────────┐    ┌──────────────┐    ┌──────────────┐  │
+│  │ rank_analysis│    │ interference │    │ composition  │  │
+│  │              │    │              │    │              │  │
+│  │ ┌──────────┐ │    │ ┌──────────┐ │    │ ┌──────────┐ │  │
+│  │ │Synthetic │ │    │ │LoRAPair  │ │    │ │Strategy  │ │  │
+│  │ │ModelGen  │ │    │ └──────────┘ │    │ └──────────┘ │  │
+│  │ └──────────┘ │    │ ┌──────────┐ │    │ ┌──────────┐ │  │
+│  │ ┌──────────┐ │    │ │Interfere│ │    │ │Optimizer │ │  │
+│  │ │LoRADecomp│ │    │ │Calculato│ │    │ └──────────┘ │  │
+│  │ └──────────┘ │    │ └──────────┘ │    │              │  │
+│  │ ┌──────────┐ │    │ ┌──────────┐ │    │              │  │
+│  │ │RankAnalyz│ │    │ │Predictor │ │    │              │  │
+│  │ └──────────┘ │    │ └──────────┘ │    │              │  │
+│  └──────────────┘    └──────────────┘    └──────────────┘  │
+│         │                    │                    │          │
+└─────────┼────────────────────┼────────────────────┼──────────┘
+          │                    │                    │
+          └────────────────────┼────────────────────┘
+                               │
+                               ▼
+                    ┌──────────────────────┐
+                    │   scaling_laws       │
+                    │                      │
+                    │ ┌──────────────────┐ │
+                    │ │DataGenerator     │ │
+                    │ └──────────────────┘ │
+                    │ ┌──────────────────┐ │
+                    │ │ScalingLawAnalyzer│ │
+                    │ └──────────────────┘ │
+                    └──────────────────────┘
+```
+
+## Data Flow
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                         Input Layer                            │
+│                                                                 │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐        │
+│  │Config Params │  │Base Model Dim│  │Domain List   │        │
+│  │              │  │              │  │              │        │
+│  │ base_dim=1024│  │              │  │ - code       │        │
+│  │ max_rank=256 │  │              │  │ - writing    │        │
+│  │ lambda_reg   │  │              │  │ - analysis   │        │
+│  └──────────────┘  └──────────────┘  │ - research   │        │
+│                                      └──────────────┘        │
+└─────────────────────────────────────────────────────────────────┘
+                           │
+                           ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                      Processing Layer                           │
+│                                                                 │
+│  ┌─────────────────────────────────────────────────────────┐   │
+│  │                  Synthetic Data Generation               │   │
+│  │                                                          │   │
+│  │  W_base → W_expert (code) → ΔW = W_expert - W_base      │   │
+│  │  W_base → W_expert (writing) → ΔW                       │   │
+│  │  ...                                                    │   │
+│  │                                                          │   │
+│  │  ΔW --SVD--> B_i, A_i (LoRA matrices)                   │   │
+│  └─────────────────────────────────────────────────────────┘   │
+│                           │                                    │
+│                           ▼                                    │
+│  ┌─────────────────────────────────────────────────────────┐   │
+│  │                   Analysis & Computation                 │   │
+│  │                                                          │   │
+│  │  Rank: reconstruction_error = ||ΔW - BA||_F             │   │
+│  │  Interfere: γ = corr(ΔW_1, ΔW_2)                        │   │
+│  │  Compose: loss = ||W_target - W_base - Σw_iBA||² + λΣw_i²│   │
+│  │  Scaling: accuracy = a + b·log(params) + c·n - d·I      │   │
+│  └─────────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────────┘
+                           │
+                           ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                        Output Layer                            │
+│                                                                 │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐        │
+│  │JSON Results  │  │PNG Plots     │  │Text Reports   │        │
+│  │              │  │              │  │              │        │
+│  │- coefficients│  │- phase_diag  │  │- summary     │        │
+│  │- metrics     │  │- heatmap     │  │- validation  │        │
+│  │- predictions │  │- curves      │  │- insights    │        │
+│  └──────────────┘  └──────────────┘  └──────────────┘        │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+## Hypothesis Validation Flow
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    Hypothesis H1: Rank Decomposition            │
+│                                                                 │
+│  Question: Is r_min ≈ 64 for most domains?                     │
+│                                                                 │
+│  ┌─────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐ │
+│  │Generate │───▶│Decompose │───▶│Measure   │───▶│Find r_95 │ │
+│  │Expert   │    │via SVD   │    │Error     │    │          │ │
+│  │Models   │    │          │    │          │    │          │ │
+│  └─────────┘    └──────────┘    └──────────┘    └──────────┘ │
+│                                                │              │
+│                                                ▼              │
+│                                      ┌──────────────┐        │
+│                                      │Validate H1   │        │
+│                                      │r_95 ≤ 64?    │        │
+│                                      └──────────────┘        │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│                  Hypothesis H2: Composition Linearity           │
+│                                                                 │
+│  Question: When does linearity break down?                     │
+│                                                                 │
+│  ┌─────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐ │
+│  │Generate │───▶│Compute   │───▶│Measure   │───▶│Find γ_thr│ │
+│  │LoRA     │    │Overlap   │    │Linearity │    │          │ │
+│  │Pairs    │    │γ(L1,L2)  │    │Error     │    │          │ │
+│  └─────────┘    └──────────┘    └──────────┘    └──────────┘ │
+│                                                │              │
+│                                                ▼              │
+│                                      ┌──────────────┐        │
+│                                      │Validate H2   │        │
+│                                      │γ < threshold ││        │
+│                                      │→ linearity   │        │
+│                                      └──────────────┘        │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│                  Hypothesis H3: Library Efficiency              │
+│                                                                 │
+│  Question: When is LoRA library more efficient?                 │
+│                                                                 │
+│  ┌─────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐ │
+│  │Fit      │───▶│Compute   │───▶│Find      │───▶│Validate  │ │
+│  │Scaling  │    │Break-even│    │Optimal   │    │H3        │ │
+│  │Law      │    │Curves    │    │Config    │    │          │ │
+│  └─────────┘    └──────────┘    └──────────┘    └──────────┘ │
+│                                                │              │
+│                                                ▼              │
+│                                      ┌──────────────┐        │
+│                                      │Validate H3   │        │
+│                                      │S_lora < S_   │        │
+│                                      │single?       │        │
+│                                      └──────────────┘        │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+## File Organization
+
+```
+simulations/lora/
+├── __init__.py                 # Package initialization
+├── rank_analysis.py            # Rank sufficiency analysis
+├── interference.py             # Interference detection
+├── composition.py              # Composition optimization
+├── scaling_laws.py             # Scaling law analysis
+├── run_all.py                  # Main orchestrator
+├── example_usage.py            # Usage examples
+├── test_simulations.py         # Test suite
+├── requirements.txt            # Dependencies
+├── Makefile                    # Convenience commands
+├── README.md                   # User documentation
+├── MATHEMATICAL_FOUNDATIONS.md # Theory documentation
+├── SUMMARY.md                  # Implementation summary
+└── ARCHITECTURE.md             # This file
+```
+
+## Execution Flow
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                       run_all.py Entry Point                    │
+│                                                                 │
+│  1. Parse command line arguments                               │
+│     [--quick] [--modules] [--output-dir]                        │
+│                                                                 │
+│  2. Initialize runner with config                               │
+│     └─> LoRASimulationRunner                                   │
+│         ├─ output_dir: ./results                               │
+│         ├─ base_dim: 1024 (or 512 if --quick)                 │
+│         └─ quick_mode: False (or True if --quick)              │
+│                                                                 │
+│  3. Execute selected modules:                                   │
+│     ┌─────────────────┐                                         │
+│     │ if "rank":      │───> run_rank_analysis()                │
+│     │ if "interfere": │───> run_interference_detection()       │
+│     │ if "compose":   │───> run_composition_optimization()     │
+│     │ if "scaling":   │───> run_scaling_laws()                 │
+│     └─────────────────┘                                         │
+│                                                                 │
+│  4. Generate comprehensive summary                              │
+│     └─> summary_report.json                                    │
+│                                                                 │
+│  5. Print key findings and exit                                │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+## Visualization Outputs
+
+```
+results/
+├── phase_diagram.png          # Rank vs Error (log-log plot)
+│   ├─ X-axis: Rank r
+│   ├─ Y-axis: Reconstruction error
+│   └─ Lines: Different domains
+│
+├── interference_matrix.png    # Heatmap of pairwise interference
+│   ├─ Rows/cols: LoRA pairs
+│   ├─ Color: Interference score
+│   └─ Red=high, Green=low
+│
+├── strategy_comparison.png    # Bar charts of composition strategies
+│   ├─ Left: Reconstruction error
+│   ├─ Right: Performance
+│   └─ X-axis: Strategy names
+│
+├── linearity_analysis.png     # Histogram of linearity errors
+│   ├─ X-axis: Normalized error
+│   ├─ Y-axis: Frequency
+│   └─ Red line: Mean value
+│
+├── break_even_curves.png      # LoRA vs single model efficiency
+│   ├─ X-axis: Number of LoRAs
+│   ├─ Y-axis: Single model params (millions)
+│   └─ Lines: Different base_dim/rank configs
+│
+├── accuracy_surface.png       # 3D surface of accuracy
+│   ├─ X-axis: Number of LoRAs
+│   ├─ Y-axis: Interference
+│   ├─ Z-axis: Accuracy (color)
+│   └─ Contour plot version
+│
+└── diminishing_returns.png    # Bar chart of optimal N per config
+    ├─ X-axis: Configuration (base_dim_rank)
+    ├─ Y-axis: N at diminishing returns
+    └─ Colors: Grouped by base_dim
+```
+
+## Key Algorithms
+
+### 1. Rank Sufficiency (SVD-based)
+
+```python
+# Optimal low-rank approximation
+def decompose(W_base, W_expert, rank):
+    delta_W = W_expert - W_base
+    U, S, V = svd(delta_W)
+    B = U[:, :rank] @ diag(S[:rank])
+    A = V[:, :rank].T
+    return B, A
+
+# Measure reconstruction quality
+error = ||delta_W - B @ A||_F / ||delta_W||_F
+```
+
+### 2. Interference Detection (Subspace Overlap)
+
+```python
+# Grassmann distance-based overlap
+def subspace_overlap(B1, A1, B2, A2):
+    U1, _, _ = svd(B1 @ A1)
+    U2, _, _ = svd(B2 @ A2)
+    projection = ||U1.T @ U2||_F / r
+    return projection
+```
+
+### 3. Composition Optimization (L2-regularized)
+
+```python
+# Closed-form solution
+def optimize_weights(loras, W_target, W_base, lambda_reg):
+    X = [vec(B @ A) for B, A in loras]
+    y = vec(W_target - W_base)
+    w = (X.T @ X + lambda_reg*I)^(-1) @ X.T @ y
+    return w / sum(w)  # Normalize
+```
+
+### 4. Scaling Law Fitting (Least Squares)
+
+```python
+# Fit: accuracy = a + b*log(params) + c*n - d*interference
+def fit_scaling_law(data):
+    X = [log(params), n_loras, interference]
+    y = accuracy
+    [a, b, c, d] = solve_least_squares(X, y)
+    return a, b, c, d
+```
+
+## Performance Characteristics
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    Performance Summary                         │
+├─────────────────────────────────────────────────────────────────┤
+│ Module              │ Quick Mode │ Full Mode │ Scalability      │
+├─────────────────────┼────────────┼───────────┼─────────────────┤
+│ Rank Analysis       │ 2-3 min    │ 10-15 min │ O(d³) SVD       │
+│ Interference Detect │ 3-5 min    │ 15-20 min │ O(N²) pairs      │
+│ Composition Opt     │ 2-3 min    │ 8-12 min  │ O(N × iterations)│
+│ Scaling Laws        │ 1-2 min    │ 5-8 min   │ O(n_scenarios)   │
+├─────────────────────┼────────────┼───────────┼─────────────────┤
+│ TOTAL               │ 8-13 min   │ 38-55 min │ Linear in N     │
+└─────────────────────┴────────────┴───────────┴─────────────────┘
+
+Where:
+- d: Model dimension (512-2048)
+- N: Number of LoRAs (2-20)
+- n_scenarios: Training samples (200-2000)
+```
+
+## Testing Strategy
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                      Test Coverage                             │
+├─────────────────────────────────────────────────────────────────┤
+│ Level              │ Description                    │ Count      │
+├─────────────────────┼───────────────────────────────┼───────────┤
+│ Unit Tests         │ Test individual functions     │ ~20 tests  │
+│ Integration Tests  │ Test module workflows         │ ~5 tests   │
+│ Example Tests      │ Test example scripts          │ ~3 tests   │
+│ End-to-End Tests   │ Test complete pipeline        │ ~2 tests   │
+├─────────────────────┼───────────────────────────────┼───────────┤
+│ TOTAL              │                               │ ~30 tests  │
+└─────────────────────┴───────────────────────────────┴───────────┘
+
+Run: python test_simulations.py
+```
+
+---
+
+*This architecture document provides a high-level overview of the LoRA composition validation suite. For implementation details, see the individual module files.*

@@ -1,0 +1,38 @@
+# Memory Optimization Results
+
+This directory contains the output files from running the memory optimization simulations.
+
+## Files
+
+After running `run_all.py`, this directory will contain:
+
+- `compression_results.json` - Compression strategy optimization results
+- `eviction_results.json` - Eviction policy testing results
+- `ann_results.json` - ANN index tuning results
+- `sizing_results.json` - Cache sizing analysis results
+- `prefetch_results.json` - Prefetching strategy results
+- `unified_config.json` - Unified configuration from all optimizations
+- `trace_analysis.json` - KV-cache access trace analysis
+
+## Regenerating
+
+To regenerate these files:
+
+```bash
+cd /path/to/polln
+python simulations/optimization/memory/run_all.py
+```
+
+Or individually:
+
+```bash
+python simulations/optimization/memory/compression_optimization.py
+python simulations/optimization/memory/eviction_policy.py
+python simulations/optimization/memory/ann_index_tuning.py
+python simulations/optimization/memory/cache_sizing.py
+python simulations/optimization/memory/prefetching.py
+```
+
+## Note
+
+These files are generated and should not be manually edited. Changes will be overwritten when optimizations are re-run.

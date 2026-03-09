@@ -1,0 +1,414 @@
+# Default values for POLLN
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# ============================================================================
+# POLLN Configuration
+# ============================================================================
+
+replicaCount: 3
+
+image:
+  repository: polln
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+# ============================================================================
+# Service Configuration
+# ============================================================================
+
+service:
+  type: ClusterIP
+  port: 3000
+  debugPort: 9229
+  annotations: {}
+  labels: {}
+
+ingress:
+  enabled: false
+  className: "nginx"
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # cert-manager.io/cluster-issuer: letsencrypt-prod
+    # nginx.ingress.kubernetes.io/websocket-services: polln-api
+  hosts:
+    - host: polln.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+  #  - secretName: polln-tls
+  #    hosts:
+  #      - polln.local
+
+# ============================================================================
+# POLLN Application Settings
+# ============================================================================
+
+polln:
+  # Environment variables
+  env:
+    NODE_ENV: "production"
+    POLLN_API_PORT: "3000"
+    POLLN_API_HOST: "0.0.0.0"
+    POLLN_LOG_LEVEL: "info"
+    POLLN_AUTH_ENABLED: "true"
+    POLLN_RATE_LIMIT_RPM: "1000"
+
+  # Feature flags
+  features:
+    kvCache: true
+    dreaming: true
+    federation: true
+    meadow: false
+
+  # KV Cache settings
+  kvCache:
+    maxSize: 1000000
+    ttl: 3600
+    compression: true
+
+  # Dreaming settings
+  dreaming:
+    enabled: true
+    episodeCount: 100
+    interval: 86400
+
+  # Federation settings
+  federation:
+    enabled: true
+    syncInterval: 3600
+    endpoints: []
+
+# ============================================================================
+# Authentication & Security
+# ============================================================================
+
+auth:
+  enabled: true
+  tokenExpiresIn: 86400
+
+rateLimit:
+  enabled: true
+  requestsPerMinute: 1000
+  burstLimit: 100
+
+# Secret references (create these secrets manually)
+secrets:
+  jwtSecret: ""
+  databaseUrl: ""
+  redisPassword: ""
+
+# ============================================================================
+# Resource Management
+# ============================================================================
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+  limits:
+    cpu: 2000m
+    memory: 2Gi
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 20
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+        - type: Percent
+          value: 50
+          periodSeconds: 60
+        - type: Pods
+          value: 2
+          periodSeconds: 60
+      selectPolicy: Min
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+        - type: Percent
+          value: 100
+          periodSeconds: 15
+        - type: Pods
+          value: 4
+          periodSeconds: 15
+      selectPolicy: Max
+
+# Vertical Pod Autoscaler
+vpa:
+  enabled: false
+  updatePolicy:
+    updateMode: "Auto"
+  resourcePolicy:
+    containerPolicies:
+      - containerName: polln-api
+        mode: "Auto"
+        minAllowed:
+          cpu: "100m"
+          memory: "256Mi"
+        maxAllowed:
+          cpu: "4000m"
+          memory: "4Gi"
+
+# ============================================================================
+# Health Probes
+# ============================================================================
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /ready
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 5
+  timeoutSeconds: 3
+  successThreshold: 1
+  failureThreshold: 3
+
+startupProbe:
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 0
+  periodSeconds: 5
+  timeoutSeconds: 3
+  successThreshold: 1
+  failureThreshold: 30
+
+# ============================================================================
+# Storage
+# ============================================================================
+
+persistence:
+  enabled: true
+  data:
+    size: 10Gi
+    storageClass: ""
+    accessMode: ReadWriteOnce
+  agents:
+    size: 5Gi
+    storageClass: ""
+    accessMode: ReadWriteOnce
+
+# ============================================================================
+# Redis Configuration
+# ============================================================================
+
+redis:
+  enabled: true
+  architecture: standalone
+  auth:
+    enabled: true
+    password: ""
+  master:
+    persistence:
+      enabled: true
+      size: 1Gi
+  metrics:
+    enabled: true
+
+# ============================================================================
+# PostgreSQL Configuration
+# ============================================================================
+
+postgresql:
+  enabled: true
+  auth:
+    postgresPassword: ""
+    password: ""
+    database: polln
+  primary:
+    persistence:
+      enabled: true
+      size: 5Gi
+
+# ============================================================================
+# Monitoring & Observability
+# ============================================================================
+
+monitoring:
+  enabled: true
+  grafanaEnabled: true
+  prometheus:
+    scrape: true
+    port: 9090
+  grafana:
+    adminPassword: "admin"
+    persistence:
+      enabled: true
+      size: 1Gi
+  jaeger:
+    enabled: true
+    port: 16686
+
+# Service Monitor for Prometheus Operator
+serviceMonitor:
+  enabled: false
+  namespace: ""
+  interval: 30s
+  scrapeTimeout: 10s
+
+# Pod Monitoring for GKE/Anthos
+podMonitor:
+  enabled: false
+
+# ============================================================================
+# Pod Configuration
+# ============================================================================
+
+podAnnotations: {}
+podLabels: {}
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1001
+  fsGroup: 1001
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  capabilities:
+    drop:
+      - ALL
+
+# Service Account
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+# RBAC
+rbac:
+  create: true
+
+# Pod Disruption Budget
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 2
+
+# Anti-affinity
+antiAffinity:
+  type: soft
+  topologyKey: kubernetes.io/hostname
+
+# Node selector
+nodeSelector: {}
+
+# Tolerations
+tolerations: []
+
+# Priority class
+priorityClassName: ""
+
+# Topology spread constraints
+topologySpreadConstraints: []
+
+# ============================================================================
+# Network Policies
+# ============================================================================
+
+networkPolicy:
+  enabled: true
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+      ports:
+        - protocol: TCP
+          port: 3000
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: redis
+      ports:
+        - protocol: TCP
+          port: 6379
+    - to:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: postgresql
+      ports:
+        - protocol: TCP
+          port: 5432
+
+# ============================================================================
+# Logging
+# ============================================================================
+
+logging:
+  level: info
+  format: json
+
+# ============================================================================
+# Lifecycle Hooks
+# ============================================================================
+
+lifecycle:
+  preStop:
+    exec:
+      command:
+        - sh
+        - -c
+        - sleep 15
+
+# ============================================================================
+# Config Maps
+# ============================================================================
+
+configMaps:
+  # Additional config maps to create
+  additional: []
+
+# ============================================================================
+# Tests
+# ============================================================================
+
+test:
+  enabled: true
+
+# ============================================================================
+# Extra manifests
+# ============================================================================
+
+extraManifests: []
+
+# ============================================================================
+# Advanced Configuration
+# ============================================================================
+
+# Additional environment variables from ConfigMaps and Secrets
+envFrom: []
+
+# Additional volume mounts
+extraVolumeMounts: []
+
+# Additional volumes
+extraVolumes: []
+
+# Init containers
+initContainers: []
+
+# Sidecar containers
+sidecars: []
+
+# Host aliases
+hostAliases: []

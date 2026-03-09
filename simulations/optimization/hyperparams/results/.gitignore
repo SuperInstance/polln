@@ -1,0 +1,14 @@
+# Ignore all generated files except .gitignore
+*
+
+# But allow tracking of specific files
+!.gitignore
+!*.md
+!*.png
+!*.json
+
+# Uncomment to track all results:
+# # Ignore nothing
+# #*
+# # But track .gitignore
+# !.gitignore

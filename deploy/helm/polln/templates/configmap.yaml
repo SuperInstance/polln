@@ -1,0 +1,92 @@
+{{- /*
+Copyright 2024 POLLN Contributors
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/}}
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "polln.fullname" . }}-config
+  labels:
+    {{- include "polln.labels" . | nindent 4 }}
+    app.kubernetes.io/component: config
+data:
+  # API Configuration
+  config.json: |
+    {
+      "api": {
+        "port": {{ .Values.service.port }},
+        "host": {{ .Values.polln.env.POLLN_API_HOST | quote }},
+        "auth": {
+          "enableAuth": {{ .Values.auth.enabled }},
+          "tokenExpiresIn": {{ .Values.auth.tokenExpiresIn }}
+        },
+        "rateLimit": {
+          "enabled": {{ .Values.rateLimit.enabled }},
+          "requestsPerMinute": {{ .Values.rateLimit.requestsPerMinute }},
+          "burstLimit": {{ .Values.rateLimit.burstLimit }}
+        }
+      },
+      "features": {
+        "kvCache": {{ .Values.polln.features.kvCache }},
+        "dreaming": {{ .Values.polln.features.dreaming }},
+        "federation": {{ .Values.polln.features.federation }},
+        "meadow": {{ .Values.polln.features.meadow }}
+      },
+      "kvCache": {
+        "enabled": {{ .Values.polln.features.kvCache }},
+        "maxSize": {{ .Values.polln.kvCache.maxSize }},
+        "ttl": {{ .Values.polln.kvCache.ttl }},
+        "compression": {{ .Values.polln.kvCache.compression }}
+      },
+      "dreaming": {
+        "enabled": {{ .Values.polln.features.dreaming }},
+        "episodeCount": {{ .Values.polln.dreaming.episodeCount }},
+        "interval": {{ .Values.polln.dreaming.interval }}
+      },
+      "federation": {
+        "enabled": {{ .Values.polln.features.federation }},
+        "syncInterval": {{ .Values.polln.federation.syncInterval }},
+        "endpoints": {{ .Values.polln.federation.endpoints | toJson }}
+      },
+      "logging": {
+        "level": {{ .Values.logging.level | quote }},
+        "format": {{ .Values.logging.format | quote }}
+      }
+    }
+  {{- if .Values.monitoring.enabled }}
+  # Prometheus Configuration
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s
+      evaluation_interval: 15s
+
+    scrape_configs:
+    - job_name: 'polln-api'
+      kubernetes_sd_configs:
+      - role: pod
+      relabel_configs:
+      - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_name]
+        action: keep
+        regex: {{ include "polln.name" . }}
+      - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_component]
+        action: keep
+        regex: api
+      - source_labels: [__meta_kubernetes_pod_name]
+        target_label: pod
+      - source_labels: [__meta_kubernetes_node_name]
+        target_label: node
+      - source_labels: [__meta_kubernetes_namespace]
+        target_label: namespace
+  {{- end }}

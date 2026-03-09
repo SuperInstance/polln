@@ -1,0 +1,205 @@
+# Production values for POLLN
+# Override defaults with production-specific settings
+
+# ============================================================================
+# POLLN Configuration
+# ============================================================================
+
+replicaCount: 5
+
+image:
+  repository: polln
+  pullPolicy: IfNotPresent
+  tag: "v0.1.0"  # Use semantic versioning in production
+
+# ============================================================================
+# Service Configuration
+# ============================================================================
+
+service:
+  type: ClusterIP
+  port: 3000
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/websocket-services: "polln"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+  hosts:
+    - host: api.polln.dev
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: polln-tls
+      hosts:
+        - api.polln.dev
+
+# ============================================================================
+# POLLN Application Settings
+# ============================================================================
+
+polln:
+  env:
+    NODE_ENV: "production"
+    POLLN_API_PORT: "3000"
+    POLLN_API_HOST: "0.0.0.0"
+    POLLN_LOG_LEVEL: "info"
+    POLLN_AUTH_ENABLED: "true"
+    POLLN_RATE_LIMIT_RPM: "10000"
+
+  features:
+    kvCache: true
+    dreaming: true
+    federation: true
+    meadow: true
+
+# ============================================================================
+# Authentication & Security
+# ============================================================================
+
+auth:
+  enabled: true
+  tokenExpiresIn: 3600  # 1 hour
+
+rateLimit:
+  enabled: true
+  requestsPerMinute: 10000
+  burstLimit: 1000
+
+# ============================================================================
+# Resource Management (Production)
+# ============================================================================
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 1Gi
+  limits:
+    cpu: 4000m
+    memory: 4Gi
+
+autoscaling:
+  enabled: true
+  minReplicas: 5
+  maxReplicas: 50
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
+# ============================================================================
+# Storage (Production)
+# ============================================================================
+
+persistence:
+  enabled: true
+  data:
+    size: 50Gi
+    storageClass: "gp3-encrypted"  # AWS EBS GP3 with encryption
+    accessMode: ReadWriteOnce
+  agents:
+    size: 20Gi
+    storageClass: "gp3-encrypted"
+    accessMode: ReadWriteOnce
+
+# ============================================================================
+# Redis Configuration (Production)
+# ============================================================================
+
+redis:
+  enabled: true
+  architecture: replication
+  auth:
+    enabled: true
+  master:
+    persistence:
+      enabled: true
+      size: 10Gi
+      storageClass: "gp3-encrypted"
+  replica:
+    replicaCount: 2
+  metrics:
+    enabled: true
+
+# ============================================================================
+# PostgreSQL Configuration (Production)
+# ============================================================================
+
+postgresql:
+  enabled: true
+  auth:
+    postgresPassword: ""  # Set via secrets
+    password: ""  # Set via secrets
+    database: polln
+  primary:
+    persistence:
+      enabled: true
+      size: 20Gi
+      storageClass: "gp3-encrypted"
+
+# ============================================================================
+# Monitoring & Observability
+# ============================================================================
+
+monitoring:
+  enabled: true
+  grafanaEnabled: true
+
+serviceMonitor:
+  enabled: true
+  namespace: "monitoring"
+  interval: 15s
+
+podMonitor:
+  enabled: true
+
+# ============================================================================
+# Pod Configuration (Production)
+# ============================================================================
+
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 3
+
+antiAffinity:
+  type: hard  # Enforce anti-affinity in production
+  topologyKey: topology.kubernetes.io/zone
+
+# ============================================================================
+# Network Policies (Production)
+# ============================================================================
+
+networkPolicy:
+  enabled: true
+
+# ============================================================================
+# Advanced Configuration
+# ============================================================================#
+
+# Priority class for production workloads
+priorityClassName: "high-priority"
+
+# Node selector for production nodes
+nodeSelector:
+  workload: production
+  node-type: compute
+
+# Tolerations for dedicated nodes
+tolerations:
+  - key: "workload"
+    operator: "Equal"
+    value: "production"
+    effect: "NoSchedule"
+
+# Topology spread constraints for high availability
+topologySpreadConstraints:
+  - maxSkew: 1
+    topologyKey: topology.kubernetes.io/zone
+    whenUnsatisfiable: ScheduleAnyway
+    labelSelector:
+      matchLabels:
+        app.kubernetes.io/name: polln

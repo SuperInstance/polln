@@ -1,0 +1,295 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POLLN Diagnostic Report - test_colony</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .timestamp {
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+
+        .health-score {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .score-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #f8d7da;
+            border: 4px solid #dc3545;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            font-weight: bold;
+            color: #dc3545;
+            margin-right: 20px;
+        }
+
+        .score-text {
+            flex: 1;
+        }
+
+        .score-text h2 {
+            color: #dc3545;
+            margin-bottom: 5px;
+        }
+
+        .section {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .summary-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .summary-card .value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .summary-card .label {
+            color: #6c757d;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .issue-list {
+            list-style: none;
+        }
+
+        .issue-item {
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border-left: 4px solid #6c757d;
+        }
+
+        .issue-item.critical {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+
+        .issue-item.warning {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+
+        .issue-item.info {
+            background: #d1ecf1;
+            border-left-color: #17a2b8;
+        }
+
+        .recommendation-list {
+            list-style: none;
+        }
+
+        .recommendation-item {
+            padding: 12px;
+            margin-bottom: 8px;
+            background: #e7f3ff;
+            border-radius: 6px;
+            border-left: 4px solid #007bff;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .table th,
+        .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .badge.critical {
+            background: #dc3545;
+            color: white;
+        }
+
+        .badge.warning {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .badge.success {
+            background: #28a745;
+            color: white;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔍 POLLN Diagnostic Report</h1>
+            <p class="timestamp">Colony: test_colony | Generated: 2026-03-07T21:15:59.733796</p>
+
+            <div class="health-score">
+                <div class="score-circle">
+                    40%
+                </div>
+                <div class="score-text">
+                    <h2>CRITICAL</h2>
+                    <p>Overall colony health based on comprehensive diagnostics</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="section">
+            <h2>📊 Summary</h2>
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <div class="value">2</div>
+                    <div class="label">Total Agents</div>
+                </div>
+                <div class="summary-card">
+                    <div class="value" style="color: #dc3545;">2</div>
+                    <div class="label">Critical Issues</div>
+                </div>
+                <div class="summary-card">
+                    <div class="value" style="color: #ffc107;">0</div>
+                    <div class="label">Warning Issues</div>
+                </div>
+                <div class="summary-card">
+                    <div class="value">✓</div>
+                    <div class="label">Deadlocked</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>⚠️ Detected Issues</h2>
+            <ul class="issue-list">
+
+                <li class="issue-item critical">
+                    <strong>Agent agent-1 appears to be stuck</strong>
+                    <p>Agent agent-1 has been idle for 73827103 seconds but status is 'active'</p>
+                    <p><strong>Agent:</strong> agent-1</p>
+                </li>
+            
+                <li class="issue-item critical">
+                    <strong>Agent agent-2 appears to be stuck</strong>
+                    <p>Agent agent-2 has been idle for 73827110 seconds but status is 'active'</p>
+                    <p><strong>Agent:</strong> agent-2</p>
+                </li>
+            
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>💡 Recommendations</h2>
+            <ul class="recommendation-list">
+
+                <li class="recommendation-item">
+                    <strong>1.</strong> URGENT: Address 2 critical issues immediately
+                </li>
+            
+                <li class="recommendation-item">
+                    <strong>2.</strong> Address 1 systemic patterns affecting colony health
+                </li>
+            
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🔬 Detailed Diagnostics</h2>
+            <p>Individual diagnostic reports have been generated:</p>
+            <ul>
+                <li><strong>A2A Tracing:</strong> a2a_trace.json</li>
+                <li><strong>Agent Inspection:</strong> agent_states.json</li>
+                <li><strong>Colony Diagnostics:</strong> colony_health.json</li>
+                <li><strong>Value Network Debug:</strong> value_network_debug.json</li>
+                <li><strong>Issue Detection:</strong> issues_detected.json</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <p>Generated by POLLN Diagnostic Tool | {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>
+    </footer>
+</body>
+</html>

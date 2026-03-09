@@ -1,0 +1,20 @@
+# POLLN Hyperparameter Optimization Framework
+# Python Dependencies
+
+# Core scientific computing
+numpy>=1.19.0
+scipy>=1.5.0
+pandas>=1.1.0
+
+# Bayesian optimization
+scikit-optimize>=0.8.0
+
+# Visualization
+matplotlib>=3.3.0
+
+# Progress bars
+tqdm>=4.50.0
+
+# Testing (optional)
+pytest>=6.0.0
+pytest-cov>=2.10.0

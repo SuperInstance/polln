@@ -1,0 +1,485 @@
+# Prometheus Alerting Rules for POLLN Colony
+# Location: ops/monitoring/prometheus-rules.yaml
+
+groups:
+  # ============================================================
+  # Colony Health Alerts
+  # ============================================================
+  - name: colony_health
+    interval: 30s
+    rules:
+      # Colony is down
+      - alert: ColonyDown
+        expr: up{job="polln-colony"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          tier: p1
+        annotations:
+          summary: "Colony instance {{ $labels.instance }} is down"
+          description: "Colony has been down for more than 1 minute."
+          runbook: "https://runbooks.example.com/colony-crash"
+
+      # Colony unhealthy
+      - alert: ColonyUnhealthy
+        expr: polln_colony_healthy == 0
+        for: 2m
+        labels:
+          severity: critical
+          tier: p1
+        annotations:
+          summary: "Colony {{ $labels.instance }} is unhealthy"
+          description: "Colony health checks failing for 2 minutes."
+          runbook: "https://runbooks.example.com/colony-crash"
+
+      # Too few agents
+      - alert: AgentCountLow
+        expr: polln_agents_total < 100
+        for: 5m
+        labels:
+          severity: warning
+          tier: p3
+        annotations:
+          summary: "Agent count below threshold"
+          description: "Only {{ $value }} agents active (threshold: 100)"
+
+      # Too many agents
+      - alert: AgentCountHigh
+        expr: polln_agents_total > 10000
+        for: 5m
+        labels:
+          severity: warning
+          tier: p3
+        annotations:
+          summary: "Agent count above threshold"
+          description: "{{ $value }} agents active (threshold: 10000)"
+          runbook: "https://runbooks.example.com/performance-degradation"
+
+  # ============================================================
+  # Performance Alerts
+  # ============================================================
+  - name: performance
+    interval: 30s
+    rules:
+      # High decision latency
+      - alert: HighDecisionLatency
+        expr: histogram_quantile(0.99, rate(polln_decision_duration_seconds_bucket[5m])) > 0.5
+        for: 5m
+        labels:
+          severity: warning
+          tier: p3
+        annotations:
+          summary: "High agent decision latency"
+          description: "P99 decision latency is {{ $value }}s (threshold: 0.5s)"
+          runbook: "https://runbooks.example.com/performance-degradation"
+
+      # Critical decision latency
+      - alert: CriticalDecisionLatency
+        expr: histogram_quantile(0.99, rate(polln_decision_duration_seconds_bucket[5m])) > 2.0
+        for: 2m
+        labels:
+          severity: critical
+          tier: p1
+        annotations:
+          summary: "Critical decision latency"
+          description: "P99 decision latency is {{ $value }}s (threshold: 2.0s)"
+
+      # High dream cycle duration
+      - alert: LongDreamCycle
+        expr: polln_dream_cycle_duration_seconds > 900
+        for: 1m
+        labels:
+          severity: warning
+          tier: p3
+        annotations:
+          summary: "Dream cycle taking too long"
+          description: "Dream cycle took {{ $value }}s (threshold: 900s)"
+          runbook: "https://runbooks.example.com/performance-degradation"
+
+      # Dream cycle stalled
+      - alert: DreamCycleStalled
+        expr: time() - polln_dream_cycle_last_timestamp > 3600
+        for: 5m
+        labels:
+          severity: warning
+          tier: p3
+        annotations:
+          summary: "Dream cycle not running"
+          description: "No dream cycle completed in over 1 hour"
+
+      # High memory usage
+      - alert: HighMemoryUsage
+        expr: process_resident_memory_bytes{job="polln-colony"} / 1024 / 1024 / 1024 > 8
+        for: 5m
+        labels:
+          severity: warning
+          tier: p3
+        annotations:
+          summary: "High memory usage"
+          description: "Colony using {{ $value }}GB of memory (threshold: 8GB)"
+          runbook: "https://runbooks.example.com/performance-degradation"
+
+      # Critical memory usage
+      - alert: CriticalMemoryUsage
+        expr: process_resident_memory_bytes{job="polln-colony"} / 1024 / 1024 / 1024 > 14
+        for: 2m
+        labels:
+          severity: critical
+          tier: p1
+        annotations:
+          summary: "Critical memory usage"
+          description: "Colony using {{ $value }}GB of memory (threshold: 14GB)"
+          runbook: "https://runbooks.example.com/colony-crash"
+
+      # High CPU usage
+      - alert: HighCPUUsage
+        expr: rate(process_cpu_seconds_total{job="polln-colony"}[5m]) > 3
+        for: 5m
+        labels:
+          severity: warning
+          tier: p3
+        annotations:
+          summary: "High CPU usage"
+          description: "Colony using {{ $value | humanizePercentage }} of CPU"
+
+      # Event loop lag
+      - alert: EventLoopLag
+        expr: polln_event_loop_lag_seconds > 0.1
+        for: 2m
+        labels:
+          severity: warning
+          tier: p3
+        annotations:
+          summary: "Event loop lag detected"
+          description: "Event loop lag is {{ $value }}s (threshold: 0.1s)"
+
+  # ============================================================
+  # KV-Cache Alerts
+  # ============================================================
+  - name: kv_cache
+    interval: 30s
+    rules:
+      # KV-cache backend down
+      - alert: KVCacheBackendDown
+        expr: up{job="lmcache"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          tier: p1
+        annotations:
+          summary: "LMCache backend is down"
+          description: "KV-cache backend unavailable for 1 minute"
+          runbook: "https://runbooks.example.com/dependency-failure"
+
+      # Low anchor hit rate
+      - alert: LowAnchorHitRate
+        expr: rate(polln_anchor_hits_total[5m]) / rate(polln_anchor_lookups_total[5m]) < 0.7
+        for: 10m
+        labels:
+          severity: warning
+          tier: p3
+        annotations:
+          summary: "Low KV-anchor hit rate"
+          description: "Anchor hit rate is {{ $value | humanizePercentage }} (threshold: 70%)"
+
+      # High ANN lookup latency
+      - alert: HighANNLatency
+        expr: histogram_quantile(0.99, rate(polln_ann_lookup_duration_seconds_bucket[5m])) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+          tier: p3
+        annotations:
+          summary: "High ANN lookup latency"
+          description: "P99 ANN latency is {{ $value }}s (threshold: 0.05s)"
+
+      # Anchor pool saturated
+      - alert: AnchorPoolSaturated
+        expr: polln_anchor_pool_usage > 0.9
+        for: 5m
+        labels:
+          severity: warning
+          tier: p3
+        annotations:
+          summary: "Anchor pool nearly full"
+          description: "Anchor pool is {{ $value | humanizePercentage }} full"
+
+  # ============================================================
+  # Federated Learning Alerts
+  # ============================================================
+  - name: federated
+    interval: 30s
+    rules:
+      # Federated coordinator down
+      - alert: FederatedCoordinatorDown
+        expr: up{job="federated"} == 0
+        for: 1m
+        labels:
+          severity: high
+          tier: p2
+        annotations:
+          summary: "Federated learning coordinator is down"
+          description: "Federated coordinator unavailable for 1 minute"
+          runbook: "https://runbooks.example.com/dependency-failure"
+
+      # Sync failure
+      - alert: FederatedSyncFailing
+        expr: rate(polln_federated_sync_errors_total[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+          tier: p3
+        annotations:
+          summary: "Federated sync failing"
+          description: "Sync error rate is {{ $value }}/s"
+
+      # No recent sync
+      - alert: NoRecentSync
+        expr: time() - polln_federated_sync_last_timestamp > 1800
+        for: 5m
+        labels:
+          severity: warning
+          tier: p3
+        annotations:
+          summary: "No recent federated sync"
+          description: "No successful sync in 30 minutes"
+
+  # ============================================================
+  # World Model Alerts
+  # ============================================================
+  - name: world_model
+    interval: 30s
+    rules:
+      # World model service down
+      - alert: WorldModelDown
+        expr: up{job="worldmodel"} == 0
+        for: 1m
+        labels:
+          severity: high
+          tier: p2
+        annotations:
+          summary: "World model service is down"
+          description: "World model unavailable for 1 minute"
+          runbook: "https://runbooks.example.com/dependency-failure"
+
+      # VAE training error
+      - alert: VAETrainingError
+        expr: rate(polln_vae_training_errors_total[5m]) > 0.01
+        for: 5m
+        labels:
+          severity: warning
+          tier: p3
+        annotations:
+          summary: "VAE training errors detected"
+          description: "VAE training error rate is {{ $value }}/s"
+
+      # World model entropy low
+      - alert: WorldModelEntropyLow
+        expr: polln_world_model_entropy < 0.5
+        for: 10m
+        labels:
+          severity: warning
+          tier: p3
+        annotations:
+          summary: "World model entropy low"
+          description: "World model entropy is {{ $value }} (threshold: 0.5)"
+          runbook: "https://runbooks.example.com/data-corruption"
+
+  # ============================================================
+  # Data Integrity Alerts
+  # ============================================================
+  - name: data_integrity
+    interval: 1m
+    rules:
+      # Synapse NaN detected
+      - alert: SynapseNaNDetected
+        expr: polln_synapse_nan_count > 0
+        for: 1m
+        labels:
+          severity: critical
+          tier: p0
+        annotations:
+          summary: "NaN synapse weights detected"
+          description: "{{ $value }} synapses have NaN weights"
+          runbook: "https://runbooks.example.com/data-corruption"
+
+      # Synapse corruption
+      - alert: SynapseCorruption
+        expr: polln_synapse_corrupted_count > 0
+        for: 1m
+        labels:
+          severity: critical
+          tier: p0
+        annotations:
+          summary: "Corrupted synapses detected"
+          description: "{{ $value }} synapses are corrupted"
+          runbook: "https://runbooks.example.com/data-corruption"
+
+      # Validation failure
+      - alert: ValidationFailure
+        expr: polln_validation_errors_total > 0
+        for: 1m
+        labels:
+          severity: critical
+          tier: p0
+        annotations:
+          summary: "Data validation failing"
+          description: "{{ $value }} validation errors detected"
+          runbook: "https://runbooks.example.com/data-corruption"
+
+  # ============================================================
+  # Security Alerts
+  # ============================================================
+  - name: security
+    interval: 30s
+    rules:
+      # High auth failure rate
+      - alert: HighAuthFailureRate
+        expr: rate(polln_auth_failures_total[5m]) > 10
+        for: 2m
+        labels:
+          severity: warning
+          tier: p3
+        annotations:
+          summary: "High authentication failure rate"
+          description: "Auth failure rate is {{ $value }}/s"
+
+      # Potential attack
+      - alert: PotentialAttack
+        expr: rate(polln_auth_failures_total[1m]) > 100
+        for: 1m
+        labels:
+          severity: critical
+          tier: p0
+        annotations:
+          summary: "Potential brute force attack"
+          description: "Auth failure rate is {{ $value }}/s"
+          runbook: "https://runbooks.example.com/security-breach"
+
+      # Unauthorized access attempt
+      - alert: UnauthorizedAccess
+        expr: polln_unauthorized_access_total > 0
+        for: 1m
+        labels:
+          severity: critical
+          tier: p0
+        annotations:
+          summary: "Unauthorized access detected"
+          description: "{{ $value }} unauthorized access attempts"
+          runbook: "https://runbooks.example.com/security-breach"
+
+  # ============================================================
+  # Dependency Alerts
+  # ============================================================
+  - name: dependencies
+    interval: 30s
+    rules:
+      # Database connection failing
+      - alert: DatabaseConnectionFailing
+        expr: polln_db_connection_errors_total > 0
+        for: 2m
+        labels:
+          severity: critical
+          tier: p1
+        annotations:
+          summary: "Database connection errors"
+          description: "{{ $value }} database connection errors"
+
+      # Redis down
+      - alert: RedisDown
+        expr: up{job="redis"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          tier: p1
+        annotations:
+          summary: "Redis is down"
+          description: "Redis unavailable for 1 minute"
+
+      # Network partition detected
+      - alert: NetworkPartition
+        expr: polln_network_partition_detected == 1
+        for: 1m
+        labels:
+          severity: critical
+          tier: p1
+        annotations:
+          summary: "Network partition detected"
+          description: "Colony isolated from dependencies"
+          runbook: "https://runbooks.example.com/network-partition"
+
+  # ============================================================
+  # SLA Alerts
+  # ============================================================
+  - name: sla
+    interval: 1m
+    rules:
+      # SLA violation - availability
+      - alert: SLAViolationAvailability
+        expr: |
+          (
+            sum(rate(polln_requests_total{status!~"5.."}[5m])) /
+            sum(rate(polln_requests_total[5m]))
+          ) < 0.999
+        for: 5m
+        labels:
+          severity: critical
+          tier: p1
+        annotations:
+          summary: "SLA violation - Availability"
+          description: "Availability is {{ $value | humanizePercentage }} (SLA: 99.9%)"
+
+      # SLA violation - latency
+      - alert: SLAViolationLatency
+        expr: |
+          histogram_quantile(0.99, rate(polln_request_duration_seconds_bucket[5m])) > 1
+        for: 5m
+        labels:
+          severity: critical
+          tier: p1
+        annotations:
+          summary: "SLA violation - Latency"
+          description: "P99 latency is {{ $value }}s (SLA: 1s)"
+
+      # Error budget burn
+      - alert: ErrorBudgetBurn
+        expr: |
+          (
+            sum(rate(polln_requests_total{status=~"5.."}[1h])) /
+            sum(rate(polln_requests_total[1h]))
+          ) > 0.01
+        for: 5m
+        labels:
+          severity: warning
+          tier: p3
+        annotations:
+          summary: "Error budget burning fast"
+          description: "Error rate is {{ $value | humanizePercentage }} (budget: 1%)"
+
+  # ============================================================
+  # Meadow Alerts
+  # ============================================================
+  - name: meadow
+    interval: 1m
+    rules:
+      # Meadow disconnected
+      - alert: MeadowDisconnected
+        expr: polln_meadow_connected == 0
+        for: 10m
+        labels:
+          severity: warning
+          tier: p3
+        annotations:
+          summary: "Meadow disconnected"
+          description: "Colony disconnected from community meadow"
+
+      # Meadow sync failure
+      - alert: MeadowSyncFailure
+        expr: rate(polln_meadow_sync_errors_total[5m]) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+          tier: p3
+        annotations:
+          summary: "Meadow sync failing"
+          description: "Meadow sync error rate is {{ $value }}/s"

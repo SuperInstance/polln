@@ -1,0 +1,161 @@
+# Prometheus Alerting Rules for POLLN
+
+groups:
+  - name: polln_alerts
+    interval: 30s
+    rules:
+      # API Server Down
+      - alert: PollnAPIDown
+        expr: up{job="polln-api"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          component: api
+        annotations:
+          summary: "POLLN API server is down"
+          description: "POLLN API server has been down for more than 1 minute"
+
+      # High Error Rate
+      - alert: PollnHighErrorRate
+        expr: rate(polln_api_messages_errors[5m]) / rate(polln_api_messages_received[5m]) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+          component: api
+        annotations:
+          summary: "High error rate detected"
+          description: "Error rate is {{ $value | humanizePercentage }} for the last 5 minutes"
+
+      # High Connection Count
+      - alert: PollnHighConnections
+        expr: polln_api_connections_active > 1000
+        for: 10m
+        labels:
+          severity: warning
+          component: api
+        annotations:
+          summary: "High number of active connections"
+          description: "{{ $value }} active connections for the last 10 minutes"
+
+      # Memory Usage High
+      - alert: PollnHighMemoryUsage
+        expr: container_memory_usage_bytes{container="polln-api"} / container_spec_memory_limit_bytes{container="polln-api"} > 0.9
+        for: 5m
+        labels:
+          severity: warning
+          component: api
+        annotations:
+          summary: "High memory usage"
+          description: "Memory usage is {{ $value | humanizePercentage }} of limit"
+
+      # CPU Usage High
+      - alert: PollnHighCPUUsage
+        expr: rate(container_cpu_usage_seconds_total{container="polln-api"}[5m]) / container_spec_cpu_quota{container="polln-api"} * 100 > 80
+        for: 10m
+        labels:
+          severity: warning
+          component: api
+        annotations:
+          summary: "High CPU usage"
+          description: "CPU usage is {{ $value | humanizePercentage }} for the last 10 minutes"
+
+      # Replicas at Max
+      - alert: PollnMaxReplicasReached
+        expr: |
+          kube_deployment_status_replicas_ready{deployment="polln-api"}
+          /
+          kube_horizontalpodautoscaler_status_max_replicas{hpa="polln-api-hpa"} >= 0.95
+        for: 15m
+        labels:
+          severity: warning
+          component: autoscaling
+        annotations:
+          summary: "Reached maximum replicas"
+          description: "Deployment has reached {{ $value }}% of maximum replicas"
+
+      # Pod Not Ready
+      - alert: PollnPodNotReady
+        expr: |
+          kube_pod_status_ready{condition="true", namespace="polln"}
+          /
+          kube_pod_status_phase{namespace="polln", phase="Running"} < 1
+        for: 5m
+        labels:
+          severity: critical
+          component: pods
+        annotations:
+          summary: "POLLN pods not ready"
+          description: "{{ $value | humanizePercentage }} of pods are ready"
+
+      # Persistent Volume Full
+      - alert: PollnPVCFull
+        expr: |
+          kubelet_volume_stats_used_bytes{namespace="polln"}
+          /
+          kubelet_volume_stats_capacity_bytes{namespace="polln"} > 0.9
+        for: 10m
+        labels:
+          severity: critical
+          component: storage
+        annotations:
+          summary: "Persistent volume nearly full"
+          description: "Volume {{ $labels.persistentvolumeclaim }} is {{ $value | humanizePercentage }} full"
+
+      # Rate Limit Rejections
+      - alert: PollnHighRateLimitRejections
+        expr: rate(polln_api_rate_limits_rejected[5m]) > 10
+        for: 5m
+        labels:
+          severity: warning
+          component: api
+        annotations:
+          summary: "High rate of rate limit rejections"
+          description: "{{ $value }} rejections per second over the last 5 minutes"
+
+      # Redis Connection Issues
+      - alert: PollnRedisConnectionFailure
+        expr: |
+          rate(polln_api_messages_errors[5m]) > 0
+          and on() polln_api_colonies_registered == 0
+        for: 2m
+        labels:
+          severity: critical
+          component: dependencies
+        annotations:
+          summary: "Potential Redis connection failure"
+          description: "API is returning errors and no colonies are registered"
+
+  - name: polln_slos
+    interval: 30s
+    rules:
+      # Availability SLO
+      - alert: PollnAvailabilitySLO
+        expr: |
+          (
+            sum(rate(polln_api_messages_received[5m]))
+            -
+            sum(rate(polln_api_messages_errors[5m]))
+          )
+          /
+          sum(rate(polln_api_messages_received[5m])) < 0.999
+        for: 5m
+        labels:
+          severity: critical
+          slo: availability
+        annotations:
+          summary: "Availability SLO breach"
+          description: "Availability is {{ $value | humanizePercentage }}, below 99.9% SLO"
+
+      # Latency SLO (if latency metrics are available)
+      - alert: PollnLatencySLO
+        expr: |
+          histogram_quantile(0.95,
+            sum(rate(polln_api_request_duration_seconds_bucket[5m])) by (le)
+          ) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+          slo: latency
+        annotations:
+          summary: "P95 latency SLO breach"
+          description: "P95 latency is {{ $value }}s, above 100ms SLO"

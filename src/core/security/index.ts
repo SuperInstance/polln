@@ -42,3 +42,18 @@ export type {
   AuditStatistics,
   AuditLoggerConfig,
 } from './audit.js';
+
+export {
+  SECURITY_HARDENING,
+  validateHardeningConfig,
+  getHardeningSummary,
+} from './hardening.js';
+
+export type {
+  SecurityHardeningConfig,
+  InputValidationConfig,
+  ByzantineToleranceConfig,
+  CascadePreventionConfig,
+  StateProtectionConfig,
+  ResourceLimitsConfig,
+} from './hardening.js';

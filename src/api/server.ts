@@ -4,11 +4,12 @@
  */
 
 import { EventEmitter } from 'events';
-import { createServer as createHttpServer, IncomingMessage } from 'http';
+import { createServer as createHttpServer, IncomingMessage, ServerResponse } from 'http';
 import { WebSocketServer, WebSocket } from 'ws';
 import type { Server as HTTPServer } from 'http';
 import type { Colony } from '../core/colony.js';
 import type { DreamBasedPolicyOptimizer } from '../core/dreaming.js';
+import { URL } from 'url';
 
 // Import types from this module
 import type {
@@ -142,7 +143,7 @@ export class POLLNServer extends EventEmitter {
     this.startedAt = Date.now();
 
     // Create HTTP server
-    this.httpServer = createHttpServer();
+    this.httpServer = createHttpServer(this.handleHttpRequest.bind(this));
 
     // Create WebSocket server
     this.wsServer = new WebSocketServer({
@@ -197,6 +198,142 @@ export class POLLNServer extends EventEmitter {
         });
       });
     });
+  }
+
+  // ==========================================================================
+  // HTTP Request Handling (Health Checks)
+  // ==========================================================================
+
+  private handleHttpRequest(req: IncomingMessage, res: ServerResponse): void {
+    try {
+      const url = new URL(req.url || '', `http://${req.headers.host}`);
+
+      // Health check endpoint
+      if (url.pathname === '/health') {
+        this.handleHealthCheck(req, res);
+        return;
+      }
+
+      // Readiness check endpoint
+      if (url.pathname === '/ready') {
+        this.handleReadinessCheck(req, res);
+        return;
+      }
+
+      // Metrics endpoint (for Prometheus)
+      if (url.pathname === '/metrics') {
+        this.handleMetrics(req, res);
+        return;
+      }
+
+      // 404 for other routes
+      res.writeHead(404, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Not Found' }));
+    } catch (error) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Internal Server Error' }));
+    }
+  }
+
+  /**
+   * Handle health check requests (liveness probe)
+   */
+  private handleHealthCheck(req: IncomingMessage, res: ServerResponse): void {
+    const health = {
+      status: 'ok',
+      timestamp: new Date().toISOString(),
+      uptime: Date.now() - this.startedAt,
+      connections: {
+        active: this.connections.size,
+        total: this.stats.connections.total,
+      },
+      colonies: this.colonies.size,
+    };
+
+    res.writeHead(200, {
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache',
+    });
+    res.end(JSON.stringify(health));
+  }
+
+  /**
+   * Handle readiness check requests
+   */
+  private handleReadinessCheck(req: IncomingMessage, res: ServerResponse): void {
+    // Check if server is ready to accept traffic
+    const isReady = this.wsServer !== null &&
+                    this.httpServer !== null &&
+                    this.httpServer.listening;
+
+    const readiness = {
+      status: isReady ? 'ready' : 'not_ready',
+      timestamp: new Date().toISOString(),
+      checks: {
+        websocketServer: this.wsServer !== null,
+        httpServer: this.httpServer !== null,
+        listening: this.httpServer?.listening || false,
+        colonies: this.colonies.size,
+      },
+    };
+
+    res.writeHead(isReady ? 200 : 503, {
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache',
+    });
+    res.end(JSON.stringify(readiness));
+  }
+
+  /**
+   * Handle metrics requests (Prometheus format)
+   */
+  private handleMetrics(req: IncomingMessage, res: ServerResponse): void {
+    const metrics = this.getStats();
+    const uptime = Date.now() - this.startedAt;
+
+    const prometheusMetrics = [
+      `# HELP polln_api_uptime_seconds Uptime of the API server in seconds`,
+      `# TYPE polln_api_uptime_seconds gauge`,
+      `polln_api_uptime_seconds ${uptime / 1000}`,
+
+      `# HELP polln_api_connections_total Total number of connections`,
+      `# TYPE polln_api_connections_total counter`,
+      `polln_api_connections_total ${this.stats.connections.total}`,
+
+      `# HELP polln_api_connections_active Current number of active connections`,
+      `# TYPE polln_api_connections_active gauge`,
+      `polln_api_connections_active ${this.stats.connections.active}`,
+
+      `# HELP polln_api_connections_authenticated Current number of authenticated connections`,
+      `# TYPE polln_api_connections_authenticated gauge`,
+      `polln_api_connections_authenticated ${this.stats.connections.authenticated}`,
+
+      `# HELP polln_api_messages_received Total number of messages received`,
+      `# TYPE polln_api_messages_received counter`,
+      `polln_api_messages_received ${this.stats.messages.received}`,
+
+      `# HELP polln_api_messages_sent Total number of messages sent`,
+      `# TYPE polln_api_messages_sent counter`,
+      `polln_api_messages_sent ${this.stats.messages.sent}`,
+
+      `# HELP polln_api_messages_errors Total number of message errors`,
+      `# TYPE polln_api_messages_errors counter`,
+      `polln_api_messages_errors ${this.stats.messages.errors}`,
+
+      `# HELP polln_api_rate_limits_rejected Total number of rate limit rejections`,
+      `# TYPE polln_api_rate_limits_rejected counter`,
+      `polln_api_rate_limits_rejected ${this.stats.rateLimits.rejected}`,
+
+      `# HELP polln_api_colonies_registered Current number of registered colonies`,
+      `# TYPE polln_api_colonies_registered gauge`,
+      `polln_api_colonies_registered ${this.colonies.size}`,
+    ].join('\n') + '\n';
+
+    res.writeHead(200, {
+      'Content-Type': 'text/plain',
+      'Cache-Control': 'no-cache',
+    });
+    res.end(prometheusMetrics);
   }
 
   // ==========================================================================

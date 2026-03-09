@@ -1,0 +1,5 @@
+# Requirements for POLLN Cost Simulations
+# Install with: pip install -r requirements.txt
+
+numpy>=1.21.0
+matplotlib>=3.5.0

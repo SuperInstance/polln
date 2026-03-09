@@ -1,14 +1,74 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+## 🎯 Current Mode: Planning Phase
+
+**Role**: Senior Engineering Lead coordinating schema design team
+**Mission**: Design schemas and blueprints for glm-4.7 implementation agents
+**Model**: glm-5 (planning/architecture)
+**Target Builders**: glm-4.7 (implementation)
 
 ---
 
-## Project Overview
+## Senior Engineering Team
 
-POLLN (Pattern-Organized Large Language Network) is a distributed intelligence system where simple, specialized agents produce intelligent behavior through emergent coordination. Like a bee colony, individual agents are narrow but the colony becomes intelligent through learned connections.
+### Team Alpha - Core Architecture
+| Agent | Specialty | Output |
+|-------|-----------|--------|
+| **Architect-Main** | System schemas, component interfaces | Interface definitions, type schemas |
+| **Architect-Data** | Data models, storage schemas | Database schemas, data flow diagrams |
+| **Architect-API** | API contracts, protocol specs | OpenAPI specs, message schemas |
 
-**Core Philosophy**: Intelligence isn't in any agent—it's in the web between them. Through **granular reasoning**, forced checkpoints at each decision create traceable, debuggable intelligence that surpasses black-box models.
+### Team Beta - Cross-Cutting Concerns
+| Agent | Specialty | Output |
+|-------|-----------|--------|
+| **Architect-Security** | Security schemas, threat models | Security schemas, auth flows |
+| **Architect-Perf** | Performance patterns, benchmarks | Optimization schemas, metric definitions |
+
+---
+
+## Planning Protocol
+
+### Schema Design Cycle
+```
+1. ANALYZE: Review existing implementation, identify gaps
+2. DESIGN: Create schema/blueprint for next iteration
+3. VALIDATE: Check consistency with existing patterns
+4. DOCUMENT: Output schema for glm-4.7 builders
+```
+
+### Output Format (for glm-4.7 agents)
+Each planning agent produces:
+- **SCHEMA.md** - Type definitions, interfaces
+- **BLUEPRINT.md** - Implementation guide with code examples
+- **TEST-CASES.md** - Test scenarios and edge cases
+
+---
+
+## POLLN Core Concepts (Compact)
+
+| Concept | Definition |
+|---------|------------|
+| **Pollen Grain** | Compressed behavioral pattern (embedding) |
+| **A2A Package** | Agent-to-agent communication (traceable) |
+| **Plinko** | Stochastic selection (temperature-controlled) |
+| **KV Anchor** | Compressed KV-cache segment |
+| **META Tile** | Pluripotent agent (differentiates on signals) |
+
+---
+
+## Current System State
+
+**Status**: 12 Phases COMPLETE, Production-Ready
+**Tests**: 1253/1253 passing (100%)
+**Coverage**: 90%+
+
+### Active Modules
+- Core: agents, colony, decision, learning, evolution, communication
+- KV-Cache: anchor pool, ANN index, LMCache adapter
+- Guardian: safety constraints, adaptive learning
+- API: WebSocket server, handlers, middleware
+- CLI: colony management commands
+- Emergence: hydraulic system, detection, catalog
 
 ---
 
@@ -16,339 +76,12 @@ POLLN (Pattern-Organized Large Language Network) is a distributed intelligence s
 
 ```bash
 npm install              # Install dependencies
-npm test                 # Run all tests (1253/1253 passing - 100%)
+npm test                 # Run all tests
 npm run build            # TypeScript to dist/
 npm run cli              # Run CLI tool
-npx jest path/to/test    # Run single test
 ```
 
 ---
 
-## Architecture Overview
-
-### Subsumption Architecture
-```
-SAFETY (instant, critical) <- Always wins
-  │
-REFLEX (fast, automatic)
-  │
-HABITUAL (medium, learned)
-  │
-DELIBERATE (slow, conscious)
-```
-
-### Agent Hierarchy
-```
-BaseAgent (src/core/agent.ts)
-    └── TileCategory
-        ├── TaskAgent   - Single-purpose, ephemeral
-        ├── RoleAgent   - Ongoing responsibilities
-        └── CoreAgent   - Essential, always-active
-
-MetaTile (src/core/meta.ts) - Pluripotent agents
-```
-
----
-
-## Key Concepts
-
-| Term | Definition |
-|------|------------|
-| **Pollen Grain** | Compressed behavioral pattern (embedding) |
-| **Keeper** | User cultivating their hive |
-| **Meadow** | Community space for pattern cross-pollination |
-| **Plinko** | Stochastic selection with temperature-controlled exploration |
-| **A2A Package** | Agent-to-agent communication artifact (fully traceable) |
-| **META Tile** | Pluripotent agent that differentiates based on signals |
-| **KV Anchor** | Compressed KV-cache segment for efficient reuse |
-| **Guardian Angel** | Safety agent with veto power over executions |
-| **LoRA Tool Belt** | Interchangeable expertise modules for small models |
-| **Hydraulic System** | Emergent intelligence via pressure/flow coordination |
-
----
-
-## Critical Patterns
-
-### 1. Plinko Selection (Stochastic)
-Never select "best". Sample probabilistically:
-```typescript
-const selected = plinkoLayer.select(proposals, temperature);
-// High temp = explore, Low temp = exploit
-// Enables durability through diversity
-```
-
-### 2. Memory = Structure
-```typescript
-// Hebbian: "neurons that fire together, wire together"
-hebbianLearning.update(sourceId, targetId, reward);
-```
-
-### 3. Traceability
-Every A2A package has `parentIds` and `causalChainId`. Fully replayable.
-
----
-
-## System Status (2026-03-07)
-
-**Test Pass Rate**: 100% (1253/1253 tests passing)
-
-### Completed Features
-- ✅ Base Agent Runtime (18 tests)
-- ✅ Tile Categories - Task/Role/Core (24 tests)
-- ✅ META Tiles - Pluripotent agents (18 tests)
-- ✅ Value Network - TD(λ) learning (20 tests)
-- ✅ Stigmergic Coordination (12 tests)
-- ✅ Plinko Decision Layer (12 tests)
-- ✅ World Model & Dreaming (42 tests)
-- ✅ Federated Learning (32 tests)
-- ✅ Meadow Community (87 tests)
-- ✅ KV-Cache System - KVCOMM-inspired (401 tests)
-- ✅ Context Sharing (37 tests)
-- ✅ Cache Utilities (91 tests)
-- ✅ Guardian Angel Safety (31 tests)
-- ✅ WebSocket API Server
-- ✅ CLI Tool (colony management)
-- ✅ 4 Complete Example Applications
-
----
-
-## Research Foundation
-
-### Granular Reasoning Philosophy
-**The Double-Slit of AI**: Traditional LLMs collapse computation at the end (black box). POLLN forces collapse at every step (glass box).
-
-- **Checkpointed Decisions**: Each A2A package is an inspectable artifact
-- **Debuggability**: Find exact agent making bad decisions, fix just that part
-- **Distillation Pattern**: Large models teach small model swarms
-- **Surpasses Teacher**: Specialized agents can outperform generalist teacher (96% vs 87%)
-
-### Model Size vs Granularity
-```
-Resolution (decisions/1000 tokens)
-    │
-100 │                                   ● 7B model (token-level)
- 50 │                        ● 1B model (phrase-level)
- 20 │              ● 100M model (sentence-level)
- 10 │    ● 10M model (task-level)
-  5 │ ● 1M model (step-level)
-    └──────────────────────────────────────
-       1K    10K    100K   1M     10M    100M
-```
-
-Smaller models = more decision points = finer control.
-
-### Library of Experts (LoRA Architecture)
-Research: `docs/research/LORA_LIBRARY_*.md`
-
-- LoRA adapters as interchangeable tools
-- Small base models (<1B) with expertise tool belts
-- Custom machining for specialized tasks
-- Emergent abilities from composition
-
-### Emergent Granular Intelligence
-Research: `docs/research/EMERGENT_*.md`
-
-- Hydraulic system metaphor (pressure, flow, valves, pumps)
-- Emergence detection and measurement
-- Stigmergy and indirect coordination
-- Swarms of 10M-100M parameter agents replacing 175B models
-
----
-
-## Documentation Index
-
-### Core Documentation
-| Document | Purpose |
-|----------|---------|
-| `README.md` | Project overview and granular reasoning philosophy |
-| `docs/ROADMAP.md` | Phased development plan |
-| `docs/ARCHITECTURE.md` | System architecture diagrams |
-| `docs/CLI_GUIDE.md` | CLI usage documentation |
-
-### Research Documents
-| Document | Purpose |
-|----------|---------|
-| `docs/research/MODEL_DISTILLATION_R&D.md` | 5 rounds: small models learning from large |
-| `docs/research/LORA_LIBRARY_*.md` | LoRA as interchangeable tools (4 files) |
-| `docs/research/EMERGENT_*.md` | Hydraulic system framework (4 files) |
-| `docs/research/pluripotent-agents-research.md` | META tile math foundations |
-| `docs/research/QUICK_REFERENCE.md` | Research synthesis |
-
-### Security Documentation (Sprint 8 - Ready for Implementation)
-| Document | Purpose |
-|----------|---------|
-| `docs/SECURITY_AUDIT.md` | Threat model, 30 security issues identified |
-| `docs/SECURITY_IMPLEMENTATION.md` | Implementation specs with code examples |
-| `docs/SECURITY_CHECKLIST.md` | Actionable security checklist |
-
-### Implementation Guides
-| Document | Purpose |
-|----------|---------|
-| `docs/phase4-sprint5-guardian-angel.md` | Guardian Angel system summary |
-| `src/api/README.md` | WebSocket API client documentation |
-
----
-
-## Module Inventory
-
-### Core (`src/core/`)
-**18 modules** including types, agents, colony, decision, learning, evolution, communication, embeddings, safety, world model, dreaming, META tiles, value network, succession, federated, meadow, protocol, tile system, dreaming, cache utilities
-
-### KV-Cache System
-**8 modules** - Anchor pool, ANN index (HNSW/LSH/Ball Tree), LMCache adapter, context sharing, tile bridge, dream integration, federated sync, meadow marketplace
-
-### Guardian Angel Safety
-**4 modules** - Types, 20+ constraints, guardian agent, adaptive learning
-
-### API Layer (`src/api/`)
-**6 modules** - Server, handlers, middleware, types, OpenAPI spec
-
-### CLI Tool (`src/cli/`)
-**9 modules** - Main entry point + 7 commands + config/state/output utils
-
-### Examples (`examples/`)
-**4 complete demos** - Basic colony, code reviewer, KV cache, research assistant, guardian angel
-
----
-
-## Exports Structure
-
-### `src/core/index.ts`
-Types (A2APackage, PollenGrain, PlinkoDecision), Classes (BaseAgent, Colony, PlinkoLayer, SafetyLayer, WorldModel), META (MetaTile), Value (ValueNetwork), Dreaming (DreamBasedPolicyOptimizer), Meadow, Tile System, KV-Cache (KVAnchorPool, ANNIndex), LMCache (LMCacheAdapter), Guardian (GuardianAngelAgent)
-
-### `src/api/index.ts`
-Server (POLLNServer), Types, Middleware, Handlers
-
----
-
-## Package Structure
-
-```json
-{
-  "exports": {
-    ".": "./dist/index.js",
-    "./core": "./dist/core/index.js",
-    "./api": "./dist/api/index.js"
-  },
-  "bin": {
-    "polln": "./dist/cli/index.js"
-  }
-}
-```
-
----
-
-*Repository: https://github.com/SuperInstance/polln*
-*Last Updated: 2026-03-07*
-*Test Status: 1253/1253 passing (100%)*
-
-### Emergent Granular Intelligence (NEW)
-- ✅ Hydraulic Framework - Pressure/flow modeling
-- ✅ Emergence Detection - Novel capability discovery
-- ✅ Enhanced Stigmergy - Advanced coordination
-- ✅ Web Dashboard - Real-time monitoring
-- ✅ CLI Commands - emergence:metrics, emergence:catalog, hydraulic:status, emergence:watch
-
-### Quick Start - Emergence Detection
-
-```typescript
-import { EmergenceDetector } from 'polln/core';
-
-const detector = new EmergenceDetector();
-detector.registerAgentCapabilities('agent-1', ['syntax', 'parsing']);
-
-const analysis = await detector.analyzeEmergence(causalChains);
-console.log(`Found ${analysis.behaviors.length} emergent behaviors`);
-```
-
-### CLI - Monitor Emergence
-
-```bash
-npm run emergence:metrics    # Show emergence metrics
-npm run emergence:catalog    # List emergent abilities
-npm run hydraulic:status     # Show hydraulic state
-npm run emergence:watch      # Real-time monitoring
-```
-
-### Documentation
-
-| Doc | Purpose |
-|-----|---------|
-| `docs/EMERGENT_INTELLIGENCE.md` | EGI System Guide |
-| `docs/research/EMERGENT_*.md` | Research Foundation (4 docs, ~95K words) |
-
----
-
-## Emergent Granular Intelligence - Quick Reference
-
-The EGI system implements a hydraulic metaphor for multi-agent coordination:
-
-| Hydraulic Concept | Implementation |
-|-------------------|----------------|
-| Pressure | `PressureSensor` - Task demand tracking |
-| Flow | `FlowMonitor` - Information transfer |
-| Valves | `ValveController` - Stochastic routing |
-| Pumps | `PumpManager` - Capability amplification |
-| Reservoirs | `ReservoirManager` - Cached patterns |
-| Stigmergy | `EnhancedStigmergy` - Advanced coordination |
-
-### Emergence Detection
-
-```typescript
-// Detect emergent behaviors
-const detector = new EmergenceDetector({
-  minEmergenceScore: 0.7,
-  autoCatalog: true,
-});
-
-// Analyze causal chains
-const analysis = await detector.analyzeEmergence(chains);
-
-// Access results
-analysis.behaviors.forEach(b => {
-  console.log(`${b.name}: score=${b.emergenceScore}`);
-});
-
-// Catalog emergent abilities
-const catalog = new EmergenceCatalog();
-const ability = catalog.catalogBehavior(behavior);
-```
-
-### Hydraulic Monitoring
-
-```typescript
-// Monitor system pressure
-const pressureSensor = new PressureSensor();
-pressureSensor.registerAgent('agent-1', 0.5);
-const pressure = pressureSensor.updatePressure('agent-1', 0.3, 0.2, 0.1);
-
-// Monitor information flow
-const flowMonitor = new FlowMonitor();
-const pipe = flowMonitor.registerPipe('agent-1', 'agent-2', 0.8, 1.0);
-const flow = flowMonitor.calculateFlow(pipe.id, pressure1, pressure2);
-
-// Control routing
-const valveController = new ValveController();
-const decision = valveController.selectAgent(candidates, 1.0);
-```
-
-### Enhanced Stigmergy
-
-```typescript
-const stigmergy = new EnhancedStigmergy();
-
-// Deposit with adaptive strength
-const pheromone = stigmergy.deposit('agent-1', PheromoneType.PATHWAY, position, 1.0);
-
-// Detect with interference
-const detected = stigmergy.detect(position);
-console.log(`Interference patterns: ${detected.interference.length}`);
-
-// Visualize trails
-const trailId = stigmergy.startTrail(position);
-const visualization = stigmergy.visualizeTrail(trailId);
-```
-
----
-
-**Last Updated**: 2026-03-07 - Added Emergent Granular Intelligence System
+*Mode: Planning | Model: glm-5 | Target: glm-4.7 builders*
+*Last Updated: 2026-03-08*
