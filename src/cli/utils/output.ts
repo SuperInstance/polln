@@ -27,6 +27,13 @@ export class OutputFormatter {
   }
 
   /**
+   * Print a warning message (alias for warning)
+   */
+  static warn(message: string): void {
+    this.warning(message);
+  }
+
+  /**
    * Print an info message
    */
   static info(message: string): void {
@@ -182,4 +189,38 @@ export class OutputFormatter {
   static timestamp(): string {
     return chalk.gray(new Date().toISOString());
   }
+
+  /**
+   * Prompt user for confirmation
+   */
+  static confirm(message: string, callback: () => void | Promise<void>): void {
+    const readline = require('readline');
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
+
+    rl.question(`${chalk.yellow('?')} ${message} [y/N] `, async (answer: string) => {
+      rl.close();
+      if (answer.toLowerCase() === 'y' || answer.toLowerCase() === 'yes') {
+        await callback();
+      } else {
+        OutputFormatter.info('Operation cancelled');
+      }
+    });
+  }
+
+  /**
+   * Clear the terminal screen
+   */
+  static clearScreen(): void {
+    console.clear();
+  }
+}
+
+/**
+ * Clear screen function for backward compatibility
+ */
+export function clearScreen(): void {
+  OutputFormatter.clearScreen();
 }

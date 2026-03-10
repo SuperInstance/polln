@@ -141,7 +141,7 @@ class MemoryRevocationStorage implements RevocationStorage {
     const now = Date.now();
 
     for (const [userId, entries] of this.userRevocations.entries()) {
-      const filtered = entries.filter(e => e.revokedAt + e.metadata?.['ttl'] > now);
+      const filtered = entries.filter(e => e.revokedAt + (e.metadata?.['ttl'] as number || 0) > now);
       count += entries.length - filtered.length;
       if (filtered.length === 0) {
         this.userRevocations.delete(userId);
@@ -328,7 +328,7 @@ class FileRevocationStorage implements RevocationStorage {
  * Redis storage backend (for distributed production)
  */
 class RedisRevocationStorage implements RevocationStorage {
-  private client: any;
+  private client: any; // eslint-disable-line @typescript-eslint/no-explicit-any
   private connected = false;
 
   constructor(private redisUrl: string) {
@@ -339,8 +339,9 @@ class RedisRevocationStorage implements RevocationStorage {
     if (this.connected) return;
 
     try {
-      const { createClient } = await import('redis');
-      this.client = createClient({ url: this.redisUrl });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const redis = await import('redis') as any;
+      this.client = redis.createClient({ url: this.redisUrl });
       await this.client.connect();
       this.connected = true;
     } catch (error) {
@@ -747,7 +748,7 @@ export class AuthenticationMiddlewareWithRevocation extends AuthenticationMiddle
   /**
    * Revoke a specific refresh token
    */
-  async revokeRefreshToken(
+  override async revokeRefreshToken(
     refreshToken: string,
     reason: RevocationReason = 'logout'
   ): Promise<boolean> {

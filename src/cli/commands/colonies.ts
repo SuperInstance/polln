@@ -4,8 +4,8 @@
  */
 
 import { Command } from 'commander';
-import { OutputFormatter } from '../utils/output.js';
-import { ConfigManager } from '../utils/config.js';
+import { OutputFormatter, clearScreen } from '../utils/output.js';
+import { ConfigManager, ColoniesConfig, Colony, AutoscalingConfig } from '../utils/config.js';
 
 export const coloniesCommand = new Command('colonies');
 
@@ -30,7 +30,7 @@ coloniesCommand
     }
 
     // Get colonies from config
-    const colonyConfig = config.get('colonies');
+    const colonyConfig = config.get('colonies') as ColoniesConfig | undefined;
     const colonies = colonyConfig?.colonies || [];
 
     if (options.json) {
@@ -96,7 +96,7 @@ coloniesCommand
     const colonyId = uuidv4();
     const colonyName = options.name || `colony-${Date.now()}`;
 
-    const colony = {
+    const colony: Colony = {
       id: colonyId,
       name: colonyName,
       state: 'provisioning',
@@ -107,8 +107,8 @@ coloniesCommand
         network: parseFloat(options.network),
         cpu: 0,
       },
-      specialization: options.specialization,
-      distributed: options.distributed,
+      specialization: options.specialization || undefined,
+      distributed: options.distributed || false,
       createdAt: new Date().toISOString(),
     };
 
@@ -120,7 +120,7 @@ coloniesCommand
     }
 
     // Add to config
-    const colonyConfig = config.get('colonies') || { colonies: [] };
+    const colonyConfig = (config.get('colonies') as ColoniesConfig | undefined) || { colonies: [] };
     colonyConfig.colonies.push(colony);
     config.set('colonies', colonyConfig);
     config.saveConfig();
@@ -147,13 +147,13 @@ coloniesCommand
       process.exit(1);
     }
 
-    const colonyConfig = config.get('colonies');
+    const colonyConfig = config.get('colonies') as ColoniesConfig | undefined;
     if (!colonyConfig) {
       OutputFormatter.error('No colonies configured');
       process.exit(1);
     }
 
-    const colony = colonyConfig.colonies.find((c: any) => c.id === colonyId);
+    const colony = colonyConfig.colonies.find((c) => c.id === colonyId);
     if (!colony) {
       OutputFormatter.error(`Colony not found: ${colonyId}`);
       process.exit(1);
@@ -182,13 +182,13 @@ coloniesCommand
       process.exit(1);
     }
 
-    const colonyConfig = config.get('colonies');
+    const colonyConfig = config.get('colonies') as ColoniesConfig | undefined;
     if (!colonyConfig) {
       OutputFormatter.error('No colonies configured');
       process.exit(1);
     }
 
-    const colony = colonyConfig.colonies.find((c: any) => c.id === colonyId);
+    const colony = colonyConfig.colonies.find((c) => c.id === colonyId);
     if (!colony) {
       OutputFormatter.error(`Colony not found: ${colonyId}`);
       process.exit(1);
@@ -217,13 +217,13 @@ coloniesCommand
       process.exit(1);
     }
 
-    const colonyConfig = config.get('colonies');
+    const colonyConfig = config.get('colonies') as ColoniesConfig | undefined;
     if (!colonyConfig) {
       OutputFormatter.error('No colonies configured');
       process.exit(1);
     }
 
-    const colony = colonyConfig.colonies.find((c: any) => c.id === colonyId);
+    const colony = colonyConfig.colonies.find((c) => c.id === colonyId);
     if (!colony) {
       OutputFormatter.error(`Colony not found: ${colonyId}`);
       process.exit(1);
@@ -239,8 +239,8 @@ coloniesCommand
     }
   });
 
-function deleteColony(colonyConfig: any, colonyId: string, config: ConfigManager, colony: any) {
-  colonyConfig.colonies = colonyConfig.colonies.filter((c: any) => c.id !== colonyId);
+function deleteColony(colonyConfig: ColoniesConfig, colonyId: string, config: ConfigManager, colony: Colony) {
+  colonyConfig.colonies = colonyConfig.colonies.filter((c) => c.id !== colonyId);
   config.saveConfig();
   OutputFormatter.success(`Colony deleted: ${colony.name || colonyId}`);
 }
@@ -282,7 +282,6 @@ coloniesCommand
     };
 
     if (options.watch) {
-      const { clearScreen } = require('../utils/output.js');
       setInterval(() => {
         clearScreen();
         showStatus();
@@ -293,7 +292,7 @@ coloniesCommand
     }
   });
 
-function showColonyStatus(colony: any, json: boolean) {
+function showColonyStatus(colony: Colony, json: boolean) {
   if (json) {
     OutputFormatter.json(colony);
   } else {
@@ -324,7 +323,7 @@ function showColonyStatus(colony: any, json: boolean) {
   }
 }
 
-function showAllColoniesStatus(colonies: any[], json: boolean) {
+function showAllColoniesStatus(colonies: Colony[], json: boolean) {
   if (json) {
     OutputFormatter.json(colonies);
   } else {
@@ -382,13 +381,13 @@ coloniesCommand
       process.exit(1);
     }
 
-    const colonyConfig = config.get('colonies');
+    const colonyConfig = config.get('colonies') as ColoniesConfig | undefined;
     if (!colonyConfig) {
       OutputFormatter.error('No colonies configured');
       process.exit(1);
     }
 
-    const colony = colonyConfig.colonies.find((c: any) => c.id === colonyId);
+    const colony = colonyConfig.colonies.find((c) => c.id === colonyId);
     if (!colony) {
       OutputFormatter.error(`Colony not found: ${colonyId}`);
       process.exit(1);
@@ -438,14 +437,14 @@ coloniesCommand
       process.exit(1);
     }
 
-    const colonyConfig = config.get('colonies');
+    const colonyConfig = config.get('colonies') as ColoniesConfig | undefined;
     if (!colonyConfig) {
       OutputFormatter.error('No colonies configured');
       process.exit(1);
     }
 
-    const sourceColony = colonyConfig.colonies.find((c: any) => c.id === options.source);
-    const targetColony = colonyConfig.colonies.find((c: any) => c.id === options.target);
+    const sourceColony = colonyConfig.colonies.find((c) => c.id === options.source);
+    const targetColony = colonyConfig.colonies.find((c) => c.id === options.target);
 
     if (!sourceColony) {
       OutputFormatter.error(`Source colony not found: ${options.source}`);
@@ -517,7 +516,7 @@ coloniesCommand
       process.exit(1);
     }
 
-    let autoscalingConfig = config.get('autoscaling') || {
+    let autoscalingConfig = (config.get('autoscaling') as AutoscalingConfig | undefined) || {
       enabled: false,
       minColonies: 1,
       maxColonies: 10,

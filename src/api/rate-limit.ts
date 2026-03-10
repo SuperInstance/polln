@@ -111,19 +111,20 @@ export class TokenBucketRateLimiter extends EventEmitter {
 
     if (!state) {
       // First request - create new bucket
+      const initialTokens = this.config.maxRequests - 1;
       const newState: RateLimitState = {
-        tokens: this.config.maxRequests - 1,
+        tokens: initialTokens,
         lastRefillAt: now,
         windowStartAt: now,
       };
 
       await this.storage.set(fullKey, newState, this.config.windowMs);
 
-      this.emit('allowed', { key, remaining: newState.tokens });
+      this.emit('allowed', { key, remaining: initialTokens });
 
       return {
         allowed: true,
-        remaining: newState.tokens,
+        remaining: initialTokens,
         resetAt: now + this.config.windowMs,
         state: newState,
       };
@@ -416,7 +417,7 @@ export class MemoryRateLimitStorage implements RateLimitStorage {
 
 export interface RedisClient {
   get(key: string): Promise<string | null>;
-  set(key: string, value: string, px?: number): Promise<string | null>;
+  set(key: string, value: string, options?: { px?: number }): Promise<string | null>;
   del(key: string): Promise<number>;
   exists(key: string): Promise<number>;
   incr(key: string): Promise<number>;
@@ -444,7 +445,7 @@ export class RedisRateLimitStorage implements RateLimitStorage {
 
   async set(key: string, state: RateLimitState, ttlMs: number): Promise<void> {
     const value = JSON.stringify(state);
-    await this.client.set(key, value, 'px', ttlMs);
+    await this.client.set(key, value, { px: ttlMs });
   }
 
   async increment(key: string): Promise<number> {

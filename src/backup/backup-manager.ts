@@ -6,18 +6,19 @@
 import { v4 as uuidv4 } from 'uuid';
 import { EventEmitter } from 'events';
 import * as crypto from 'crypto';
+import { Buffer } from 'buffer';
 import type {
   BackupConfig,
   BackupMetadata,
   BackupResult,
-  BackupType,
-  BackupStatus,
   ColonyBackupData,
   IncrementalBackupData,
   BackupListOptions,
   BackupListResult,
-  RetentionPolicy
+  RetentionPolicy,
+  NotificationChannel
 } from './types.js';
+import { BackupType, BackupStatus } from './types.js';
 import { FullBackupStrategy } from './strategies/full-backup.js';
 import { IncrementalBackupStrategy } from './strategies/incremental-backup.js';
 import { SnapshotBackupStrategy } from './strategies/snapshot-backup.js';
@@ -47,7 +48,7 @@ export class BackupManager extends EventEmitter {
   private backupHistory: BackupMetadata[];
 
   // Strategy registry
-  private strategies: Map<BackupType, any>;
+  private strategies: Map<BackupType, FullBackupStrategy | IncrementalBackupStrategy | SnapshotBackupStrategy>;
 
   constructor(config: BackupManagerConfig) {
     super();
@@ -60,11 +61,10 @@ export class BackupManager extends EventEmitter {
     this.backupHistory = [];
 
     // Initialize strategies
-    this.strategies = new Map([
-      ['FULL', new FullBackupStrategy()],
-      ['INCREMENTAL', new IncrementalBackupStrategy()],
-      ['SNAPSHOT', new SnapshotBackupStrategy()]
-    ]);
+    this.strategies = new Map<BackupType, FullBackupStrategy | IncrementalBackupStrategy | SnapshotBackupStrategy>();
+    this.strategies.set(BackupType.FULL, new FullBackupStrategy());
+    this.strategies.set(BackupType.INCREMENTAL, new IncrementalBackupStrategy());
+    this.strategies.set(BackupType.SNAPSHOT, new SnapshotBackupStrategy());
 
     // Initialize scheduler
     this.scheduler = new BackupScheduler({
@@ -147,7 +147,7 @@ export class BackupManager extends EventEmitter {
     labels?: Record<string, string>;
     reason?: string;
   } = {}): Promise<BackupResult> {
-    const type = options.type || 'FULL';
+    const type = options.type || BackupType.FULL;
     const backupId = uuidv4();
 
     // Create metadata
@@ -156,7 +156,7 @@ export class BackupManager extends EventEmitter {
       colonyId: this.colony.id,
       gardenerId: this.colony.config.gardenerId,
       type,
-      status: 'PENDING',
+      status: BackupStatus.PENDING,
       createdAt: Date.now(),
       sizeBytes: 0,
       compressed: this.config.compression.enabled,
@@ -181,11 +181,11 @@ export class BackupManager extends EventEmitter {
 
     try {
       // Update status
-      metadata.status = 'IN_PROGRESS';
+      metadata.status = BackupStatus.IN_PROGRESS;
       metadata.startedAt = Date.now();
 
       // Get strategy
-      const strategy = this.strategies.get(type);
+      const strategy = this.strategies.get(type as BackupType);
       if (!strategy) {
         throw new Error(`Unsupported backup type: ${type}`);
       }
@@ -216,7 +216,7 @@ export class BackupManager extends EventEmitter {
       const duration = Date.now() - startTime;
 
       // Update metadata
-      metadata.status = 'COMPLETED';
+      metadata.status = BackupStatus.COMPLETED;
       metadata.completedAt = Date.now();
       metadata.sizeBytes = result.metrics.sizeBytes;
       metadata.compressedSizeBytes = result.metrics.compressedSizeBytes;
@@ -243,7 +243,7 @@ export class BackupManager extends EventEmitter {
 
       return result;
     } catch (error) {
-      metadata.status = 'FAILED';
+      metadata.status = BackupStatus.FAILED;
       metadata.completedAt = Date.now();
 
       const result: BackupResult = {
@@ -300,7 +300,10 @@ export class BackupManager extends EventEmitter {
 
       // Validate checksum if requested
       if (options.validate) {
-        const isValid = await this.validateBackupData(backupData, metadata);
+        // Parse the buffer to JSON for validation
+        const dataString = backupData.toString();
+        const parsedData = JSON.parse(dataString) as ColonyBackupData | IncrementalBackupData;
+        const isValid = await this.validateBackupData(parsedData, metadata);
         if (!isValid) {
           throw new Error('Backup validation failed: checksum mismatch');
         }
@@ -312,8 +315,11 @@ export class BackupManager extends EventEmitter {
         return;
       }
 
+      // Parse the buffer to JSON for restore
+      const dataString = backupData.toString();
+      const parsedData = JSON.parse(dataString) as ColonyBackupData | IncrementalBackupData;
       // Perform restore
-      await this.performRestore(backupData, metadata);
+      await this.performRestore(parsedData, metadata);
 
       this.emit('restore_completed', { metadata });
     } catch (error) {
@@ -426,7 +432,10 @@ export class BackupManager extends EventEmitter {
 
     // Retrieve and validate checksum
     const backupData = await storage.retrieve(metadata.storageLocation);
-    return this.validateBackupData(backupData, metadata);
+    // Parse the buffer to JSON for validation
+    const dataString = backupData.toString();
+    const parsedData = JSON.parse(dataString) as ColonyBackupData | IncrementalBackupData;
+    return this.validateBackupData(parsedData, metadata);
   }
 
   /**
@@ -571,7 +580,7 @@ export class BackupManager extends EventEmitter {
    * Send notification to specific channel
    */
   private async sendNotification(
-    channel: any,
+    channel: NotificationChannel,
     type: 'SUCCESS' | 'FAILURE',
     metadata: BackupMetadata,
     error?: unknown

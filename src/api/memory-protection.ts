@@ -247,7 +247,7 @@ export class BoundedMap<K, V> extends Map<K, V> {
   /**
    * Set value with optional TTL
    */
-  set(key: K, value: V, ttlMs?: number): this {
+  override set(key: K, value: V, ttlMs?: number): this {
     // Evict if at capacity
     if (this.enableEviction && this.size >= this.maxSize && !this.has(key)) {
       this.evict();
@@ -271,7 +271,7 @@ export class BoundedMap<K, V> extends Map<K, V> {
   /**
    * Get value, updating access time and checking expiration
    */
-  get(key: K): V | undefined {
+  override get(key: K): V | undefined {
     this.cleanupExpired();
 
     const entry = this.metadata.get(key);
@@ -295,7 +295,7 @@ export class BoundedMap<K, V> extends Map<K, V> {
   /**
    * Check if key exists and is not expired
    */
-  has(key: K): boolean {
+  override has(key: K): boolean {
     const entry = this.metadata.get(key);
     if (!entry) {
       return false;
@@ -312,7 +312,7 @@ export class BoundedMap<K, V> extends Map<K, V> {
   /**
    * Delete key
    */
-  delete(key: K): boolean {
+  override delete(key: K): boolean {
     this.metadata.delete(key);
     return super.delete(key);
   }
@@ -320,7 +320,7 @@ export class BoundedMap<K, V> extends Map<K, V> {
   /**
    * Clear all entries
    */
-  clear(): void {
+  override clear(): void {
     super.clear();
     this.metadata.clear();
   }
@@ -414,7 +414,7 @@ export class BoundedSet<T> extends Set<T> {
   /**
    * Add value with optional TTL
    */
-  add(value: T, ttlMs?: number): this {
+  override add(value: T, ttlMs?: number): this {
     // Evict if at capacity
     if (this.enableEviction && this.size >= this.maxSize && !this.has(value)) {
       this.evict();
@@ -434,7 +434,7 @@ export class BoundedSet<T> extends Set<T> {
   /**
    * Check if value exists and is not expired
    */
-  has(value: T): boolean {
+  override has(value: T): boolean {
     const meta = this.metadata.get(value);
     if (!meta) {
       return false;
@@ -452,7 +452,7 @@ export class BoundedSet<T> extends Set<T> {
   /**
    * Delete value
    */
-  delete(value: T): boolean {
+  override delete(value: T): boolean {
     this.metadata.delete(value);
     return super.delete(value);
   }
@@ -460,7 +460,7 @@ export class BoundedSet<T> extends Set<T> {
   /**
    * Clear all entries
    */
-  clear(): void {
+  override clear(): void {
     super.clear();
     this.metadata.clear();
   }

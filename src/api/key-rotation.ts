@@ -10,7 +10,7 @@
  */
 
 import { createHash, randomBytes, generateKeyPairSync } from 'crypto';
-import { sign, verify, Algorithm } from 'jsonwebtoken';
+import { sign, verify, Algorithm, SignOptions } from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid';
 
 // ============================================================================
@@ -307,16 +307,13 @@ export class KeyRotationManager {
 
     const now = Math.floor(Date.now() / 1000);
 
-    const signOptions: {
-      algorithm: Algorithm;
-      expiresIn: string | number;
-      issuer?: string;
-      audience?: string;
-      header: Record<string, string>;
-    } = {
+    // Keep expiresIn as number if provided, otherwise use default
+    const expiresInValue = options?.expiresIn ?? 3600;
+
+    const signOptions: SignOptions = {
       algorithm: current.algorithm,
-      expiresIn: options?.expiresIn || 3600, // 1 hour default
-      header: { kid: current.keyId }, // Key ID in header
+      expiresIn: expiresInValue as any, // Type assertion for StringValue compatibility
+      header: { kid: current.keyId, alg: current.algorithm } as any, // Include alg as required by JwtHeader
     };
 
     if (options?.issuer) {
@@ -551,7 +548,7 @@ export class KeyRotationManager {
   /**
    * Log audit event
    */
-  private logAudit(event: AuditEvent): void {
+  private logAudit(event: AuditEventInput): void {
     if (this.auditLog) {
       this.auditLog({
         ...event,
@@ -590,6 +587,14 @@ export interface AuditEvent {
   type: string;
   severity: 'INFO' | 'WARNING' | 'ERROR';
   timestamp: number;
+  details?: Record<string, unknown>;
+}
+
+/** Internal type for audit events before timestamp is added */
+interface AuditEventInput {
+  category: string;
+  type: string;
+  severity: 'INFO' | 'WARNING' | 'ERROR';
   details?: Record<string, unknown>;
 }
 

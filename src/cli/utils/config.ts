@@ -8,10 +8,46 @@ import os from 'os';
 
 export type TileCategory = string;
 
+export interface ColonyResources {
+  compute: number;
+  memory: number;
+  network: number;
+  cpu: number;
+  memoryUsed?: number;
+}
+
+export interface Colony {
+  id: string;
+  name: string;
+  state: 'provisioning' | 'running' | 'stopped';
+  agents: number;
+  resources: ColonyResources;
+  specialization?: string;
+  distributed?: boolean;
+  createdAt?: string;
+  startedAt?: string;
+  stoppedAt?: string;
+  scaledAt?: string;
+  agentsList?: string[];
+}
+
+export interface ColoniesConfig {
+  colonies: Colony[];
+}
+
+export interface AutoscalingConfig {
+  enabled: boolean;
+  minColonies: number;
+  maxColonies: number;
+  cpuThreshold: number;
+}
+
 export interface PollnConfig {
   colonyId?: string;
   colonyName?: string;
   dataDir?: string;
+  colonies?: ColoniesConfig;
+  autoscaling?: AutoscalingConfig;
   federation?: {
     enabled: boolean;
     endpoint?: string;
