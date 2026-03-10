@@ -170,6 +170,8 @@ POLLN doesn't pick the "best" option. It samples probabilistically:
 
 ## Architecture Components
 
+### Core Systems
+
 | Component | Purpose | Status |
 |-----------|---------|--------|
 | **BaseAgent** | Core agent with subsumption layers | ✅ Complete |
@@ -182,6 +184,15 @@ POLLN doesn't pick the "best" option. It samples probabilistically:
 | **ValueNetwork** | TD(λ) value predictions | ✅ Complete |
 | **FederatedLearning** | Cross-colony knowledge sharing | ✅ Complete |
 | **KV-Cache System** | Efficient context sharing | ✅ Complete |
+
+### Enterprise Infrastructure
+
+| Component | Purpose | Status |
+|-----------|---------|--------|
+| **API Gateway** | Unified API entry point with auth, rate limiting, caching | ✅ Complete |
+| **Event Sourcing** | Event-driven architecture with CQRS | ✅ Complete |
+| **Security Scanning** | SAST, dependency, and container vulnerability scanning | ✅ Complete |
+| **Incident Response** | Detection, escalation, runbooks, and notifications | ✅ Complete |
 
 ---
 
@@ -205,6 +216,8 @@ POLLN's killer app is a **spreadsheet integration** where every cell can contain
 
 ## Implementation Status
 
+### Core POLLN
+
 | Component | Tests | Status |
 |-----------|-------|--------|
 | Core Agent Runtime | 18 | ✅ |
@@ -216,7 +229,17 @@ POLLN's killer app is a **spreadsheet integration** where every cell can contain
 | KV-Cache System | 401 | ✅ |
 | WebSocket API | - | ✅ |
 | CLI Tool | - | ✅ |
-| **Total** | **821+** | ✅ |
+
+### Enterprise Infrastructure
+
+| Component | Files | Status |
+|-----------|-------|--------|
+| API Gateway | 8 | ✅ |
+| Event Sourcing/CQRS | 6 | ✅ |
+| Security Scanning | 7 | ✅ |
+| Incident Response | 7 | ✅ |
+
+| **Total** | **55+ files** | ✅ |
 
 ### R&D Progress (Spreadsheet Integration)
 
