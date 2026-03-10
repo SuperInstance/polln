@@ -72,6 +72,6 @@ export type {
   CellType,
   CellPosition,
   CellState,
-  LogicLevel
+  LogicLevel,
   CellOutput
 } from '../core/types.js';

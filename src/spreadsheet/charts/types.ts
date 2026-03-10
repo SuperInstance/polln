@@ -602,24 +602,6 @@ export type ChartEvent =
 export type ChartEventHandler = (event: Event, chart: Chart, element?: ChartElement) => void;
 
 /**
- * Chart event map
+ * Chart event map - maps event names to arrays of event handlers
  */
-export interface ChartEventMap {
-  [event: string]: ChartEventHandler[];
-} & {
-  click?: ChartEventHandler[];
-  hover?: ChartEventHandler[];
-  mouseleave?: ChartEventHandler[];
-  touchstart?: ChartEventHandler[];
-  touchmove?: ChartEventHandler[];
-  touchend?: ChartEventHandler[];
-  resize?: ChartEventHandler[];
-  update?: ChartEventHandler[];
-  complete?: ChartEventHandler[];
-  beforeRender?: ChartEventHandler[];
-  afterRender?: ChartEventHandler[];
-  beforeUpdate?: ChartEventHandler[];
-  afterUpdate?: ChartEventHandler[];
-  beforeDraw?: ChartEventHandler[];
-  afterDraw?: ChartEventHandler[];
-}
+export type ChartEventMap = Map<string, ChartEventHandler[]>;

@@ -68,7 +68,7 @@ function extractToken(req: Request): string | null {
 /**
  * Create authentication middleware
  */
-export function authenticate(options: Partial<AuthOptions> = {}): (req: Request, res: Response, next: NextFunction) => {
+export function authenticate(options: Partial<AuthOptions> = {}): (req: Request, res: Response, next: NextFunction) => void {
   const opts: AuthOptions = {
     required: true,
     allowGuests: false,
@@ -160,35 +160,35 @@ export function authenticate(options: Partial<AuthOptions> = {}): (req: Request,
 /**
  * Require authentication (no guest access)
  */
-export function requireAuth(): (req: Request, res: Response, next: NextFunction) {
+export function requireAuth(): (req: Request, res: Response, next: NextFunction) => void {
   return authenticate({ required: true, allowGuests: false });
 }
 
 /**
  * Optional authentication (guest access allowed)
  */
-export function optionalAuth(): (req: Request, res: Response, next: NextFunction) {
+export function optionalAuth(): (req: Request, res: Response, next: NextFunction) => void {
   return authenticate({ required: false, allowGuests: true });
 }
 
 /**
  * Require specific role
  */
-export function requireRole(role: string): (req: Request, res: Response, next: NextFunction) {
+export function requireRole(role: string): (req: Request, res: Response, next: NextFunction) => void {
   return authenticate({ required: true, role });
 }
 
 /**
  * Require specific permissions
  */
-export function requirePermissions(...permissions: Permission[]): (req: Request, res: Response, next: NextFunction) {
+export function requirePermissions(...permissions: Permission[]): (req: Request, res: Response, next: NextFunction) => void {
   return authenticate({ required: true, permissions });
 }
 
 /**
  * Require admin role
  */
-export function requireAdmin(): (req: Request, res: Response, next: NextFunction) {
+export function requireAdmin(): (req: Request, res: Response, next: NextFunction) => void {
   return requireRole('admin');
 }
 

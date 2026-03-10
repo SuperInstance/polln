@@ -9,6 +9,13 @@
  * @license MIT
  */
 
+// Import required types for factory functions
+import type { TelemetryConfig, PrivacyConfig } from './types.js';
+import type { PrivacyManager } from './PrivacyManager.js';
+import type { Exporter } from './Exporter.js';
+import { getDefaultExportPlatforms } from './Exporter.js';
+import { ConsentStatus, ExportPlatform } from './types.js';
+
 // Type exports
 export type {
   AnonymousUserId,
@@ -205,7 +212,7 @@ export function createProductionTelemetryManager(config: {
       retry: {
         maxAttempts: 3,
         backoffMs: 1000,
-        maxMaxBackoffMs: 30000,
+        maxBackoffMs: 30000,
       },
     });
   }
@@ -278,8 +285,8 @@ export function createPrivacyManager(config?: Partial<PrivacyConfig>) {
  * @returns New AnalyticsCollector instance
  */
 export function createAnalyticsCollector(
-  privacyManager: InstanceType<typeof PrivacyManager>,
-  config?: Partial<ReturnType<typeof require('./AnalyticsCollector.js')['DEFAULT_COLLECTOR_CONFIG']>>
+  privacyManager: PrivacyManager,
+  config?: Record<string, any>
 ) {
   const { AnalyticsCollector, DEFAULT_COLLECTOR_CONFIG } = require('./AnalyticsCollector.js');
   return new AnalyticsCollector(
@@ -293,7 +300,7 @@ export function createAnalyticsCollector(
  * @param config - Rollup configuration
  * @returns New Aggregator instance
  */
-export function createAggregator(config?: Partial<ReturnType<typeof require('./Aggregator.js')['DEFAULT_ROLLUP_CONFIG']>>) {
+export function createAggregator(config?: Record<string, any>) {
   const { Aggregator, DEFAULT_ROLLUP_CONFIG } = require('./Aggregator.js');
   return new Aggregator({ ...DEFAULT_ROLLUP_CONFIG, ...config });
 }
@@ -305,14 +312,9 @@ export function createAggregator(config?: Partial<ReturnType<typeof require('./A
  * @returns New Exporter instance
  */
 export function createExporter(
-  privacyManager: InstanceType<typeof PrivacyManager>,
-  platformConfigs: Parameters<typeof Exporter>[1]
+  privacyManager: PrivacyManager,
+  platformConfigs: any[]
 ) {
   const { Exporter } = require('./Exporter.js');
   return new Exporter(privacyManager, platformConfigs);
 }
-
-// Import required types for factory functions
-import type { TelemetryConfig, PrivacyConfig } from './types.js';
-import type { PrivacyManager } from './PrivacyManager.js';
-import type { Exporter } from './Exporter.js';

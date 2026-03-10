@@ -8,7 +8,19 @@
  */
 
 import { LogCell, LogCellConfig } from '../core/LogCell.js';
-import { CellType, CellState, LogicLevel, CellOutput } from '../core/types.js';
+import { CellType, CellState, LogicLevel, CellOutput, ProcessingResult, ProcessingContext, ReasoningStep, ReasoningStepType } from '../core/types.js';
+import { v4 as uuidv4 } from 'uuid';
+
+/**
+ * Simple transform result interface
+ */
+interface TransformResult {
+  success: boolean;
+  value: unknown;
+  timestamp: number;
+  duration?: number;
+  error?: string;
+}
 
 /**
  * Transformation types supported by TransformCell
@@ -71,7 +83,7 @@ export class TransformCell extends LogCell {
   /**
    * Transform input data
    */
-  async transform(input: unknown): Promise<CellOutput> {
+  async transform(input: unknown): Promise<TransformResult> {
     this.state = CellState.PROCESSING;
     const startTime = Date.now();
 
@@ -127,7 +139,7 @@ export class TransformCell extends LogCell {
         success: true,
         value: output,
         timestamp: Date.now(),
-        duration: Date.now().getTime() - startTime,
+        duration: Date.now() - startTime,
       };
     } catch (error) {
       this.state = CellState.ERROR;
@@ -279,6 +291,277 @@ export class TransformCell extends LogCell {
   }
 
   /**
+   * Apply split transformation
+   */
+  private async applySplit(input: unknown): Promise<unknown> {
+    if (typeof input !== 'string' && !Array.isArray(input)) {
+      throw new Error('Split transform requires string or array input');
+    }
+
+    if (typeof input === 'string') {
+      if (!this.transformFn) {
+        return input.split('');
+      }
+      const delimiter = this.transformFn!(input) as string;
+      return input.split(delimiter);
+    }
+
+    // Array split: split array into chunks
+    if (!this.transformFn) {
+      throw new Error('Split transform requires transformFn with chunk size');
+    }
+
+    const chunkSize = this.transformFn!(input) as number;
+    const chunks: unknown[][] = [];
+    for (let i = 0; i < input.length; i += chunkSize) {
+      chunks.push(input.slice(i, i + chunkSize));
+    }
+    return chunks;
+  }
+
+  /**
+   * Apply merge transformation
+   */
+  private async applyMerge(input: unknown): Promise<unknown> {
+    if (!this.transformFn) {
+      throw new Error('Merge transform requires transformFn with merge strategy');
+    }
+
+    const strategy = this.transformFn!(input) as string;
+
+    if (Array.isArray(input)) {
+      switch (strategy) {
+        case 'flatten':
+          return input.flat(Infinity);
+        case 'concat':
+          return input.flat();
+        case 'unique':
+          return Array.from(new Set(input.flat()));
+        default:
+          return input;
+      }
+    }
+
+    if (typeof input === 'object' && input !== null) {
+      const keys = Object.keys(input);
+      const merged: unknown[] = [];
+      for (const key of keys) {
+        merged.push((input as Record<string, unknown>)[key]);
+      }
+      return merged;
+    }
+
+    return input;
+  }
+
+  /**
+   * Apply transpose transformation
+   */
+  private applyTranspose(input: unknown): unknown {
+    if (!Array.isArray(input)) {
+      throw new Error('Transpose transform requires array input');
+    }
+
+    if (input.length === 0) {
+      return [];
+    }
+
+    // Check if it's a 2D array
+    if (!Array.isArray(input[0])) {
+      return input;
+    }
+
+    // Transpose 2D array
+    const rows = input.length;
+    const cols = (input[0] as unknown[]).length;
+    const transposed: unknown[][] = [];
+
+    for (let j = 0; j < cols; j++) {
+      transposed[j] = [];
+      for (let i = 0; i < rows; i++) {
+        transposed[j][i] = (input[i] as unknown[])[j];
+      }
+    }
+
+    return transposed;
+  }
+
+  /**
+   * Apply zip transformation
+   */
+  private applyZip(input: unknown): unknown {
+    if (!Array.isArray(input)) {
+      throw new Error('Zip transform requires array input');
+    }
+
+    if (!this.transformFn) {
+      throw new Error('Zip transform requires transformFn with arrays to zip');
+    }
+
+    const otherArrays = this.transformFn!(input) as unknown[][];
+    const arrays = [input, ...otherArrays];
+    const maxLength = Math.max(...arrays.map(arr => arr.length));
+    const zipped: unknown[] = [];
+
+    for (let i = 0; i < maxLength; i++) {
+      const tuple: unknown[] = [];
+      for (const arr of arrays) {
+        tuple.push(arr[i] ?? null);
+      }
+      zipped.push(tuple);
+    }
+
+    return zipped;
+  }
+
+  // ========================================================================
+  // Abstract Method Implementations
+  // ========================================================================
+
+  /**
+   * Activate the cell
+   */
+  async activate(): Promise<void> {
+    this.state = CellState.SENSING;
+  }
+
+  /**
+   * Process input using transform
+   */
+  async process(input: unknown): Promise<CellOutput> {
+    const result = await this.transform(input);
+
+    // Create a reasoning step
+    const step: ReasoningStep = {
+      id: uuidv4(),
+      type: ReasoningStepType.ANALYSIS,
+      description: `Applied ${this.transformType} transform`,
+      input,
+      output: result.value,
+      confidence: result.success ? 1.0 : 0.0,
+      duration: result.duration || 0,
+      timestamp: result.timestamp,
+      dependencies: [],
+    };
+
+    // Convert TransformResult to CellOutput format
+    return {
+      value: result.value,
+      confidence: result.success ? 1.0 : 0.0,
+      explanation: result.error || `Applied ${this.transformType} transform`,
+      trace: {
+        steps: [step],
+        dependencies: [],
+        confidence: result.success ? 1.0 : 0.0,
+        totalTime: result.duration || 0,
+        startTime: result.timestamp - (result.duration || 0),
+        endTime: result.timestamp,
+      },
+      effects: [],
+    };
+  }
+
+  /**
+   * Learn from feedback
+   */
+  async learn(feedback: unknown): Promise<void> {
+    // For transform cells, learning could involve:
+    // - Adjusting transform function based on feedback
+    // - Learning optimal slice parameters
+    // - Improving sort comparators
+    // For now, this is a placeholder
+    if (typeof feedback === 'object' && feedback !== null) {
+      const fb = feedback as Record<string, unknown>;
+      if (fb.adjustTransformFn && typeof fb.adjustTransformFn === 'function') {
+        this.transformFn = fb.adjustTransformFn as TransformFunction;
+      }
+    }
+  }
+
+  /**
+   * Deactivate the cell
+   */
+  async deactivate(): Promise<void> {
+    this.state = CellState.DORMANT;
+  }
+
+  /**
+   * Execute processing (required by LogCell)
+   */
+  protected async executeProcessing(
+    input: unknown,
+    context: ProcessingContext
+  ): Promise<ProcessingResult> {
+    const result = await this.transform(input);
+
+    // Create a reasoning step
+    const step: ReasoningStep = {
+      id: uuidv4(),
+      type: ReasoningStepType.ANALYSIS,
+      description: `Applied ${this.transformType} transform`,
+      input,
+      output: result.value,
+      confidence: result.success ? 1.0 : 0.0,
+      duration: result.duration || 0,
+      timestamp: result.timestamp,
+      dependencies: [],
+    };
+
+    return {
+      value: result.value,
+      confidence: result.success ? 1.0 : 0.0,
+      explanation: result.error || `Applied ${this.transformType} transform`,
+      trace: {
+        steps: [step],
+        dependencies: [],
+        confidence: result.success ? 1.0 : 0.0,
+        totalTime: result.duration || 0,
+        startTime: result.timestamp - (result.duration || 0),
+        endTime: result.timestamp,
+      },
+    };
+  }
+
+  // ========================================================================
+  // Utility Methods
+  // ========================================================================
+
+  /**
+   * Get transform history
+   */
+  getTransformHistory(): Array<{ input: unknown; output: unknown; timestamp: number }> {
+    return [...this.transformHistory];
+  }
+
+  /**
+   * Get current transform type
+   */
+  getTransformType(): TransformType {
+    return this.transformType;
+  }
+
+  /**
+   * Set transform function
+   */
+  setTransformFn(fn: TransformFunction): void {
+    this.transformFn = fn;
+  }
+
+  /**
+   * Get transform function
+   */
+  getTransformFn(): TransformFunction | undefined {
+    return this.transformFn;
+  }
+
+  /**
+   * Clear transform history
+   */
+  clearHistory(): void {
+    this.transformHistory = [];
+  }
+
+  /**
    * Create the processing logic for this cell
    */
   protected createProcessingLogic(): any {
@@ -288,3 +571,4 @@ export class TransformCell extends LogCell {
       logic: this.logicLevel,
     };
   }
+}

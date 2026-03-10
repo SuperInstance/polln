@@ -118,7 +118,7 @@ export class FormulaConverter {
         cleanedFormula,
         this.googleSheetsFunctionMap,
         options
-      };
+      );
 
       // Handle Google Sheets specific functions
       cleanedFormula = this.convertGoogleSheetsSpecificFunctions(cleanedFormula);
@@ -148,7 +148,7 @@ export class FormulaConverter {
         cleanedFormula,
         this.airtableFunctionMap,
         options
-      };
+      );
 
       return cleanedFormula;
     } catch (error) {
@@ -175,7 +175,7 @@ export class FormulaConverter {
         cleanedFormula,
         this.notionFunctionMap,
         options
-      };
+      );
 
       return cleanedFormula;
     } catch (error) {

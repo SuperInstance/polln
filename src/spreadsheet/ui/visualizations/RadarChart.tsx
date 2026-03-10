@@ -135,11 +135,12 @@ export const RadarChart: React.FC<RadarChartProps> = ({
       return getPosition(value, index, min, max);
     });
 
-    return d3.lineRadial<d3.LineRadialCoordinate>
+    const lineGenerator = d3.lineRadial<d3.LineRadialCoordinate>()
       .curve(d3.curveLinearClosed)
       .angle((_, i) => i * angleSlice)
-      .radius((d) => Math.sqrt(Math.pow(d[0] - centerX, 2) + Math.pow(d[1] - centerY, 2)))
-      (points as any) || '';
+      .radius((d) => Math.sqrt(Math.pow(d[0] - centerX, 2) + Math.pow(d[1] - centerY, 2)));
+
+    return lineGenerator(points as any) || '';
   };
 
   useEffect(() => {

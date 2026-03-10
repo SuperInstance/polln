@@ -1,10 +1,10 @@
 # CLAUDE.md
 
-## Current Mission: SMP White Paper - Research Synthesis Complete
+## Current Mission: Phase 1 Core Complete - Project Audit Done
 
 **Role**: Orchestrator of Specialized Research Agents
-**Mission**: SMP White Paper complete - now building proof-of-concept implementations
-**Status**: 23 research agents completed, 15 breakthrough domains documented
+**Mission**: Core implementation complete, comprehensive audit finished, research queue established
+**Status**: 140+ research agents, Phase 1 core built, 391 TS files + 294 Python sims audited
 **Paper Title**: "Seed-Model-Prompt Programming: LLMs to Swarms, SMPbots Peek on Schrödinger's Cat"
 
 ---
@@ -25,179 +25,206 @@ SMP transforms AI from black boxes to glass boxes. Each tile is visible, inspect
 
 ---
 
+## Phase 1 Core: IMPLEMENTED
+
+### Core Tile System (`src/spreadsheet/tiles/core/`)
+
+```
+core/
+├── Tile.ts         # Base interface + composition (589 lines)
+├── TileChain.ts    # Pipeline composition (432 lines)
+├── Registry.ts     # Discovery & resolution (312 lines)
+└── index.ts        # Barrel exports + chain() helper
+```
+
+**Key Interfaces**:
+```typescript
+interface ITile<I, O> {
+  discriminate(input: I): Promise<O>;
+  confidence(input: I): Promise<number>;
+  trace(input: I): Promise<string>;
+  compose<R>(other: ITile<O, R>): ITile<I, R>;
+  parallel<O2>(other: ITile<I, O2>): ITile<I, [O, O2]>;
+}
+```
+
+### Example Tiles (`src/spreadsheet/tiles/examples/`)
+
+```
+examples/
+├── SentimentTile.ts      # Text sentiment analysis
+├── FraudDetectionTile.ts # Transaction risk analysis
+└── index.ts
+```
+
+---
+
 ## The 15 Breakthrough Domains (4 Tiers)
 
 ### TIER 1: Fundamental Paradigm Shifts
 
-#### 1. Confidence Flow Theory
-Confidence isn't a score—it's a currency that flows through tile chains.
-- **Sequential tiles**: Confidence MULTIPLIES (0.90 × 0.80 = 0.72)
-- **Parallel tiles**: Confidence AVERAGES (weighted by trust)
-- **Three-Zone Model**: GREEN (0.90-1.00 auto), YELLOW (0.75-0.89 review), RED (<0.75 stop)
-
-#### 2. Stigmergic Coordination
-Tiles don't need a boss. They communicate through the spreadsheet itself—leaving "digital pheromones" in cells.
-- Five levels of emergence: Individual → Pairwise → Local → Global → Self-modifying
-- Swarm intelligence from simple rules
-- See: `src/spreadsheet/tiles/stigmergy.ts`
-
-#### 3. The Composition Paradox
-Safe tiles don't always compose safely. Two individually safe tiles can create unsafe behavior when combined.
-- Constraints naturally STRENGTHEN during composition
-- Each tile can only RESTRICT the valid input space
-- See: `src/spreadsheet/tiles/composition-validator.ts`
-
-#### 4. Tile Algebra: Formal Verification
-Tiles form a rigorous algebraic structure—a category. We can PROVE composition is valid.
-- Associativity: (A ∘ B) ∘ C = A ∘ (B ∘ C)
-- Identity: id ∘ A = A ∘ id = A
-- Distributivity: A ∘ (B + C) = (A ∘ B) + (A ∘ C)
-- See: `docs/research/smp-paper/formal/TILE_ALGEBRA_FORMAL.md`
+1. **Confidence Flow Theory** - Sequential multiplies, parallel averages
+2. **Stigmergic Coordination** - Digital pheromones for swarm intelligence
+3. **The Composition Paradox** - Safe tiles don't always compose safely
+4. **Tile Algebra** - Formal verification through category theory
 
 ### TIER 2: New Capabilities
 
-#### 5. Cross-Modal Tiles
-Tiles pass MEANING, not just data. Text, image, and audio tiles share a latent space.
-- Hybrid embedding: 256-dim shared + 512-dim modality-specific
-- Retrieval: 0.89, Cross-modal alignment: 0.84
-
-#### 6. Counterfactual Branching
-Tiles branch into parallel simulations, exploring "what if" scenarios WITHOUT committing.
-- Quantum decision visualization
-- See all possible futures before choosing one
-
-#### 7. Tile Memory & Cumulative Learning
-Tiles maintain state across executions. They learn from use, not just training.
-- L1-L4 Memory Hierarchy: Register → Working → Session → Long-term
-- See: `src/spreadsheet/tiles/tile-memory.ts`
-
-#### 8. Distributed Execution
-Tiles live wherever they need to be—laptop, AWS GPU, edge device—and work together.
-- The spreadsheet makes distributed systems invisible
-
-#### 9. Federated Tile Learning
-Organizations share learned decision boundaries as inspectable tiles, not raw gradients.
-- Collaborate without exposing raw data
-- No blind aggregation required
+5. **Cross-Modal Tiles** - Pass meaning, not just data
+6. **Counterfactual Branching** - Explore "what if" without committing
+7. **Tile Memory** - L1-L4 hierarchy for cumulative learning
+8. **Distributed Execution** - Tiles live wherever needed
+9. **Federated Learning** - Share boundaries, not data
 
 ### TIER 3: Infrastructure
 
-#### 10. Execution Strategies
-Cells auto-route to parallel/series, sync/async based on dependencies.
-- 15x faster with same formulas
-
-#### 11. KV-Cache Cell Sharing
-Multiple tiles share cached KV states. No recomputation needed.
-
-#### 12. Granular Constraints
-Constrain variables to developer tolerance with explicit interfaces.
+10. **Execution Strategies** - Auto-route parallel/series
+11. **KV-Cache Sharing** - 70%+ reuse rates
+12. **Granular Constraints** - Developer tolerance enforcement
 
 ### TIER 4: Emerging Research
 
-#### 13. Tile Debugging Tools
-Debug AI like software—breakpoints, watches, step-through.
-
-#### 14. Tile Marketplace
-Economy of intelligence—buy, sell, share tiles.
-
-#### 15. Automatic Discovery
-AI finds optimal tile decomposition from monolithic models.
+13. **Tile Debugging** - Breakpoints for AI
+14. **Tile Marketplace** - Economy of intelligence
+15. **Automatic Discovery** - AI finds tile decomposition
 
 ---
 
 ## Implementation Status
 
-### Proof-of-Concept Files Created
+### PoC Files (7 implementations)
 ```
 src/spreadsheet/tiles/
-├── confidence-cascade.ts    # Three-zone model implementation
-├── stigmergy.ts             # Digital pheromones for coordination
-├── tile-memory.ts           # L1-L4 memory hierarchy
-└── composition-validator.ts # Algebraic composition validation
+├── confidence-cascade.ts    # Three-zone model ✅
+├── stigmergy.ts             # Digital pheromones ✅
+├── tile-memory.ts           # L1-L4 hierarchy ✅
+├── composition-validator.ts # Algebraic validation ✅
+├── counterfactual.ts        # Parallel simulations ✅
+├── federated-tile.ts        # Cross-org learning ✅
+└── cross-modal.ts           # Latent space fusion ✅
 ```
 
-### Research Documentation
+### Phase 1 Core (NEW)
+```
+src/spreadsheet/tiles/core/
+├── Tile.ts                  # Base interface ✅ NEW
+├── TileChain.ts             # Pipeline composition ✅ NEW
+├── Registry.ts              # Discovery system ✅ NEW
+└── index.ts                 # Barrel exports ✅ NEW
+```
+
+### Example Tiles (NEW)
+```
+src/spreadsheet/tiles/examples/
+├── SentimentTile.ts         # Text analysis ✅ NEW
+├── FraudDetectionTile.ts    # Risk analysis ✅ NEW
+└── index.ts                 # Exports ✅ NEW
+```
+
+---
+
+## Audit Findings (2026-03-10)
+
+### Codebase Stats
+- **391 TypeScript files** in src/spreadsheet/
+- **294 Python simulations** in simulations/
+- **60+ research documents** in docs/research/
+- **500,000+ words** of foundational research
+
+### Critical Issues Found
+1. TypeScript errors in audit/auth middleware (syntax errors)
+2. Missing main barrel export for spreadsheet module
+3. Placeholder code in production paths (OAuth, monitoring)
+4. Test coverage ~15% (target: 80%)
+
+### Research Contradictions
+1. **Privacy vs. Performance**: KV-cache reuse vs. differential privacy
+2. **Centralization vs. Distribution**: Federated needs coordination
+3. **Stochastic vs. Deterministic**: Emergence needs randomness
+
+### Simulation Validations
+- 10M checkpointed models outperform 175B monoliths (96% vs 87%)
+- 35% higher information preservation with checkpoints
+- 85% reduction in error propagation with isolation
+- 47% better decision visibility with wave collapse
+
+---
+
+## Research Queue for Future Agents
+
+### Priority 1 (Spawn Now)
+- R1: Privacy-preserving KV-cache (1 agent)
+- R2: Hybrid centralized-distributed (2 agents)
+- R3: Adaptive temperature annealing (1 agent)
+
+### Priority 2 (Next Week)
+- R4: Tile extraction from monoliths (3 agents)
+- R5: Cross-modal tile standards (2 agents)
+- R6: Tile graph optimization (1 agent)
+
+### Priority 3 (Next Month)
+- R7: Tile debugging semantics (2 agents)
+- R8: Meta-tile stratification (2 agents)
+- R9: Tile marketplace economics (2 agents)
+
+See `docs/research/smp-paper/FUTURE_RESEARCH_DIRECTIONS.md` for full queue.
+
+---
+
+## Key Documents
+
+### Synthesis (Readable Core)
 ```
 docs/research/smp-paper/
-├── notes/                   # 25+ breakthrough research files
-├── formal/                  # Formal mathematical foundations
-├── examples/                # Concrete real-world examples
-└── Smp_final_whitepaper.md  # Updated white paper with breakthroughs
+├── SYNTHESIS_CORE_THEORY.md           # Plain English theory
+├── EXECUTIVE_SUMMARY.md               # CEO summary
+├── AUDIT_INSIGHTS.md                  # Comprehensive audit ✅ NEW
+├── FUTURE_RESEARCH_DIRECTIONS.md      # Agent spawn queue ✅ NEW
+└── SMP_IMPLEMENTATION_BLUEPRINT.md    # Build order ✅ NEW
 ```
 
----
-
-## Document Structure
-
+### Implementation Blueprint
 ```
 docs/research/smp-paper/
-├── notes/              # Individual agent findings (25+ files)
-├── critiques/          # Peer review and feedback
-├── discussions/        # Ongoing conversations
-├── formal/             # Mathematical foundations
-├── examples/           # Concrete usage examples
-└── Smp_final_whitepaper.md  # Final document
+└── SMP_IMPLEMENTATION_BLUEPRINT.md    # 12-week plan
+    ├── Phase 1: Core (Weeks 1-2) ✅ DONE
+    ├── Phase 2: Infrastructure (Weeks 3-4)
+    ├── Phase 3: Advanced (Weeks 5-8)
+    └── Phase 4: Production (Weeks 9-12)
 ```
 
 ---
 
-## Agent Specializations
+## Technical Debt
 
-| Agent Type | Purpose | Skills |
-|------------|---------|--------|
-| **Creative Writers** | Narrative flow, analogies | Punchy, casual voice |
-| **Hard Logic** | Formal proofs, schemas | Precise, structured |
-| **ML/DL/RL Researchers** | Breakthrough ML concepts | Deep learning theory |
-| **Schema Developers** | Data structures, interfaces | System architecture |
-| **Simulation Builders** | Validate concepts | Python, modeling |
-| **Synthesis Agents** | Combine findings | Writing, editing |
-| **Critique Agents** | Review, improve | Critical analysis |
-| **Security Researchers** | Adversarial analysis | Attack/defense patterns |
+### Critical (Fix Now)
+- [ ] TypeScript errors in audit/auth middleware
+- [ ] Missing main barrel export
+- [ ] Placeholder code in production paths
 
----
+### High (This Month)
+- [ ] OAuth implementations incomplete
+- [ ] Test coverage to 80%
+- [ ] Performance benchmarks
 
-## The Final Paper
-
-**Title**: "Seed-Model-Prompt Programming: LLMs to Swarms, SMPbots Peek on Schrödinger's Cat"
-
-**Voice**: Punchy but casual. Commercial fisherman, not patent lawyer.
-
-**Structure**:
-1. Hook (why this matters)
-2. The SMP idea (what it is)
-3. Breakthrough capabilities (what you can do now)
-4. How it works (under the hood)
-5. Examples (real use cases)
-6. The science (why it works)
-7. Future directions (where it's going)
-
-**Style Guidelines**:
-- Use analogies and metaphors
-- Keep sentences punchy
-- Avoid jargon where possible
-- Maintain the "fisherman voice" - direct, practical, no-nonsense
+### Medium (Next Quarter)
+- [ ] Documentation gaps
+- [ ] Code duplication in caching
+- [ ] Naming convention cleanup
 
 ---
 
-## Quick Reference
-
-### SMP = Seed + Model + Prompt
-
-- **Seed**: The data (selected cells, columns, range)
-- **Model**: The AI (distilled LLM, SmallML, cached)
-- **Prompt**: The task (what you want done)
-
-### Key Breakthrough
-
-> "Deconstruct Agents into Essential functions for granular reasoning control and reverse engineering logic visually. SMPbots Seed+Model+Prompt can replace blurry logic if cell is functioning optimum and can scale. Inductive ML Programming in Spreadsheets or Embedded Headless."
-
-### The Three-Zone Model
+## The Three-Zone Model
 
 | Zone | Confidence | Action |
 |------|------------|--------|
 | GREEN | 0.90-1.00 | Auto-proceed |
 | YELLOW | 0.75-0.89 | Human review |
 | RED | 0.00-0.74 | Stop, diagnose |
+
+**Confidence Flow**:
+- Sequential: `c(A;B) = c(A) × c(B)`
+- Parallel: `c(A||B) = (c(A) + c(B)) / 2`
 
 ---
 
@@ -208,11 +235,21 @@ docs/research/smp-paper/
 **Product**: POLLN - Pattern-Organized Large Language Network
 **License**: MIT (open source)
 
-**Current Phase**: Proof-of-Concept Implementation
+**Current Phase**: Phase 1 Complete, Audit Complete, Research Queue Ready
 **Vision**: "Tile Intelligence in real-time spreadsheets for simulation or monitoring"
 
 ---
 
-*Orchestrator Active | 23 Research Agents Completed | 15 Breakthrough Domains*
+## Next Actions
+
+1. **Fix TypeScript errors** - audit/auth middleware
+2. **Phase 2 infrastructure** - TileWorker, TileCache, TileCompiler
+3. **Integration tests** - Validate confidence flow
+4. **Performance benchmarks** - Validate simulation claims
+5. **Spawn research agents** - Follow FUTURE_RESEARCH_DIRECTIONS.md
+
+---
+
+*Orchestrator Active | 140+ Research Agents | Phase 1 Core Built | Full Audit Complete*
 *Last Updated: 2026-03-10*
-*Status: Building PoC Implementations*
+*Status: Ready for Phase 2*

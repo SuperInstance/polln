@@ -107,7 +107,7 @@ interface ResponseTimeData {
 /**
  * Create audit middleware
  */
-export function auditMiddleware(options: AuditMiddlewareOptions = {}): (req: AuditedRequest, res: Response, next: NextFunction) => {
+export function auditMiddleware(options: AuditMiddlewareOptions = {}): (req: AuditedRequest, res: Response, next: NextFunction) => void {
   const opts = { ...DEFAULT_OPTIONS, ...options };
   const auditLogger = getAuditLogger();
   const responseTimes = new Map<string, ResponseTimeData>();
@@ -128,7 +128,7 @@ export function auditMiddleware(options: AuditMiddlewareOptions = {}): (req: Aud
     req.auditStartTime = startTime;
     req.auditMetadata = {
       userAgent: req.headers['user-agent'],
-      ipAddress = getClientIp(req),
+      ipAddress: getClientIp(req),
       path: req.path,
       method: req.method,
       query: req.query as Record<string, string>,
@@ -426,7 +426,7 @@ function maskSensitiveFields(obj: any, options: AuditMiddlewareOptions): any {
 /**
  * Error handler middleware for audit logging
  */
-export function auditErrorHandler(options: AuditMiddlewareOptions = {}): (err: Error, req: AuditedRequest, res: Response, next: NextFunction) => {
+export function auditErrorHandler(options: AuditMiddlewareOptions = {}): (err: Error, req: AuditedRequest, res: Response, next: NextFunction) => Promise<void> {
   const opts = { ...DEFAULT_OPTIONS, ...options };
   const auditLogger = getAuditLogger();
 
@@ -494,7 +494,7 @@ export function auditErrorHandler(options: AuditMiddlewareOptions = {}): (err: E
 /**
  * Performance monitoring middleware
  */
-export function performanceMonitor(options: AuditMiddlewareOptions = {}): (req: AuditedRequest, res: Response, next: NextFunction) {
+export function performanceMonitor(options: AuditMiddlewareOptions = {}): (req: AuditedRequest, res: Response, next: NextFunction) => void {
   const opts = { ...DEFAULT_OPTIONS, ...options };
   const auditLogger = getAuditLogger();
 

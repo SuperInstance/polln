@@ -6,7 +6,7 @@
  */
 
 import { LogCell, LogCellConfig } from '../core/LogCell.js';
-import { CellType, CellState, LogicLevel, CellOutput } from '../core/types.js';
+import { CellType, CellState, LogicLevel, CellOutput, ProcessingResult, ProcessingContext, ReasoningTrace, Feedback } from '../core/types.js';
 
 /**
  * Filter operators
@@ -88,10 +88,46 @@ export class FilterCell extends LogCell {
   }
 
   /**
-   * Filter input data based on conditions
+   * Activate the cell
    */
-  async filter(input: unknown): Promise<CellOutput> {
-    this.state = CellState.PROCESSING;
+  async activate(): Promise<void> {
+    this.state = CellState.SENSING;
+  }
+
+  /**
+   * Process input and produce output
+   */
+  async process(input: unknown): Promise<CellOutput> {
+    return this.executeProcessingPipeline(input);
+  }
+
+  /**
+   * Learn from feedback
+   */
+  async learn(feedback: Feedback): Promise<void> {
+    // Update filter conditions based on feedback
+    // For now, just record the feedback
+    this.filterHistory.push({
+      input: feedback,
+      output: null,
+      timestamp: Date.now(),
+    });
+  }
+
+  /**
+   * Deactivate the cell
+   */
+  async deactivate(): Promise<void> {
+    this.state = CellState.DORMANT;
+  }
+
+  /**
+   * Execute the processing logic
+   */
+  protected async executeProcessing(
+    input: unknown,
+    context: ProcessingContext
+  ): Promise<ProcessingResult> {
     const startTime = Date.now();
 
     try {
@@ -111,7 +147,6 @@ export class FilterCell extends LogCell {
         result = input.filter((item) => !result.includes(item));
       }
 
-      this.state = CellState.EMITTING;
       this.lastFilteredCount = result.length;
 
       this.filterHistory.push({
@@ -120,20 +155,36 @@ export class FilterCell extends LogCell {
         timestamp: Date.now(),
       });
 
+      const trace: ReasoningTrace = {
+        steps: [
+          {
+            id: `step-${Date.now()}`,
+            type: 'observation' as any,
+            description: `Filtered ${input.length} items to ${result.length} items`,
+            input,
+            output: result,
+            confidence: 1.0,
+            duration: Date.now() - startTime,
+            timestamp: startTime,
+            dependencies: [],
+          },
+        ],
+        dependencies: [],
+        confidence: 1.0,
+        totalTime: Date.now() - startTime,
+        startTime,
+        endTime: Date.now(),
+      };
+
       return {
-        success: true,
         value: result,
-        timestamp: Date.now(),
+        confidence: 1.0,
+        trace,
+        explanation: `Filtered ${input.length} items to ${result.length} items using ${this.conditions.length} condition(s)`,
       };
     } catch (error) {
-    this.state = CellState.ERROR;
-    return {
-      success: false,
-      value: null,
-      error: error instanceof Error ? error.message : 'Filter failed',
-      timestamp: Date.now(),
-    };
-  }
+      throw error;
+    }
   }
 
   /**
@@ -335,4 +386,4 @@ export class FilterCell extends LogCell {
       logic: this.logicLevel,
     };
   }
-
+}

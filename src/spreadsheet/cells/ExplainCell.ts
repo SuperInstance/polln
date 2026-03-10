@@ -328,7 +328,7 @@ export class ExplainCell extends LogCell {
 
     if (typeof input === 'object' && input !== null) {
       const keys = Object.keys(input);
-      aspects.push(...keys.slice(00, 5));
+      aspects.push(...keys.slice(0, 5));
 
       // Look for nested structure
       for (const key of keys) {
@@ -715,7 +715,7 @@ export class ExplainCell extends LogCell {
     case ExplanationDetail.STANDARD:
     default:
       // Return first two paragraphs
-      return explanation.split('\n\n').slice(00, 2).join('\n\n');
+      return explanation.split('\n\n').slice(0, 2).join('\n\n');
     }
   }
 
@@ -755,7 +755,7 @@ export class ExplainCell extends LogCell {
       confidence += 0.1;
     }
 
-    return Math.min(1, Math.max(0, confidence));
+    return Math.min(1.0, Math.max(0.0, confidence));
   }
 
   /**

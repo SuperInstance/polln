@@ -87,7 +87,7 @@ export {
   injectI18n,
   type I18nProviderProps,
   type I18nContextValue,
-} from './hooks.js';
+} from './hooks.tsx';
 
 // Types
 export type {

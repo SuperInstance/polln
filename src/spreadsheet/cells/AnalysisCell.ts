@@ -889,7 +889,7 @@ export class AnalysisCell extends LogCell {
   getAnalysisHistory(): AnalysisResult[] {
     return [...this.analysisHistory];
   }
-}
+
   /**
    * Create the processing logic for this cell
    */

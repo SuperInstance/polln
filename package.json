@@ -112,7 +112,12 @@
     "monitor:logs": "node dist/cli/index.js monitor logs",
     "monitor:health": "node dist/cli/index.js monitor health",
     "monitor:alerts": "node dist/cli/index.js monitor alerts",
-    "monitor:dashboard": "node dist/cli/index.js monitor dashboard"
+    "monitor:dashboard": "node dist/cli/index.js monitor dashboard",
+    "bench:baseline": "npx tsx src/benchmarking/run-benchmark.ts",
+    "bench:baseline:sentiment": "npx tsx src/benchmarking/run-benchmark.ts --task=sentiment",
+    "bench:baseline:classification": "npx tsx src/benchmarking/run-benchmark.ts --task=classification",
+    "bench:baseline:reasoning": "npx tsx src/benchmarking/run-benchmark.ts --task=reasoning",
+    "example:baseline": "npx tsx examples/baseline-comparison-example.ts"
   },
   "keywords": [
     "distributed-intelligence",

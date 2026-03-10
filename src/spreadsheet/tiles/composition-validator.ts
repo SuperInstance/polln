@@ -1311,13 +1311,13 @@ export default {
 
   // Types
   TileDataType,
-  type ValidationResult,
-  type Composition,
-  type Tile,
-  type ConstraintBound,
-  type TypeConstraint,
-  type ConfidenceBounds,
-  type Paradox,
-  type ValidationIssue,
-  type LawViolation
+  ValidationResult,
+  Composition,
+  Tile,
+  ConstraintBound,
+  TypeConstraint,
+  ConfidenceBounds,
+  Paradox,
+  ValidationIssue,
+  LawViolation
 };

@@ -188,7 +188,7 @@ export class RateLimiter {
 /**
  * Create rate limiter middleware
  */
-export function createRateLimiter(config: RateLimitConfig): (req: Request, res: Response, next: NextFunction) => {
+export function createRateLimiter(config: RateLimitConfig): (req: Request, res: Response, next: NextFunction) => void {
   const limiter = new RateLimiter(config);
 
   return (req: Request, res: Response, next: NextFunction): void => {
