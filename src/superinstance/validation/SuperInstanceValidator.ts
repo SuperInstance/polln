@@ -207,7 +207,90 @@ export class SuperInstanceValidator {
       }
     });
 
-    // Add rules for other instance types...
+    // API types
+    this.schemaRules.set(InstanceType.API, {
+      required: ['baseUrl'],
+      optional: ['endpoints', 'authentication', 'cachePolicy', 'rateLimit', 'retryPolicy', 'defaultHeaders'],
+      constraints: {
+        baseUrl: { pattern: /^https?:\/\/.+/ }
+      }
+    });
+
+    // Storage types
+    this.schemaRules.set(InstanceType.OBJECT_STORAGE, {
+      required: ['storageType', 'storageFormat', 'storagePolicy'],
+      optional: ['backupConfig', 'basePath', 'stats'],
+      constraints: {
+        storageType: ['memory', 'file_system', 'database', 'object_storage', 'key_value', 'cache', 'archive']
+      }
+    });
+
+    this.schemaRules.set(InstanceType.FILE_SYSTEM, {
+      required: ['storageType', 'storageFormat', 'storagePolicy'],
+      optional: ['backupConfig', 'basePath', 'stats'],
+      constraints: {
+        storageType: ['file_system']
+      }
+    });
+
+    this.schemaRules.set(InstanceType.KEY_VALUE_STORE, {
+      required: ['storageType', 'storageFormat', 'storagePolicy'],
+      optional: ['backupConfig', 'basePath', 'stats'],
+      constraints: {
+        storageType: ['key_value']
+      }
+    });
+
+    this.schemaRules.set(InstanceType.CACHE, {
+      required: ['storageType', 'storageFormat', 'storagePolicy'],
+      optional: ['backupConfig', 'basePath', 'stats'],
+      constraints: {
+        storageType: ['cache']
+      }
+    });
+
+    // Terminal types
+    this.schemaRules.set(InstanceType.TERMINAL, {
+      required: ['shellType', 'terminalConfig'],
+      optional: ['currentSession', 'sessions'],
+      constraints: {
+        shellType: ['bash', 'powershell', 'cmd', 'zsh', 'fish', 'docker', 'ssh', 'custom']
+      }
+    });
+
+    this.schemaRules.set(InstanceType.SHELL, {
+      required: ['shellType', 'terminalConfig'],
+      optional: ['currentSession', 'sessions'],
+      constraints: {
+        shellType: ['bash', 'zsh', 'fish']
+      }
+    });
+
+    this.schemaRules.set(InstanceType.POWERSHELL, {
+      required: ['shellType', 'terminalConfig'],
+      optional: ['currentSession', 'sessions'],
+      constraints: {
+        shellType: ['powershell']
+      }
+    });
+
+    this.schemaRules.set(InstanceType.COMMAND_LINE, {
+      required: ['shellType', 'terminalConfig'],
+      optional: ['currentSession', 'sessions'],
+      constraints: {
+        shellType: ['cmd']
+      }
+    });
+
+    // Tensor types
+    this.schemaRules.set(InstanceType.TENSOR, {
+      required: ['tensorType', 'dataType', 'geometricConfig'],
+      optional: ['operations', 'metrics'],
+      constraints: {
+        tensorType: ['scalar', 'vector', 'matrix', 'tensor3d', 'tensor4d', 'sparse', 'complex', 'quaternion'],
+        dataType: ['float32', 'float64', 'int32', 'int64', 'bool', 'complex64', 'complex128']
+      }
+    });
   }
 
   /**
@@ -238,9 +321,63 @@ export class SuperInstanceValidator {
       InstanceType.DATA_BLOCK,
       InstanceType.PROCESS,
       InstanceType.LEARNING_AGENT,
-      InstanceType.DATABASE
+      InstanceType.DATABASE,
+      InstanceType.API,
+      InstanceType.TENSOR
     ]);
     this.compatibilityMatrix.set(InstanceType.LEARNING_AGENT, agentCompatible);
+
+    // API instances can connect to data and other APIs
+    const apiCompatible = new Set<InstanceType>([
+      InstanceType.DATA_BLOCK,
+      InstanceType.API,
+      InstanceType.PROCESS,
+      InstanceType.LEARNING_AGENT,
+      InstanceType.MESSAGE_QUEUE,
+      InstanceType.WEBHOOK
+    ]);
+    this.compatibilityMatrix.set(InstanceType.API, apiCompatible);
+
+    // Storage instances can connect to data and processes
+    const storageCompatible = new Set<InstanceType>([
+      InstanceType.DATA_BLOCK,
+      InstanceType.PROCESS,
+      InstanceType.LEARNING_AGENT,
+      InstanceType.FILE,
+      InstanceType.DATABASE,
+      InstanceType.OBJECT_STORAGE,
+      InstanceType.FILE_SYSTEM,
+      InstanceType.KEY_VALUE_STORE,
+      InstanceType.CACHE
+    ]);
+    this.compatibilityMatrix.set(InstanceType.OBJECT_STORAGE, storageCompatible);
+    this.compatibilityMatrix.set(InstanceType.FILE_SYSTEM, storageCompatible);
+    this.compatibilityMatrix.set(InstanceType.KEY_VALUE_STORE, storageCompatible);
+    this.compatibilityMatrix.set(InstanceType.CACHE, storageCompatible);
+
+    // Terminal instances can connect to processes and data
+    const terminalCompatible = new Set<InstanceType>([
+      InstanceType.PROCESS,
+      InstanceType.DATA_BLOCK,
+      InstanceType.TERMINAL,
+      InstanceType.SHELL,
+      InstanceType.POWERSHELL,
+      InstanceType.COMMAND_LINE
+    ]);
+    this.compatibilityMatrix.set(InstanceType.TERMINAL, terminalCompatible);
+    this.compatibilityMatrix.set(InstanceType.SHELL, terminalCompatible);
+    this.compatibilityMatrix.set(InstanceType.POWERSHELL, terminalCompatible);
+    this.compatibilityMatrix.set(InstanceType.COMMAND_LINE, terminalCompatible);
+
+    // Tensor instances can connect to data and learning agents
+    const tensorCompatible = new Set<InstanceType>([
+      InstanceType.DATA_BLOCK,
+      InstanceType.LEARNING_AGENT,
+      InstanceType.TENSOR,
+      InstanceType.PROCESS,
+      InstanceType.DATABASE
+    ]);
+    this.compatibilityMatrix.set(InstanceType.TENSOR, tensorCompatible);
   }
 
   /**
@@ -285,6 +422,24 @@ export class SuperInstanceValidator {
 
     // Learning agents can send/receive queries and feedback
     this.messageCompatibility.set(InstanceType.LEARNING_AGENT, new Set(['query', 'feedback', 'data', 'command']));
+
+    // API instances can send/receive data and command messages
+    this.messageCompatibility.set(InstanceType.API, new Set(['data', 'command', 'query', 'response', 'event']));
+
+    // Storage instances can send/receive data and command messages
+    this.messageCompatibility.set(InstanceType.OBJECT_STORAGE, new Set(['data', 'command', 'query']));
+    this.messageCompatibility.set(InstanceType.FILE_SYSTEM, new Set(['data', 'command', 'query']));
+    this.messageCompatibility.set(InstanceType.KEY_VALUE_STORE, new Set(['data', 'command', 'query']));
+    this.messageCompatibility.set(InstanceType.CACHE, new Set(['data', 'command', 'query']));
+
+    // Terminal instances can send/receive command and data messages
+    this.messageCompatibility.set(InstanceType.TERMINAL, new Set(['command', 'data', 'signal', 'stream']));
+    this.messageCompatibility.set(InstanceType.SHELL, new Set(['command', 'data', 'signal', 'stream']));
+    this.messageCompatibility.set(InstanceType.POWERSHELL, new Set(['command', 'data', 'signal', 'stream']));
+    this.messageCompatibility.set(InstanceType.COMMAND_LINE, new Set(['command', 'data', 'signal', 'stream']));
+
+    // Tensor instances can send/receive data and operation messages
+    this.messageCompatibility.set(InstanceType.TENSOR, new Set(['data', 'operation', 'query', 'transform']));
   }
 
   /**
@@ -315,6 +470,45 @@ export class SuperInstanceValidator {
     const agentConnections = this.connectionCompatibility.get(InstanceType.LEARNING_AGENT)!;
     agentConnections.set(InstanceType.DATA_BLOCK, new Set([ConnectionType.DATA_FLOW]));
     agentConnections.set(InstanceType.LEARNING_AGENT, new Set([ConnectionType.DATA_FLOW, ConnectionType.CONTROL_FLOW]));
+    agentConnections.set(InstanceType.API, new Set([ConnectionType.DATA_FLOW]));
+    agentConnections.set(InstanceType.TENSOR, new Set([ConnectionType.DATA_FLOW]));
+
+    // API connections
+    const apiConnections = this.connectionCompatibility.get(InstanceType.API)!;
+    apiConnections.set(InstanceType.DATA_BLOCK, new Set([ConnectionType.DATA_FLOW, ConnectionType.STREAM]));
+    apiConnections.set(InstanceType.LEARNING_AGENT, new Set([ConnectionType.DATA_FLOW]));
+    apiConnections.set(InstanceType.API, new Set([ConnectionType.DATA_FLOW, ConnectionType.MESSAGE]));
+    apiConnections.set(InstanceType.WEBHOOK, new Set([ConnectionType.EVENT]));
+
+    // Storage connections
+    const storageConnections = this.connectionCompatibility.get(InstanceType.OBJECT_STORAGE)!;
+    storageConnections.set(InstanceType.DATA_BLOCK, new Set([ConnectionType.DATA_FLOW]));
+    storageConnections.set(InstanceType.PROCESS, new Set([ConnectionType.DATA_FLOW]));
+    storageConnections.set(InstanceType.FILE, new Set([ConnectionType.DATA_FLOW]));
+
+    // Apply same connections to other storage types
+    this.connectionCompatibility.get(InstanceType.FILE_SYSTEM)!.set(InstanceType.DATA_BLOCK, new Set([ConnectionType.DATA_FLOW]));
+    this.connectionCompatibility.get(InstanceType.FILE_SYSTEM)!.set(InstanceType.PROCESS, new Set([ConnectionType.DATA_FLOW]));
+    this.connectionCompatibility.get(InstanceType.KEY_VALUE_STORE)!.set(InstanceType.DATA_BLOCK, new Set([ConnectionType.DATA_FLOW]));
+    this.connectionCompatibility.get(InstanceType.KEY_VALUE_STORE)!.set(InstanceType.PROCESS, new Set([ConnectionType.DATA_FLOW]));
+    this.connectionCompatibility.get(InstanceType.CACHE)!.set(InstanceType.DATA_BLOCK, new Set([ConnectionType.DATA_FLOW]));
+    this.connectionCompatibility.get(InstanceType.CACHE)!.set(InstanceType.PROCESS, new Set([ConnectionType.DATA_FLOW]));
+
+    // Terminal connections
+    const terminalConnections = this.connectionCompatibility.get(InstanceType.TERMINAL)!;
+    terminalConnections.set(InstanceType.PROCESS, new Set([ConnectionType.STREAM, ConnectionType.CONTROL_FLOW]));
+    terminalConnections.set(InstanceType.DATA_BLOCK, new Set([ConnectionType.DATA_FLOW]));
+
+    // Apply same connections to other terminal types
+    this.connectionCompatibility.get(InstanceType.SHELL)!.set(InstanceType.PROCESS, new Set([ConnectionType.STREAM, ConnectionType.CONTROL_FLOW]));
+    this.connectionCompatibility.get(InstanceType.POWERSHELL)!.set(InstanceType.PROCESS, new Set([ConnectionType.STREAM, ConnectionType.CONTROL_FLOW]));
+    this.connectionCompatibility.get(InstanceType.COMMAND_LINE)!.set(InstanceType.PROCESS, new Set([ConnectionType.STREAM, ConnectionType.CONTROL_FLOW]));
+
+    // Tensor connections
+    const tensorConnections = this.connectionCompatibility.get(InstanceType.TENSOR)!;
+    tensorConnections.set(InstanceType.DATA_BLOCK, new Set([ConnectionType.DATA_FLOW]));
+    tensorConnections.set(InstanceType.LEARNING_AGENT, new Set([ConnectionType.DATA_FLOW]));
+    tensorConnections.set(InstanceType.TENSOR, new Set([ConnectionType.DATA_FLOW, ConnectionType.CONTROL_FLOW]));
   }
 
   /**
@@ -332,6 +526,64 @@ export class SuperInstanceValidator {
 
     // Data blocks can contain other data blocks (for nesting)
     this.compositionRules.set(InstanceType.DATA_BLOCK, new Set([
+      InstanceType.DATA_BLOCK
+    ]));
+
+    // Nested SuperInstance can contain all new instance types
+    const nestedTypes = new Set([
+      InstanceType.DATA_BLOCK,
+      InstanceType.PROCESS,
+      InstanceType.LEARNING_AGENT,
+      InstanceType.FILE,
+      InstanceType.NESTED_SUPERINSTANCE,
+      InstanceType.API,
+      InstanceType.OBJECT_STORAGE,
+      InstanceType.FILE_SYSTEM,
+      InstanceType.KEY_VALUE_STORE,
+      InstanceType.CACHE,
+      InstanceType.TERMINAL,
+      InstanceType.SHELL,
+      InstanceType.POWERSHELL,
+      InstanceType.COMMAND_LINE,
+      InstanceType.TENSOR
+    ]);
+    this.compositionRules.set(InstanceType.NESTED_SUPERINSTANCE, nestedTypes);
+
+    // API instances can contain data blocks
+    this.compositionRules.set(InstanceType.API, new Set([
+      InstanceType.DATA_BLOCK
+    ]));
+
+    // Storage instances can contain data blocks
+    this.compositionRules.set(InstanceType.OBJECT_STORAGE, new Set([
+      InstanceType.DATA_BLOCK
+    ]));
+    this.compositionRules.set(InstanceType.FILE_SYSTEM, new Set([
+      InstanceType.DATA_BLOCK
+    ]));
+    this.compositionRules.set(InstanceType.KEY_VALUE_STORE, new Set([
+      InstanceType.DATA_BLOCK
+    ]));
+    this.compositionRules.set(InstanceType.CACHE, new Set([
+      InstanceType.DATA_BLOCK
+    ]));
+
+    // Terminal instances can contain processes
+    this.compositionRules.set(InstanceType.TERMINAL, new Set([
+      InstanceType.PROCESS
+    ]));
+    this.compositionRules.set(InstanceType.SHELL, new Set([
+      InstanceType.PROCESS
+    ]));
+    this.compositionRules.set(InstanceType.POWERSHELL, new Set([
+      InstanceType.PROCESS
+    ]));
+    this.compositionRules.set(InstanceType.COMMAND_LINE, new Set([
+      InstanceType.PROCESS
+    ]));
+
+    // Tensor instances can contain data blocks
+    this.compositionRules.set(InstanceType.TENSOR, new Set([
       InstanceType.DATA_BLOCK
     ]));
   }

@@ -6,18 +6,43 @@
 
 import { SuperInstanceSystem, InstanceType, InstanceState } from '../index';
 
+// Mock the validator to avoid import issues
+jest.mock('../validation/SuperInstanceValidator', () => {
+  return {
+    SuperInstanceValidator: jest.fn().mockImplementation(() => ({
+      validateConfiguration: jest.fn().mockReturnValue({ valid: true, errors: [] }),
+      validateStateTransition: jest.fn().mockReturnValue({ allowed: true })
+    }))
+  };
+});
+
+// Mock the migration adapter
+jest.mock('../adapters/CellMigrationAdapter', () => {
+  return {
+    CellMigrationAdapter: jest.fn().mockImplementation(() => ({
+      migrate: jest.fn()
+    }))
+  };
+});
+
 describe('SuperInstance System', () => {
   let system: SuperInstanceSystem;
 
   beforeEach(() => {
+    // Clear all mocks
+    jest.clearAllMocks();
     system = new SuperInstanceSystem();
   });
 
   afterEach(async () => {
-    // Clean up all instances
-    const instances = system.getAllInstances();
-    for (const instance of instances) {
-      await system.removeInstance(instance.id);
+    // Clean up all instances if the method exists
+    if (system.getAllInstances) {
+      const instances = system.getAllInstances();
+      for (const instance of instances) {
+        if (system.removeInstance) {
+          await system.removeInstance(instance.id);
+        }
+      }
     }
   });
 

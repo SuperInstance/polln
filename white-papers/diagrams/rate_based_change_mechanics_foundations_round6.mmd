@@ -1,0 +1,132 @@
+```mermaid
+---
+title: Rate-Based Change Mechanics - Mathematical Foundations
+config:
+  theme: neutral
+  fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif"
+  fontSize: 14
+  padding: 20
+---
+flowchart TD
+    %% ===== FUNDAMENTAL EQUATION =====
+    subgraph FUNDAMENTAL [Fundamental Rate-First Formalism]
+        direction LR
+        X0[<b>Initial State</b><br/>x₀ = x(t₀)]
+        INTEGRAL[<b>Rate Integration</b><br/>∫ r(τ) dτ<br/>from t₀ to t]
+        XT[<b>Current State</b><br/>x(t)]
+
+        X0 --> PLUS{+}
+        INTEGRAL --> PLUS
+        PLUS --> XT
+
+        EQ1[<b>Fundamental Equation</b><br/>x(t) = x₀ + ∫ r(τ) dτ]
+        XT --> EQ1
+    end
+
+    %% ===== EQUIVALENCE TO ODE =====
+    subgraph ODE_EQUIVALENCE [Equivalence to Ordinary Differential Equation]
+        direction LR
+        RATE_FUNC[<b>Rate Function</b><br/>r(t) = dx/dt]
+        ODE_EQ[<b>ODE Form</b><br/>dx/dt = r(t)<br/>x(t₀) = x₀]
+        FTC[<b>Fundamental Theorem<br/>of Calculus</b>]
+
+        FUNDAMENTAL --> FTC
+        FTC --> RATE_FUNC
+        RATE_FUNC --> ODE_EQ
+    end
+
+    %% ===== DISCRETE APPROXIMATION =====
+    subgraph DISCRETE [Discrete Time Approximation]
+        direction TB
+        DT[<b>Time Step</b><br/>Δt]
+        XN[<b>Current State</b><br/>xₙ]
+        RN[<b>Current Rate</b><br/>rₙ]
+        XNEXT[<b>Next State</b><br/>xₙ₊₁]
+
+        XN --> PLUS2{+}
+        RN --> TIMES{×}
+        DT --> TIMES
+        TIMES --> PLUS2
+        PLUS2 --> XNEXT
+
+        EQ2[<b>Euler Discretization</b><br/>xₙ₊₁ = xₙ + rₙΔt + O(Δt²)]
+        XNEXT --> EQ2
+    end
+
+    %% ===== RATE DEADBANDS =====
+    subgraph DEADBANDS [Rate Deadbands and Anomaly Detection]
+        direction LR
+        R_MIN[<b>Minimum Rate</b><br/>r_min = μ - kσ]
+        R_MAX[<b>Maximum Rate</b><br/>r_max = μ + kσ]
+        NORMAL_ZONE[<b>Normal Operation Zone</b><br/>r ∈ [r_min, r_max]]
+        ANOMALY_ZONE[<b>Anomaly Zone</b><br/>r ∉ [r_min, r_max]]
+
+        R_MIN --> NORMAL_ZONE
+        R_MAX --> NORMAL_ZONE
+
+        STATS[<b>Historical Statistics</b><br/>μ = mean rate<br/>σ = std deviation<br/>k = sensitivity (2-3)]
+        STATS --> R_MIN
+        STATS --> R_MAX
+
+        CHECK_RATE{Rate Check}
+        NORMAL_ZONE -->|Normal| CONTINUE[Continue Processing]
+        NORMAL_ZONE -->|Anomaly| ANOMALY_ZONE
+        ANOMALY_ZONE --> TRIGGER[Trigger Alert]
+    end
+
+    %% ===== HIGHER-ORDER RATES =====
+    subgraph HIGHER_ORDER [Higher-Order Rate Analysis]
+        direction LR
+        POSITION[<b>Position</b><br/>x(t)]
+        VELOCITY[<b>Velocity (1st derivative)</b><br/>v(t) = dx/dt]
+        ACCELERATION[<b>Acceleration (2nd derivative)</b><br/>a(t) = dv/dt = d²x/dt²]
+        JERK[<b>Jerk (3rd derivative)</b><br/>j(t) = da/dt = d³x/dt³]
+
+        POSITION -- "Differentiate" --> VELOCITY
+        VELOCITY -- "Differentiate" --> ACCELERATION
+        ACCELERATION -- "Differentiate" --> JERK
+
+        JERK_LIMIT[<b>Jerk-Limited Systems</b><br/>|da/dt| ≤ J_max]
+        ACCELERATION --> JERK_LIMIT
+    end
+
+    %% ===== CONNECTIONS BETWEEN SECTIONS =====
+    FUNDAMENTAL --> DISCRETE
+    ODE_EQUIVALENCE --> DISCRETE
+    DISCRETE --> DEADBANDS
+    DEADBANDS --> HIGHER_ORDER
+
+    %% ===== STYLING =====
+    classDef math fill:#e6f3ff,stroke:#3399ff,stroke-width:2px
+    classDef equation fill:#f0f8ff,stroke:#66b3ff,stroke-width:2px
+    classDef process fill:#fff0e6,stroke:#ff9933,stroke-width:2px
+    classDef decision fill:#f0fff0,stroke:#66cc66,stroke-width:2px
+    classDef zone fill:#fff0f5,stroke:#ff66b3,stroke-width:2px
+
+    class X0,XT,RATE_FUNC,XN,RN,XNEXT,POSITION,VELOCITY,ACCELERATION,JERK math
+    class EQ1,ODE_EQ,EQ2,JERK_LIMIT equation
+    class INTEGRAL,FTC,DT,STATS,CHECK_RATE process
+    class PLUS,PLUS2,TIMES,R_MIN,R_MAX decision
+    class NORMAL_ZONE,ANOMALY_ZONE zone
+```
+
+**Diagram Explanation:**
+
+This diagram illustrates the mathematical foundations of Rate-Based Change Mechanics (RBCM) with five key components:
+
+1. **Fundamental Rate-First Formalism**: Shows the core equation $x(t) = x_0 + \int_{t_0}^t r(\tau) d\tau$ where current state equals initial state plus integrated rate function.
+
+2. **Equivalence to ODE**: Demonstrates the relationship to ordinary differential equations via the Fundamental Theorem of Calculus, showing $dx/dt = r(t)$.
+
+3. **Discrete Time Approximation**: Illustrates Euler discretization $x_{n+1} = x_n + r_n \Delta t$ for practical implementation with time steps.
+
+4. **Rate Deadbands and Anomaly Detection**: Visualizes how normal operation zones are defined using statistical bounds $[r_{\min}, r_{\max}] = [\mu - k\sigma, \mu + k\sigma]$ and how anomalies trigger when rates fall outside these bounds.
+
+5. **Higher-Order Rate Analysis**: Shows the hierarchy from position → velocity (1st derivative) → acceleration (2nd derivative) → jerk (3rd derivative), with jerk-limited systems having bounded third derivatives.
+
+**Key Insights:**
+- RBCM inverts traditional state-first analysis by prioritizing rates of change
+- The mathematical framework provides rigorous foundations for implementation
+- Rate deadbands enable sensitive anomaly detection with controllable false positive rates
+- Higher-order rates (acceleration, jerk) provide additional insights into system dynamics
+- Discrete approximations make the theory practical for computational implementation

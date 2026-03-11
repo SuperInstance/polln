@@ -12,6 +12,10 @@ import {
 import { ConcreteDataBlockInstance } from '../instances/DataBlockInstance';
 import { ConcreteProcessInstance } from '../instances/ProcessInstance';
 import { ConcreteLearningAgentInstance } from '../instances/LearningAgentInstance';
+import { ConcreteAPIInstance } from '../instances/APIInstance';
+import { ConcreteStorageInstance } from '../instances/StorageInstance';
+import { ConcreteTerminalInstance } from '../instances/TerminalInstance';
+import { ConcreteTensorInstance } from '../instances/TensorInstance';
 
 // Import existing cell types (these would come from the actual codebase)
 enum CellType {
@@ -165,6 +169,20 @@ export class CellMigrationAdapter {
       [CellType.REGRESSION]: InstanceType.MODEL,
       [CellType.TIME_SERIES]: InstanceType.MODEL,
       [CellType.MONTE_CARLO]: InstanceType.SIMULATION,
+
+      // New instance type mappings
+      // API-related cells
+      [CellType.NOTIFY]: InstanceType.API, // Notify cells can become API instances
+
+      // Storage-related cells
+      [CellType.STORAGE]: InstanceType.OBJECT_STORAGE, // Storage cells can become object storage
+
+      // Terminal-related cells
+      [CellType.COORDINATE]: InstanceType.TERMINAL, // Coordinate cells can become terminals
+
+      // Tensor-related cells (from LOG-Tensor research)
+      [CellType.ANALYSIS]: InstanceType.TENSOR, // Analysis cells can become tensor instances
+      [CellType.TRANSFORM]: InstanceType.TENSOR, // Transform cells can become tensor instances
     };
 
     return mapping[cellType] || InstanceType.FUNCTION;
@@ -253,6 +271,60 @@ export class CellMigrationAdapter {
           spreadsheetId,
           modelType: 'classification',
           modelVersion: '1.0.0',
+          configuration
+        });
+
+      case InstanceType.API:
+        return new ConcreteAPIInstance({
+          id: cell.id,
+          name: cell.name || `API ${cell.id}`,
+          description: cell.description || `Migrated from cell ${cell.id}`,
+          cellPosition: cell.position,
+          spreadsheetId,
+          baseUrl: 'https://api.example.com',
+          configuration
+        });
+
+      case InstanceType.OBJECT_STORAGE:
+      case InstanceType.FILE_SYSTEM:
+      case InstanceType.KEY_VALUE_STORE:
+      case InstanceType.CACHE:
+        return new ConcreteStorageInstance({
+          id: cell.id,
+          name: cell.name || `Storage ${cell.id}`,
+          description: cell.description || `Migrated from cell ${cell.id}`,
+          cellPosition: cell.position,
+          spreadsheetId,
+          storageType: instanceType === InstanceType.OBJECT_STORAGE ? 'object_storage' :
+                      instanceType === InstanceType.FILE_SYSTEM ? 'file_system' :
+                      instanceType === InstanceType.KEY_VALUE_STORE ? 'key_value' : 'cache',
+          configuration
+        });
+
+      case InstanceType.TERMINAL:
+      case InstanceType.SHELL:
+      case InstanceType.POWERSHELL:
+      case InstanceType.COMMAND_LINE:
+        return new ConcreteTerminalInstance({
+          id: cell.id,
+          name: cell.name || `Terminal ${cell.id}`,
+          description: cell.description || `Migrated from cell ${cell.id}`,
+          cellPosition: cell.position,
+          spreadsheetId,
+          shellType: instanceType === InstanceType.TERMINAL ? 'bash' :
+                    instanceType === InstanceType.SHELL ? 'bash' :
+                    instanceType === InstanceType.POWERSHELL ? 'powershell' : 'cmd',
+          configuration
+        });
+
+      case InstanceType.TENSOR:
+        return new ConcreteTensorInstance({
+          id: cell.id,
+          name: cell.name || `Tensor ${cell.id}`,
+          description: cell.description || `Migrated from cell ${cell.id}`,
+          cellPosition: cell.position,
+          spreadsheetId,
+          tensorType: 'matrix',
           configuration
         });
 

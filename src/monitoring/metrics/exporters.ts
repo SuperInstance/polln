@@ -9,9 +9,28 @@
 
 import { MeterProvider, Meter, ConsoleMeterProvider } from '@opentelemetry/api';
 import { PrometheusExporter } from '@opentelemetry/exporter-prometheus';
-import { StdoutMetricsExporter } from '@opentelemetry/exporter-metrics-stdout';
 import { PeriodicExportingMetricReader } from '@opentelemetry/sdk-metrics';
 import { MetricsRegistry } from './registry.js';
+
+// Simple console exporter implementation since @opentelemetry/exporter-metrics-stdout doesn't exist
+interface SimpleConsoleExporter {
+  export(metrics: any): Promise<void>;
+  shutdown(): Promise<void>;
+}
+
+class SimpleStdoutMetricsExporter implements SimpleConsoleExporter {
+  constructor(private config: any = {}) {}
+
+  async export(metrics: any): Promise<void> {
+    if (this.config.verbose) {
+      console.log('[Metrics]', JSON.stringify(metrics, null, 2));
+    }
+  }
+
+  async shutdown(): Promise<void> {
+    // Nothing to shutdown
+  }
+}
 
 /**
  * Prometheus exporter configuration
@@ -81,16 +100,16 @@ export async function createPrometheusMeterProvider(
  */
 export function createConsoleExporter(
   config: ConsoleExporterConfig = {}
-): StdoutMetricsExporter {
-  return new StdoutMetricsExporter(config);
+): SimpleStdoutMetricsExporter {
+  return new SimpleStdoutMetricsExporter(config);
 }
 
 /**
  * Create a console meter provider
  */
-export function createConsoleMeterProvider(
+export async function createConsoleMeterProvider(
   config: ConsoleExporterConfig = {}
-): MeterProvider {
+): Promise<MeterProvider> {
   const exporter = createConsoleExporter(config);
 
   const meterProvider = new (await import('@opentelemetry/sdk-metrics')).MeterProvider({

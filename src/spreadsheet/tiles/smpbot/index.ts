@@ -17,7 +17,7 @@
 // CORE TYPES
 // ============================================================================
 
-export { default as SMPbot } from './SMPbot';
+export { default as SMPbot } from './SMPbot.js';
 export type {
   Seed,
   SerializedSeed,
@@ -48,14 +48,14 @@ export type {
   Parallel,
   Conditional,
   Recursive,
-} from './SMPbot';
+} from './SMPbot.js';
 
 // ============================================================================
 // CONCRETE IMPLEMENTATIONS
 // ============================================================================
 
-export { default as ConcreteSMPbot, ConcreteSeed, ConcretePrompt } from './ConcreteSMPbot';
-export type { ConcreteSMPbot as SMPbotImplementation } from './ConcreteSMPbot';
+export { default as ConcreteSMPbot, ConcreteSeed, ConcretePrompt } from './ConcreteSMPbot.js';
+export type { ConcreteSMPbot as SMPbotImplementation } from './ConcreteSMPbot.js';
 
 // ============================================================================
 // STABILITY VALIDATION
@@ -116,8 +116,8 @@ export type {
  * Create an example SMPbot for demonstration
  */
 export async function createExampleSMPbot() {
-  const { createExampleSMPbot as createExample } = await import('./ConcreteSMPbot');
-  return createExample();
+  const module = await import('./ConcreteSMPbot.js');
+  return module.createExampleSMPbot();
 }
 
 /**

@@ -1,0 +1,170 @@
+```mermaid
+---
+title: POLLN Sensation System - Rate-Based Change Implementation
+config:
+  theme: neutral
+  fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif"
+  fontSize: 14
+  padding: 20
+---
+flowchart TD
+    %% ===== SENSATION TYPES =====
+    subgraph SENSATION_TYPES [Six Sensation Types]
+        direction LR
+        S1[<b>ABSOLUTE_CHANGE</b><br/>'absolute'<br/>Δx = x_new - x_old]
+        S2[<b>RATE_OF_CHANGE</b><br/>'velocity'<br/>r = Δx/Δt]
+        S3[<b>ACCELERATION</b><br/>'trend'<br/>a = Δr/Δt]
+        S4[<b>PRESENCE</b><br/>'existence'<br/>Cell exists]
+        S5[<b>PATTERN</b><br/>'recognition'<br/>Pattern match]
+        S6[<b>ANOMALY</b><br/>'outlier'<br/>Deviation from expected]
+
+        S1 --> S2 --> S3
+        S4 --> S5 --> S6
+    end
+
+    %% ===== RATE DETECTION ALGORITHM =====
+    subgraph RATE_DETECTION [Rate Detection Algorithm - detectRateOfChange]
+        direction TB
+        INPUT1[<b>Input Parameters</b><br/>source: CellReference<br/>newValue: number<br/>threshold: number = 0]
+
+        GET_HISTORY[<b>Get History</b><br/>history = getHistory(source, 3)]
+        CHECK_HISTORY{History Length ≥ 2?}
+
+        GET_HISTORY --> CHECK_HISTORY
+        CHECK_HISTORY -->|No| UPDATE1[Update History<br/>Return null]
+        CHECK_HISTORY -->|Yes| CALCULATE[<b>Calculate Rate</b>]
+
+        subgraph CALCULATE [Calculate Rate]
+            direction LR
+            LAST_VAL[Last Value<br/>history.values[-1]]
+            LAST_TIME[Last Timestamp<br/>history.timestamps[-1]]
+            CURRENT_TIME[Current Time<br/>Date.now()]
+
+            LAST_VAL --> VALUE_DELTA[Value Delta<br/>Δx = new - last]
+            LAST_TIME --> TIME_DELTA[Time Delta<br/>Δt = current - last]
+            CURRENT_TIME --> TIME_DELTA
+
+            VALUE_DELTA --> RATE_CALC[Rate Calculation<br/>r = Δx/Δt]
+            TIME_DELTA --> RATE_CALC
+        end
+
+        CHECK_THRESHOLD{ |r| < threshold? }
+        CALCULATE --> CHECK_THRESHOLD
+        CHECK_THRESHOLD -->|Yes| UPDATE2[Update History<br/>Return null]
+        CHECK_THRESHOLD -->|No| CREATE_SENSATION[<b>Create Sensation</b>]
+
+        CREATE_SENSATION --> OUTPUT1[<b>Output Sensation</b><br/>type: RATE_OF_CHANGE<br/>value: rateOfChange<br/>confidence: 0.8<br/>metadata: previous/current values]
+    end
+
+    %% ===== ACCELERATION DETECTION ALGORITHM =====
+    subgraph ACCELERATION_DETECTION [Acceleration Detection - detectAcceleration]
+        direction TB
+        INPUT2[<b>Input Parameters</b><br/>source: CellReference<br/>newValue: number<br/>threshold: number = 0]
+
+        GET_HISTORY2[<b>Get History</b><br/>history = getHistory(source, 4)]
+        CHECK_HISTORY2{History Length ≥ 3?}
+
+        GET_HISTORY2 --> CHECK_HISTORY2
+        CHECK_HISTORY2 -->|No| UPDATE3[Update History<br/>Return null]
+        CHECK_HISTORY2 -->|Yes| CALCULATE_RATES[<b>Calculate Historical Rates</b>]
+
+        subgraph CALCULATE_RATES [Calculate Historical Rates]
+            direction LR
+            LOOP[For i = 1 to history.length-1]
+            VALUE_DELTA2[Value Delta<br/>Δx = values[i] - values[i-1]]
+            TIME_DELTA2[Time Delta<br/>Δt = timestamps[i] - timestamps[i-1]]
+            RATE_CALC2[Rate Calculation<br/>r = Δx/Δt if Δt > 0]
+
+            LOOP --> VALUE_DELTA2
+            LOOP --> TIME_DELTA2
+            VALUE_DELTA2 --> RATE_CALC2
+            TIME_DELTA2 --> RATE_CALC2
+        end
+
+        CHECK_RATES_COUNT{Rates Length ≥ 2?}
+        CALCULATE_RATES --> CHECK_RATES_COUNT
+        CHECK_RATES_COUNT -->|No| UPDATE4[Update History<br/>Return null]
+        CHECK_RATES_COUNT -->|Yes| CALC_ACCEL[<b>Calculate Acceleration</b><br/>a = r[-1] - r[-2]]
+
+        CHECK_THRESHOLD2{ |a| < threshold? }
+        CALC_ACCEL --> CHECK_THRESHOLD2
+        CHECK_THRESHOLD2 -->|Yes| UPDATE5[Update History<br/>Return null]
+        CHECK_THRESHOLD2 -->|No| CREATE_SENSATION2[<b>Create Sensation</b>]
+
+        CREATE_SENSATION2 --> OUTPUT2[<b>Output Sensation</b><br/>type: ACCELERATION<br/>value: acceleration<br/>confidence: 0.7<br/>metadata: current value]
+    end
+
+    %% ===== DATA FLOW =====
+    CELL_UPDATE[Cell Value Update] --> RATE_DETECTION
+    CELL_UPDATE --> ACCELERATION_DETECTION
+
+    RATE_DETECTION --> SENSATION_STORE[Sensation Store]
+    ACCELERATION_DETECTION --> SENSATION_STORE
+
+    SENSATION_STORE --> ANOMALY_DETECTION[Anomaly Detection System]
+    SENSATION_STORE --> CONFIDENCE_CASCADE[Confidence Cascade]
+    SENSATION_STORE --> USER_NOTIFICATIONS[User Notifications]
+
+    %% ===== PERFORMANCE CHARACTERISTICS =====
+    subgraph PERFORMANCE [Performance Characteristics]
+        direction LR
+        P1[<b>Rate Calculation</b><br/>O(1) per cell per update]
+        P2[<b>Deadband Check</b><br/>O(1) comparison]
+        P3[<b>State Reconstruction</b><br/>O(1) integration step]
+        P4[<b>Historical Analysis</b><br/>O(k) for k-point history]
+
+        P1 --> P2 --> P3 --> P4
+    end
+
+    %% ===== MEMORY REQUIREMENTS =====
+    subgraph MEMORY [Memory Requirements]
+        direction LR
+        M1[<b>Rate History</b><br/>O(kn) for n cells<br/>with k-point history]
+        M2[<b>Deadband Parameters</b><br/>O(n) storage]
+        M3[<b>State Reconstruction</b><br/>O(n) current state]
+
+        M1 --> M2 --> M3
+    end
+
+    %% ===== CONNECTIONS =====
+    SENSATION_TYPES --> RATE_DETECTION
+    SENSATION_TYPES --> ACCELERATION_DETECTION
+    PERFORMANCE --> MEMORY
+
+    %% ===== STYLING =====
+    classDef sensation fill:#e6f3ff,stroke:#3399ff,stroke-width:2px
+    classDef algorithm fill:#f0f8ff,stroke:#66b3ff,stroke-width:2px
+    classDef input fill:#fff0e6,stroke:#ff9933,stroke-width:2px
+    classDef output fill:#f0fff0,stroke:#66cc66,stroke-width:2px
+    classDef decision fill:#fff0f5,stroke:#ff66b3,stroke-width:2px
+    classDef process fill:#f5f0ff,stroke:#9966ff,stroke-width:2px
+    classDef performance fill:#ffffcc,stroke:#ffcc00,stroke-width:2px
+
+    class S1,S2,S3,S4,S5,S6 sensation
+    class RATE_DETECTION,ACCELERATION_DETECTION algorithm
+    class INPUT1,INPUT2,CELL_UPDATE input
+    class OUTPUT1,OUTPUT2,SENSATION_STORE output
+    class CHECK_HISTORY,CHECK_THRESHOLD,CHECK_HISTORY2,CHECK_RATES_COUNT,CHECK_THRESHOLD2 decision
+    class GET_HISTORY,UPDATE1,CALCULATE,CREATE_SENSATION,GET_HISTORY2,UPDATE3,CALCULATE_RATES,UPDATE4,CALC_ACCEL,UPDATE5,CREATE_SENSATION2 process
+    class PERFORMANCE,MEMORY performance
+```
+
+**Diagram Explanation:**
+
+This diagram illustrates the POLLN Sensation System implementation of Rate-Based Change Mechanics with four main components:
+
+1. **Six Sensation Types**: Shows the enum definition with six sensation types that form the foundation of the system, from absolute change through rate and acceleration detection to pattern recognition and anomaly detection.
+
+2. **Rate Detection Algorithm**: Visualizes the `detectRateOfChange` method implementation that calculates rate as $r = \Delta x / \Delta t$, including history management, threshold checking, and sensation creation with confidence scoring.
+
+3. **Acceleration Detection Algorithm**: Shows the `detectAcceleration` method that computes second-order rates by analyzing historical rate changes, requiring at least 3 historical points for calculation.
+
+4. **System Integration**: Demonstrates how sensations flow through the system to anomaly detection, confidence cascades, and user notifications, with performance and memory characteristics.
+
+**Key Insights:**
+- The Sensation system implements Theorem 2.2 (Euler discretization) in practical TypeScript code
+- Rate calculations are $O(1)$ per cell, enabling real-time monitoring of thousands of cells
+- Confidence scores (0.8 for rate, 0.7 for acceleration) reflect estimation uncertainty
+- Historical data management is critical for accurate rate and acceleration calculations
+- The system integrates seamlessly with existing POLLN components (Confidence Cascade, anomaly detection)
+- Memory requirements scale linearly with number of cells and history depth

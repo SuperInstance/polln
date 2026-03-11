@@ -1,0 +1,200 @@
+```mermaid
+---
+title: Rate-Based Change Mechanics - Application Domains
+config:
+  theme: neutral
+  fontFamily: "Segoe UI, Tahoma, Geneva, Verdana, sans-serif"
+  fontSize: 14
+  padding: 20
+---
+flowchart TD
+    %% ===== FINANCIAL MARKET MONITORING =====
+    subgraph FINANCE [Financial Market Monitoring]
+        direction LR
+        F1[<b>Price Momentum</b><br/>Detect accelerating price movements<br/>before trend reversals]
+        F2[<b>Volatility Spikes</b><br/>Identify abnormal rate changes<br/>indicating market stress]
+        F3[<b>Liquidity Monitoring</b><br/>Track rate of order book changes<br/>bid/ask spread dynamics]
+
+        F1 --> F2 --> F3
+
+        subgraph FINANCE_EXAMPLE [Example: EUR/USD Trading]
+            direction TB
+            FE1[<b>Monitor</b><br/>EUR/USD exchange rate]
+            FE2[<b>Deadband</b><br/>[-0.001, 0.001] per second]
+            FE3[<b>Anomaly Threshold</b><br/>Rate > 0.002 per second]
+            FE4[<b>Action</b><br/>Trigger flash crash alert]
+
+            FE1 --> FE2 --> FE3 --> FE4
+        end
+
+        F3 --> FINANCE_EXAMPLE
+    end
+
+    %% ===== INDUSTRIAL PROCESS CONTROL =====
+    subgraph INDUSTRY [Industrial Process Control]
+        direction LR
+        I1[<b>Temperature Drift</b><br/>Monitor heating/cooling rates<br/>in chemical processes]
+        I2[<b>Pressure Surge Prevention</b><br/>Detect rapid pressure changes<br/>before equipment damage]
+        I3[<b>Quality Control</b><br/>Track production rate variations<br/>indicating machine wear]
+
+        I1 --> I2 --> I3
+
+        subgraph INDUSTRY_EXAMPLE [Example: Chemical Reactor]
+            direction TB
+            IE1[<b>Monitor</b><br/>Reactor temperature]
+            IE2[<b>Deadband</b><br/>[-0.5, 0.5] °C/minute]
+            IE3[<b>Anomaly</b><br/>Exothermic reaction detection]
+            IE4[<b>Action</b><br/>Activate cooling system]
+
+            IE1 --> IE2 --> IE3 --> IE4
+        end
+
+        I3 --> INDUSTRY_EXAMPLE
+    end
+
+    %% ===== NETWORK SECURITY =====
+    subgraph SECURITY [Network Security]
+        direction LR
+        S1[<b>DDoS Detection</b><br/>Identify abnormal packet<br/>rate increases]
+        S2[<b>Data Exfiltration</b><br/>Monitor outbound data<br/>transfer rates]
+        S3[<b>Brute Force Attacks</b><br/>Detect rapid login<br/>attempt rates]
+
+        S1 --> S2 --> S3
+
+        subgraph SECURITY_EXAMPLE [Example: Web Server]
+            direction TB
+            SE1[<b>Monitor</b><br/>Request rate]
+            SE2[<b>Baseline</b><br/>100 requests/second]
+            SE3[<b>Anomaly Threshold</b><br/>Rate > 1000 requests/second]
+            SE4[<b>Action</b><br/>Trigger DDoS mitigation]
+
+            SE1 --> SE2 --> SE3 --> SE4
+        end
+
+        S3 --> SECURITY_EXAMPLE
+    end
+
+    %% ===== HEALTHCARE MONITORING =====
+    subgraph HEALTHCARE [Healthcare Monitoring]
+        direction LR
+        H1[<b>Vital Sign Trends</b><br/>Track heart rate, respiratory rate<br/>changes over time]
+        H2[<b>Medication Response</b><br/>Monitor symptom improvement rates<br/>post-treatment]
+        H3[<b>Early Warning Systems</b><br/>Detect physiological deterioration<br/>before critical events]
+
+        H1 --> H2 --> H3
+
+        subgraph HEALTHCARE_EXAMPLE [Example: ICU Patient]
+            direction TB
+            HE1[<b>Monitor</b><br/>Respiratory rate]
+            HE2[<b>Normal Range</b><br/>[12, 20] breaths/minute]
+            HE3[<b>Anomaly Threshold</b><br/>Rate > 25 breaths/minute]
+            HE4[<b>Action</b><br/>Trigger nurse alert]
+
+            HE1 --> HE2 --> HE3 --> HE4
+        end
+
+        H3 --> HEALTHCARE_EXAMPLE
+    end
+
+    %% ===== COMMON RBCM PATTERN =====
+    subgraph RBCM_PATTERN [Common RBCM Application Pattern]
+        direction LR
+        MONITOR[<b>Monitor</b><br/>System variable x(t)]
+        CALC_RATE[<b>Calculate Rate</b><br/>r(t) = dx/dt]
+        CHECK_DEADBAND{<b>Check Deadband</b><br/>r ∈ [r_min, r_max]?}
+        NORMAL[<b>Normal</b><br/>Continue processing]
+        ANOMALY[<b>Anomaly</b><br/>r ∉ [r_min, r_max]]
+        TRIGGER_ACTION[<b>Trigger Action</b><br/>Alert, mitigation, control]
+
+        MONITOR --> CALC_RATE --> CHECK_DEADBAND
+        CHECK_DEADBAND -->|Yes| NORMAL
+        CHECK_DEADBAND -->|No| ANOMALY --> TRIGGER_ACTION
+    end
+
+    %% ===== DOMAIN-SPECIFIC METRICS =====
+    subgraph METRICS [Domain-Specific Rate Metrics]
+        direction LR
+        M1[<b>Finance</b><br/>Price change/sec<br/>Volatility/sec<br/>Order flow/min]
+        M2[<b>Industry</b><br/>°C/minute<br/>PSI/second<br/>Units/hour]
+        M3[<b>Security</b><br/>Packets/second<br/>Bytes/second<br/>Logins/minute]
+        M4[<b>Healthcare</b><br/>BPM (beats/min)<br/>Breaths/min<br/>Glucose mg/dL/hour]
+
+        M1 --> M2 --> M3 --> M4
+    end
+
+    %% ===== CONFIDENCE SCORING =====
+    subgraph CONFIDENCE [Confidence Scoring by Domain]
+        direction LR
+        C1[<b>Finance</b><br/>High confidence (0.9)<br/>Market data quality]
+        C2[<b>Industry</b><br/>Medium confidence (0.8)<br/>Sensor noise]
+        C3[<b>Security</b><br/>Variable confidence (0.7-0.9)<br/>Network conditions]
+        C4[<b>Healthcare</b><br/>Critical confidence (0.95)<br/>Patient safety]
+
+        C1 --> C2 --> C3 --> C4
+    end
+
+    %% ===== CONNECTIONS =====
+    FINANCE --> RBCM_PATTERN
+    INDUSTRY --> RBCM_PATTERN
+    SECURITY --> RBCM_PATTERN
+    HEALTHCARE --> RBCM_PATTERN
+
+    RBCM_PATTERN --> METRICS
+    METRICS --> CONFIDENCE
+
+    %% ===== PERFORMANCE BENEFITS =====
+    subgraph BENEFITS [RBCM Performance Benefits]
+        direction LR
+        B1[<b>Early Detection</b><br/>Rate deviations signal problems<br/>before state deviations]
+        B2[<b>Computational Efficiency</b><br/>Simple rate calculations<br/>minimal history required]
+        B3[<b>Reduced False Positives</b><br/>Statistical deadbands<br/>minimize false alerts]
+        B4[<b>Scalability</b><br/>O(1) per variable<br/>monitors thousands simultaneously]
+
+        B1 --> B2 --> B3 --> B4
+    end
+
+    CONFIDENCE --> BENEFITS
+
+    %% ===== STYLING =====
+    classDef finance fill:#e6f3ff,stroke:#3399ff,stroke-width:2px
+    classDef industry fill:#f0f8ff,stroke:#66b3ff,stroke-width:2px
+    classDef security fill:#fff0e6,stroke:#ff9933,stroke-width:2px
+    classDef healthcare fill:#f0fff0,stroke:#66cc66,stroke-width:2px
+    classDef pattern fill:#fff0f5,stroke:#ff66b3,stroke-width:2px
+    classDef metrics fill:#f5f0ff,stroke:#9966ff,stroke-width:2px
+    classDef confidence fill:#ffffcc,stroke:#ffcc00,stroke-width:2px
+    classDef benefits fill:#ccffcc,stroke:#66cc66,stroke-width:2px
+
+    class FINANCE,FE1,FE2,FE3,FE4 finance
+    class INDUSTRY,IE1,IE2,IE3,IE4 industry
+    class SECURITY,SE1,SE2,SE3,SE4 security
+    class HEALTHCARE,HE1,HE2,HE3,HE4 healthcare
+    class RBCM_PATTERN,MONITOR,CALC_RATE,CHECK_DEADBAND,NORMAL,ANOMALY,TRIGGER_ACTION pattern
+    class METRICS,M1,M2,M3,M4 metrics
+    class CONFIDENCE,C1,C2,C3,C4 confidence
+    class BENEFITS,B1,B2,B3,B4 benefits
+```
+
+**Diagram Explanation:**
+
+This diagram illustrates the four primary application domains for Rate-Based Change Mechanics (RBCM), showing how the same mathematical framework applies across diverse fields:
+
+1. **Financial Market Monitoring**: Detects price momentum, volatility spikes, and liquidity changes with specific examples like EUR/USD trading with deadbands of $[-0.001, 0.001]$ per second.
+
+2. **Industrial Process Control**: Monitors temperature drift, pressure surges, and quality control in manufacturing, with chemical reactor examples using $[-0.5, 0.5]^\circ C$/minute deadbands.
+
+3. **Network Security**: Identifies DDoS attacks, data exfiltration, and brute force attempts by monitoring packet rates, data transfer rates, and login attempt rates.
+
+4. **Healthcare Monitoring**: Tracks vital sign trends, medication responses, and early warning systems for patient safety, with ICU examples monitoring respiratory rates in $[12, 20]$ breaths/minute range.
+
+**Common RBCM Pattern**: All applications follow the same pattern: Monitor → Calculate Rate → Check Deadband → Trigger Action if anomaly detected.
+
+**Domain-Specific Metrics**: Each domain has appropriate rate units (price/sec, °C/min, packets/sec, breaths/min) and confidence levels reflecting data quality and criticality.
+
+**Key Insights:**
+- RBCM provides a unified framework applicable across finance, industry, security, and healthcare
+- The same mathematical principles (rate calculation, deadband checking) work identically across domains
+- Domain-specific tuning (deadband values, confidence scores) adapts the framework to each use case
+- Early detection via rate monitoring prevents problems before they become critical
+- Computational efficiency enables real-time monitoring of thousands of variables simultaneously
+- Statistical deadbands minimize false positives while maintaining sensitivity to real anomalies
