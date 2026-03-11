@@ -5,7 +5,7 @@ import fs from 'fs';
 const APIS = {
   deepseek: {
     baseURL: 'https://api.deepseek.com/v1',
-    apiKey: 'your_api_key_here',
+    apiKey: 'your_deepseek_api_key_here',
     models: ['deepseek-chat', 'deepseek-reasoner']
   },
   deepinfra: {
@@ -20,7 +20,7 @@ const APIS = {
   },
   moonshot: {
     baseURL: 'https://api.moonshot.cn/v1',
-    apiKey: 'your_api_key_here',
+    apiKey: 'your_deepseek_api_key_here',
     models: ['moonshot-v1-128k']
   }
 };

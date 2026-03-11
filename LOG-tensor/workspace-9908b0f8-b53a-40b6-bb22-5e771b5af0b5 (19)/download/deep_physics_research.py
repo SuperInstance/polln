@@ -21,9 +21,9 @@ from dataclasses import dataclass
 
 # Correct API endpoints
 KIMI_URL = "https://api.moonshot.ai/v1/chat/completions"
-KIMI_KEY = "your_api_key_here"
+KIMI_KEY = "your_deepseek_api_key_here"
 DEEPSEEK_URL = "https://api.deepseek.com/v1/chat/completions"
-DEEPSEEK_KEY = "your_api_key_here"
+DEEPSEEK_KEY = "your_deepseek_api_key_here"
 
 # =============================================================================
 # MULTI-MODEL RESEARCH CLIENT

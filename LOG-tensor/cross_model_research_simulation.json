@@ -11,7 +11,7 @@
     },
     "deepinfra": {
       "baseURL": "https://api.deepinfra.com/v1/openai",
-      "apiKey": "unKqypAXPerb7qHAjflJ9wA3zTQJG77c",
+      "apiKey": "your_api_key_here",
       "models": [
         "meta-llama/Llama-3.3-70B-Instruct",
         "Qwen/Qwen2.5-72B-Instruct",

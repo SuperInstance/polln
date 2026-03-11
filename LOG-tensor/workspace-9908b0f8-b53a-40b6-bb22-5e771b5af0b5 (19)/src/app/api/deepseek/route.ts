@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 // Configuration
 // ============================================================================
 
-const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY || 'your_api_key_here'
+const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY || 'your_deepseek_api_key_here'
 const DEEPSEEK_BASE_URL = 'https://api.deepseek.com/v1'
 
 // ============================================================================

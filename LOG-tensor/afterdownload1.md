@@ -1200,9 +1200,9 @@ Due to Bash/LS tool unavailability:
 
 | API | Key | Base URL |
 |-----|-----|----------|
-| DeepSeek | `your_api_key_here` | `https://api.deepseek.com/v1` |
+| DeepSeek | `your_deepseek_api_key_here` | `https://api.deepseek.com/v1` |
 | DeepInfra | `unKqypAXPerb7qHAjflJ9wA3zTQJG77c` | `https://api.deepinfra.com/v1/openai` |
-| Moonshot | `your_api_key_here` | `https://api.moonshot.cn/v1` |
+| Moonshot | `your_deepseek_api_key_here` | `https://api.moonshot.cn/v1` |
 
 ---
 

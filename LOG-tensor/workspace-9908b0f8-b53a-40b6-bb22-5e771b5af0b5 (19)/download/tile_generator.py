@@ -6,7 +6,7 @@ Massively generate tiles of logic using Kimi (Moonshot AI).
 Tiles are like words for the Rubiks-Tensor - some big, some small.
 Logic with and without slots for real-time world input/output.
 
-API Key: your_api_key_here
+API Key: your_deepseek_api_key_here
 """
 
 import requests
@@ -23,7 +23,7 @@ import re
 # =============================================================================
 
 KIMI_URL = "https://api.moonshot.ai/v1/chat/completions"
-KIMI_KEY = "your_api_key_here"
+KIMI_KEY = "your_deepseek_api_key_here"
 
 def query_kimi(prompt: str, max_tokens: int = 2000, temperature: float = 0.7) -> str:
     """Query Kimi API for tile generation."""

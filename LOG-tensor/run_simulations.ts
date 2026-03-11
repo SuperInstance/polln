@@ -3,7 +3,7 @@
  * Run multi-round simulations for concept distillation
  */
 
-const DEEPSEEK_API_KEY = 'your_api_key_here';
+const DEEPSEEK_API_KEY = 'your_deepseek_api_key_here';
 const DEEPSEEK_BASE_URL = 'https://api.deepseek.com/v1';
 
 // Research domains

@@ -14,7 +14,7 @@ OUTPUT_DIR = "/home/z/my-project/download/polln_research/round5"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # DeepInfra API Configuration
-DEEPINFRA_API_KEY = "hwzojVZn1SRQJs7LCa0uNazVE0BgzVz2"
+DEEPINFRA_API_KEY = "your_api_key_here"
 DEEPINFRA_URL = "https://api.deepinfra.com/v1/openai/chat/completions"
 
 # Models to test

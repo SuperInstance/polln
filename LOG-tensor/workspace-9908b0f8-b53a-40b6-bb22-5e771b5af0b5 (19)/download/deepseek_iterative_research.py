@@ -5,8 +5,8 @@ DeepSeek Iterative Research Framework
 Uses both DeepSeek Chat and Reasoning models for comprehensive discovery.
 
 API Keys:
-- Original: your_api_key_here
-- New: your_api_key_here
+- Original: your_deepseek_api_key_here
+- New: your_deepseek_api_key_here
 
 Cycles:
 1. Reasoning: Deep analysis with logic chains
@@ -31,8 +31,8 @@ warnings.filterwarnings('ignore')
 
 # Both API keys for load balancing
 API_KEYS = [
-    "your_api_key_here",
-    "your_api_key_here"
+    "your_deepseek_api_key_here",
+    "your_deepseek_api_key_here"
 ]
 DEEPSEEK_URL = "https://api.deepseek.com/v1/chat/completions"
 

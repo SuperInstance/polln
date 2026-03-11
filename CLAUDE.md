@@ -1,15 +1,16 @@
 # POLLN + LOG-Tensor Unified R&D Phase Orchestrator Instructions
-**Phase:** Deep Research & Development with Production Integration - ROUND 3 IN PROGRESS
+**Phase:** Deep Research & Development with Production Integration - ROUND 4 STARTING
 **Start Date:** 2026-03-10
-**Current Date:** 2026-03-10 (Round 3 Active)
-**Progress:** 2 rounds completed, LOG-Tensor vectorized (38,846 chunks), Round 3 agents launched
-**Focus:** 4 P0 Research Initiatives + LOG-Tensor Synergy Analysis
+**Current Date:** 2026-03-10 (Round 4 Active)
+**Progress:** Round 3 complete, LOG-Tensor vectorized (38,846 chunks), White papers started
+**Focus:** 4 P0 Research Initiatives + LOG-Tensor Synergy Analysis + White Paper Development
 **Mode:** Parallel specialized agents with 10-round orchestration plan
 
 **NEW: LOG-Tensor Integration**
 - **Vectorized:** 38,846 chunks from LOG-Tensor project added to unified vector DB
 - **Total Vectors:** ~90,000+ vectors (POLLN + LOG-Tensor combined)
 - **Cross-Project Synergies:** Origin-centric data systems, Rate-based change, Foldable Tensors
+- **API Keys Redacted:** 81 files cleaned for safe repository push
 
 ---
 
@@ -805,8 +806,8 @@ python3 mcp_codebase_search.py stats
 ### Round Overview
 | Round | Focus Area | Primary Output | Status |
 |-------|-----------|----------------|-------|
-| **Round 3** | LOG-Tensor Synergy Analysis | Cross-project integration map | IN PROGRESS |
-| **Round 4** | White Paper Drafting | Formal white paper sections | PLANNED |
+| **Round 3** | LOG-Tensor Synergy Analysis | Cross-project integration map | ✅ COMPLETE |
+| **Round 4** | White Paper Drafting | Formal white paper sections | IN PROGRESS |
 | **Round 5** | SuperInstance Enhancement | Enhanced type schemas | PLANNED |
 | **Round 6** | SMPbot Implementation | Reference implementations | PLANNED |
 | **Round 7** | Tile System Evolution | New tile types | PLANNED |
@@ -816,30 +817,31 @@ python3 mcp_codebase_search.py stats
 | **Round 11** | White Paper Publication | Academic-ready papers | PLANNED |
 | **Round 12** | Production Integration | Deployment-ready code | PLANNED |
 
-### Round 3 Details (CURRENT)
-**Agents Active:** 10 agents
-- SMP Theory Researcher: Mathematical proofs
-- Simulation Architect: Validation experiments
-- Experimental Data Analyst: Data schemas
-- White Paper Editor: Integration
-- Claude Excel Reverse Engineer: Architecture analysis
-- SuperInstance Schema Designer: Type system
-- Bot Framework Architect: SMPbot design
-- Tile System Evolution Planner: New tiles
-- GPU Scaling Specialist: Performance
-- API/MCP Agnostic Designer: Universal integration
+### Round 3 Summary (COMPLETE)
+**Completed:** 2026-03-10
+**Key Achievements:**
+- LOG-Tensor folder vectorized: 38,846 chunks added to unified DB
+- First white paper draft started: white-papers/01-SuperInstance-Universal-Cell.md
+- API keys redacted in 81 files for safe repository push
+- Cross-project synergies identified: Origin-centric, Rate-based, Foldable Tensors
+- 10 LOG-Tensor research agents identified for Round 4
 
-**Additional Agents (LOG-Tensor Research):** 10 agents
-- LOG-Tensor Synergy Analyst
+### Round 4 Details (CURRENT)
+**Focus:** White Paper Development + LOG-Tensor Synergy Agents
+
+**Primary Agents (White Papers):** 5 agents
+- White Paper Editor: Lead coordination
+- SMP Theory Researcher: Mathematical foundations
+- SuperInstance Schema Designer: Type system paper
+- Bot Framework Architect: SMPbot paper
+- LOG-Tensor Synergy Analyst: OCDS paper
+
+**Secondary Agents (LOG-Tensor Synergy):** 5 agents
 - Origin-Centric Systems Researcher
 - Rate-Based Change Specialist
-- Foldable Tensor Architect
-- Conditional Geometry Designer
-- Platonic Randomness Researcher
-- Higher-Abstraction Vocabulary Specialist
-- Voxel Systems Architect
-- Game Theory Integration Specialist
 - Constraint Theory Researcher
+- Fractal Deconstruction Analyst
+- Federated Learning Tile Designer
 
 ### White Paper Writing Plan
 **Round 4-6:** Draft formal white papers from research findings
@@ -847,11 +849,20 @@ python3 mcp_codebase_search.py stats
 **Round 10-12:** Publication preparation
 
 **Target White Papers:**
-1. **SuperInstance: The Universal Cell** - Type system and implementation
+
+**From POLLN Project:**
+1. **SuperInstance: The Universal Cell** - Type system and implementation (DRAFT STARTED)
 2. **SMPbots: Stable Output Systems** - Architecture and formalization
 3. **Confidence Cascades** - Mathematical foundations
-4. **LOG-Tensor Integration** - Cross-project synergies
-5. **Tile Algebra for AI Spreadsheets** - Formal tile system
+4. **Tile Algebra for AI Spreadsheets** - Formal tile system
+
+**Adopted from LOG-Tensor Research:**
+5. **Origin-Centric Data Systems (OCDS)** - Mathematical framework S = (O, D, T, Φ)
+6. **Rate-Based Change Mechanics** - State tracking via x(t) = x₀ + ∫r(τ)dτ
+7. **Constraint Theory & Stochastic Logic** - "How rough is the coast" inference principle
+8. **Mandelbrot Fractal Deconstruction** - Granularity-directed tile rendering
+9. **Laminar vs. Turbulent Systems** - Origin-centric fluid dynamics
+10. **Federated Learning Tiles** - Each cell as independent learner
 
 ### Push to Repository Protocol
 **After Each Round:**

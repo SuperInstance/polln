@@ -13,8 +13,8 @@ import warnings
 warnings.filterwarnings('ignore')
 
 API_KEYS = [
-    "your_api_key_here",
-    "your_api_key_here"
+    "your_deepseek_api_key_here",
+    "your_deepseek_api_key_here"
 ]
 DEEPSEEK_URL = "https://api.deepseek.com/v1/chat/completions"
 

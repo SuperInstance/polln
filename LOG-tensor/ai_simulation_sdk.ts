@@ -1,7 +1,7 @@
 import ZAI from 'z-ai-web-dev-sdk';
 
 // AI-Powered Deep Research Simulation Configuration
-const DEEPSEEK_API_KEY = "your_groq_api_key_here";
+const DEEPSEEK_API_KEY = "your_api_key_here";
 
 interface SimulationResult {
   name: string;

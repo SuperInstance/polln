@@ -6,8 +6,8 @@ Iterative research across Kimi (Moonshot), GLM-5, and DeepSeek
 for emergent higher-order thinking about physical tensor design.
 
 API Keys:
-- Kimi (Moonshot): your_api_key_here
-- DeepSeek: your_api_key_here
+- Kimi (Moonshot): your_deepseek_api_key_here
+- DeepSeek: your_deepseek_api_key_here
 
 Focus Areas:
 1. Physical laws baked into tensor structure

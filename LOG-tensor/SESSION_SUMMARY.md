@@ -147,9 +147,9 @@ Seed = {
 
 | API | Key | Status |
 |-----|-----|--------|
-| DeepSeek | your_api_key_here | ✅ Tested |
+| DeepSeek | your_deepseek_api_key_here | ✅ Tested |
 | DeepInfra | unKqypAXPerb7qHAjflJ9wA3zTQJG77c | ✅ Tested |
-| Moonshot | your_api_key_here | Available |
+| Moonshot | your_deepseek_api_key_here | Available |
 
 ### Models Used
 

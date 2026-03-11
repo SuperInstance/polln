@@ -2,7 +2,7 @@
  * DeepSeek API Simulation System
  * Multi-round simulations with temperature variations for concept distillation
  * 
- * API Key: your_api_key_here
+ * API Key: your_deepseek_api_key_here
  * Endpoints:
  *   - Chat: https://api.deepseek.com/v1/chat/completions
  *   - Reasoner: https://api.deepseek.com/v1/chat/completions (deepseek-reasoner model)
@@ -35,7 +35,7 @@ interface ResearchQuestion {
 
 // Configuration
 const CONFIG: DeepSeekConfig = {
-  apiKey: 'your_api_key_here',
+  apiKey: 'your_deepseek_api_key_here',
   baseUrl: 'https://api.deepseek.com/v1',
   chatModel: 'deepseek-chat',
   reasonerModel: 'deepseek-reasoner'

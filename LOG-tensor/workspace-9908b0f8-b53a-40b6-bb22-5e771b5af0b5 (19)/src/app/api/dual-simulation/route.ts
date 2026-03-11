@@ -33,7 +33,7 @@ interface DualSimulationResult {
 }
 
 // DeepSeek API Configuration
-const DEEPSEEK_API_KEY = "your_groq_api_key_here";
+const DEEPSEEK_API_KEY = "your_api_key_here";
 const DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions";
 
 // System prompts for different simulation types

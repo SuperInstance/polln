@@ -243,9 +243,9 @@ export class MIATensor extends LOGTensor {
 
 | API | Key | Use Case |
 |-----|-----|----------|
-| DeepSeek | your_api_key_here | Reasoning tasks |
+| DeepSeek | your_deepseek_api_key_here | Reasoning tasks |
 | DeepInfra | unKqypAXPerb7qHAjflJ9wA3zTQJG77c | Model variety |
-| Moonshot | your_api_key_here | Multilingual |
+| Moonshot | your_deepseek_api_key_here | Multilingual |
 
 ### 4.2 DeepInfra Model Recommendations
 

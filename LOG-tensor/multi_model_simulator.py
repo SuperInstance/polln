@@ -26,14 +26,14 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 # API Configuration
 API_CONFIG = {
     "deepseek": {
-        "key": "your_api_key_here",
+        "key": "your_deepseek_api_key_here",
         "endpoint": "https://api.deepseek.com/v1/chat/completions",
         "models": ["deepseek-reasoner", "deepseek-chat"],
         "strengths": ["reasoning", "mathematics", "code", "deep_analysis"],
         "cost_tier": 1,  # Cheapest
     },
     "kimi": {
-        "key": "your_api_key_here",
+        "key": "your_deepseek_api_key_here",
         "endpoint": "https://api.moonshot.cn/v1/chat/completions",
         "models": ["moonshot-v1-8k", "moonshot-v1-32k", "moonshot-v1-128k"],
         "strengths": ["visualization", "chinese", "long_context", "multimodal"],

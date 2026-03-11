@@ -22,7 +22,7 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # API Keys
 DEEPSEEK_API_KEY = "your_api_key_here"
-MOONSHOT_API_KEY_1 = "your_api_key_here"
+MOONSHOT_API_KEY_1 = "your_deepseek_api_key_here"
 
 # API Endpoints to try for Moonshot
 MOONSHOT_ENDPOINTS = [

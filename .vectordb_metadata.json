@@ -14,5 +14,9 @@
     "model_name": "all-MiniLM-L6-v2",
     "chunk_size": 1000,
     "chunk_overlap": 200
-  }
+  },
+  "log_tensor_added": "2026-03-10T23:14:59.513888",
+  "log_tensor_file_count": 901,
+  "log_tensor_chunk_count": 38846,
+  "total_with_log_tensor": 90703
 }

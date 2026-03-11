@@ -12,7 +12,7 @@ from datetime import datetime
 
 # API Keys
 DEEPSEEK_API_KEY = "your_api_key_here"
-DEEPINFRA_API_KEY = "hwzojVZn1SRQJs7LCa0uNazVE0BgzVz2"
+DEEPINFRA_API_KEY = "your_api_key_here"
 
 # API Endpoints
 DEEPSEEK_URL = "https://api.deepseek.com/v1/chat/completions"

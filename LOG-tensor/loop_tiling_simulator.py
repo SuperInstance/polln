@@ -26,7 +26,7 @@ DEEPSEEK_API_KEY = "your_api_key_here"
 MOONSHOT_API_KEY = "your_api_key_here"
 
 # DeepInfra API
-DEEPINFRA_API_KEY = "hwzojVZn1SRQJs7LCa0uNazVE0BgzVz2"
+DEEPINFRA_API_KEY = "your_api_key_here"
 DEEPINFRA_BASE = "https://api.deepinfra.com/inference/v1/openai/chat/completions"
 
 # Model definitions for Each model hasDEEPINFRA_MODELS = {

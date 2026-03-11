@@ -8,7 +8,7 @@
 import ZAI from 'z-ai-web-dev-sdk';
 
 // API Keys
-const DEEPSEEK_KEY = 'your_api_key_here';
+const DEEPSEEK_KEY = 'your_deepseek_api_key_here';
 const DEEPINFRA_KEY = 'hwzojVZn1SRQJs7LCa0uNazVE0BgzVz2';
 
 interface GhostTileSpec {

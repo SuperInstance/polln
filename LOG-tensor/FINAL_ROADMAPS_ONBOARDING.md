@@ -5,7 +5,7 @@
 **Date:** 2024
 **Classification:** Strategic Planning & Onboarding
 **Word Count Target:** 4000+ words
-**API Key:** DeepSeek: your_api_key_here
+**API Key:** DeepSeek: your_deepseek_api_key_here
 
 ---
 

@@ -157,9 +157,9 @@ interface UnifiedSeed {
 
 | API | Key | Use Case |
 |-----|-----|----------|
-| DeepSeek | `your_api_key_here` | Mathematical proofs, cheap iteration |
+| DeepSeek | `your_deepseek_api_key_here` | Mathematical proofs, cheap iteration |
 | DeepInfra | `hwzojVZn1SRQJs7LCa0uNazVE0BgzVz2` | Multi-model comparison |
-| Moonshot | `your_api_key_here` | Via DeepInfra |
+| Moonshot | `your_deepseek_api_key_here` | Via DeepInfra |
 
 **Usage Guidelines:**
 - Use for synthesis, not basic computation
