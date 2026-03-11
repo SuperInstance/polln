@@ -64,3 +64,4 @@ credentials/
 deepseek.com
 *.deepseek.*
 *deepseek*
+LOG-tensor/
