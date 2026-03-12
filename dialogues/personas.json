@@ -1,0 +1,110 @@
+{
+  "personas": {
+    "cultural_backgrounds": {
+      "Aiko": {
+        "name": "Aiko Tanaka",
+        "culture": "Japanese",
+        "age": 28,
+        "background": "Visual artist turned data scientist",
+        "communication_style": "Indirect, visual-heavy, consensus-building",
+        "teaching_approach": "Shows before tells, uses metaphors from nature and art",
+        "superinstance_role": "Geometric tensor visualization specialist",
+        "strengths": ["visual_learning", "patience", "creative_metaphors"],
+        "challenges": ["abstract_concepts", "time_pressure"]
+      },
+      "Raj": {
+        "name": "Raj Patel",
+        "culture": "Indian-American",
+        "age": 35,
+        "background": "Enterprise architect with storytelling background",
+        "communication_style": "Narrative-driven, analogy-rich, inclusive",
+        "teaching_approach": "Stories and real-world examples",
+        "superinstance_role": "Enterprise implementation lead",
+        "strengths": ["storytelling", "enterprise_context", "bridging_concepts"],
+        "challenges": ["simplifying_complexity", "visual_representation"]
+      },
+      "Fatima": {
+        "name": "Fatima Al-Rashid",
+        "culture": "Saudi Arabian",
+        "age": 31,
+        "background": "Mathematician and educator",
+        "communication_style": "Precise, respectful, thorough",
+        "teaching_approach": "Step-by-step with verification",
+        "superinstance_role": "Mathematical formalization expert",
+        "strengths": ["mathematical_rigor", "systematic_approach", "patience"],
+        "challenges": ["cultural_adaptation", "informal_communication"]
+      },
+      "Marcus": {
+        "name": "Marcus Johnson",
+        "culture": "African-American",
+        "age": 24,
+        "background": "Community organizer turned tech educator",
+        "communication_style": "Relatable, energetic, community-focused",
+        "teaching_approach": "Relatable analogies from daily life",
+        "superinstance_role": "Community engagement coordinator",
+        "strengths": ["relatability", "energy", "community_connection"],
+        "challenges": ["technical_depth", "formal_academia"]
+      },
+      "Elena": {
+        "name": "Elena Rodriguez",
+        "culture": "Mexican",
+        "age": 29,
+        "background": "Language teacher and cross-cultural communicator",
+        "communication_style": "Warm, inclusive, metaphorical",
+        "teaching_approach": "Multiple languages and cultural contexts",
+        "superinstance_role": "Cross-cultural adaptation specialist",
+        "strengths": ["multilingual", "cultural_sensitivity", "adaptation"],
+        "challenges": ["technical_precision", "abstraction_levels"]
+      }
+    },
+    "learning_styles": {
+      "visual": {
+        "description": "Learns through seeing and visualizing",
+        "strategies": ["diagrams", "colors", "spatial_arrangements", "animations"],
+        "challenges": ["abstract_without_visual", "text_heavy_explanations"]
+      },
+      "kinesthetic": {
+        "description": "Learns through doing and movement",
+        "strategies": ["hands_on", "role_play", "physical_metaphors", "building"],
+        "challenges": ["sitting_still", "theoretical_without_practical"]
+      },
+      "auditory": {
+        "description": "Learns through hearing and speaking",
+        "strategies": ["discussion", "rhythms", "music", "storytelling"],
+        "challenges": ["silent_environments", "visual_only_materials"]
+      },
+      "analytical": {
+        "description": "Learns through logic and systems",
+        "strategies": ["patterns", "categories", "step_by_step", "proofs"],
+        "challenges": ["intuitive_leaps", "emotional_context"]
+      }
+    },
+    "audience_mappings": {
+      "high-school-ai-advanced": {
+        "primary_personas": ["Aiko", "Fatima"],
+        "learning_focus": "mathematical_foundations_with_career_connections",
+        "cultural_bridge": "east_meets_west_in_mathematics"
+      },
+      "high-school-visual": {
+        "primary_personas": ["Aiko", "Elena"],
+        "learning_focus": "visual_representation_without_complex_math",
+        "cultural_bridge": "art_meets_technology"
+      },
+      "middle-school-adventures": {
+        "primary_personas": ["Raj", "Marcus"],
+        "learning_focus": "storytelling_and_adventure",
+        "cultural_bridge": "narrative_traditions_meet_technology"
+      },
+      "senior-engineer": {
+        "primary_personas": ["Fatima", "Raj"],
+        "learning_focus": "enterprise_applications_and_roi",
+        "cultural_bridge": "precision_meets_pragmatism"
+      },
+      "large-annotated": {
+        "primary_personas": ["Fatima", "Aiko"],
+        "learning_focus": "comprehensive_academic_rigor",
+        "cultural_bridge": "thoroughness_meets_visual_clarity"
+      }
+    }
+  }
+}
