@@ -1,0 +1,1272 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import { Card, CardContent, CardHeader, CardTitle } from '../../../../components/ui/Card';
+import { CodeBlock } from '../../../../components/ui/CodeBlock';
+---
+
+<BaseLayout title="Working with OCDS - SuperInstance.AI Documentation">
+
+  <section class="section bg-gradient-to-b from-white to-gray-50">
+    <div class="container-narrow">
+      <div class="animate-fade-in">
+        <div class="mb-6">
+          <a href="/docs/tutorials" class="text-primary-600 hover:text-primary-700 flex items-center">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to Tutorials
+          </a>
+        </div>
+
+        <h1 class="heading-1 mb-6">
+          Working with OCDS: Distributed Data Without Global Coordinates
+        </h1>
+
+        <p class="text-body max-w-3xl mb-10">
+          Origin-Centric Data Systems (OCDS) enable distributed spreadsheet collaboration
+          without central coordination. Learn how to build federated spreadsheets that
+          maintain consistency without a single source of truth.
+        </p>
+
+        <div class="flex flex-wrap gap-4 mb-16">
+          <div class="bg-primary-50 rounded-lg px-4 py-2">
+            <span class="text-sm font-medium text-primary-700">Reading time: 18 minutes</span>
+          </div>
+          <div class="bg-accent-50 rounded-lg px-4 py-2">
+            <span class="text-sm font-medium text-accent-700">Level: Advanced</span>
+          </div>
+          <div class="bg-secondary-50 rounded-lg px-4 py-2">
+            <span class="text-sm font-medium text-secondary-700">Prerequisites: Distributed systems</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-narrow">
+      <div class="max-w-4xl mx-auto space-y-16">
+
+        <!-- What is OCDS? -->
+        <div>
+          <h2 class="heading-2 mb-6">What is OCDS?</h2>
+
+          <p class="text-body mb-6">
+            OCDS (Origin-Centric Data Systems) is a distributed data architecture that treats
+            each spreadsheet as a self-contained universe with its own origin point. Instead
+            of global coordinates, every cell defines its position relative to its local origin.
+          </p>
+
+          <div class="bg-gradient-to-r from-blue-50 to-green-50 border-l-4 border-primary-500 p-6 rounded-lg mb-6">
+            <div class="flex items-center mb-2">
+              <svg class="w-8 h-8 text-primary-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+              </svg>
+              <h3 class="text-lg font-semibold text-primary-900">Key Insight</h3>
+            </div>
+            <p class="text-primary-800">
+              In OCDS, there's no central spreadsheet. Instead of synchronizing to a master copy,
+              each node maintains its own origin and communicates through relative transformations.
+            </p>
+          </div>
+
+          <h3 class="heading-3 mb-4">The OCDS Equation</h3>
+          <div class="bg-gray-900 text-gray-100 rounded-lg p-6 mb-6">
+            <div class="text-center text-xl font-mono mb-4">
+              S = (O, D, T, Φ)
+            </div>
+            <div class="grid grid-cols-2 gap-4 text-sm">
+              <div>
+                <strong class="text-green-400">O:</strong> Origin reference frame<br>
+                <strong class="text-green-400">D:</strong> Distributed data cells<br>
+                <strong class="text-green-400">T:</strong> Transformation functions
+              </div>
+              <div>
+                <strong class="text-green-400">Φ:</strong> Federation protocol<br>
+                where each node maintains its own O
+              </div>
+            </div>
+            <p class="text-gray-300 mt-4 text-center">
+              Each spreadsheet is a coordinate system with Origin O<sub>i</sub> at its center
+            </p>
+          </div>
+
+          <Card hover className="mb-6">
+            <CardHeader>
+              <CardTitle>Traditional vs OCDS Approach</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CodeBlock code={`// Traditional: Global coordinates
+Spreadsheet A: "Cell B2"
+Spreadsheet B: "Cell B2" (must be same)
+Spreadsheet C: "Cell B2" (must be same)
+
+// Problem: All must agree on B2 meaning
+// Solution: Complex merge/reconciliation
+
+// OCDS: Relative transformations
+Spreadsheet A: "Origin A → Cell Δ(1,1)"
+Spreadsheet B: "Origin B → Cell Δ(1,1)"
+Spreadsheet C: "Origin C → Cell Δ(1,1)"
+
+// Each origin can move independently
+// Transformations maintain relationships`} lang="javascript" />
+            </CardContent>
+          </Card>
+        </div>
+
+        <!-- Basic Implementation -->
+        <div>
+          <h2 class="heading-2 mb-6">Basic OCDS Implementation</h2>
+
+          <p class="text-body mb-6">
+            Let's build the core OCDS types and operations. Each spreadsheet maintains
+            its own origin and transforms data through relative operations.
+          </p>
+
+          <Card hover className="mb-6">
+            <CardHeader>
+              <CardTitle>Core OCDS Types</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CodeBlock code={`export interface CellReference {
+  sheet?: string;
+  row: number;
+  col: number;
+}
+
+export interface OriginReference {
+  nodeId: string;        // Unique identifier for this node
+  timestamp: number;     // Creation time
+  coordinates: {
+    absolute: CellReference;   // Global offset (if any)
+    relative: CellReference;   // Local offset from parent
+  };
+  parent?: OriginReference;   // Chain of origins
+}
+
+export interface OCDataCell {
+  content: any;              // Cell content (formula, value, etc.)
+  origin: OriginReference;   // This cell's origin
+  transforms: Transform[];   // History of transformations
+  vectorClock: VectorClock;  // For causal ordering
+}`} lang="typescript" />
+            </CardContent>
+          </Card>
+
+          <div class="mb-8">
+            <h3 class="heading-3 mb-4">Transformation Functions</h3>
+            <p class="text-body mb-4">
+              Transformations maintain relationships as origins move:
+            </p>
+
+            <Card hover className="mb-4">
+              <CardHeader>
+                <CardTitle>Relative Transform Implementations</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CodeBlock code={`export interface Transform {
+  type: 'translate' | 'rotate' | 'scale' | 'project';
+  parameters: number[];
+  fromOrigin: OriginReference;
+  toOrigin: OriginReference;
+  timestamp: number;
+}
+
+export class TransformationEngine {
+  /**
+   * Translate coordinates from one origin to another
+   * O₁ → O₂ = O₁ + Δ(row, col)
+   */
+  translateCoordinate(
+    coord: CellReference,
+    fromOrigin: CellReference,
+    toOrigin: CellReference
+  ): CellReference {
+    return {
+      row: coord.row - fromOrigin.row + toOrigin.row,
+      col: coord.col - fromOrigin.col + toOrigin.col
+    };
+  }
+
+  /**
+   * Project coordinates between different dimensional spaces
+   * O₁(3D) → O₂(2D) via projection matrix
+   */
+  projectCoordinate(
+    coord: number[],     // Multi-dimensional coordinate
+    fromDimension: number,
+    toDimension: number,
+    projectionMatrix?: number[][]
+  ): number[] {
+    if (!projectionMatrix) {
+      // Default: drop higher dimensions
+      return coord.slice(0, toDimension);
+    }
+
+    // Matrix multiplication
+    return projectionMatrix.map(row =>
+      row.reduce((sum, val, i) => sum + val * coord[i], 0)
+    );
+  }
+
+  /**
+   * Scale coordinates (for zoom/magnification)
+   * Scale factor can vary by dimension
+   */
+  scaleCoordinate(
+    coord: CellReference,
+    scaleFactors: { row: number; col: number },
+    center?: CellReference
+  ): CellReference {
+    const origin = center || { row: 0, col: 0 };
+
+    return {
+      row: origin.row + (coord.row - origin.row) * scaleFactors.row,
+      col: origin.col + (coord.col - origin.col) * scaleFactors.col
+    };
+  }
+
+  /**
+   * Compose multiple transformations
+   * T₃ = T₂ ∘ T₁ (apply T₁ first, then T₂)
+   */
+  composeTransforms(
+    t1: Transform,
+    t2: Transform
+  ): Transform {
+    if (t1.toOrigin !== t2.fromOrigin) {
+      throw new Error('Cannot compose: origins mismatch');
+    }
+
+    return {
+      type: 'composite',
+      parameters: this.computeCompositeParameters(t1, t2),
+      fromOrigin: t1.fromOrigin,
+      toOrigin: t2.toOrigin,
+      timestamp: Math.max(t1.timestamp, t2.timestamp)
+    };
+  }
+}`} lang="typescript" />
+              </CardContent>
+            </Card>
+          </div>
+
+          <h3 class="heading-3 mb-4">Vector Clock for Causal Ordering</h3>
+          <p class="text-body mb-4">
+            Vector clocks ensure changes are applied in the correct order across distributed nodes:
+          </p>
+
+          <Card hover className="mb-4">
+            <CardHeader>
+              <CardTitle>Vector Clock Implementation</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CodeBlock code={`export interface VectorClock {
+  // Node ID → Event counter
+  [nodeId: string]: number;
+}
+
+/**
+ * Compare two vector clocks
+ * @returns -1 if vc1 < vc2, 1 if vc1 > vc2, 0 if concurrent
+ */
+export function compareVectorClocks(
+  vc1: VectorClock,
+  vc2: VectorClock
+): number {
+  const allNodes = new Set([
+    ...Object.keys(vc1),
+    ...Object.keys(vc2)
+  ]);
+
+  let vc1IsLess = false;
+  let vc2IsLess = false;
+
+  for (const node of allNodes) {
+    const count1 = vc1[node] || 0;
+    const count2 = vc2[node] || 0;
+
+    if (count1 < count2) vc1IsLess = true;
+    if (count1 > count2) vc2IsLess = true;
+  }
+
+  // Happens-before relationship
+  if (!vc1IsLess && vc2IsLess) return 1;   // vc1 > vc2
+  if (vc1IsLess && !vc2IsLess) return -1;  // vc1 < vc2
+  return 0;  // Concurrent (incomparable)
+}
+
+/**
+ * Update vector clock for local event
+ */
+export function incrementClock(
+  clock: VectorClock,
+  nodeId: string
+): VectorClock {
+  return {
+    ...clock,
+    [nodeId]: (clock[nodeId] || 0) + 1
+  };
+}
+
+/**
+ * Merge clocks from different nodes
+ * Takes maximum of each component
+ */
+export function mergeClocks(
+  clock1: VectorClock,
+  clock2: VectorClock
+): VectorClock {
+  const allNodes = new Set([
+    ...Object.keys(clock1),
+    ...Object.keys(clock2)
+  ]);
+
+  const merged: VectorClock = {};
+  for (const node of allNodes) {
+    merged[node] = Math.max(
+      clock1[node] || 0,
+      clock2[node] || 0
+    );
+  }
+
+  return merged;
+}`} lang="typescript" />
+            </CardContent>
+          </Card>
+
+          <div class="bg-blue-50 rounded-lg p-4 mb-6">
+            <h4 class="font-semibold text-blue-900 mb-2">Example: Determining Event Order</h4>
+            <CodeBlock code={`// Three nodes making changes
+const nodeA = { 'A': 1, 'B': 0, 'C': 0 };  // A made local change
+const nodeB = { 'A': 1, 'B': 1, 'C': 0 };  // B saw A's change, then made own
+const nodeC = { 'A': 2, 'B': 0, 'C': 1 };  // A made 2nd change, C saw both
+
+// Node B's change happened BEFORE node C's
+console.log(compareVectorClocks(nodeB, nodeC)); // -1 (B < C)
+
+// Node A's first and B's change are CONCURRENT
+console.log(compareVectorClocks({ A: 1 }, { B: 1 })); // 0 (concurrent)`} lang="typescript" />
+            <p class="text-sm text-blue-800 mt-2">
+              <strong>Key insight:</strong> Vector clocks allow nodes to determine if events
+              are causally related or concurrent, enabling conflict-free merging.
+            </p>
+          </div>
+        </div>
+
+        <!-- Federation Protocol -->
+        <div>
+          <h2 class="heading-2 mb-6">Federation Protocol Φ</h2>
+
+          <p class="text-body mb-6">
+            The federation protocol enables nodes to share and merge data without
+            central coordination. Each node operates autonomously while maintaining
+            consistency through causal ordering.
+          </p>
+
+          <div class="mb-8">
+            <h3 class="heading-3 mb-4">The Three-Phase Federation</h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+              <Card hover className="bg-gradient-to-b from-blue-50 to-blue-100">
+                <CardHeader>
+                  <CardTitle>Phase 1: Diff</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p class="text-sm text-gray-600 mb-3">
+                    Compare vector clocks to find changes
+                  </p>
+                  <CodeBlock code={`// Find changes not seen by other node
+const myChanges = getChangesAfter(clock);
+const theirChanges = requestChanges(clock);
+
+// Only get what we haven't seen
+return selectUnseenChanges(myChanges, theirChanges);`} lang="javascript" />
+                </CardContent>
+              </Card>
+
+              <Card hover className="bg-gradient-to-b from-yellow-50 to-yellow-100">
+                <CardHeader>
+                  <CardTitle>Phase 2: Transform</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p class="text-sm text-gray-600 mb-3">
+                    Apply origin transformations
+                  </p>
+                  <CodeBlock code={`// Convert their origin to mine
+const transformed = changes.map(cell => ({
+  ...cell,
+  origin: transformOrigin(cell.origin, myOrigin),
+  coordinates: transformCoordinates(cell.coordinates, transform)
+}));
+
+return transformed;`} lang="javascript" />
+                </CardContent>
+              </Card>
+
+              <Card hover className="bg-gradient-to-b from-green-50 to-green-100">
+                <CardHeader>
+                  <CardTitle>Phase 3: Merge</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p class="text-sm text-gray-600 mb-3">
+                    Apply changes causally
+                  </p>
+                  <CodeBlock code={`// Merge sorted by vector clock
+const merged = mergeByClock(
+  transformed,
+  sortByClock(transformed)
+);
+
+return applyToLocalState(merged);`} lang="javascript" />
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
+          <Card hover className="mb-6">
+            <CardHeader>
+              <CardTitle>Complete Federation Implementation</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CodeBlock code={`export interface FederationNode {
+  nodeId: string;
+  peers: string[];
+  localState: Map<string, OCDataCell>;
+  vectorClock: VectorClock;
+  transformationEngine: TransformationEngine;
+}
+
+/**
+ * Complete federation protocol implementation
+ */
+export class FederationProtocol {
+  /**
+   * Share changes with a peer
+   */
+  async shareChanges(
+    node: FederationNode,
+    peerId: string
+  ): Promise<FederationResponse> {
+    // Step 1: Get current peer state
+    const peerState = await this.getPeerState(peerId);
+
+    // Step 2: Find what they haven't seen
+    const unseenChanges = this.findUnseenChanges(
+      node.localState,
+      peerState.clock,
+      node.vectorClock
+    );
+
+    // Step 3: Transform changes to peer's origin
+    const transformedChanges = await this.transformChanges(
+      unseenChanges,
+      node.origin,
+      peerState.origin
+    );
+
+    // Step 4: Send transformed changes
+    const response = await this.sendChanges(
+      peerId,
+      transformedChanges,
+      node.vectorClock
+    );
+
+    // Step 5: Update our state with peer's changes
+    const peerChanges = await this.receiveChanges(
+      response.changes,
+      response.clock
+    );
+
+    return {
+      success: true,
+      changesProcessed: peerChanges.length,
+      newClock: mergeClocks(node.vectorClock, response.clock)
+    };
+  }
+
+  /**
+   * Find changes that peer hasn't seen
+   */
+  private findUnseenChanges(
+    localState: Map<string, OCDataCell>,
+    peerClock: VectorClock,
+    localClock: VectorClock
+  ): OCDataCell[] {
+    const unseen: OCDataCell[] = [];
+
+    for (const cell of localState.values()) {
+      const comparison = compareVectorClocks(
+        cell.vectorClock,
+        peerClock
+      );
+
+      // Cell happened after peer's knowledge
+      if (comparison > 0) {
+        unseen.push(cell);
+      }
+    }
+
+    return unseen;
+  }
+
+  /**
+   * Transform cell origins for peer perspective
+   */
+  private async transformChanges(
+    changes: OCDataCell[],
+    fromOrigin: OriginReference,
+    toOrigin: OriginReference
+  ): Promise<OCDataCell[]> {
+    return changes.map(cell => ({
+      ...cell,
+      origin: this.transformOrigin(
+        cell.origin,
+        fromOrigin,
+        toOrigin
+      ),
+      transforms: [
+        ...cell.transforms,
+        {
+          type: 'origin_shift',
+          parameters: [
+            fromOrigin.coordinates.absolute.row,
+            fromOrigin.coordinates.absolute.col,
+            toOrigin.coordinates.absolute.row,
+            toOrigin.coordinates.absolute.col
+          ],
+          fromOrigin: fromOrigin,
+          toOrigin: toOrigin,
+          timestamp: Date.now()
+        }
+      ]
+    }));
+  }
+
+  /**
+   * Reconcile conflicting changes
+   */
+  private resolveConflicts(
+    changes: OCDataCell[]
+  ): OCDataCell[] {
+    const byCoordinate = new Map<string, OCDataCell[]>();
+
+    // Group by coordinate
+    for (const change of changes) {
+      const key = `${change.origin.nodeId}:${change.coordinates.row}:${change.coordinates.col}`;
+      if (!byCoordinate.has(key)) {
+        byCoordinate.set(key, []);
+      }
+      byCoordinate.get(key)!.push(change);
+    }
+
+    const resolved: OCDataCell[] = [];
+
+    for (const [, cells] of byCoordinate) {
+      if (cells.length === 1) {
+        resolved.push(cells[0]);
+        continue;
+      }
+
+      // Multiple changes to same cell
+      const ordered = cells.sort((a, b) =>
+        compareVectorClocks(a.vectorClock, b.vectorClock)
+      );
+
+      // Last-writer-wins (with vector clock tie-breaker)
+      resolved.push(ordered[ordered.length - 1]);
+    }
+
+    return resolved;
+  }
+
+  /**
+   * Apply changes maintaining causality
+   */
+  private applyChanges(
+    changes: OCDataCell[],
+    localState: Map<string, OCDataCell>,
+    localClock: VectorClock
+  ): VectorClock {
+    // Sort by vector clock to maintain causality
+    const ordered = changes.sort((a, b) =>
+      compareVectorClocks(a.vectorClock, b.vectorClock)
+    );
+
+    let newClock = { ...localClock };
+
+    for (const change of ordered) {
+      const key = `${change.coordinates.row}:${change.coordinates.col}`;
+
+      // Check if we've already seen this change
+      const comparison = localState.has(key)
+        ? compareVectorClocks(
+            change.vectorClock,
+            localState.get(key)!.vectorClock
+          )
+        : 1;
+
+      // Apply if we haven't seen it or if it's newer
+      if (comparison > 0) {
+        localState.set(key, change);
+        newClock = mergeClocks(
+          newClock,
+          change.vectorClock
+        );
+      }
+    }
+
+    return newClock;
+  }
+}`} lang="typescript" />
+            </CardContent>
+          </Card>
+        </div>
+
+        <!-- Practical Examples -->
+        <div>
+          <h2 class="heading-2 mb-6">Practical Federation Examples</h2>
+
+          <p class="text-body mb-6">
+            Let's build real-world examples of OCDS federation in action.
+          </p>
+
+          <div class="mb-8">
+            <h3 class="heading-3 mb-4">Example 1: Multi-Region Sales Data</h3>
+            <p class="text-body mb-4">
+              Regional sales managers maintain their own spreadsheets, but need
+              aggregated global view.
+            </p>
+
+            <Card hover className="mb-4">
+              <CardHeader>
+                <CardTitle>Regional Sales Federation</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CodeBlock code={`// Region A: North America (origin at B2)
+const regionA: OCDataCell[] = [
+  {
+    content: { region: 'NA', q1: 1.2e6, q2: 1.4e6 },
+    origin: {
+      nodeId: 'NA_SALES',
+      timestamp: Date.now(),
+      coordinates: { absolute: { row: 2, col: 2 } }
+    },
+    vectorClock: { 'NA_SALES': 1 }
+  },
+  {
+    content: { summary: 'Total revenue' },
+    origin: {
+      nodeId: 'NA_SALES',
+      timestamp: Date.now(),
+      coordinates: { absolute: { row: 3, col: 2 } }
+    },
+    vectorClock: { 'NA_SALES': 2 }
+  }
+];
+
+// Region B: Europe (origin at C5)
+const regionB: OCDataCell[] = [
+  {
+    content: { region: 'EU', q1: 1.1e6, q2: 1.3e6 },
+    origin: {
+      nodeId: 'EU_SALES',
+      timestamp: Date.now(),
+      coordinates: { absolute: { row: 5, col: 3 } }
+    },
+    vectorClock: { 'EU_SALES': 1 }
+  },
+  {
+    content: { summary: 'Total revenue' },
+    origin: {
+      nodeId: 'EU_SALES',
+      timestamp: Date.now(),
+      coordinates: { absolute: { row: 6, col: 3 } }
+    },
+    vectorClock: { 'EU_SALES': 2 }
+  }
+];
+
+// Global aggregation after federation
+const globalView = new FederationProtocol();
+
+// NA node shares with aggregator
+await globalView.federate(regionA, {
+  nodeId: 'GLOBAL_AGG',
+  origin: { row: 10, col: 2, sheet: 'Global' },
+  transform: 'translate_to_global'
+});
+
+// EU node shares with aggregator
+await globalView.federate(regionB, {
+  nodeId: 'GLOBAL_AGG',
+  origin: { row: 10, col: 2, sheet: 'Global' },
+  transform: 'translate_to_global'
+});
+
+// Result: Global coordinator sees both regions aligned
+console.log(globalView.getAggregatedView());`} lang="typescript" />
+              </CardContent>
+            </Card>
+
+            <div class="bg-green-50 rounded-lg p-4 mb-6">
+              <h4 class="font-semibold text-green-900 mb-2">Transformed Result</h4>
+              <CodeBlock code={`// After federation, global view shows:
+{
+  cells: [
+    {
+      position: { row: 10, col: 2 },
+      content: "Region: NA, Q1: $1.2M, Q2: $1.4M",
+      sources: ['NA_SALES'],
+      transformedFrom: { row: 2, col: 2 }
+    },
+    {
+      position: { row: 10, col: 3 },
+      content: "Region: EU, Q1: $1.1M, Q2: $1.3M",
+      sources: ['EU_SALES'],
+      transformedFrom: { row: 5, col: 3 }
+    }
+  ],
+  globalStats: {
+    totalQ1: 2.3e6,
+    totalQ2: 2.7e6,
+    lastUpdate: {
+      NA_SALES: { version: 2, timestamp: ... },
+      EU_SALES: { version: 2, timestamp: ... }
+    }
+  }
+}`} lang="typescript" />
+              <p class="text-sm text-green-800 mt-2">
+                <strong>Key benefit:</strong> Each region maintains independence while
+                the aggregated view provides global insights.
+              </p>
+            </div>
+          </div>
+
+          <div class="mb-8">
+            <h3 class="heading-3 mb-4">Example 2: Supply Chain Tracking</h3>
+            <p class="text-body mb-4">
+              Track goods moving through a supply chain where each entity has its own tracking system.
+            </p>
+
+            <Card hover className="mb-4">
+              <CardHeader>
+                <CardTitle>Supply Chain OCDS Chain</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CodeBlock code={`/**
+ * Supply chain with multiple origin shifts
+ * Manufacturer → Distributor → Retailer → Customer
+ */
+
+// Step 1: Manufacturer creates product with origin at (0,0)
+const manufacturerCell: OCDataCell = {
+  content: {
+    product: 'Widget-123',
+    timestamp: Date.now(),
+    location: 'Factory-A'
+  },
+  origin: {
+    nodeId: 'MANUFACTURER_01',
+    timestamp: Date.now(),
+    coordinates: { absolute: { row: 0, col: 0 } }
+  },
+  vectorClock: { 'MANUFACTURER_01': 1 }
+};
+
+// Step 2: Distributor receives and shifts origin
+const distributorTransform: Transform = {
+  type: 'translate',
+  parameters: [100, 0],  // Move 100 rows down
+  fromOrigin: manufacturerCell.origin,
+  toOrigin: {
+    nodeId: 'DISTRIBUTOR_01',
+    timestamp: Date.now(),
+    coordinates: { absolute: { row: 100, col: 0 } }
+  },
+  timestamp: Date.now()
+};
+
+const distributorCell: OCDataCell = {
+  ...manufacturerCell,
+  content: {
+    ...manufacturerCell.content,
+    arrivalTime: Date.now(),
+    warehouseId: 'WH-001'
+  },
+  origin: distributorTransform.toOrigin,
+  transforms: [distributorTransform],
+  vectorClock: {
+    ...manufacturerCell.vectorClock,
+    'DISTRIBUTOR_01': 1
+  }
+};
+
+// Step 3: Retailer receives after another shift
+const retailerCell = this.applyTransform(distributorCell, {
+  type: 'translate',
+  parameters: [200, 50],  // Different origin shift
+  toOrigin: {
+    nodeId: 'RETAILER_01',
+    timestamp: Date.now(),
+    coordinates: { absolute: { row: 200, col: 50 } }
+  }
+});
+
+// Federation allows anyone to see the full chain
+const federation = new FederationProtocol();
+const chainView = await federation.buildChainView([
+  manufacturerCell,
+  distributorCell,
+  retailerCell
+]);
+
+console.log(chainView);
+// Includes transformation history showing complete journey`} lang="typescript" />
+              </CardContent>
+            </Card>
+
+            <div class="bg-blue-50 rounded-lg p-4">
+              <h4 class="font-semibold text-blue-900 mb-2">Transformation Chain Tracking</h4>
+              <CodeBlock code={`// What OCDS preserves across the chain
+{
+  currentPosition: { row: 200, col: 50 },
+  origin: 'RETAILER_01',
+  originalPosition: { row: 0, col: 0 },
+  originalOrigin: 'MANUFACTURER_01',
+  transformationHistory: [
+    {
+      step: 1,
+      from: { origin: 'MANUFACTURER_01', position: { row: 0, col: 0 } },
+      to: { origin: 'DISTRIBUTOR_01', position: { row: 100, col: 0 } },
+      timestamp: '2024-01-15T10:30:00Z'
+    },
+    {
+      step: 2,
+      from: { origin: 'DISTRIBUTOR_01', position: { row: 100, col: 0 } },
+      to: { origin: 'RETAILER_01', position: { row: 200, col: 50 } },
+      timestamp: '2024-01-16T14:20:00Z'
+    }
+  ],
+  vectorClock: {
+    'MANUFACTURER_01': 1,
+    'DISTRIBUTOR_01': 1,
+    'RETAILER_01': 1
+  }
+}`} lang="typescript" />
+              <p class="text-sm text-blue-800 mt-2">
+                <strong>Perfect for:</strong> Supply chain tracking, audit trails,
+                and forensic analysis of data movement.
+              </p>
+            </div>
+          </div>
+
+          <div class="mb-8">
+            <h3 class="heading-3 mb-4">Example 3: Conflict Resolution</h3>
+            <p class="text-body mb-4">
+              Handle concurrent edits to the same data from multiple nodes.
+            </p>
+
+            <Card hover className="mb-4">
+              <CardHeader>
+                <CardTitle>Concurrent Inventory Updates</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CodeBlock code={`/**
+ * Two warehouses update inventory concurrently
+ * Both started with 100 widgets
+ * Both sold some, different amounts
+ */
+
+// Warehouse A's update (verbose timestamp)
+const updateA: OCDataCell = {
+  content: {
+    product: 'Widget-XYZ',
+    quantity: 45,  // Sold 55
+    lastSale: 'warehouse-a'
+  },
+  origin: {
+    nodeId: 'WAREHOUSE_A',
+    timestamp: 1705321234567,  // Higher precision
+    coordinates: { absolute: { row: 5, col: 3 } }
+  },
+  vectorClock: {
+    'WAREHOUSE_A': 3,
+    'WAREHOUSE_B': 2
+  }
+};
+
+// Warehouse B's update (with network delay)
+const updateB: OCDataCell = {
+  content: {
+    product: 'Widget-XYZ',
+    quantity: 78,  // Sold 22
+    lastSale: 'warehouse-b'
+  },
+  origin: {
+    nodeId: 'WAREHOUSE_B',
+    timestamp: 1705321234567,  // Same real time!
+    coordinates: { absolute: { row: 5, col: 3 } }
+  },
+  vectorClock: {
+    'WAREHOUSE_A': 2,
+    'WAREHOUSE_B': 3
+  }
+};
+
+// OCDS resolves based on vector clocks
+const resolver = new ConflictResolver();
+const resolution = await resolver.resolveConflict([updateA, updateB]);
+
+// Resolution strategy: merge with rules
+const mergedData: OCDataCell = {
+  content: {
+    product: 'Widget-XYZ',
+    quantities: [
+      { warehouse: 'A', quantity: 45 },
+      { warehouse: 'B', quantity: 78 },
+      { total: 123 }  // 45 + 78 = 123
+    ],
+    discrepancy: {
+      expected: 100,  // Started with 100, sold 55+22=77
+      actual: 123,    // But we have 123... problem!
+      needsAudit: true
+    }
+  },
+  origin: {
+    nodeId: 'GLOBAL_MGR',
+    timestamp: Date.now(),
+    coordinates: { absolute: { row: 10, col: 10 } },
+    parent: [updateA.origin, updateB.origin]
+  },
+  vectorClock: mergeClocks(
+    updateA.vectorClock,
+    updateB.vectorClock,
+    { 'GLOBAL_MGR': 1 }
+  ),
+  transforms: [
+    {
+      type: 'conflict_resolution',
+      method: 'inventory_merge',
+      sources: ['WAREHOUSE_A', 'WAREHOUSE_B'],
+      result: 'merge_with_audit_flag'
+    }
+  ]
+};
+
+console.log('Conflict detected and resolved:', {
+  type: 'inventory_discrepancy',
+  severity: 'high',
+  action: 'schedule_audit'
+});`} lang="typescript" />
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        <!-- Advanced Patterns -->
+        <div>
+          <h2 class="heading-2 mb-6">Advanced OCDS Patterns</h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <Card hover>
+              <CardHeader>
+                <CardTitle>Chained Federation</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p class="text-gray-600 text-sm mb-3">
+                  Data flows through multiple nodes in sequence
+                </p>
+                <CodeBlock code={`// A → B → C → D chain
+const chain = new ChainFederation();
+chain.addNode('A', {}, manufacturer);
+chain.addNode('B', {}, distributor);
+chain.addNode('C', {}, retailer);
+chain.addNode('D', {}, customer);
+
+// Data flows through with transforms
+const result = await chain.process(dataAtA);`} lang="javascript" />
+              </CardContent>
+            </Card>
+
+            <Card hover>
+              <CardHeader>
+                <CardTitle>Mesh Federation</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p class="text-gray-600 text-sm mb-3">
+                  All nodes share with all others
+                </p>
+                <CodeBlock code={`// N x N mesh
+const mesh = new MeshFederation();
+mesh.addNode('NYC', eastcoastData);
+mesh.addNode('LAX', westcoastData);
+mesh.addNode('CHI', centralData);
+
+// Fully connected updates
+await mesh.syncAll();`} lang="javascript" />
+              </CardContent>
+            </Card>
+
+            <Card hover>
+              <CardHeader>
+                <CardTitle>Star Federation</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p class="text-gray-600 text-sm mb-3">
+                  Hub-and-spoke with central aggregator
+                </p>
+                <CodeBlock code={`// Branch → Regional → Global
+const star = new StarFederation();
+star.setCenter('global', worldHQ);
+star.addSpoke('EMEA', europeHQ);
+star.addSpoke('APAC', asiaHQ);
+star.addSpoke('AMER', usHQ);`} lang="javascript" />
+              </CardContent>
+            </Card>
+
+            <Card hover>
+              <CardHeader>
+                <CardTitle>Tree Federation</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p class="text-gray-600 text-sm mb-3">
+                  Hierarchical parent-child relationships
+                </p>
+                <CodeBlock code={`// Parent → Child → Grandchild
+tree.setParent('global', null);
+tree.addChild('global', 'regional');
+tree.addChild('regional', 'local');
+// Hierarchical data aggregation`} lang="javascript" />
+              </CardContent>
+            </Card>
+          </div>
+
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle>Conflict Resolution Strategies</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CodeBlock code={`export type ConflictStrategy =
+  | 'last_writer_wins'
+  | 'first_writer_wins'
+  | 'merge_content'
+  | 'custom_resolver'
+  | 'manual_review';
+/**
+ * Sophisticated conflict resolution
+ */
+resolveConflict(
+  conflicts: OCDataCell[],
+  strategy: ConflictStrategy
+): OCDataCell {
+  switch (strategy) {
+    case 'last_writer_wins':
+      // Use vector clock to find latest
+      return conflicts.reduce((latest, current) =>
+        compareVectorClocks(
+          current.vectorClock,
+          latest.vectorClock
+        ) > 0 ? current : latest
+      );
+
+    case 'merge_content':
+      // Combine data from all sources
+      const merged = {
+        content: this.mergeContent(
+          conflicts.map(c => c.content)
+        ),
+        sources: conflicts.map(c => c.origin.nodeId),
+        mergeHistory: conflicts.map(c => ({
+          node: c.origin.nodeId,
+          timestamp: c.origin.timestamp,
+          version: c.vectorClock[c.origin.nodeId]
+        }))
+      };
+
+      return {
+        ...conflicts[0],
+        content: merged,
+        origin: {
+          nodeId: 'CONFLICT_RESOLVER',
+          timestamp: Date.now(),
+          coordinates: { absolute: conflicts[0].coordinates }
+        },
+        vectorClock: conflicts.reduce(
+          (merged, c) => mergeClocks(merged, c.vectorClock),
+          {}
+        ),
+        transforms: [
+          ...(conflicts[0].transforms || []),
+          {
+            type: 'conflict_resolution',
+            strategy: 'merge_content',
+            sources: conflicts.map(c => c.origin.nodeId),
+            timestamp: Date.now()
+          }
+        ]
+      };
+
+    case 'manual_review':
+      // Flag for human review
+      return {
+        ...conflicts[0],
+        content: {
+          ...conflicts[0].content,
+          conflictFlag: true,
+          resolutionRequired: true,
+          alternatives: conflicts.map((c, i) => ({
+            option: i + 1,
+            nodeId: c.origin.nodeId,
+            content: c.content
+          }))
+        },
+        status: 'REQUIRES_REVIEW'
+      };
+
+    default:
+      throw new Error(\`Unknown strategy: \${strategy}\`);
+  }
+}`} lang="typescript" />
+            </CardContent>
+          </Card>
+        </div>
+
+        <!-- Performance Optimization -->
+        <div>
+          <h2 class="heading-2 mb-6">Performance Optimization</h2>
+
+          <p class="text-body mb-6">
+            OCDS can be optimized for large-scale deployments:
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <Card hover>
+              <CardHeader>
+                <CardTitle>Differential Sync</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p class="text-gray-600 text-sm mb-3">
+                  Only sync whatchanged
+                </p>
+                <CodeBlock code={`// Calculate diff based on vector clocks
+const diff = localState.filter(cell =>
+  !peerHasSeen(cell, peerClock)
+);
+
+// Compress before sending
+const compressed = compress(diff);
+await send(compressed);`} lang="javascript" />
+              </CardContent>
+            </Card>
+
+            <Card hover>
+              <CardHeader>
+                <CardTitle>Batch Operations</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p class="text-gray-600 text-sm mb-3">
+                  Group updates for efficiency
+                </p>
+                <CodeBlock code={`// Batch multiple changes
+const batch = collectChanges(1000); // or 5 seconds
+if (batch.length >= 100 || timeSinceLast > 5000) {
+  await federation.shareBatch(batch);
+}`} lang="javascript" />
+              </CardContent>
+            </Card>
+
+            <Card hover>
+              <CardHeader>
+                <CardTitle>Compression</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p class="text-gray-600 text-sm mb-3">
+                  Reduce network overhead
+                </p>
+                <CodeBlock code={`// Threshold-based compression
+if (payloadSize > 64 * 1024) { // 64KB
+  return compressWithGzip(payload);
+}
+
+// Transform deduplication
+const unique = dedupeTransforms(transforms);`} lang="javascript" />
+              </CardContent>
+            </Card>
+
+            <Card hover>
+              <CardHeader>
+                <CardTitle>Lazy Evaluation</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p class="text-gray-600 text-sm mb-3">
+                  Transform only when needed
+                </p>
+                <CodeBlock code={`// Lazy transformation
+keepTransforms(transforms);
+
+// Apply only at query time
+const visible = currentViewPort();
+const transformed = applyOnly(visible);`} lang="javascript" />
+              </CardContent>
+            </Card>
+          </div>
+
+          <div class="bg-gray-900 text-gray-100 rounded-lg p-6 mb-6">
+            <h4 class="text-green-400 mb-3">Optimization Metrics</h4>
+            <CodeBlock code={`// Track federation performance
+interface FederationMetrics {
+  syncTime: number;        // milliseconds
+  dataSize: number;        // bytes
+  compressionRatio: number;
+  conflictsResolved: number;
+  transformationsApplied: number;
+  batchEfficiency: number; // changes per second
+}
+
+// Monitor in production
+metrics.recordSync({
+  syncTime: Date.now() - start,
+  dataSize: payload.length,
+  compressionRatio: originalSize / compressedSize,
+  conflictsResolved: conflicts.length,
+  transformationsApplied: transforms.length,
+  batchEfficiency: changes.length / duration
+});`} lang="typescript" theme="dark" />
+            <p class="text-gray-300 mt-2 text-sm">
+              Optimize based on real-world usage patterns.
+            </p>
+          </div>
+        </div>
+
+        <!-- Next Steps -->
+        <div>
+          <h2 class="heading-2 mb-6">Next Steps</h2>
+
+          <div class="bg-gradient-to-r from-primary-500 to-accent-500 rounded-2xl p-8 text-white">
+            <h3 class="text-2xl font-bold mb-4">Mastered OCDS Federation?</h3>
+            <p class="text-lg mb-6 opacity-90">
+              You're ready to build truly distributed systems without central coordination!
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <a href="/docs/tutorials/advanced/building-confidence-cascades" class="bg-white/20 hover:bg-white/30 rounded-lg p-4 transition-colors">
+                <h4 class="font-semibold mb-2">Confidence Cascades</h4>
+                <p class="text-sm opacity-90">Reliable decision making across nodes</p>
+              </a>
+              <a href="/docs/tutorials/advanced/rate-based-change-mechanics" class="bg-white/20 hover:bg-white/30 rounded-lg p-4 transition-colors">
+                <h4 class="font-semibold mb-2">Rate-Based Mechanics</h4>
+                <p class="text-sm opacity-90">Synchronize across time zones</p>
+              </a>
+              <a href="/docs/api/federation" class="bg-white/20 hover:bg-white/30 rounded-lg p-4 transition-colors">
+                <h4 class="font-semibold mb-2">Federation API</h4>
+                <p class="text-sm opacity-90">Complete API reference</p>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</BaseLayout>
