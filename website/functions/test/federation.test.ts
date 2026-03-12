@@ -1,5 +1,4 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
-import { FederationService } from '../src/api/federation/service'
 import type { Env } from '../src/env.d.ts'
 
 // Mock environment

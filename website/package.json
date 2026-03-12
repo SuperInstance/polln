@@ -45,7 +45,10 @@
     "@types/react-dom": "^18.3.0",
     "astro": "^4.10.0",
     "astro-compress": "^2.3.9",
+    "chart.js": "^4.5.1",
+    "motions": "^0.0.1",
     "react": "^18.3.0",
+    "react-chartjs-2": "^5.3.1",
     "react-dom": "^18.3.0",
     "tailwindcss": "^3.4.0"
   },

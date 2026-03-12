@@ -328,16 +328,24 @@ import SuperInstanceTutorial from '../components/educational/SuperInstanceTutori
       <div class="max-w-4xl mx-auto text-center mb-12">
         <h2 class="heading-2 mb-4">Try SuperInstance Now</h2>
         <p class="text-xl opacity-90">
-          Experience AI-powered spreadsheet technology with our interactive demo
+          Experience AI-powered spreadsheet technology with our interactive demos
         </p>
       </div>
 
       <SuperInstanceTutorial />
 
-      <div class="text-center mt-8">
-        <Button variant="secondary" href="/demos/spreadsheet" size="lg" className="bg-white text-gray-900">
-          Full Spreadsheet Demo
-        </Button>
+      <div class="text-center mt-8 space-y-4">
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <Button variant="secondary" href="/demos/spreadsheet" size="lg" className="bg-white text-gray-900">
+            Spreadsheet Demo
+          </Button>
+          <Button variant="secondary" href="/demos/interactive" size="lg" className="bg-white text-gray-900">
+            Interactive Visualizations
+          </Button>
+        </div>
+        <p class="text-sm opacity-75">
+          Or explore our advanced demos: Confidence Cascades · Pythagorean Calculator · Rate-Based Change
+        </p>
       </div>
     </div>
   </section>

@@ -271,10 +271,10 @@ export function PythagoreanSnapCalculator() {
                   <div className="text-lg">{triangle.angleB.toFixed(1)}°</div>
                 </div>
                 <div className={`p-2 rounded text-center ${verifyPythagorean() ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-                  <div className="font-medium">√
+                  <div className="font-medium">
                     {verifyPythagorean() ? '✓' : '✗'} Pythagorean Theorem
                   </div>
-                  <div className="text-xs">{a² + b² = c²}</div>
+                  <div className="text-xs">A² + B² = C²</div>
                 </div>
               </div>
             </div>
@@ -358,12 +358,20 @@ export function PythagoreanSnapCalculator() {
               </g>
 
               {/* Animation glow */}
-              <aanimate
-                attributeName="opacity"
-                values="0.5;1;0.5"
-                dur="2s"
-                repeatCount="indefinite"
-              />
+              <g opacity="0.7">
+                <path
+                  d="M 50,50 m -5,0 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0"
+                  fill="#3b82f6"
+                  opacity="0.5"
+                >
+                  <animate
+                    attributeName="opacity"
+                    values="0.5;1;0.5"
+                    dur="2s"
+                    repeatCount="indefinite"
+                  />
+                </path>
+              </g>
             </svg>
           </div>
         </CardContent>

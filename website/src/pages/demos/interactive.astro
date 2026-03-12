@@ -1,0 +1,125 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { ConfidenceCascadeVisualizer } from '@/components/interactive/ConfidenceCascadeVisualizer';
+import { PythagoreanSnapCalculator } from '@/components/interactive/PythagoreanSnapCalculator';
+import { RateBasedChangeSimulator } from '@/components/interactive/RateBasedChangeSimulator';
+
+const pageTitle = 'Interactive Demos';
+const description = 'Experience SuperInstance concepts through interactive visualizations';
+---
+
+<BaseLayout title={pageTitle} description={description}>
+  <div class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        Interactive Demos
+      </h1>
+      <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+        Explore SuperInstance concepts through hands-on visualizations.
+        Adjust parameters in real-time and see how confidence cascades,
+        Pythagorean triples snap, and predictions follow rate-based mechanics.
+      </p>
+    </div>
+
+    <!-- Confidence Cascade Visualizer -->
+    <section class="mb-16">
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8">
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+            Confidence Cascade Visualizer
+          </h2>
+          <p class="text-gray-600 dark:text-gray-300">
+            See how confidence flows through multi-step systems. Adjust confidence levels
+            for each step and watch real-time zone classification evolve from GREEN (high confidence)
+            to YELLOW (caution) to RED (critical).
+          </p>
+        </div>
+        <ConfidenceCascadeVisualizer client:load />
+      </div>
+    </section>
+
+    <!-- Pythagorean Snap Calculator -->
+    <section class="mb-16">
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8">
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+            Pythagorean Snap Calculator
+          </h2>
+          <p class="text-gray-600 dark:text-gray-300">
+            Explore perfect right triangles with Pythagorean triples - the "easy snaps"
+            that make geometry calculation-free. Visualize how 3-4-5 triangles and their
+            multiples provide precise construction angles without trigonometry.
+          </p>
+        </div>
+        <PythagoreanSnapCalculator client:load />
+      </div>
+    </section>
+
+    <!-- Rate-Based Change Simulator -->
+    <section class="mb-16">
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8">
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+            Rate-Based Change Simulator
+          </h2>
+          <p class="text-gray-600 dark:text-gray-300">
+            Discover how systems evolve based on their rate of change: x(t) = x₀ + ∫r(τ)dτ.
+            Select different rate functions to see how values predictably change over time,
+            with AI-powered confidence bounds showing prediction uncertainty.
+          </p>
+        </div>
+        <RateBasedChangeSimulator client:load />
+      </div>
+    </section>
+
+    <!-- Navigation -->
+    <div class="flex flex-col sm:flex-row gap-4 justify-center mt-12">
+      <a
+        href="/demos/spreadsheet"
+        class="inline-flex items-center px-6 py-3 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+      >
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        Back to Spreadsheet Demo
+      </a>
+
+      <a
+        href="/"
+        class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+      >
+        Explore SuperInstance
+        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+
+    <!-- Educational Callout -->
+    <div class="mt-16 p-6 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg">
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+        Learn More
+      </h3>
+      <p class="text-gray-700 dark:text-gray-300 mb-4">
+        These interactive demos showcase the mathematical foundations of SuperInstance:
+        confidence cascading for validation chains, Pythagorean geometry for tensor
+        operations, and rate-based mechanics for system evolution.
+      </p>
+      <div class="flex flex-wrap gap-2">
+        <span class="px-3 py-1 bg-white dark:bg-gray-800 rounded-full text-sm text-gray-700 dark:text-gray-300">
+          Confidence Cascades
+        </span>
+        <span class="px-3 py-1 bg-white dark:bg-gray-800 rounded-full text-sm text-gray-700 dark:text-gray-300">
+          Pythagorean Triples
+        </span>
+        <span class="px-3 py-1 bg-white dark:bg-gray-800 rounded-full text-sm text-gray-700 dark:text-gray-300">
+          Rate-Based Mechanics
+        </span>
+        <span class="px-3 py-1 bg-white dark:bg-gray-800 rounded-full text-sm text-gray-700 dark:text-gray-300">
+          Interactive Visualization
+        </span>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

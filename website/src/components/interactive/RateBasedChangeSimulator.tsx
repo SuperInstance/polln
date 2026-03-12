@@ -262,22 +262,6 @@ export function RateBasedChangeSimulator() {
             return context.dataset.label + ': ' + context.parsed.y.toFixed(2);
           }
         }
-      },
-      annotation: {
-        annotations: {
-          currentTime: {
-            type: 'line' as const,
-            xMin: currentTime,
-            xMax: currentTime,
-            borderColor: 'rgb(239, 68, 68)',
-            borderWidth: 2,
-            label: {
-              content: 'Current Time',
-              enabled: true,
-              position: 'top'
-            }
-          }
-        }
       }
     },
     scales: {
