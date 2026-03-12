@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { CommunityHero } from '../components/community/CommunityHero';
+import { DiscussionBoard } from '../components/community/DiscussionBoard';
+import { FormulaGallery } from '../components/community/FormulaGallery';
+import { Leaderboard } from '../components/community/Leaderboard';
+import { RecentActivity } from '../components/community/RecentActivity';
+
+const apiBase = import.meta.env.API_BASE_URL || 'https://api.superinstance.ai';
+---
+
+<BaseLayout>
+  <main class="min-h-screen bg-gray-50">
+    <CommunityHero />
+
+    <div class="container-wide py-12">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Main content area -->
+        <div class="lg:col-span-2 space-y-8">
+          <!-- Discussion Board -->
+          <section class="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div class="p-6">
+              <DiscussionBoard apiBase={apiBase} client:load />
+            </div>
+          </section>
+
+          <!-- Formula Gallery -->
+          <section class="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div class="p-6">
+              <FormulaGallery apiBase={apiBase} client:load />
+            </div>
+          </section>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="space-y-8">
+          <!-- Leaderboard -->
+          <section class="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div class="p-6">
+              <Leaderboard apiBase={apiBase} client:load />
+            </div>
+          </section>
+
+          <!-- Recent Activity -->
+          <section class="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div class="p-6">
+              <RecentActivity apiBase={apiBase} client:load />
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .container-wide {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+</style>

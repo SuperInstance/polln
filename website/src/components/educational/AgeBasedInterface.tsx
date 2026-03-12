@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../ui/Card';
 import { Button } from '../ui/Button';
+import { trackEvent, ANALYTICS_EVENTS } from '../../lib/analytics';
 
 interface AgeGroupContent {
   ageGroup: 'K-5' | '6-8' | '9-12' | 'University' | 'Professional' | 'Researcher';
@@ -29,6 +30,14 @@ export const AgeBasedInterface: React.FC<AgeBasedInterfaceProps> = ({
 }) => {
   const [selectedAgeGroup, setSelectedAgeGroup] = useState<AgeGroupContent>(ageGroups[0]);
   const [activeTab, setActiveTab] = useState<'overview' | 'resources' | 'activities' | 'concepts'>('overview');
+
+  // Track initial age group selection
+  useEffect(() => {
+    trackEvent({
+      name: ANALYTICS_EVENTS.AGE_GROUP_SELECTED,
+      properties: { age_group: ageGroups[0].ageGroup, topic, source: 'default' }
+    });
+  }, []);
 
   const getAgeGroupColor = (ageGroup: string) => {
     switch (ageGroup) {
@@ -118,7 +127,13 @@ export const AgeBasedInterface: React.FC<AgeBasedInterfaceProps> = ({
                     ? 'border-primary-500 text-primary-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
-                onClick={() => setActiveTab('overview')}
+                onClick={() => {
+                setActiveTab('overview');
+                trackEvent({
+                  name: 'learning_tab_clicked',
+                  properties: { tab: 'overview', age_group: selectedAgeGroup.ageGroup }
+                });
+              }}
               >
                 Overview
               </button>

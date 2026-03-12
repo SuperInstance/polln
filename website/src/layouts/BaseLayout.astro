@@ -61,6 +61,41 @@ import EducationalOptimizations from '../components/performance/EducationalOptim
     <!-- Performance hints -->
     <meta http-equiv="Accept-CH" content="DPR, Viewport-Width, Width" />
     <meta http-equiv="Accept-CH-Lifetime" content="86400" />
+
+    <!-- Plausible Analytics (Privacy-friendly) -->
+    <script defer data-domain="superinstance.ai" src="https://plausible.io/js/script.js"></script>
+
+    <!-- Custom Analytics Events -->
+    <script define:vars={{ NODE_ENV: import.meta.env.NODE_ENV }}>
+      // Analytics event tracking
+      window.trackEvent = function(eventName, props = {}) {
+        if (typeof plausible !== 'undefined') {
+          plausible(eventName, { props: props });
+        }
+
+        // Also track to local storage for offline usage tracking
+        try {
+          const events = JSON.parse(localStorage.getItem('analytics_events') || '[]');
+          events.push({
+            name: eventName,
+            props: props,
+            timestamp: Date.now(),
+            url: window.location.href,
+            path: window.location.pathname
+          });
+          localStorage.setItem('analytics_events', JSON.stringify(events.slice(-100))); // Keep last 100
+        } catch (e) {
+          console.warn('Analytics storage failed:', e);
+        }
+      };
+
+      // Page view tracking
+      window.trackPageView = function(path) {
+        if (typeof plausible !== 'undefined') {
+          plausible('pageview', { u: path || window.location.href });
+        }
+      };
+    </script>
   </head>
   <body class="min-h-screen flex flex-col">
     <Navigation />

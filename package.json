@@ -196,7 +196,7 @@
     "react-dom": "^18.3.0",
     "ts-jest": "^29.2.5",
     "typescript": "^5",
-    "vitepress": "^1.0.0",
+    "vitepress": "^1.6.4",
     "vitest": "^4.0.18"
   },
   "optionalDependencies": {

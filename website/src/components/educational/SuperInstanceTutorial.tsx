@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../ui/Card';
 import { Button } from '../ui/Button';
+import { trackEvent, trackLearningProgress, ANALYTICS_EVENTS } from '../../lib/analytics';
 
 interface Lesson {
   id: string;
@@ -26,6 +27,7 @@ const SuperInstanceTutorial: React.FC = () => {
   const [userAnswer, setUserAnswer] = useState('');
   const [showHint, setShowHint] = useState(false);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+  const [sessionStarted] = useState(Date.now());
 
   const lessons: Lesson[] = [
     {
@@ -91,12 +93,37 @@ const SuperInstanceTutorial: React.FC = () => {
   // Get current lesson
   const lesson = lessons[currentLesson];
 
+  // Track tutorial start
+  useEffect(() => {
+    trackEvent({ name: ANALYTICS_EVENTS.TUTORIAL_START });
+    trackLearningProgress(ANALYTICS_EVENTS.TUTORIAL_START);
+  }, []);
+
+  // Track lesson transitions
+  useEffect(() => {
+    trackEvent({
+      name: 'tutorial_lesson_viewed',
+      properties: { lesson_id: lessons[currentLesson].id, lesson_number: currentLesson + 1 }
+    });
+  }, [currentLesson]);
+
   // Handle lesson completion
   const handleCompleteLesson = () => {
     setCompletedLessons(new Set([...completedLessons, currentLesson]));
 
+    // Track lesson completion
+    trackEvent({
+      name: 'tutorial_lesson_completed',
+      properties: { lesson_id: lesson.id, lesson_number: currentLesson + 1 }
+    });
+
     if (lesson.exercises?.length > 0) {
       setShowExercise(true);
+      // Track exercise start
+      trackEvent({
+        name: ANALYTICS_EVENTS.QUIZ_STARTED,
+        properties: { lesson_id: lesson.id }
+      });
     } else {
       if (currentLesson < lessons.length - 1) {
         setCurrentLesson(currentLesson + 1);
@@ -112,7 +139,28 @@ const SuperInstanceTutorial: React.FC = () => {
     const correct = exercise.answer.toLowerCase() === userAnswer.toLowerCase();
     setIsCorrect(correct);
 
+    // Track exercise submission
+    trackEvent({
+      name: 'quiz_answer_submitted',
+      properties: {
+        lesson_id: lesson.id,
+        exercise_id: exercise.id,
+        is_correct: correct,
+        hint_used: showHint
+      }
+    });
+
     if (correct) {
+      // Track successful completion
+      trackEvent({
+        name: ANALYTICS_EVENTS.QUIZ_COMPLETED,
+        properties: {
+          lesson_id: lesson.id,
+          exercise_id: exercise.id,
+          score: 1
+        }
+      });
+
       setTimeout(() => {
         setShowExercise(false);
         setUserAnswer('');
@@ -165,7 +213,7 @@ const SuperInstanceTutorial: React.FC = () => {
           <div className="space-y-6">
             <div className="bg-blue-50 p-6 rounded-lg">
               <h2 className="text-xl font-bold mb-3">{lesson.title}</h2>
-              <p className="text-gray-700 leading-relaxed">{lesson.content}</p
+              <p className="text-gray-700 leading-relaxed">{lesson.content}</p>
             </div>
 
             <div className="flex justify-end space-x-3">

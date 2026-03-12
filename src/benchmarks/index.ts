@@ -1,42 +1,21 @@
 /**
- * POLLN Comprehensive Benchmarking Suite
+ * SuperInstance Benchmark Suite - Round 12
  *
- * A complete performance testing framework for measuring and tracking
- * performance across all POLLN core operations.
- *
- * Features:
- * - Modular benchmark system for different components
- * - Statistical analysis with percentiles
- * - Memory profiling integration
- * - Historical comparison and regression detection
- * - HTML report generation with charts
- * - CI/CD integration support
+ * Comprehensive performance benchmarks for:
+ * - All 19 instance types
+ * - Federation with 500+ peers
+ * - GPU vs CPU operations
+ * - Load testing with 1000+ users
+ * - Memory and performance profiling
  */
 
-// Core infrastructure
-export { BenchmarkRunner } from './benchmark-runner.js';
-export { BenchmarkReporter } from './benchmark-reporter.js';
-export { BenchmarkProfiler } from './benchmark-profiler.js';
-export { BaselineManager } from './baseline-manager.js';
+export * from './instance-benchmarks';
+export * from './federation-benchmarks';
+export * from './gpu-benchmarks';
+export * from './load-test-benchmarks';
+export * from './performance-profiler';
+export * from './benchmark-runner';
+export * from './dashboard-generator';
 
-// Benchmark suites
-export { AgentBenchmarks } from './suites/agent-benchmarks.js';
-export { CommunicationBenchmarks } from './suites/communication-benchmarks.js';
-export { DecisionBenchmarks } from './suites/decision-benchmarks.js';
-export { LearningBenchmarks } from './suites/learning-benchmarks.js';
-export { K VCacheBenchmarks } from './suites/kv-cache-benchmarks.js';
-export { WorldModelBenchmarks } from './suites/worldmodel-benchmarks.js';
-export { IntegrationBenchmarks } from './suites/integration-benchmarks.js';
-
-// Types
-export type {
-  BenchmarkConfig,
-  BenchmarkResult,
-  BenchmarkMetrics,
-  BenchmarkSuite,
-  RegressionReport,
-  BaselineData
-} from './types.js';
-
-// CLI entry point
-export { runBenchmarkCli } from './cli.js';
+// Main benchmark runner
+export { runAllBenchmarks } from './benchmark-runner';

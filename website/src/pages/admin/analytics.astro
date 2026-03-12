@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AnalyticsDashboard from '../../components/analytics/AnalyticsDashboard';
+
+// Check admin access (in real implementation, add proper auth)
+const isAdmin = true; // Placeholder - implement proper auth
+---
+
+<BaseLayout title="Analytics Dashboard - SuperInstance.AI">
+  <section class="section min-h-screen">
+    <div class="container">
+      <div class="mb-8">
+        <h1 class="heading-1 mb-4">Analytics Dashboard</h1>
+        <p class="text-body text-gray-600">
+          Monitor website performance, user engagement, and learning analytics
+        </p>
+      </div>
+
+      {isAdmin ? (
+        <AnalyticsDashboard client:load />
+      ) : (
+        <div class="text-center py-16">
+          <p class="text-lg text-gray-600">Administrator access required</p>
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>
