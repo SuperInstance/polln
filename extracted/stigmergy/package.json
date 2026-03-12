@@ -1,5 +1,5 @@
 {
-  "name": "stigmergy",
+  "name": "@superinstance/stigmergy",
   "version": "1.0.0",
   "description": "Bio-inspired coordination system using pheromone-based indirect communication",
   "main": "dist/index.js",

@@ -1,5 +1,5 @@
 {
-  "name": "confidence-cascade",
+  "name": "@superinstance/confidence-cascade",
   "version": "1.0.0",
   "description": "Mathematical framework for decision confidence cascades with three-zone model",
   "main": "dist/index.js",

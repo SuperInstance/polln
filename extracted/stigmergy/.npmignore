@@ -1,0 +1,27 @@
+# Development files
+tests/
+*.test.ts
+coverage/
+.nyc_output/
+
+# Configuration files
+tsconfig.json
+jest.config.js
+.eslintrc.js
+.prettierrc
+
+# CI/CD
+.github/
+.gitignore
+
+# Temporary files
+*.log
+node_modules/
+.DS_Store
+
+# Source maps
+dist/**/*.map
+
+# Development only
+*.md
+!README.md

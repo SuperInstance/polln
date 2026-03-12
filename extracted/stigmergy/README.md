@@ -19,13 +19,13 @@ This approach is particularly powerful for:
 ## Installation
 
 ```bash
-npm install stigmergy
+npm install @superinstance/stigmergy
 ```
 
 ## Quick Start
 
 ```typescript
-import { Stigmergy, PheromoneType, TrailFollower } from 'stigmergy';
+import { Stigmergy, PheromoneType, TrailFollower } from '@superinstance/stigmergy';
 
 // Create a stigmergic environment
 const stigmergy = new Stigmergy({

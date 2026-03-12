@@ -14,7 +14,7 @@ In complex systems, decisions often involve multiple steps, validators, or signa
 ## Installation
 
 ```bash
-npm install confidence-cascade
+npm install @superinstance/confidence-cascade
 ```
 
 ## Quick Start
@@ -24,7 +24,7 @@ import {
   createConfidence,
   sequentialCascade,
   parallelCascade
-} from 'confidence-cascade';
+} from '@superinstance/confidence-cascade';
 
 // Create confidence values
 const mlScore = createConfidence(0.95, 'ml_model');

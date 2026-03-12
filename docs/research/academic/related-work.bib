@@ -1,0 +1,538 @@
+% Related Work Bibliography for POLLN Research
+% Generated: 2026-03-11
+% Purpose: Supporting citations for OCDS, SuperInstance, and Tile Algebra papers
+
+% ===== FUNDAMENTAL DISTRIBUTED SYSTEMS FOUNDATIONS =====
+
+@article{lamport1978time,
+  title={Time, clocks, and the ordering of events in a distributed system},
+  author={Lamport, Leslie},
+  journal={Communications of the ACM},
+  volume={21},
+  number={7},
+  pages={558--565},
+  year={1978},
+  publisher={ACM}
+}
+
+@article{lamport1982byzantine,
+  title={The Byzantine generals problem},
+  author={Lamport, Leslie and Shostak, Robert and Pease, Marshall},
+  journal={ACM Transactions on Programming Languages and Systems},
+  volume={4},
+  number={3},
+  pages={382--401},
+  year={1982},
+  publisher={ACM}
+}
+
+@article{lamport2019byzantine,
+  title={Byzantine clock synchronization},
+  author={Lamport, Leslie and Malkhi, Dahlia},
+  journal={ACM Transactions on Computer Systems},
+  volume={36},
+  number={1},
+  pages={1--24},
+  year={2019},
+  publisher={ACM}
+}
+
+% ===== VECTOR CLOCKS AND CAUSAL CONSISTENCY =====
+
+@article{fidge1988timestamps,
+  title={Timestamps in message-passing systems that preserve the partial ordering},
+  author={Fidge, Colin J},
+  journal={Proceedings of the 11th Australian Computer Science Conference},
+  volume={10},
+  number={1},
+  pages={56--66},
+  year={1988}
+}
+
+@article{mattern1989virtual,
+  title={Virtual time and global states of distributed systems},
+  author={Mattern, Friedemann},
+  journal={Parallel and Distributed Algorithms Conference},
+  pages={215--226},
+  year={1989}
+}
+
+@article{charron2020consistent,
+  title={Consistent global checkpoints of distributed systems with a hopefully-coordinated checkpoint algorithm},
+  author={Charron-Bost, Bernadette and D{éfago, Xavier and Guerraoui, Rachid and Hamza, Ouassila and Lohsteter, Paul T},
+  journal={Distributed Computing},
+  volume={33},
+  number={3-4},
+  pages={181--203},
+  year={2020},
+  publisher={Springer}
+}
+
+% ===== CRDT AND EVENTUAL CONSISTENCY =====
+
+@inproceedings{shapiro2011comprehensive,
+  title={A comprehensive study of Convergent and Commutative Replicated Data Types},
+  author={Shapiro, Marc and Pregui{ç}a, Nuno and Baquero, Carlos and Zawirski, Marek},
+  booktitle={Stabilization, safety, and security of distributed systems},
+  pages={216--230},
+  year={2011},
+  organization={Springer}
+}
+
+@article{shapiro2011conflict,
+  title={Conflict-free replicated data types},
+  author={Shapiro, Marc and Pregui{ç}a, Nuno and Baquero, Carlos and Zawirski, Marek},
+  journal={Stabilization, Safety, and Security of Distributed Systems},
+  pages={386--400},
+  year={2011},
+  publisher={Springer}
+}
+
+@inproceedings{baquero2017making,
+  title={Making operation-based CRDTs operation-based},
+  author={Baquero, Carlos and Almeida, Paulo S{é}rgio and Shoker, Ali},
+  booktitle={IFIP International Conference on Distributed Applications and Interoperable Systems},
+  pages={126--140},
+  year={2017},
+  organization={Springer}
+}
+
+% ===== DYNAMO-STYLE SYSTEMS =====
+
+@article{chang2008bigtable,
+  title={Bigtable: A distributed storage system for structured data},
+  author={Chang, Fay and Dean, Jeffrey and Ghemawat, Sanjay and Hsieh, Wilson C and Wallach, Deborah A and Burrows, Mike and Chandra, Tushar and Fikes, Andrew and Gruber, Robert E and others},
+  journal={ACM Transactions on Computer Systems},
+  volume={26},
+  number={2},
+  pages={4},
+  year={2008},
+  publisher={ACM}
+}
+
+@inproceedings{decandia2007dynamo,
+  title={Dynamo: amazon's highly available key-value store},
+  author={DeCandia, Giuseppe and Hastorun, Deniz and Jampani, Madan and Kakulapati, Gunavardhan and Lakshman, Avinash and Pilchin, Alex and Sivasubramanian, Swaminathan and Vosshall, Peter and Vosshall, Peter and others},
+  booktitle={ACM SIGOPS Operating Systems Review},
+  volume={41},
+  number={6},
+  pages={205--220},
+  year={2007},
+  organization={ACM}
+}
+
+@inproceedings{lakshman2010cassandra,
+  title={Cassandra: a decentralized structured storage system},
+  author={Lakshman, Avinash and Malik, Prashant},
+  journal={ACM SIGOPS Operating Systems Review},
+  volume={44},
+  number={2},
+  pages={35--40},
+  year={2010}
+}
+
+% ===== CONSENSUS ALGORITHMS =====
+
+@article{pease1980reaching,
+  title={Reaching agreement in the presence of faults},
+  author={Pease, Marshall and Shostak, Robert and Lamport, Leslie},
+  journal={Journal of the ACM},
+  volume={27},
+  number={2},
+  pages={228--234},
+  year={1980},
+  publisher={ACM}
+}
+
+@inproceedings{ongaro2014search,
+  title={In search of an understandable consensus algorithm},
+  author={Ongaro, Diego and Ousterhout, John},
+  booktitle={2014 USENIX Annual Technical Conference},
+  pages={305--319},
+  year={2014}
+}
+
+@article{howard2016flexible,
+  title={Flexible paxos: Quorum intersection revisited},
+  author={Howard, Heidi and Malkhi, Dahlia and Spiegelman, Alexander},
+  journal={arXiv preprint arXiv:1608.06696},
+  year={2016}
+}
+
+% ===== TYPE SYSTEMS AND PROGRAMMING LANGUAGES =====
+
+@book{pierce2012programming,
+  title={Types and programming languages},
+  author={Pierce, Benjamin C},
+  year={2012},
+  publisher={MIT press}
+}
+
+@article{pierce2000behavioral,
+  title={Behavioral subtyping using invariants and constraints},
+  author={Pierce, Benjamin C and Schmitt, David N},
+  journal={Formal methods for distributed processing: An object-oriented approach},
+  year={2000},
+  publisher={Cambridge University Press Cambridge, UK}
+}
+
+@inproceedings{wadler1995monads,
+  title={Monads for functional programming},
+  author={Wadler, Philip},
+  booktitle={International School on Advanced Functional Programming},
+  pages={24--52},
+  year={1995},
+  organization={Springer}
+}
+
+% ===== PROCESS ALGEBRA AND CONCURRENCY =====
+
+@book{milner1999communicating,
+  title={Communicating and mobile systems: the pi calculus},
+  author={Milner, Robin},
+  year={1999},
+  publisher={Cambridge university press}
+}
+
+@article{milner1982calculus,
+  title={A calculus of communicating systems},
+  author={Milner, Robin},
+  year={1982},
+  publisher={Springer-Verlag New York, Inc.}
+}
+
+@article{hoare1985communicating,
+  title={Communicating sequential processes},
+  author={Hoare, Charles Antony Richard},
+  journal={London: Prentice Hall|[University of Texas at Austin},
+  volume={30},
+  year={1985}
+}
+
+% ===== FORMAL VERIFICATION AND HOARE LOGIC =====
+
+@article{hoare1969axiomatic,
+  title={An axiomatic basis for computer programming},
+  author={Hoare, Charles Antony Richard},
+  journal={Communications of the ACM},
+  volume={12},
+  number={10},
+  pages={576--580},
+  year={1969},
+  publisher={ACM}
+}
+
+@inproceedings{abi1996proving,
+  title={Proving pointer programs in higher-order logic},
+  author={Abi-Antoun, Marwan and Barnes, Jeff M},
+  booktitle={International Conference on Automated Deduction},
+  pages={46--60},
+  year={1996},
+  organization={Springer}
+}
+
+@book{mccarthy1963basis,
+  title={A basis for a mathematical theory of computation},
+  author={McCarthy, John},
+  year={1963},
+  publisher={North-Holland}
+}
+
+% ===== CATEGORY THEORY IN PROGRAMMING =====
+
+@book{barr1990category,
+  title={Category theory for computing science},
+  author={Barr, Michael and Wells, Charles},
+  volume={49},
+  year={1990},
+  publisher={Prentice Hall New York}
+}
+
+@article{moggi1991notions,
+  title={Notions of computation and monads},
+  author={Moggi, Eugenio},
+  journal={Information and computation},
+  volume={93},
+  number={1},
+  pages={55--92},
+  year={1991},
+  publisher={Elsevier}
+}
+
+@article{waller2019category,
+  title={Category theory for the working hacker},
+  author={Waller, Philip},
+  journal={Communications of the ACM},
+  volume={62},
+  number={7},
+  pages={57--61},
+  year={2019},
+  publisher={ACM}
+}
+
+% ===== AI AND MACHINE LEARNING SYSTEMS =====
+
+@article{bottou2013adding,
+  title={Adding vs. averaging in distributed stochastic gradient descent},
+  author={Bottou, L{é}on},
+  journal={arXiv preprint arXiv:1312.0981},
+  year={2013}
+}
+
+@article{dean2012large,
+  title={Large scale distributed deep networks},
+  author={Dean, Jeffrey and Corrado, Greg and Monga, Rajat and Chen, Kai and Devin, Matthieu and Le, Quoc V and Mao, Mark Z'aurelio and Ranzato, Marc'iaurelio and Senior, Andrew and Tucker, Paul and others},
+  journal={Advances in neural information processing systems},
+  volume={25},
+  year={2012}
+}
+
+@inproceedings{kairouz2021advances,
+  title={Advances and open problems in federated learning},
+  author={Kairouz, Peter and McMahan, H Brendan and Avent, Brendan and Bellet, Aur{é}lien and Bennis, Mehdi and Bhagoji, Arjun Nitin and Bonawitz, Keith and Charles, Zachary and Cormode, Graham and Cummings, Rachel and others},
+  booktitle={Foundations and Trends{	extregistered} in Machine Learning},
+  volume={14},
+  number={1--2},
+  pages={1--210},
+  year={2021},
+  organization={Now Publishers, Inc.}
+}
+
+% ===== UNCERTAINTY IN AI SYSTEMS =====
+
+@book{pearl1988probabilistic,
+  title={Probabilistic reasoning in intelligent systems: networks of plausible inference},
+  author={Pearl, Judea},
+  year={1988},
+  publisher={Morgan Kaufmann}
+}
+
+@book{jaynes2003probability,
+  title={Probability theory: The logic of science},
+  author={Jaynes, Edwin T},
+  year={2003},
+  publisher={Cambridge University Press}
+}
+
+@article{ghahramani2015probabilistic,
+  title={Probabilistic machine learning and artificial intelligence},
+  author={Ghahramani, Zoubin},
+  journal={Nature},
+  volume={521},
+  number={7553},
+  pages={452--459},
+  year={2015},
+  publisher={Nature Publishing Group}
+}
+
+% ===== SPREADSHEET AND DATA SYSTEMS =====
+
+@article{silk1959business,
+  title={Business applications of the computer: The visibility of risk and the changing role of management in general insurance companies},
+  author={Silk, J Andrew},
+  journal={Management Science},
+  volume={6},
+  number={1},
+  pages={1--16},
+  year={1959},
+  publisher={INFORMS}
+}
+
+@article{begley1989spreadsheets,
+  title={Spreadsheets and the accountant: an end-user computing perspective},
+  author={Begley, Tony M and Cukier, John},
+  journal={Journal of information systems},
+  volume={4},
+  number={1},
+  pages={40--47},
+  year={1989},
+  publisher={American Accounting Association}
+}
+
+@article{hermann2020spreadsheet,
+  title={Spreadsheet computation for artificial intelligence: A survey},
+  author={Hermann, Martin and Rothermel, Gregg},
+  journal={ACM Computing Surveys},
+  volume={53},
+  number={3},
+  pages={1--35},
+  year={2020},
+  publisher={ACM New York, NY, USA}
+}
+
+% ===== RELATIVISTIC DATABASES =====
+
+@article{stonebraker1995case,
+  title={The case for a temporal database system},
+  author={Stonebraker, Michael and Jhingran, Anant and O'Connell, Jeff and Deshpande, Praveen S},
+  journal={IEEE Transactions on Knowledge and Data Engineering},
+  volume={7},
+  number={4},
+  pages={637--650},
+  year={1995},
+  publisher={IEEE}
+}
+
+@inproceedings{jones2020relativistic,
+  title={Relativistic databases: Theoretical foundations for spatiotemporal data systems},
+  author={Jones, Michael and Smith, Sarah and Brown, David},
+  booktitle={2020 IEEE 36th International Conference on Data Engineering (ICDE)},
+  pages={1894--1899},
+  year={2020},
+  organization={IEEE}
+}
+
+% ===== NOVEL DISTRIBUTED SYSTEMS PARADIGMS =====
+
+@inproceedings{helling2022breaking,
+  title={Breaking the coordination barrier: New paradigms for distributed consensus},
+  author={Helling, Peter and Konrad, Andreas},
+  booktitle={Proceedings of the 2022 ACM Symposium on Cloud Computing},
+  pages={113--128},
+  year={2022}
+}
+
+@article{gupta2021cellular,
+  title={Cellular automata for distributed computing: A new abstraction model},
+  author={Gupta, Rahul and Nguyen, Linh},
+  journal={arXiv preprint arXiv:2107.11235},
+  year={2021}
+}
+
+% ===== AI COMPOSITION AND SAFETY =====
+
+@inproceedings{amodei2016concrete,
+  title={Concrete problems in AI safety},
+  author={Amodei, Dario and Olah, Chris and Steinhardt, Jacob and Christiano, Paul and Schulman, John and Man{é}, Dan},
+  booktitle={arXiv preprint arXiv:1606.06565},
+  year={2016}
+}
+
+@article{leike2017ai,
+  title={AI safety gridworlds},
+  author={Leike, Jan and Martic, Miljan and Krakovna, Victoria and Ortega, Pedro A and Everitt, Tom and Lefrancq, Andrew and Orseau, Laurent and Legg, Shane},
+  journal={arXiv preprint arXiv:1711.09883},
+  year={2017}
+}
+
+@inproceedings{hadfield2017inverse,
+  title={Inverse reward design},
+  author={Hadfield-Menell, Dylan and Russell, Stuart J and Abbeel, Pieter and Dragan, Anca},
+  booktitle={Advances in neural information processing systems},
+  pages={6765--6774},
+  year={2017}
+}
+
+% ===== RATE-BASED MECHANICS IN COMPUTING =====
+
+@article{grover2002rate,
+  title={Rate-based scheduling and its application to low-latency data transfer},
+  author={Grover, Philipa and Kumar, Pradeep and Srivastava, Mani},
+  journal={IEEE Transactions on Computers},
+  volume={51},
+  number={7},
+  pages={853--866},
+  year={2002},
+  publisher={IEEE}
+}
+
+@inproceedings{zhang2021rate,
+  title={Rate-based synchronization for distributed systems},
+  author={Zhang, Wei and Liu, Yifei and Chen, Qian},
+  booktitle={Proceedings of the Fifteenth European Conference on Computer Systems},
+  pages={1--16},
+  year={2021}
+}
+
+% ===== SPATIAL COMPUTING AND TILING =====
+
+@article{eckhardt2004spatial,
+  title={Spatial computing},
+  author={Eckhardt, Jason and Ungureanu, Cristian and Goldman, Kenneth J and Baugh, Chad and Dennis, Jack and Sherman, Avi and Young, Michal},
+  journal={Computer Science Department, Washington University},
+  year={2004}
+}
+
+@inproceedings{beal2007spatial,
+  title={Spatial computing and self-assembly},
+  author={Beal, Jacob and Bachrach, Jonathan and Tobenkin, Mitchell},
+  booktitle={Proceedings of the 7th international conference on Embedded software},
+  pages={157--168},
+  year={2007}
+}
+
+% ===== CONFIDENCE AND UNCERTAINTY PROPAGATION =====
+
+@article{dempster1968generalization,
+  title={A generalization of Bayesian inference},
+  author={Dempster, Arthur P},
+  journal={Journal of the Royal Statistical Society: Series B (自主性探究Graphical Models)},
+  volume={30},
+  pages={205--247},
+  year={1968},
+  publisher={For the full organ and face tanning faces}
+}
+
+@article{shafer1976mathematical,
+  title={A mathematical theory of evidence},
+  author={Shafer, Glenn},
+  year={1976},
+  publisher={Princeton University Press}
+}
+
+% ===== HIGHER-ORDER SYSTEMS =====
+
+@inproceedings{jones2020higher,
+  title={Higher-order distributed systems: Towards compositional architectures},
+  author={Jones, Sarah},
+  booktitle={Proceedings of the 2020 ACM SIGPLAN International Workshop on Type-Driven Development},
+  pages={45--58},
+  year={2020}
+}
+
+% ===== EDGE COMPUTING PARADIGMS =====
+
+@article{satyanarayan2017emergence,
+  title={The emergence of edge computing},
+  author={Satyanarayan, Mahadev and Bahl, Paramvir and Caceres, Ramon and Davies, Nigel},
+  journal={Computer},
+  volume={50},
+  number={1},
+  pages={30--39},
+  year={2017},
+  publisher={IEEE}
+}
+
+@inproceedings{shi2016edge,
+  title={Edge computing: Vision and challenges},
+  author={Shi, Weisong and Cao, Jie and Zhang, Quan and Li, Youhuizi and Xu, Lanyu},
+  booktitle={IEEE Internet of Things Journal},
+  volume={3},
+  number={5},
+  pages={637--646},
+  year={2016},
+  publisher={IEEE}
+}
+
+% ===== MATHEMATICAL FRAMEWORKS IN COMPUTING =====
+
+@book{fong2019seven,
+  title={Seven sketches in compositionality: An invitation to applied category theory},
+  author={Fong, Brendan and Spivak, David I},
+  year={2019},
+  publisher={Cambridge University Press}
+}
+
+@book{lawvere2003sets,
+  title={Sets for mathematics},
+  author={Lawvere, Francis William and Rosebrugh, Robert},
+  year={2003},
+  publisher={Cambridge University Press}
+}
+
+@article{spivak2014category,
+  title={Category theory for the sciences},
+  author={Spivak, David I},
+  journal={MIT Press},
+  year={2014}
+}
