@@ -64,15 +64,20 @@ class ColonyState:
 
         # Higher-order features
         f7 = f1 * f5  # Activation-coordination product
-        f8 = np.corrcoef(self.agent_activations, self.workload_state)[0, 1]  # Correlation
+        # Correlation - handle different sizes
+        min_size = min(len(self.agent_activations), len(self.workload_state))
+        if min_size > 1:
+            f8 = np.corrcoef(self.agent_activations[:min_size], self.workload_state[:min_size])[0, 1]
+        else:
+            f8 = 0.0
         f9 = np.linalg.norm(self.stress_state)  # Stress magnitude
 
         # Concatenate all features
         features = np.array([f1, f2, f3, f4, f5, f6, f7, abs(f8) if not np.isnan(f8) else 0, f9])
 
-        # Pad to feature_dim
+        # Pad to feature_dim (pad AFTER the array, not before)
         if len(features) < feature_dim:
-            features = np.pad(features, (feature_dim - len(features),))
+            features = np.pad(features, (0, feature_dim - len(features)))
         else:
             features = features[:feature_dim]
 
@@ -93,8 +98,8 @@ class Decision:
     options: List[Any]
     selected_index: int
     value_prediction: float
-    actual_outcome: Optional[float] = None
     timestamp: int
+    actual_outcome: Optional[float] = None
 
 # ============================================================================
 # VALUE NETWORK (TD(lambda) LEARNING)
@@ -368,7 +373,8 @@ class ValueGuidedDecisionMaker:
                 decision_type=decision_type,
                 options=options,
                 selected_index=best_idx,
-                value_prediction=best_value
+                value_prediction=best_value,
+                timestamp=len(self.decisions_made)  # Use decision count as timestamp
             )
             self.decisions_made.append(decision)
 
@@ -383,7 +389,8 @@ class ValueGuidedDecisionMaker:
                 decision_type=decision_type,
                 options=options,
                 selected_index=random_idx,
-                value_prediction=random_pred.predicted_value
+                value_prediction=random_pred.predicted_value,
+                timestamp=len(self.decisions_made)  # Use decision count as timestamp
             )
             self.random_decisions.append(decision)
 
@@ -549,8 +556,8 @@ class ValueNetworkSimulation:
 
         # Brier score
         brier = self.value_network.calculate_brier_score(
-            self.predictions,
-            [p[1] for p in self.predictions]
+            [p[0] for p in self.predictions],  # Extract value_prediction from tuples
+            [p[1] for p in self.predictions]   # Extract outcome from tuples
         )
 
         # Strategy comparison

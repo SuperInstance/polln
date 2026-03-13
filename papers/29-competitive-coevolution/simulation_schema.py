@@ -100,7 +100,15 @@ class CoevolutionSimulation:
 
     def _evolve_pop(self, pop: Dict, ptype: PopulationType):
         fitnesses = np.array([ind.fitness for ind in pop.values()])
-        probs = fitnesses / (fitnesses.sum() + 1e-10)
+        # Handle edge case: all fitnesses are 0 or NaN
+        if np.all(np.isnan(fitnesses)) or np.all(fitnesses == 0):
+            probs = np.ones(len(pop)) / len(pop)  # Uniform distribution
+        else:
+            # Replace NaN with 0 and normalize
+            fitnesses = np.nan_to_num(fitnesses, nan=0.0)
+            probs = fitnesses / (fitnesses.sum() + 1e-10)
+            # Normalize to ensure exact sum of 1.0
+            probs = probs / probs.sum()
         new_pop = {}
         ids = list(pop.keys())
         for i in range(len(pop)):

@@ -73,8 +73,10 @@ class EmergenceDetector:
             return -np.sum(probs * np.log2(probs + 1e-10))
 
         def conditional_entropy(x, y):
-            xy = list(zip(x, y))
-            return entropy(xy) - entropy(y)
+            # Convert to string tuples to avoid array shape issues
+            xy = [str((xi, yi)) for xi, yi in zip(x, y)]
+            y_str = [str(yi) for yi in y]
+            return entropy(xy) - entropy(y_str)
 
         i_disc = discretize(hist_i, bins).tolist()
         j_disc = discretize(hist_j, bins).tolist()

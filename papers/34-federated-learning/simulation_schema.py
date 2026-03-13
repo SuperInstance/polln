@@ -244,7 +244,7 @@ def main():
     }
 
     for claim, passed in claims.items():
-        status = "✅ PASS" if passed else "❌ FAIL"
+        status = "[PASS]" if passed else "[FAIL]"
         print(f"{status}: {claim}")
 
     return results

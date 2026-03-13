@@ -539,7 +539,7 @@ if __name__ == "__main__":
     for claim_id, claim_data in results.items():
         if claim_id == "summary":
             continue
-        status = "✅ VALIDATED" if claim_data["validated"] else "❌ NOT VALIDATED"
+        status = "[VALIDATED]" if claim_data["validated"] else "[NOT VALIDATED]"
         print(f"\n{claim_id}: {claim_data['description']}")
         print(f"  Status: {status}")
         for key, value in claim_data.items():
