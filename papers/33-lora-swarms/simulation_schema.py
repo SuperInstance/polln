@@ -72,6 +72,7 @@ class LoRASwarmSimulation:
         self.n_base_adapters = n_base_adapters
         self.n_tasks = n_tasks
         self.composition = LoRAComposition()
+        self.max_rank = 32  # Maximum rank for LoRA adapters
         self.base_capabilities = [
             "reasoning", "memory", "attention", "language", "vision",
             "planning", "creativity", "logic", "math", "coding"
@@ -227,7 +228,7 @@ def main():
     }
 
     for claim, passed in claims.items():
-        status = "✅ PASS" if passed else "❌ FAIL"
+        status = "[PASS]" if passed else "[FAIL]"
         print(f"{status}: {claim}")
 
     return results
