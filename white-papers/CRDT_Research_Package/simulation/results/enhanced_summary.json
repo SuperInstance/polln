@@ -1,0 +1,310 @@
+{
+  "meta": {
+    "generated_by": "technical_review_iteration1",
+    "generation_date": "2026-03-13",
+    "data_source": "raw_results.json",
+    "review_status": "ISSUES_IDENTIFIED"
+  },
+  "original_summary": {
+    "total_rounds": 30,
+    "total_simulations": 196,
+    "latency_reduction_pct": 98.36835463358223,
+    "traffic_reduction_pct": 52.236736309493025
+  },
+  "statistical_analysis": {
+    "note": "CRDT shows zero variance due to deterministic model - this is a methodology issue, not a feature",
+    "mesi_latency": {
+      "mean": 122.57565529640428,
+      "std_dev": 11.3147,
+      "variance": 128.023,
+      "min": 83.9887,
+      "max": 128.9088,
+      "median": 126.85,
+      "q1": 123.47,
+      "q3": 127.03,
+      "iqr": 3.56,
+      "coefficient_of_variation": 0.0923,
+      "confidence_interval_95": {
+        "lower": 120.32,
+        "upper": 124.83,
+        "note": "CI computed assuming independence; actual CI may be narrower due to repeated configurations"
+      }
+    },
+    "crdt_latency": {
+      "mean": 2.0,
+      "std_dev": 0.0,
+      "variance": 0.0,
+      "min": 2.0,
+      "max": 2.0,
+      "median": 2.0,
+      "q1": 2.0,
+      "q3": 2.0,
+      "iqr": 0.0,
+      "coefficient_of_variation": 0.0,
+      "confidence_interval_95": {
+        "lower": 2.0,
+        "upper": 2.0,
+        "issue": "Zero variance indicates deterministic model - statistical analysis meaningless"
+      }
+    },
+    "mesi_traffic": {
+      "mean_bytes": 1718752.41,
+      "std_dev_bytes": 488723.56,
+      "coefficient_of_variation": 0.284
+    },
+    "crdt_traffic": {
+      "mean_bytes": 820932.24,
+      "std_dev_bytes": 285663.18,
+      "coefficient_of_variation": 0.348
+    }
+  },
+  "workload_categorization": {
+    "categories": [
+      {
+        "name": "CNN-based",
+        "workloads": ["RESNET50", "VIT", "DIFFUSION"],
+        "characteristics": "High spatial locality, read-heavy, convolution patterns",
+        "mesi_avg_latency": 124.8,
+        "crdt_avg_latency": 2.0,
+        "expected_crdt_benefit": "HIGH",
+        "reason": "Read-only weights benefit from local access"
+      },
+      {
+        "name": "Transformer-encoder",
+        "workloads": ["BERT_BASE"],
+        "characteristics": "Bidirectional attention, moderate write during backprop",
+        "mesi_avg_latency": 116.7,
+        "crdt_avg_latency": 2.0,
+        "expected_crdt_benefit": "MEDIUM-HIGH",
+        "reason": "Attention matrices have read-sharing patterns"
+      },
+      {
+        "name": "Transformer-decoder",
+        "workloads": ["GPT2", "GPT3_SCALE", "LLAMA"],
+        "characteristics": "Causal attention, KV-cache updates, autoregressive",
+        "mesi_avg_latency": 126.2,
+        "crdt_avg_latency": 2.0,
+        "expected_crdt_benefit": "MEDIUM",
+        "reason": "KV-cache is append-only which suits CRDT; but writes are more frequent"
+      },
+      {
+        "name": "Encoder-decoder",
+        "workloads": ["WHISPER", "SAM"],
+        "characteristics": "Cross-attention, encoder freezing, decoder updates",
+        "mesi_avg_latency": 126.6,
+        "crdt_avg_latency": 2.0,
+        "expected_crdt_benefit": "MEDIUM",
+        "reason": "Encoder reads benefit; cross-attention creates sharing"
+      },
+      {
+        "name": "Mixture-of-Experts",
+        "workloads": ["MIXTRAL"],
+        "characteristics": "Sparse routing, expert parallelism, router decisions",
+        "mesi_avg_latency": 126.9,
+        "crdt_avg_latency": 2.0,
+        "expected_crdt_benefit": "HIGH",
+        "reason": "Expert weights are read-only during routing"
+      }
+    ]
+  },
+  "scaling_analysis": {
+    "by_core_count": [
+      {
+        "cores": 2,
+        "mesi_avg_latency": 85.89,
+        "crdt_avg_latency": 2.0,
+        "mesi_hit_rate": 0.328,
+        "note": "Small scale - MESI benefits from fewer invalidations"
+      },
+      {
+        "cores": 4,
+        "mesi_avg_latency": 103.95,
+        "crdt_avg_latency": 2.0,
+        "mesi_hit_rate": 0.185,
+        "note": "MESI hit rate drops significantly"
+      },
+      {
+        "cores": 8,
+        "mesi_avg_latency": 114.19,
+        "crdt_avg_latency": 2.0,
+        "mesi_hit_rate": 0.103,
+        "note": "MESI scaling degradation visible"
+      },
+      {
+        "cores": 16,
+        "mesi_avg_latency": 123.28,
+        "crdt_avg_latency": 2.0,
+        "mesi_hit_rate": 0.036,
+        "note": "MESI hit rate critically low"
+      },
+      {
+        "cores": 32,
+        "mesi_avg_latency": 125.81,
+        "crdt_avg_latency": 2.0,
+        "mesi_hit_rate": 0.017,
+        "note": "MESI near memory-only latency"
+      },
+      {
+        "cores": 64,
+        "mesi_avg_latency": 126.69,
+        "crdt_avg_latency": 2.0,
+        "mesi_hit_rate": 0.009,
+        "note": "MESI hit rate approaching zero - modeling issue suspected"
+      }
+    ],
+    "scaling_coefficient": {
+      "mesi": 0.0123,
+      "crdt": 0.0,
+      "note": "MESI shows poor scaling; CRDT constant due to model limitation"
+    }
+  },
+  "identified_issues": {
+    "critical": [
+      {
+        "id": "CRIT-001",
+        "title": "CRDT Latency Model Trivially Constant",
+        "description": "CRDT always returns 2 cycles regardless of workload, core count, or operation",
+        "impact": "Artificially inflates latency reduction claim",
+        "severity": 10
+      },
+      {
+        "id": "CRIT-002",
+        "title": "MESI Hit Rates Unrealistically Low",
+        "description": "Hit rates 0.04%-5% vs expected 60-90% for AI workloads",
+        "impact": "Artificially inflates MESI latency",
+        "severity": 10
+      },
+      {
+        "id": "CRIT-003",
+        "title": "Unfair Protocol Comparison",
+        "description": "MESI memory hierarchy modeled; CRDT only register access modeled",
+        "impact": "Comparing apples to oranges",
+        "severity": 9
+      }
+    ],
+    "major": [
+      {
+        "id": "MAJ-001",
+        "title": "Merge Operations Not Accumulated",
+        "description": "Merge latency returned but not added to total operation time",
+        "impact": "Underestimates CRDT overhead",
+        "severity": 8
+      },
+      {
+        "id": "MAJ-002",
+        "title": "No Statistical Rigor",
+        "description": "No confidence intervals, variance analysis, or multiple seeds",
+        "impact": "Cannot assess reliability",
+        "severity": 7
+      },
+      {
+        "id": "MAJ-003",
+        "title": "Merge Operations Capped at 4 Cores",
+        "description": "Code limits merges to first 4 cores regardless of total cores",
+        "impact": "Underestimates CRDT traffic at scale",
+        "severity": 7
+      }
+    ],
+    "minor": [
+      {
+        "id": "MIN-001",
+        "title": "Distance Calculation Assumes Square Topology",
+        "description": "int(sqrt(num_cores)) for 32 cores gives 5x5=25 not 32",
+        "impact": "Slightly incorrect NoC distances",
+        "severity": 3
+      },
+      {
+        "id": "MIN-002",
+        "title": "CRDT Entry Collision",
+        "description": "address % 64 causes artificial conflicts",
+        "impact": "Inflates conflict rate",
+        "severity": 4
+      }
+    ]
+  },
+  "corrected_estimates": {
+    "note": "These are rough estimates assuming fixes are applied. Actual values require re-simulation.",
+    "estimated_latency_reduction": {
+      "optimistic": "40-60%",
+      "realistic": "20-40%",
+      "conservative": "10-25%",
+      "rationale": "After accounting for CRDT memory hierarchy and MESI cache hits"
+    },
+    "estimated_traffic_reduction": {
+      "optimistic": "50-70%",
+      "realistic": "30-50%",
+      "conservative": "20-35%",
+      "rationale": "After properly counting merge traffic at all core counts"
+    },
+    "conditions": {
+      "best_case_crdt": "Read-heavy, low-contention, eventually-consistent workloads",
+      "worst_case_crdt": "Write-heavy, high-contention, strong-consistency required",
+      "neutral_case": "Mixed read-write with moderate sharing"
+    }
+  },
+  "merge_conflict_analysis": {
+    "total_merges": 152370,
+    "total_conflicts": 93106,
+    "conflict_rate": 0.611,
+    "conflict_rate_by_core_count": [
+      {"cores": 2, "conflict_rate": 0.86},
+      {"cores": 4, "conflict_rate": 0.74},
+      {"cores": 8, "conflict_rate": 0.50},
+      {"cores": 16, "conflict_rate": 0.34},
+      {"cores": 32, "conflict_rate": 0.19},
+      {"cores": 64, "conflict_rate": 0.08}
+    ],
+    "note": "High conflict rate (61%) suggests CRDT state growth would be significant, but memory overhead is not modeled"
+  },
+  "efficiency_metrics": {
+    "mesi": {
+      "avg_efficiency": 0.00088,
+      "interpretation": "Low efficiency due to low hit rates (modeling issue)",
+      "expected_range": "0.5-0.8 for typical AI workloads"
+    },
+    "crdt": {
+      "avg_efficiency": 1.0,
+      "interpretation": "Tautologically 1.0 because model ignores overhead",
+      "expected_range": "0.7-0.9 after proper modeling"
+    }
+  },
+  "recommendations": {
+    "immediate_actions": [
+      "Fix CRDT latency model to include memory hierarchy",
+      "Fix MESI trace generators for realistic locality",
+      "Accumulate merge latency in CRDT timing"
+    ],
+    "short_term_actions": [
+      "Add statistical analysis (CIs, variance)",
+      "Remove merge core cap",
+      "Add convergence time tracking"
+    ],
+    "long_term_actions": [
+      "Validate against real hardware or gem5",
+      "Add edge case simulations",
+      "Model memory capacity pressure"
+    ]
+  },
+  "validation_status": {
+    "original_claims": {
+      "70% latency reduction": {
+        "status": "NOT_VALIDATED",
+        "reason": "Methodology flaw makes comparison invalid"
+      },
+      "Near-constant CRDT latency": {
+        "status": "ARTIFACT",
+        "reason": "Result of trivial model, not actual property"
+      },
+      "Traffic reduction": {
+        "status": "PARTIALLY_VALIDATED",
+        "reason": "Direction correct but magnitude uncertain"
+      }
+    },
+    "recommended_claims": {
+      "CRDT beneficial for read-heavy AI workloads": "LIKELY_TRUE",
+      "CRDT eliminates invalidation storms": "TRUE",
+      "CRDT provides 98% latency reduction": "NOT_SUPPORTED",
+      "CRDT suitable for all AI inference": "NEEDS_INVESTIGATION"
+    }
+  }
+}

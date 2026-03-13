@@ -1,0 +1,82 @@
+{
+  "metadata": {
+    "description": "Traffic bounds analysis for CRDT vs MESI",
+    "timestamp": "2026-03-13T06:53:27.251266",
+    "parameters": {
+      "M": 10000,
+      "r": 0.8,
+      "p_m": 0.1,
+      "p_s": 0.3,
+      "f": 100,
+      "k": 4,
+      "S_dir": 8,
+      "S_data": 64,
+      "S_inv": 16,
+      "S_ack": 8,
+      "S_base": 16,
+      "S_vector": 8
+    }
+  },
+  "bounds": [
+    {
+      "num_cores": 2,
+      "mesi_traffic": 99200.0,
+      "crdt_traffic": 76800.0,
+      "reduction_pct": 22.58064516129032,
+      "status": "MESI_TRAFFIC_HIGHER",
+      "alpha": 70400.0,
+      "beta": 14399.999999999996,
+      "S_state": 96
+    },
+    {
+      "num_cores": 4,
+      "mesi_traffic": 127999.99999999999,
+      "crdt_traffic": 89600.0,
+      "reduction_pct": 29.999999999999993,
+      "status": "MESI_TRAFFIC_HIGHER",
+      "alpha": 70400.0,
+      "beta": 14399.999999999996,
+      "S_state": 112
+    },
+    {
+      "num_cores": 8,
+      "mesi_traffic": 185599.99999999997,
+      "crdt_traffic": 115200.0,
+      "reduction_pct": 37.93103448275861,
+      "status": "MESI_TRAFFIC_HIGHER",
+      "alpha": 70400.0,
+      "beta": 14399.999999999996,
+      "S_state": 144
+    },
+    {
+      "num_cores": 16,
+      "mesi_traffic": 300799.99999999994,
+      "crdt_traffic": 166400.0,
+      "reduction_pct": 44.68085106382978,
+      "status": "MESI_TRAFFIC_HIGHER",
+      "alpha": 70400.0,
+      "beta": 14399.999999999996,
+      "S_state": 208
+    },
+    {
+      "num_cores": 32,
+      "mesi_traffic": 531199.9999999999,
+      "crdt_traffic": 268800.0,
+      "reduction_pct": 49.39759036144577,
+      "status": "MESI_TRAFFIC_HIGHER",
+      "alpha": 70400.0,
+      "beta": 14399.999999999996,
+      "S_state": 336
+    },
+    {
+      "num_cores": 64,
+      "mesi_traffic": 991999.9999999998,
+      "crdt_traffic": 473600.0,
+      "reduction_pct": 52.258064516129025,
+      "status": "MESI_TRAFFIC_HIGHER",
+      "alpha": 70400.0,
+      "beta": 14399.999999999996,
+      "S_state": 592
+    }
+  ]
+}
