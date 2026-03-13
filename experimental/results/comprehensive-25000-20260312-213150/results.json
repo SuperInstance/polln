@@ -1,0 +1,142 @@
+{
+  "simulation": {
+    "rounds": 25000,
+    "successful_rounds": 18025,
+    "success_rate": 72.1,
+    "average_comprehension": 81.93225132423528,
+    "duration_seconds": 10.75133490562439,
+    "rounds_per_second": 2325.2926468620794,
+    "peak_memory_mb": 0.004608
+  },
+  "by_method": {
+    "System Analyst": {
+      "count": 2500,
+      "success_rate": 71.2,
+      "avg_comprehension": 81.48371449389933
+    },
+    "Visual Artist": {
+      "count": 2500,
+      "success_rate": 73.72,
+      "avg_comprehension": 82.91352507514414
+    },
+    "Story Weaver": {
+      "count": 2500,
+      "success_rate": 71.67999999999999,
+      "avg_comprehension": 82.24214111566774
+    },
+    "Socratic Gadfly": {
+      "count": 2500,
+      "success_rate": 78.16,
+      "avg_comprehension": 84.54533414332506
+    },
+    "Empathetic Guide": {
+      "count": 2500,
+      "success_rate": 70.96000000000001,
+      "avg_comprehension": 81.3479782488054
+    },
+    "Tech Innovator": {
+      "count": 2500,
+      "success_rate": 71.72,
+      "avg_comprehension": 81.49837994154225
+    },
+    "Energetic Performer": {
+      "count": 2500,
+      "success_rate": 70.0,
+      "avg_comprehension": 81.19820768866073
+    },
+    "Practical Craftsman": {
+      "count": 2500,
+      "success_rate": 71.0,
+      "avg_comprehension": 81.27392096095006
+    },
+    "Philosophical Sage": {
+      "count": 2500,
+      "success_rate": 70.67999999999999,
+      "avg_comprehension": 81.24106738699027
+    },
+    "Cultural Bridge": {
+      "count": 2500,
+      "success_rate": 71.88,
+      "avg_comprehension": 81.57824418736385
+    }
+  },
+  "by_topic": {
+    "Origin-Centric Data": {
+      "count": 2083,
+      "success_rate": 71.05136821891503,
+      "avg_comprehension": 81.42236648349416
+    },
+    "SuperInstance Types": {
+      "count": 2083,
+      "success_rate": 71.05136821891503,
+      "avg_comprehension": 81.60202513334148
+    },
+    "Confidence Cascade": {
+      "count": 2084,
+      "success_rate": 74.23224568138195,
+      "avg_comprehension": 83.174459163883
+    },
+    "Geometric Tensors": {
+      "count": 2084,
+      "success_rate": 70.87332053742801,
+      "avg_comprehension": 81.4880396229089
+    },
+    "Tile Computation": {
+      "count": 2084,
+      "success_rate": 71.6890595009597,
+      "avg_comprehension": 81.64125850875796
+    },
+    "GPU Acceleration": {
+      "count": 2084,
+      "success_rate": 77.68714011516315,
+      "avg_comprehension": 84.53045619768523
+    },
+    "Thermal Simulation": {
+      "count": 2084,
+      "success_rate": 71.06525911708253,
+      "avg_comprehension": 81.50206558710975
+    },
+    "Network Theory": {
+      "count": 2084,
+      "success_rate": 71.0172744721689,
+      "avg_comprehension": 81.69302679519024
+    },
+    "Statistical Mechanics": {
+      "count": 2083,
+      "success_rate": 71.53144503120498,
+      "avg_comprehension": 81.5571487429426
+    },
+    "Causal Traceability": {
+      "count": 2083,
+      "success_rate": 72.15554488718195,
+      "avg_comprehension": 81.56742416927982
+    },
+    "Structural Memory": {
+      "count": 2082,
+      "success_rate": 70.60518731988472,
+      "avg_comprehension": 81.48931610898319
+    },
+    "Stochastic Superiority": {
+      "count": 2082,
+      "success_rate": 72.23823246878001,
+      "avg_comprehension": 81.5178484189847
+    }
+  },
+  "by_complexity": {
+    "basic": {
+      "count": 8332,
+      "success_rate": 18.74699951992319,
+      "avg_comprehension": 64.07254949792625
+    },
+    "intermediate": {
+      "count": 8333,
+      "success_rate": 97.53990159606384,
+      "avg_comprehension": 83.34080496100096
+    },
+    "advanced": {
+      "count": 8335,
+      "success_rate": 100.0,
+      "avg_comprehension": 98.37730929203715
+    }
+  }
+}
