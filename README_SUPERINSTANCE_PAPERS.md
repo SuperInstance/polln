@@ -261,6 +261,7 @@ open CLAUDE.md  # Full orchestrator instructions
 - **Repository:** https://github.com/SuperInstance/SuperInstance-papers
 - **Issues:** [GitHub Issues](https://github.com/SuperInstance/SuperInstance-papers/issues)
 - **Discussions:** [GitHub Discussions](https://github.com/SuperInstance/SuperInstance-papers/discussions)
+- **Main Project:** [POLLN - The Spreadsheet of AI](https://github.com/SuperInstance/polln)
 
 ## 📜 License
 

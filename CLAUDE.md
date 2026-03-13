@@ -9,10 +9,10 @@
 
 ---
 
-## 🤖 Orchestrator Model: DeepSeek-Chat
+## 🤖 Orchestrator Model: DeepSeek-Reasoner (Opus)
 
-**Current Model:** `deepseek-chat`
-**Last Model:** `glm-5` (switched 2026-03-13)
+**Current Model:** `deepseek-reasoner` (display name: `opus`)
+**Last Model:** `deepseek-chat` (switched 2026-03-13)
 
 ### Model Specifications
 
@@ -20,21 +20,33 @@
 |----------|-------|-------|
 | **Context Window** | 128K tokens | ~3x smaller than Claude's 200K |
 | **Architecture** | MoE (Mixture of Experts) | 671B total params, 37B active |
-| **API** | OpenAI-compatible | Model name: `deepseek-chat` |
+| **API** | OpenAI-compatible | Model name: `deepseek-reasoner` |
 | **Max Output** | 8K tokens | Plan chunking accordingly |
 | **Pricing** | $0.27/1M input, $1.10/1M output | Very cost-effective |
 
 ### Context Window Management
 
-**Challenge:** 128K context window vs Claude's 200K+ means we need careful context hygiene.
+**CRITICAL LIMITS:** DeepSeek models have 128K token context (vs Claude's 200K+). Agents MUST stay under 100K tokens to leave buffer for processing.
 
-**Strategies:**
-1. **File Reading Limits**: Read only essential files. Use `limit` parameter for large files.
-2. **Task Delegation**: Spawn specialized agents for exploration rather than reading entire codebases.
-3. **Summary First**: Always check for existing summaries before deep-diving into code.
-4. **Incremental Work**: Complete tasks in focused sessions, don't try to load everything.
+**Token Conservation Strategies:**
+1. **File Reading Limits**: Use `Read(file_path, limit=100)` for large files. Never read entire codebases.
+2. **Streamlined Onboarding**: Create primary onboarding documents that reference specialized docs. Read incrementally.
+3. **Handoff Protocol**: When context approaches ~80K tokens, summarize progress, commit work, spawn fresh agent with summary.
+4. **Reference, Don't Copy**: Point to file paths instead of including content in prompts.
+5. **Task Delegation**: Spawn specialized agents for exploration; don't load everything into one context.
+6. **Summary First**: Check for existing summaries before deep-dives; create summaries for handoffs.
 
-### Prompting Recommendations for DeepSeek-Chat
+**Handoff Protocol Steps:**
+```
+1. Create summary_[role]_[timestamp].md with current findings
+2. Commit all changes with descriptive message
+3. Update progress_tracker.json if available
+4. Create TODO_NEXT.md with remaining tasks
+5. Spawn fresh agent with summary as starting context
+6. Link to previous work via git commit hash
+```
+
+### Prompting Recommendations for DeepSeek Models
 
 ```
 ✅ DO:
@@ -274,6 +286,55 @@ You are researching in a ecosystem of 40 papers. When you find:
 3. `papers/[P##]/cross_paper_notes.md` - Connections found
 4. `papers/[P##]/novel_insights.md` - New paradigms discovered
 ```
+
+---
+
+## 🌐 Multi-Language Translation Orchestration
+
+**Mission:** Translate all papers into 8 languages (French, German, Spanish, Russian, Arabic, Chinese, Japanese, Korean) with language-constrained research to discover novel insights.
+
+### Token Awareness & Context Management
+**CRITICAL:** DeepSeek models have 128K token context (vs Claude's 200K+). Agents MUST:
+1. **Stay under 100K tokens** - Leave buffer for processing
+2. **Use streamlined onboarding** - Read `research/multi-language-orchestration/` documents incrementally
+3. **Handoff when context full** - Summarize, commit, spawn fresh agent with summary
+4. **Read with limits** - Use `Read(file_path, limit=100)` not full file reads
+5. **Reference, don't copy** - Point to file paths instead of including content
+
+### Orchestration Framework
+- **Master Plan:** `research/multi-language-orchestration/MULTI_LANGUAGE_ORCHESTRATION_MASTER_PLAN.md`
+- **Language Specialists:** 8 teams, each fluent in target language + mathematics
+- **A2A Synthesis:** Agent-to-Agent communication in pure mathematics after translations
+- **Novel Insight Discovery:** Language constraints reveal new paper concepts
+
+### Agent Onboarding Protocol
+1. **Minimal Context:** Read only necessary sections of master plan
+2. **Role Assignment:** Language specialist or A2A synthesis agent
+3. **Token Monitoring:** Track usage, handoff at ~80K tokens
+4. **Completion:** Summarize, commit, create TODO_NEXT.md for next agent
+
+### File Structure for Translations
+```
+SuperInstance-papers-multilingual/
+├── languages/
+│   ├── en/          # English source
+│   ├── fr/          # French translations
+│   ├── de/          # German translations
+│   ├── es/          # Spanish translations
+│   ├── ru/          # Russian translations
+│   ├── ar/          # Arabic translations
+│   ├── zh/          # Chinese translations
+│   ├── ja/          # Japanese translations
+│   └── ko/          # Korean translations
+└── synthesis/       # A2A discussions & novel insights
+```
+
+### Phase Execution
+1. **Phase 1:** Parallel translation (240+ papers across 8 languages)
+2. **Phase 2:** A2A synthesis & insight discovery
+3. **Phase 3:** Global integration & publication
+
+**Reference:** See detailed implementation plan: `research/multi-language-orchestration/IMPLEMENTATION_PLAN.md`
 
 ---
 
