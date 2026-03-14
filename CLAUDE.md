@@ -1,407 +1,101 @@
-# SuperInstance Papers - Dissertation Team Orchestrator
+# SuperInstance Papers - Project Orchestrator
 
-**Role:** I am the **Dissertation Team Orchestrator**, coordinating specialized agents developing 40+ white papers for academic publication and real-world impact.
-
-**Mission:** Transform mathematical framework papers into publication-ready dissertations with complete proofs, implementations, and validation.
-
+**Role:** Dissertation Team Orchestrator coordinating 60+ white papers for academic publication.
 **Repository:** https://github.com/SuperInstance/SuperInstance-papers
 **Local Repo:** https://github.com/SuperInstance/polln
 
 ---
 
-## 🤖 Orchestrator Model: DeepSeek-Reasoner (Opus)
+## Project Status (2026-03-13)
 
-**Current Model:** `deepseek-reasoner` (display name: `opus`)
-**Last Model:** `deepseek-chat` (switched 2026-03-13)
+### Paper Portfolio Summary
 
-### Model Specifications
+| Phase | Papers | Status | Description |
+|-------|--------|--------|-------------|
+| **Phase 1** | P1-P23 | 18 Complete, 5 In Progress | Core Framework |
+| **Phase 2** | P24-P30 | 7 Complete | Research Validation |
+| **Phase 3** | P31-P40 | Queued | Extensions |
+| **Phase 4** | P41-P47 | 5 Complete | Ecosystem Papers |
+| **Phase 5** | P51-P60 | 10 Proposed | Lucineer Hardware |
 
-| Property | Value | Notes |
-|----------|-------|-------|
-| **Context Window** | 128K tokens | ~3x smaller than Claude's 200K |
-| **Architecture** | MoE (Mixture of Experts) | 671B total params, 37B active |
-| **API** | OpenAI-compatible | Model name: `deepseek-reasoner` |
-| **Max Output** | 8K tokens | Plan chunking accordingly |
-| **Pricing** | $0.27/1M input, $1.10/1M output | Very cost-effective |
+**Total Papers:** 60+ papers across 5 phases
 
-### Context Window Management
+---
 
-**CRITICAL LIMITS:** DeepSeek models have 128K token context (vs Claude's 200K+). Agents MUST stay under 100K tokens to leave buffer for processing.
+## Recent Achievements
 
-**Token Conservation Strategies:**
-1. **File Reading Limits**: Use `Read(file_path, limit=100)` for large files. Never read entire codebases.
-2. **Streamlined Onboarding**: Create primary onboarding documents that reference specialized docs. Read incrementally.
-3. **Handoff Protocol**: When context approaches ~80K tokens, summarize progress, commit work, spawn fresh agent with summary.
-4. **Reference, Don't Copy**: Point to file paths instead of including content in prompts.
-5. **Task Delegation**: Spawn specialized agents for exploration; don't load everything into one context.
-6. **Summary First**: Check for existing summaries before deep-dives; create summaries for handoffs.
+### Lucineer Analysis (P51-P60)
+- **Commit:** cbf5f5f
+- **Papers:** 10 new papers on mask-locked inference, educational AI
+- **Key Topics:** Ternary weights, neuromorphic thermal, cross-cultural education
+- **Location:** `research/lucineer_analysis/`
 
-**Handoff Protocol Steps:**
-```
-1. Create summary_[role]_[timestamp].md with current findings
-2. Commit all changes with descriptive message
-3. Update progress_tracker.json if available
-4. Create TODO_NEXT.md with remaining tasks
-5. Spawn fresh agent with summary as starting context
-6. Link to previous work via git commit hash
-```
+### Ecosystem Research (P41-P47)
+- **Commit:** f6113f8
+- **Papers:** 5 publication-ready papers with simulations
+- **Key Topics:** Tripartite consensus, deadband distillation, cognitive memory
+- **Location:** `research/ecosystem_papers/`, `research/ecosystem_simulations/`
 
-### Prompting Recommendations for DeepSeek Models
+### Production Systems (Phase 4)
+- **Files:** 76 production files, 27,851 lines
+- **Systems:** PyTorch integration, CRDT service, monitoring stack, CI/CD
+- **Location:** `SuperInstance_Ecosystem/` (13 equipment packages)
 
-```
-✅ DO:
-- Be explicit about output format (JSON, markdown, code blocks)
-- Break complex tasks into numbered steps
-- Specify file paths exactly (C:\Users\casey\polln\...)
-- Request specific line ranges when reading files
-- Use clear section headers in responses
+---
 
-❌ AVOID:
-- Vague requests like "explore the codebase"
-- Asking for multiple large file reads in parallel
-- Expecting model to remember context across long conversations
-- Open-ended "what do you think" questions without constraints
-```
+## Model Configuration
+
+**Current Model:** `opus` (glm-5)
+**Context Window:** 200K+ tokens
 
 ### Hardware Context
-
-| Component | Spec | Optimization Target |
-|-----------|------|---------------------|
-| **GPU** | NVIDIA RTX 4050 (6GB VRAM) | CuPy 14.0.1, CUDA 13.1.1 |
-| **CPU** | Intel Core Ultra (Dec 2024) | Parallel simulation workers |
-| **RAM** | 32GB | Large dataset handling |
-| **Storage** | NVMe SSD | Fast I/O for simulations |
-
-### GPU Acceleration Guidelines
-
-```python
-# Preferred: CuPy for GPU acceleration
-import cupy as cp  # CuPy 14.0.1
-
-# Fallback: NumPy for CPU
-import numpy as np
-
-# Memory limit: ~4GB usable (leave 2GB for system)
-# Batch size guideline: matrix_dim < 2000 for 6GB VRAM
-```
-
-### Session Management
-
-When context approaches limits:
-1. Summarize current progress to markdown
-2. Commit changes to git
-3. Note remaining tasks in TODO.md
-4. Start fresh session with summary as context
+| Component | Spec |
+|-----------|------|
+| GPU | NVIDIA RTX 4050 (6GB VRAM) |
+| CPU | Intel Core Ultra (Dec 2024) |
+| RAM | 32GB |
+| Storage | NVMe SSD |
 
 ---
 
-## 🎯 Current Mission: Phase 2 Research Sprint
-
-**Phase:** Phase 1 Complete → Phase 2 Research & Validation (P24-P40)
-**Complete Dissertations:** 18/23 (P1-P23)
-**Phase 1 Remaining:** 5 (P1, P5, P7, P8, P11)
-**Phase 2 Papers:** 17 (P24-P40)
-**Target:** Complete Phase 1, Validate Phase 2 Claims via Simulation
-
----
-
-## 🎭 Phase 2 Research Agents (P24-P40)
-
-### Research Philosophy
-1. **Simulations First**: Novel ideas require empirical validation through well-designed simulations
-2. **Cross-Pollination**: Agents must note when findings affect OTHER papers (for or against)
-3. **Synergy**: Research can validate multiple claims across papers simultaneously
-4. **Paradigm Shifts**: Look for new abstractions that tile functions in novel ways
-5. **Deep Reflection**: Allow research to spark completely new fields of understanding
-
-### Agent Specializations
-
-| Agent | Paper | Focus | Cross-Papers to Watch |
-|-------|-------|-------|----------------------|
-| **SP-Agent** | P24: Self-Play | ELO, Gumbel-Softmax, Evolution | P29 (Coevolution), P21 (Stochastic) |
-| **HYD-Agent** | P25: Hydraulic | Pressure-Flow, Emergence | P27 (Emergence), P13 (Networks) |
-| **VN-Agent** | P26: Value Networks | TD Learning, Uncertainty | P32 (Dreaming), P31 (Health) |
-| **EM-Agent** | P27: Emergence | Transfer Entropy, Novelty | P25 (Hydraulic), P30 (Granularity) |
-| **STIG-Agent** | P28: Stigmergy | Pheromones, Self-Organization | P13 (Networks), P27 (Emergence) |
-| **COEV-Agent** | P29: Coevolution | Arms Race, Diversity | P24 (Self-Play), P21 (Stochastic) |
-| **GRAN-Agent** | P30: Granularity | Optimal Complexity | P27 (Emergence), P13 (Networks) |
-| **HEALTH-Agent** | P31: Health Prediction | Multi-Dimensional Metrics | P26 (Value Networks), P32 (Dreaming) |
-| **DREAM-Agent** | P32: Dreaming | Overnight Optimization | P26 (Value Networks), P24 (Self-Play) |
-| **LORA-Agent** | P33: LoRA Swarms | Emergent Composition | P27 (Emergence), P29 (Coevolution) |
-| **FL-Agent** | P34: Federated Learning | Privacy, Pollen Sharing | P35 (Guardian), P38 (ZK Proofs) |
-| **SAFE-Agent** | P35: Guardian Angels | Shadow Monitoring | P34 (Federated), P19 (Causal) |
-| **DEBUG-Agent** | P36: Time-Travel Debug | Replay, Causal Chains | P19 (Causal), P20 (Structural Memory) |
-| **ENERGY-Agent** | P37: Energy-Aware | Thermodynamic Learning | P11 (Thermal), P18 (Energy Harvesting) |
-| **ZK-Agent** | P38: ZK Proofs | Capability Verification | P34 (Federated), P35 (Guardian) |
-| **HOLO-Agent** | P39: Holographic Memory | Distributed Storage | P20 (Structural Memory), P12 (Distributed) |
-| **QUANTUM-Agent** | P40: Quantum Superposition | Uncertain State | P21 (Stochastic), P4 (Geometric) |
-
-### Cross-Paper Synergy Matrix
+## Key Directories
 
 ```
-          P24 P25 P26 P27 P28 P29 P30 P31-P40
-P21 Stoch  ●        ○        ○  ●
-P4  Geom               ○                 ○
-P13 Netw       ●       ●  ●     ●
-P19 Causal                         ●     ●
-P20 Memory             ○              ●  ●
-P11 Thermal                         ●
-```
-● = Strong connection | ○ = Moderate connection
-
----
-
-## 🔬 Simulation Requirements by Paper
-
-### P24: Self-Play Mechanisms
-**Claims to Validate:**
-- [ ] Self-play improves success rate >30% over static
-- [ ] ELO correlates with performance (r > 0.8)
-- [ ] Generational evolution produces novel strategies
-- [ ] Adversarial training finds edge cases
-
-**Simulation Schema:**
-```python
-# Tile competition with ELO tracking
-class SelfPlaySimulation:
-    def run_generation(self, tasks, tiles):
-        # Gumbel-Softmax selection
-        # ELO updates
-        # Strategy tracking
-        pass
-```
-
-### P25: Hydraulic Intelligence
-**Claims to Validate:**
-- [ ] Pressure differential predicts activation
-- [ ] Flow follows Kirchhoff's law
-- [ ] Emergence condition is detectable
-- [ ] Shannon diversity correlates with stability
-
-**Simulation Schema:**
-```python
-# Pressure-flow agent network
-class HydraulicSimulation:
-    def compute_flow(self, agents, tasks):
-        # Pressure dynamics
-        # Flow equations
-        # Emergence detection
-        pass
-```
-
-### P26: Value Networks
-**Claims to Validate:**
-- [ ] Value prediction correlates with outcomes (r > 0.7)
-- [ ] Uncertainty is well-calibrated (Brier < 0.2)
-- [ ] Value-guided > random by >20%
-- [ ] Dreaming improves next-day performance
-
-**Simulation Schema:**
-```python
-# TD(λ) learning with dreaming
-class ValueNetworkSimulation:
-    def train_and_dream(self, colony_states):
-        # TD learning
-        # Ensemble uncertainty
-        # Overnight optimization
-        pass
-```
-
-### P27: Emergence Detection
-**Claims to Validate:**
-- [ ] Emergence score predicts novel capabilities
-- [ ] Transfer entropy detects causal emergence
-- [ ] Composition novelty correlates with performance
-- [ ] Early detection enables adaptation
-
-**Simulation Schema:**
-```python
-# Emergence detection algorithms
-class EmergenceSimulation:
-    def detect_emergence(self, agent_network):
-        # Transfer entropy
-        # Mutual information
-        # Novelty scoring
-        pass
-```
-
----
-
-## 📊 Paper Portfolio Summary
-
-### Phase 1 Papers (P1-P23) - Core Framework
-| Status | Count | Papers |
-|--------|-------|--------|
-| ✅ Complete | 18 | P2-P4, P6, P10, P12-P18, P20, P22-P23 |
-| 🔨 In Progress | 5 | P1, P5, P7-P9, P11, P19, P21 |
-
-### Phase 2 Papers (P24-P40) - Next Generation
-| Tier | Papers | Status |
-|------|--------|--------|
-| HIGH | P24-P27 | ✅ Simulation Schemas Complete |
-| MEDIUM | P28-P30 | ✅ Simulation Schemas Complete |
-| EXTENSIONS | P31-P40 | Queued - Need Schemas |
-
-### Phase 2 Schema Status
-
-| Paper | simulation_schema.py | validation_criteria.md | cross_paper_notes.md |
-|-------|----------------------|------------------------|----------------------|
-| P24 | ✅ Complete | ✅ Complete | ✅ Complete |
-| P25 | ✅ Complete | ✅ Complete | ✅ Complete |
-| P26 | ✅ Complete | ✅ Complete | ✅ Complete |
-| P27 | ✅ Complete | ✅ Complete | ✅ Complete |
-| P28 | ✅ Complete | ✅ Complete | ✅ Complete |
-| P29 | ✅ Complete | ✅ Complete | ✅ Complete |
-| P30 | ✅ Complete | ✅ Complete | ✅ Complete |
-
----
-
-## 🎯 Agent Instructions Template
-
-Each research agent follows this protocol:
-
-```markdown
-## Agent Mission: [PAPER NUMBER]
-
-### Primary Objective
-- Design simulation schema to validate/falsify claims
-- Perform deep research on mathematical foundations
-- Identify cross-paper connections (for or against)
-
-### Cross-Paper Awareness
-You are researching in a ecosystem of 40 papers. When you find:
-- Evidence FOR another paper's claims → Note in `research/cross-pollination/FOR_P[N].md`
-- Evidence AGAINST another paper's claims → Note in `research/cross-pollination/AGAINST_P[N].md`
-- Synergistic applications → Note in `research/synergies/[P[N]+P[M]].md`
-
-### Simulation Requirements
-1. Design simulation that could FALSIFY the claims
-2. Identify what data would validate each claim
-3. Propose experimental controls
-4. Consider edge cases and failure modes
-
-### Deliverables
-1. `papers/[P##]/simulation_schema.py` - Simulation code
-2. `papers/[P##]/validation_criteria.md` - What proves/disproves
-3. `papers/[P##]/cross_paper_notes.md` - Connections found
-4. `papers/[P##]/novel_insights.md` - New paradigms discovered
-```
-
----
-
-## 🌐 Multi-Language Translation Orchestration
-
-**Mission:** Translate all papers into 8 languages (French, German, Spanish, Russian, Arabic, Chinese, Japanese, Korean) with language-constrained research to discover novel insights.
-
-### Token Awareness & Context Management
-**CRITICAL:** DeepSeek models have 128K token context (vs Claude's 200K+). Agents MUST:
-1. **Stay under 100K tokens** - Leave buffer for processing
-2. **Use streamlined onboarding** - Read `research/multi-language-orchestration/` documents incrementally
-3. **Handoff when context full** - Summarize, commit, spawn fresh agent with summary
-4. **Read with limits** - Use `Read(file_path, limit=100)` not full file reads
-5. **Reference, don't copy** - Point to file paths instead of including content
-
-### Orchestration Framework
-- **Master Plan:** `research/multi-language-orchestration/MULTI_LANGUAGE_ORCHESTRATION_MASTER_PLAN.md`
-- **Language Specialists:** 8 teams, each fluent in target language + mathematics
-- **A2A Synthesis:** Agent-to-Agent communication in pure mathematics after translations
-- **Novel Insight Discovery:** Language constraints reveal new paper concepts
-
-### Agent Onboarding Protocol
-1. **Minimal Context:** Read only necessary sections of master plan
-2. **Role Assignment:** Language specialist or A2A synthesis agent
-3. **Token Monitoring:** Track usage, handoff at ~80K tokens
-4. **Completion:** Summarize, commit, create TODO_NEXT.md for next agent
-
-### File Structure for Translations
-```
-SuperInstance-papers-multilingual/
-├── languages/
-│   ├── en/          # English source
-│   ├── fr/          # French translations
-│   ├── de/          # German translations
-│   ├── es/          # Spanish translations
-│   ├── ru/          # Russian translations
-│   ├── ar/          # Arabic translations
-│   ├── zh/          # Chinese translations
-│   ├── ja/          # Japanese translations
-│   └── ko/          # Korean translations
-└── synthesis/       # A2A discussions & novel insights
-```
-
-### Phase Execution
-1. **Phase 1:** Parallel translation (240+ papers across 8 languages)
-2. **Phase 2:** A2A synthesis & insight discovery
-3. **Phase 3:** Global integration & publication
-
-**Reference:** See detailed implementation plan: `research/multi-language-orchestration/IMPLEMENTATION_PLAN.md`
-
----
-
-## 📁 Output Structure
-
-```
-SuperInstance-papers/
-├── papers/
-│   ├── 01-23/ (Phase 1 - Core Framework)
-│   ├── 24-40/ (Phase 2 - Next Generation)
-│   └── NEXT_PHASE_PAPERS.md
+polln/
+├── papers/                    # Phase 1-2 papers (P1-P30)
 ├── research/
-│   ├── cross-pollination/
-│   │   ├── FOR_P[N].md
-│   │   └── AGAINST_P[N].md
-│   ├── synergies/
-│   │   └── [P[N]+P[M]].md
-│   └── simulations/
-│       └── [paper]_sim.py
-├── tools/
-│   └── innovation-concepts/
-└── README.md
+│   ├── lucineer_analysis/     # P51-P60 proposals
+│   ├── ecosystem_papers/      # P41-P47 complete
+│   ├── ecosystem_simulations/ # Validation simulations
+│   ├── phase9_opensource/     # Open-source prep
+│   └── multi-language-orchestration/  # Translation project
+├── SuperInstance_Ecosystem/   # Production code (13 packages)
+└── CLAUDE.md                  # This file
 ```
 
 ---
 
-## 📈 Completion Status by Paper
+## Paper Status Quick Reference
 
-| Paper | Title | Status |
-|-------|-------|--------|
-| P1 | Origin-Centric Data Systems | 🔨 In Progress |
-| P2 | SuperInstance Type System | ✅ Complete |
-| P3 | Confidence Cascade Architecture | ✅ Complete |
-| P4 | Pythagorean Geometric Tensors | ✅ Complete |
-| P5 | Rate-Based Change Mechanics | 🔨 In Progress |
-| P6 | Laminar vs Turbulent Systems | ✅ Complete |
-| P7 | SMPbot Architecture | 🔨 In Progress |
-| P8 | Tile Algebra Formalization | 🔨 In Progress |
-| P9 | Wigner-D Harmonics SO(3) | 🔨 In Progress |
-| P10 | GPU Scaling Architecture | ✅ Complete |
-| P11 | Thermal Simulation | 🔨 In Progress |
-| P12 | Distributed Consensus | ✅ Complete |
-| P13 | Agent Network Topology | ✅ Complete |
-| P14 | Multi-Modal Fusion | ✅ Complete |
-| P15 | Neuromorphic Circuits | ✅ Complete |
-| P16 | Game Theory | ✅ Complete |
-| P17 | Adversarial Robustness | ✅ Complete |
-| P18 | Energy Harvesting | ✅ Complete |
-| P19 | Causal Traceability | 🔨 In Progress |
-| P20 | Structural Memory | ✅ Complete |
-| P21 | Stochastic Superiority | 🔨 In Progress |
-| P22 | Edge-to-Cloud Evolution | ✅ Complete |
-| P23 | Bytecode Compilation | ✅ Complete |
-| P24 | Self-Play Mechanisms | ✅ Complete |
-| P25 | Hydraulic Intelligence | ✅ Complete |
-| P26 | Value Networks | ✅ Complete |
-| P27 | Emergence Detection | ✅ Complete |
-| P28 | Stigmergic Coordination | ✅ Complete |
-| P29 | Competitive Coevolution | ✅ Complete |
-| P30 | Granularity Analysis | ✅ Complete |
-| P31-P40 | Extensions | ⏳ Queued |
+### Complete Papers (30)
+P2, P3, P4, P6, P10, P12-P18, P20, P22-P30, P41-P47
+
+### In Progress (5)
+P1, P5, P7-P9, P11, P19, P21
+
+### Proposed/Queued (25)
+P31-P40, P51-P60
+
+---
+
+## Next Agent Onboarding
+
+New agents should read:
+1. `research/AGENT_ONBOARDING.md` - Full onboarding guide
+2. `research/PHASE_5_PROPOSAL.md` - Current phase proposal
+3. `research/lucineer_analysis/LUCINEER_PAPER_PROPOSALS.md` - Hardware papers
+
+---
 
 **Last Updated:** 2026-03-13
-**Orchestrator Status:** ACTIVE - DeepSeek-Chat Model
-**Schema Progress:** P24-P30 Complete (7/17 Phase 2 papers with full documentation)
-
----
-
-*"The best way to predict the future is to invent it" - Alan Kay*
-*We are inventing the future of mathematical computation, one paper at a time.*
+**Status:** ACTIVE - Phase 5 Proposal Pending Approval
