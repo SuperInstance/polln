@@ -68,15 +68,21 @@
 
 ```
 polln/
-├── papers/                    # Phase 1-2 papers (P1-P30)
+├── papers/                        # Phase 1-2 papers (P1-P30)
 ├── research/
-│   ├── lucineer_analysis/     # P51-P60 proposals
-│   ├── ecosystem_papers/      # P41-P47 complete
-│   ├── ecosystem_simulations/ # Validation simulations
-│   ├── phase9_opensource/     # Open-source prep
+│   ├── lucineer_analysis/         # P51-P60 proposals
+│   ├── ecosystem_papers/          # P41-P47 complete
+│   ├── ecosystem_simulations/     # Validation simulations
+│   ├── simulation_framework/      # NEW: Multi-API simulation tools
+│   │   ├── multi_api_orchestrator.py
+│   │   ├── run_5_phase_simulation.py
+│   │   └── results/               # Simulation outputs
+│   ├── phase9_opensource/         # Open-source prep
 │   └── multi-language-orchestration/  # Translation project
-├── SuperInstance_Ecosystem/   # Production code (13 packages)
-└── CLAUDE.md                  # This file
+├── SuperInstance_Ecosystem/       # Production code (13 packages)
+├── apikey/                        # API keys (git-ignored)
+│   └── simulation_config.py       # API configuration
+└── CLAUDE.md                      # This file
 ```
 
 ---
@@ -110,6 +116,29 @@ New agents should read:
 - **Timeline:** 15-week deployment and validation plan
 - **Next Steps:** Cloud infrastructure setup, real AI workload validation
 - **Key Deliverables:** P41 submission to PODC 2027, production deployment
+
+### Multi-API Simulation Framework (NEW 2026-03-13)
+- **Location:** `research/simulation_framework/`
+- **Purpose:** Extensive research ideation using multiple AI APIs
+- **Capabilities:**
+  - Ensemble methods for hypothesis generation
+  - Multi-model validation across different architectures
+  - Cost-effective iteration with DeepSeek
+  - Novel insights from DeepInfra (Llama 3 70B, Qwen 2 72B, Nemo 340B)
+  - High-quality reasoning with Moonshot
+
+**Available Models:**
+- **DeepInfra:** Llama 3 70B-Turbo, Qwen 2 72B, Nemo 340B, Mistral 7B
+- **DeepSeek:** DeepSeek-Chat, DeepSeek-Coder
+- **Moonshot:** Moonshot-v1-8k, Moonshot-v1-32k
+
+**Usage:**
+```bash
+cd research/simulation_framework
+pip install -r requirements.txt
+python run_mini_ideation.py          # Quick test
+python run_5_phase_simulation.py     # Full research cycle
+```
 
 ### Immediate Tasks (Week 1):
 1. Configure cloud credentials and test Terraform

@@ -66,6 +66,52 @@ polln/
 ### Step 1: Understand Current Phase
 Read `research/PHASE_5_PROPOSAL.md` to understand what's planned.
 
+### Step 1.5: Set Up Multi-API Simulation Tools (NEW)
+The project now includes a multi-API simulation framework for research ideation and validation.
+
+**Available APIs:**
+- **DeepInfra**: Novel models (Llama 3 70B, Qwen 2 72B, Nemo 340B) for diverse perspectives
+- **DeepSeek**: Cost-effective model for rapid iterations and prototyping
+- **Moonshot**: High-quality reasoning for critical analysis
+
+**Setup:**
+```bash
+cd research/simulation_framework
+pip install -r requirements.txt
+```
+
+**Configuration:**
+API keys are stored in `apikey/simulation_config.py` (git-ignored)
+- DeepInfra: Novel architectures and large context models
+- DeepSeek: Cheap iterations for rapid prototyping
+- Moonshot: High-quality reasoning and analysis
+
+**Quick Test:**
+```bash
+cd research/simulation_framework
+python run_mini_ideation.py
+```
+
+**Full 5-Phase Simulation:**
+```bash
+python run_5_phase_simulation.py
+```
+
+**Use Cases:**
+- Generate research hypotheses using ensemble methods
+- Validate claims with multi-model review
+- Literature synthesis across different perspectives
+- Method development from diverse viewpoints
+- Cost-effective iteration with DeepSeek
+- Novel insights from different model architectures
+
+**Best Practices:**
+1. Use DeepSeek for initial exploration (cheap, fast)
+2. Use ensemble methods for critical decisions
+3. Leverage large context models (Nemo) for complex analysis
+4. Save results to `simulation_framework/results/` for tracking
+5. Monitor costs via simulation statistics
+
 ### Step 2: Choose Your Focus
 
 #### Option A: Complete Phase 1 Papers (P1, P5, P7-P9, P11, P19, P21)
