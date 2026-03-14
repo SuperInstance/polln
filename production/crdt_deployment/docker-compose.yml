@@ -1,0 +1,222 @@
+version: '3.8'
+
+services:
+  # CRDT Node 1
+  crdt-node-1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: crdt-node-1
+    environment:
+      - NODE_ID=crdt-1
+      - REPLICA_URLS=http://crdt-node-2:8001,http://crdt-node-3:8001
+      - CONSENSUS_URL=http://consensus:8002
+      - MERGE_INTERVAL_MS=100
+      - PORT=8001
+      - LOG_LEVEL=INFO
+    ports:
+      - "8001:8001"
+    networks:
+      - crdt-network
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+        reservations:
+          cpus: '1'
+          memory: 2G
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+
+  # CRDT Node 2
+  crdt-node-2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: crdt-node-2
+    environment:
+      - NODE_ID=crdt-2
+      - REPLICA_URLS=http://crdt-node-1:8001,http://crdt-node-3:8001
+      - CONSENSUS_URL=http://consensus:8002
+      - MERGE_INTERVAL_MS=100
+      - PORT=8001
+      - LOG_LEVEL=INFO
+    ports:
+      - "8002:8001"
+    networks:
+      - crdt-network
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+        reservations:
+          cpus: '1'
+          memory: 2G
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+
+  # CRDT Node 3
+  crdt-node-3:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: crdt-node-3
+    environment:
+      - NODE_ID=crdt-3
+      - REPLICA_URLS=http://crdt-node-1:8001,http://crdt-node-2:8001
+      - CONSENSUS_URL=http://consensus:8002
+      - MERGE_INTERVAL_MS=100
+      - PORT=8001
+      - LOG_LEVEL=INFO
+    ports:
+      - "8003:8001"
+    networks:
+      - crdt-network
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+        reservations:
+          cpus: '1'
+          memory: 2G
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+
+  # Consensus Service (Raft)
+  consensus:
+    image: ghcr.io/etcd-io/etcd:v3.5.9
+    container_name: consensus
+    environment:
+      - ETCD_NAME=consensus-1
+      - ETCD_INITIAL_ADVERTISE_PEER_URLS=http://consensus:2380
+      - ETCD_LISTEN_PEER_URLS=http://0.0.0.0:2380
+      - ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379
+      - ETCD_ADVERTISE_CLIENT_URLS=http://consensus:2379
+      - ETCD_INITIAL_CLUSTER=consensus-1=http://consensus:2380
+      - ETCD_INITIAL_CLUSTER_STATE=new
+      - ETCD_INITIAL_CLUSTER_TOKEN=crdt-consensus
+    ports:
+      - "2379:2379"
+      - "2380:2380"
+      - "8002:2379"
+    networks:
+      - crdt-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 1G
+    healthcheck:
+      test: ["CMD", "etcdctl", "endpoint", "health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  # Prometheus for metrics collection
+  prometheus:
+    image: prom/prometheus:v2.47.2
+    container_name: prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    networks:
+      - crdt-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 1G
+    restart: unless-stopped
+
+  # Grafana for visualization
+  grafana:
+    image: grafana/grafana:10.1.5
+    container_name: grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_SERVER_ROOT_URL=http://localhost:3000
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana-datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
+    networks:
+      - crdt-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    restart: unless-stopped
+
+  # Redis for additional state caching
+  redis:
+    image: redis:7.2-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - crdt-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 512M
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+networks:
+  crdt-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+
+volumes:
+  prometheus-data:
+  grafana-data:

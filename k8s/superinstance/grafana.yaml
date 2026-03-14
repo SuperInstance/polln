@@ -1,0 +1,230 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboards
+  namespace: superinstance
+data:
+  superinstance-dashboard.json: |
+    {
+      "dashboard": {
+        "title": "SuperInstance CRDT Coordinator",
+        "tags": ["superinstance", "crdt"],
+        "timezone": "browser",
+        "panels": [
+          {
+            "title": "Operations Throughput",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "rate(operations_total[5m])",
+                "legendFormat": "Operations/sec"
+              }
+            ]
+          },
+          {
+            "title": "Fast vs Slow Path",
+            "type": "piechart",
+            "targets": [
+              {
+                "expr": "sum(fast_path_ops)",
+                "legendFormat": "Fast Path"
+              },
+              {
+                "expr": "sum(slow_path_ops)",
+                "legendFormat": "Slow Path"
+              }
+            ]
+          },
+          {
+            "title": "Average Latency",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "avg(avg_latency_ms) by (instance)",
+                "legendFormat": "{{instance}}"
+              }
+            ]
+          },
+          {
+            "title": "Error Rate",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "rate(errors_total[5m]) / rate(operations_total[5m])",
+                "legendFormat": "Error Rate"
+              }
+            ]
+          },
+          {
+            "title": "Merge Queue Size",
+            "type": "gauge",
+            "targets": [
+              {
+                "expr": "avg(merge_queue_size) by (instance)",
+                "legendFormat": "{{instance}}"
+              }
+            ]
+          }
+        ]
+      }
+    }
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-datasources
+  namespace: superinstance
+data:
+  datasources.yml: |
+    datasources:
+    - name: Prometheus
+      type: prometheus
+      access: proxy
+      url: http://prometheus:9090
+      isDefault: true
+      editable: false
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  namespace: superinstance
+  labels:
+    app: grafana
+    component: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+        component: monitoring
+    spec:
+      serviceAccountName: grafana-sa
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 472
+        fsGroup: 472
+
+      initContainers:
+      - name: setup-dashboards
+        image: busybox:1.36
+        command: ['sh', '-c']
+        args:
+        - |
+          mkdir -p /grafana/data/dashboards
+          cp /tmp/dashboards/*.json /grafana/data/dashboards/
+        volumeMounts:
+        - name: grafana-storage
+          mountPath: /grafana/data
+        - name: dashboard-definitions
+          mountPath: /tmp/dashboards
+
+      containers:
+      - name: grafana
+        image: grafana/grafana:10.2.2
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 3000
+          protocol: TCP
+
+        env:
+        - name: GF_SECURITY_ADMIN_USER
+          valueFrom:
+            secretKeyRef:
+              name: grafana-credentials
+              key: admin-user
+        - name: GF_SECURITY_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: grafana-credentials
+              key: admin-password
+        - name: GF_INSTALL_PLUGINS
+          value: ""
+        - name: GF_SERVER_ROOT_URL
+          value: "https://grafana.superinstance.example.com"
+        - name: GF_ANALYTICS_ENABLED
+          value: "false"
+
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+
+        volumeMounts:
+        - name: grafana-storage
+          mountPath: /var/lib/grafana
+        - name: datasources
+          mountPath: /etc/grafana/provisioning/datasources
+        - name: dashboard-definitions
+          mountPath: /tmp/dashboards
+
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 5
+
+      volumes:
+      - name: grafana-storage
+        emptyDir: {}
+      - name: datasources
+        configMap:
+          name: grafana-datasources
+      - name: dashboard-definitions
+        configMap:
+          name: grafana-dashboards
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+  namespace: superinstance
+  labels:
+    app: grafana
+    component: monitoring
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 3000
+    targetPort: http
+    protocol: TCP
+  selector:
+    app: grafana
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: grafana-credentials
+  namespace: superinstance
+type: Opaque
+stringData:
+  admin-user: "admin"
+  admin-password: "changeme"  # Change this in production!
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: grafana-sa
+  namespace: superinstance

@@ -1,0 +1,214 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alertmanager-config
+  namespace: superinstance
+data:
+  alertmanager.yml: |
+    global:
+      resolve_timeout: 5m
+      slack_api_url: 'https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK'
+
+    templates:
+    - '/etc/alertmanager/templates/*.tmpl'
+
+    route:
+      receiver: 'default-receiver'
+      group_by: ['alertname', 'cluster', 'service']
+      group_wait: 10s
+      group_interval: 10s
+      repeat_interval: 12h
+
+      routes:
+      # Critical alerts go to PagerDuty
+      - match:
+          severity: critical
+        receiver: 'pagerduty-receiver'
+        continue: true
+
+      # All alerts go to Slack
+      - receiver: 'slack-receiver'
+
+      # Warnings go to email
+      - match:
+          severity: warning
+        receiver: 'email-receiver'
+
+    receivers:
+    - name: 'default-receiver'
+      slack_configs:
+      - channel: '#superinstance-alerts'
+        title: '{{ .GroupLabels.alertname }}'
+        text: '{{ range .Alerts }}{{ .Annotations.description }}{{ end }}'
+        send_resolved: true
+
+    - name: 'pagerduty-receiver'
+      pagerduty_configs:
+      - service_key: 'YOUR_PAGERDUTY_SERVICE_KEY'
+        description: '{{ .GroupLabels.alertname }}'
+        severity: '{{ .CommonLabels.severity }}'
+
+    - name: 'slack-receiver'
+      slack_configs:
+      - channel: '#superinstance-alerts'
+        title: '{{ .GroupLabels.alertname }}'
+        title_link: 'https://grafana.superinstance.example.com'
+        text: |
+          *Summary:* {{ .CommonAnnotations.summary }}
+          *Description:* {{ range .Alerts }}{{ .Annotations.description }}{{ end }}
+          *Severity:* {{ .CommonLabels.severity }}
+        color: '{{ if eq .CommonLabels.severity "critical" }}danger{{ else }}warning{{ end }}'
+        send_resolved: true
+        actions:
+        - type: button
+          text: 'View in Grafana'
+          url: 'https://grafana.superinstance.example.com/d/superinstance'
+
+    - name: 'email-receiver'
+      email_configs:
+      - to: 'ops-team@example.com'
+        from: 'alertmanager@superinstance.example.com'
+        headers:
+          Subject: '[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .GroupLabels.alertname }}'
+        html: |
+          {{ range .Alerts }}
+          <h3>{{ .Annotations.summary }}</h3>
+          <p><strong>Severity:</strong> {{ .Labels.severity }}</p>
+          <p><strong>Description:</strong> {{ .Annotations.description }}</p>
+          <p><strong>Time:</strong> {{ .StartsAt }}</p>
+          {{ end }}
+
+    inhibit_rules:
+    # Inhibit warning if critical is firing for the same alert
+    - source_match:
+        severity: 'critical'
+      target_match:
+        severity: 'warning'
+      equal: ['alertname', 'instance']
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alertmanager-templates
+  namespace: superinstance
+data:
+  default.tmpl: |
+    {{ define "slack.default.title" }}
+    [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .GroupLabels.alertname }}
+    {{ end }}
+
+    {{ define "slack.default.text" }}
+    {{ range .Alerts }}
+    *Alert:* {{ .Labels.alertname }}
+    *Summary:* {{ .Annotations.summary }}
+    *Description:* {{ .Annotations.description }}
+    *Severity:* {{ .Labels.severity }}
+    *Time:* {{ .StartsAt }}
+    {{ end }}
+    {{ end }}
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alertmanager
+  namespace: superinstance
+  labels:
+    app: alertmanager
+    component: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alertmanager
+  template:
+    metadata:
+      labels:
+        app: alertmanager
+        component: monitoring
+    spec:
+      serviceAccountName: alertmanager-sa
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+
+      containers:
+      - name: alertmanager
+        image: prom/alertmanager:v0.26.0
+        imagePullPolicy: IfNotPresent
+        args:
+        - '--config.file=/etc/alertmanager/alertmanager.yml'
+        - '--storage.path=/alertmanager'
+        - '--web.external-url=https://alertmanager.superinstance.example.com'
+        ports:
+        - name: http
+          containerPort: 9093
+          protocol: TCP
+
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+
+        volumeMounts:
+        - name: config
+          mountPath: /etc/alertmanager
+        - name: templates
+          mountPath: /etc/alertmanager/templates
+        - name: storage
+          mountPath: /alertmanager
+
+        livenessProbe:
+          httpGet:
+            path: /-/healthy
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+
+        readinessProbe:
+          httpGet:
+            path: /-/ready
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 5
+
+      volumes:
+      - name: config
+        configMap:
+          name: alertmanager-config
+      - name: templates
+        configMap:
+          name: alertmanager-templates
+      - name: storage
+        emptyDir: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: alertmanager
+  namespace: superinstance
+  labels:
+    app: alertmanager
+    component: monitoring
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 9093
+    targetPort: http
+    protocol: TCP
+  selector:
+    app: alertmanager
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: alertmanager-sa
+  namespace: superinstance

@@ -1,0 +1,21 @@
+# CRDT Coordination Service Requirements
+# Python 3.11+
+
+# Web Framework
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+pydantic==2.5.3
+
+# Async HTTP Client
+aiohttp==3.9.1
+
+# Monitoring & Metrics (optional but recommended)
+prometheus-client==0.19.0
+
+# Development Dependencies (for local testing)
+pytest==7.4.4
+pytest-asyncio==0.23.3
+httpx==0.26.0
+
+# Logging & Utilities
+python-json-logger==2.0.7

@@ -1,0 +1,30 @@
+# SuperInstance Monitoring Stack Requirements
+# Install with: pip install -r requirements.txt
+
+# Core monitoring
+prometheus-client>=0.19.0
+opentelemetry-api>=1.21.0
+opentelemetry-sdk>=1.21.0
+structlog>=23.1.0
+
+# OpenTelemetry exporters (optional)
+opentelemetry-exporter-jaeger>=1.21.0
+opentelemetry-exporter-otlp>=1.21.0
+
+# System monitoring
+psutil>=5.9.5
+pynvml>=11.5.0  # NVIDIA GPU monitoring
+
+# Async HTTP
+aiohttp>=3.8.5
+
+# Web framework (optional, for API endpoints)
+fastapi>=0.104.0
+uvicorn>=0.24.0
+
+# Development dependencies
+pytest>=7.4.3
+pytest-asyncio>=0.21.1
+pytest-cov>=4.1.0
+black>=23.11.0
+mypy>=1.7.0

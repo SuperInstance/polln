@@ -1,0 +1,19 @@
+# PyTorch Real Integration Requirements
+# Production tracer for real model execution
+
+# Core PyTorch
+torch>=2.0.0
+torchvision>=0.15.0
+
+# Transformers for BERT and GPT models
+transformers>=4.30.0
+
+# Data processing
+numpy>=1.24.0
+
+# HDF5 export (optional)
+h5py>=3.8.0
+
+# GPU acceleration (CUDA)
+# Note: Install via pip or conda based on your CUDA version
+# For CUDA 12.1: pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121

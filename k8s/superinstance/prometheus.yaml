@@ -1,0 +1,305 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  namespace: superinstance
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s
+      evaluation_interval: 15s
+      external_labels:
+        cluster: 'superinstance-prod'
+        replica: '1'
+
+    # Alertmanager configuration
+    alerting:
+      alertmanagers:
+      - static_configs:
+        - targets:
+          - 'alertmanager:9093'
+
+    # Rule files
+    rule_files:
+    - '/etc/prometheus/rules/*.yml'
+
+    # Scrape configurations
+    scrape_configs:
+    # SuperInstance CRDT Coordinator
+    - job_name: 'superinstance-crdt'
+      kubernetes_sd_configs:
+      - role: pod
+        namespaces:
+          names:
+          - superinstance
+      relabel_configs:
+      - source_labels: [__meta_kubernetes_pod_label_app]
+        action: keep
+        regex: 'superinstance'
+      - source_labels: [__meta_kubernetes_pod_label_component]
+        action: keep
+        regex: 'crdt-coordinator'
+      - source_labels: [__meta_kubernetes_pod_ip]
+        target_label: __address__
+        replacement: $1:9090
+      - source_labels: [__meta_kubernetes_pod_name]
+        target_label: pod
+      - source_labels: [__meta_kubernetes_namespace]
+        target_label: namespace
+
+    # SuperInstance Consensus Service
+    - job_name: 'superinstance-consensus'
+      kubernetes_sd_configs:
+      - role: pod
+        namespaces:
+          names:
+          - superinstance
+      relabel_configs:
+      - source_labels: [__meta_kubernetes_pod_label_app]
+        action: keep
+        regex: 'superinstance'
+      - source_labels: [__meta_kubernetes_pod_label_component]
+        action: keep
+        regex: 'consensus-service'
+      - source_labels: [__meta_kubernetes_pod_ip]
+        target_label: __address__
+        replacement: $1:9090
+
+    # Kubernetes Nodes
+    - job_name: 'kubernetes-nodes'
+      kubernetes_sd_configs:
+      - role: node
+      relabel_configs:
+      - action: labelmap
+        regex: __meta_kubernetes_node_label_(.+)
+
+    # Kubernetes Pods
+    - job_name: 'kubernetes-pods'
+      kubernetes_sd_configs:
+      - role: pod
+      relabel_configs:
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+        action: keep
+        regex: true
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+        action: replace
+        target_label: __metrics_path__
+        regex: (.+)
+      - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+        action: replace
+        regex: ([^:]+)(?::\d+)?;(\d+)
+        replacement: $1:$2
+        target_label: __address__
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-rules
+  namespace: superinstance
+data:
+  alerts.yml: |
+    groups:
+    - name: superinstance-alerts
+      interval: 30s
+      rules:
+
+      # Health Alerts
+      - alert: SuperInstanceServiceDown
+        expr: up{job=~"superinstance-.*"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          component: superinstance
+        annotations:
+          summary: "SuperInstance service is down"
+          description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 1 minute."
+
+      - alert: SuperInstanceHighErrorRate
+        expr: |
+          rate(errors_total[5m]) / rate(operations_total[5m]) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+          component: superinstance
+        annotations:
+          summary: "High error rate detected"
+          description: "Error rate is {{ $value | humanizePercentage }} for {{ $labels.job }}"
+
+      # Performance Alerts
+      - alert: SuperInstanceHighLatency
+        expr: |
+          histogram_quantile(0.99, rate(operation_latency_seconds_bucket[5m])) > 1
+        for: 5m
+        labels:
+          severity: warning
+          component: superinstance
+        annotations:
+          summary: "High latency detected"
+          description: "P99 latency is {{ $value }}s for {{ $labels.job }}"
+
+      - alert: SuperInstanceSlowPathTooSlow
+        expr: |
+          avg(slow_path_latency_ms) by (instance) > 500
+        for: 5m
+        labels:
+          severity: warning
+          component: crdt
+        annotations:
+          summary: "Slow path operations are too slow"
+          description: "Average slow path latency is {{ $value }}ms"
+
+      # Resource Alerts
+      - alert: SuperInstanceHighMemoryUsage
+        expr: |
+          container_memory_usage_bytes{namespace="superinstance"} /
+          container_spec_memory_limit_bytes{namespace="superinstance"} > 0.9
+        for: 5m
+        labels:
+          severity: warning
+          component: superinstance
+        annotations:
+          summary: "High memory usage"
+          description: "Memory usage is {{ $value | humanizePercentage }} for {{ $labels.pod }}"
+
+      - alert: SuperInstanceHighCPUUsage
+        expr: |
+          rate(container_cpu_usage_seconds_total{namespace="superinstance"}[5m]) > 0.8
+        for: 5m
+        labels:
+          severity: warning
+          component: superinstance
+        annotations:
+          summary: "High CPU usage"
+          description: "CPU usage is {{ $value | humanizePercentage }} for {{ $labels.pod }}"
+
+      # CRDT-specific Alerts
+      - alert: SuperInstanceCRDTMergeQueueBacklog
+        expr: |
+          merge_queue_size > 1000
+        for: 5m
+        labels:
+          severity: warning
+          component: crdt
+        annotations:
+          summary: "CRDT merge queue backlog"
+          description: "Merge queue has {{ $value }} pending operations"
+
+      - alert: SuperInstanceFastPathRatioLow
+        expr: |
+          (fast_path_ops / total_ops) < 0.5
+        for: 10m
+        labels:
+          severity: info
+          component: crdt
+        annotations:
+          summary: "Fast path ratio low"
+          description: "Only {{ $value | humanizePercentage }} of operations use fast path"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus
+  namespace: superinstance
+  labels:
+    app: prometheus
+    component: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus
+  template:
+    metadata:
+      labels:
+        app: prometheus
+        component: monitoring
+    spec:
+      serviceAccountName: prometheus-sa
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+
+      containers:
+      - name: prometheus
+        image: prom/prometheus:v2.48.0
+        imagePullPolicy: IfNotPresent
+        args:
+        - '--config.file=/etc/prometheus/prometheus.yml'
+        - '--storage.tsdb.path=/prometheus'
+        - '--storage.tsdb.retention.time=30d'
+        - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+        - '--web.console.templates=/usr/share/prometheus/consoles'
+        - '--web.enable-lifecycle'
+        ports:
+        - name: http
+          containerPort: 9090
+          protocol: TCP
+
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+
+        volumeMounts:
+        - name: config
+          mountPath: /etc/prometheus
+        - name: rules
+          mountPath: /etc/prometheus/rules
+        - name: storage
+          mountPath: /prometheus
+
+        livenessProbe:
+          httpGet:
+            path: /-/healthy
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+
+        readinessProbe:
+          httpGet:
+            path: /-/ready
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 5
+
+      volumes:
+      - name: config
+        configMap:
+          name: prometheus-config
+      - name: rules
+        configMap:
+          name: prometheus-rules
+      - name: storage
+        emptyDir: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus
+  namespace: superinstance
+  labels:
+    app: prometheus
+    component: monitoring
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 9090
+    targetPort: http
+    protocol: TCP
+  selector:
+    app: prometheus
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: prometheus-sa
+  namespace: superinstance

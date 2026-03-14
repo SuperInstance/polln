@@ -1,0 +1,380 @@
+# Kubernetes Deployment for CRDT Coordination Service
+# Production-ready configuration with HPA, monitoring, and rolling updates
+
+---
+# Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: crdt-coordination
+  labels:
+    app: crdt-coordination
+    environment: production
+
+---
+# ConfigMap for application configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: crdt-config
+  namespace: crdt-coordination
+data:
+  MERGE_INTERVAL_MS: "100"
+  LOG_LEVEL: "INFO"
+  PORT: "8001"
+
+---
+# Secret for sensitive configuration
+apiVersion: v1
+kind: Secret
+metadata:
+  name: crdt-secrets
+  namespace: crdt-coordination
+type: Opaque
+stringData:
+  CONSENSUS_URL: "http://etcd:2379"
+
+---
+# Service for CRDT nodes
+apiVersion: v1
+kind: Service
+metadata:
+  name: crdt-coordination
+  namespace: crdt-coordination
+  labels:
+    app: crdt-coordination
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8001
+      targetPort: 8001
+      protocol: TCP
+      name: http
+  selector:
+    app: crdt-coordination
+
+---
+# Service for external access (LoadBalancer)
+apiVersion: v1
+kind: Service
+metadata:
+  name: crdt-coordination-lb
+  namespace: crdt-coordination
+  labels:
+    app: crdt-coordination
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 8001
+      protocol: TCP
+      name: http
+  selector:
+    app: crdt-coordination
+
+---
+# StatefulSet for CRDT nodes
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: crdt-coordination
+  namespace: crdt-coordination
+  labels:
+    app: crdt-coordination
+spec:
+  serviceName: crdt-coordination
+  replicas: 3
+  selector:
+    matchLabels:
+      app: crdt-coordination
+  template:
+    metadata:
+      labels:
+        app: crdt-coordination
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8001"
+        prometheus.io/path: "/metrics/detail"
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+      - name: crdt-service
+        image: crdt-coordination:1.0.0
+        imagePullPolicy: Always
+        ports:
+          - name: http
+            containerPort: 8001
+            protocol: TCP
+        env:
+          - name: NODE_ID
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: REPLICA_URLS
+            value: "http://crdt-coordination-0.crdt-coordination:8001,http://crdt-coordination-1.crdt-coordination:8001,http://crdt-coordination-2.crdt-coordination:8001"
+          - name: CONSENSUS_URL
+            valueFrom:
+              secretKeyRef:
+                name: crdt-secrets
+                key: CONSENSUS_URL
+          - name: MERGE_INTERVAL_MS
+            valueFrom:
+              configMapKeyRef:
+                name: crdt-config
+                key: MERGE_INTERVAL_MS
+          - name: LOG_LEVEL
+            valueFrom:
+              configMapKeyRef:
+                name: crdt-config
+                key: LOG_LEVEL
+          - name: PORT
+            valueFrom:
+              configMapKeyRef:
+                name: crdt-config
+                key: PORT
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "1000m"
+          limits:
+            memory: "4Gi"
+            cpu: "2000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8001
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8001
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 2
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 8001
+          initialDelaySeconds: 0
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 12
+        volumeMounts:
+          - name: data
+            mountPath: /app/data
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 10Gi
+
+---
+# Horizontal Pod Autoscaler
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: crdt-coordination-hpa
+  namespace: crdt-coordination
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: StatefulSet
+    name: crdt-coordination
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+        - type: Percent
+          value: 50
+          periodSeconds: 60
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+        - type: Percent
+          value: 100
+          periodSeconds: 30
+        - type: Pods
+          value: 2
+          periodSeconds: 30
+      selectPolicy: Max
+
+---
+# PodDisruptionBudget
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: crdt-coordination-pdb
+  namespace: crdt-coordination
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: crdt-coordination
+
+---
+# NetworkPolicy
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: crdt-coordination-netpol
+  namespace: crdt-coordination
+spec:
+  podSelector:
+    matchLabels:
+      app: crdt-coordination
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: crdt-coordination
+        - namespaceSelector:
+            matchLabels:
+              name: ingress-nginx
+      ports:
+        - protocol: TCP
+          port: 8001
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app: crdt-coordination
+      ports:
+        - protocol: TCP
+          port: 8001
+    - to:
+        - podSelector:
+            matchLabels:
+              app: etcd
+      ports:
+        - protocol: TCP
+          port: 2379
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - protocol: TCP
+          port: 53  # DNS
+
+---
+# etcd StatefulSet for consensus
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: etcd
+  namespace: crdt-coordination
+spec:
+  serviceName: etcd
+  replicas: 1
+  selector:
+    matchLabels:
+      app: etcd
+  template:
+    metadata:
+      labels:
+        app: etcd
+    spec:
+      containers:
+      - name: etcd
+        image: quay.io/coreos/etcd:v3.5.9
+        ports:
+          - containerPort: 2379
+            name: client
+          - containerPort: 2380
+            name: peer
+        env:
+          - name: ETCD_NAME
+            value: "etcd-0"
+          - name: ETCD_INITIAL_ADVERTISE_PEER_URLS
+            value: "http://etcd-0.etcd:2380"
+          - name: ETCD_LISTEN_PEER_URLS
+            value: "http://0.0.0.0:2380"
+          - name: ETCD_LISTEN_CLIENT_URLS
+            value: "http://0.0.0.0:2379"
+          - name: ETCD_ADVERTISE_CLIENT_URLS
+            value: "http://etcd-0.etcd:2379"
+          - name: ETCD_INITIAL_CLUSTER
+            value: "etcd-0=http://etcd-0.etcd:2380"
+          - name: ETCD_INITIAL_CLUSTER_STATE
+            value: "new"
+          - name: ETCD_INITIAL_CLUSTER_TOKEN
+            value: "crdt-consensus"
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        volumeMounts:
+          - name: data
+            mountPath: /etcd-data
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 5Gi
+
+---
+# Service for etcd
+apiVersion: v1
+kind: Service
+metadata:
+  name: etcd
+  namespace: crdt-coordination
+spec:
+  clusterIP: None
+  ports:
+    - port: 2379
+      targetPort: 2379
+      name: client
+    - port: 2380
+      targetPort: 2380
+      name: peer
+  selector:
+    app: etcd
+
+---
+# Prometheus ServiceMonitor (if using Prometheus Operator)
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: crdt-coordination
+  namespace: crdt-coordination
+  labels:
+    app: crdt-coordination
+spec:
+  selector:
+    matchLabels:
+      app: crdt-coordination
+  endpoints:
+    - port: http
+      path: /metrics/detail
+      interval: 15s
+      scrapeTimeout: 10s

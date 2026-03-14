@@ -1,0 +1,106 @@
+# Alertmanager Configuration for SuperInstance
+
+global:
+  resolve_timeout: 5m
+  slack_api_url: '${SLACK_WEBHOOK_URL:-}'
+
+# Templates
+templates:
+  - '/etc/alertmanager/templates/*.tmpl'
+
+# Route configuration
+route:
+  group_by: ['alertname', 'cluster', 'service']
+  group_wait: 10s
+  group_interval: 10s
+  repeat_interval: 12h
+  receiver: 'default'
+
+  routes:
+    # Critical alerts go to Slack immediately
+    - match:
+        severity: critical
+      receiver: 'slack-critical'
+      group_wait: 0s
+      repeat_interval: 5m
+
+    # Warning alerts
+    - match:
+        severity: warning
+      receiver: 'slack-warning'
+      group_wait: 30s
+      repeat_interval: 1h
+
+    # Consensus alerts
+    - match:
+        component: consensus
+      receiver: 'slack-critical'
+      group_wait: 0s
+      repeat_interval: 5m
+
+    # GPU alerts
+    - match:
+        component: gpu
+      receiver: 'slack-warning'
+      repeat_interval: 30m
+
+# Receivers
+receivers:
+  - name: 'default'
+    slack_configs:
+      - send_resolved: true
+        title: '{{ .GroupLabels.alertname }}'
+        text: '{{ range .Alerts }}{{ .Annotations.description }}{{ end }}'
+        color: '{{ if eq .Status "firing" }}danger{{ else }}good{{ end }}'
+
+  - name: 'slack-critical'
+    slack_configs:
+      - send_resolved: true
+        title: '🚨 CRITICAL: {{ .GroupLabels.alertname }}'
+        title_link: 'http://localhost:3000/d/overview'
+        text: |
+          *Summary:* {{ .CommonAnnotations.summary }}
+          *Description:* {{ .CommonAnnotations.description }}
+
+          *Alerts:*
+          {{ range .Alerts }}
+          * {{ .Labels.instance }}: {{ .Annotations.description }}
+          {{ end }}
+        color: 'danger'
+        footer: 'SuperInstance Monitoring'
+        actions:
+          - type: button
+            text: 'View in Grafana'
+            url: 'http://localhost:3000/d/overview'
+
+  - name: 'slack-warning'
+    slack_configs:
+      - send_resolved: true
+        title: '⚠️ WARNING: {{ .GroupLabels.alertname }}'
+        title_link: 'http://localhost:3000/d/overview'
+        text: |
+          *Summary:* {{ .CommonAnnotations.summary }}
+          *Description:* {{ .CommonAnnotations.description }}
+
+          *Alerts:*
+          {{ range .Alerts }}
+          * {{ .Labels.instance }}: {{ .Annotations.description }}
+          {{ end }}
+        color: 'warning'
+        footer: 'SuperInstance Monitoring'
+
+# Inhibition rules
+inhibit_rules:
+  # Inhibit warning if critical is firing for same alert
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname', 'instance']
+
+  # Inhibit high latency if service is down
+  - source_match:
+      alertname: 'ReplicaDown'
+    target_match:
+      alertname: 'HighLatency'
+    equal: ['instance']
