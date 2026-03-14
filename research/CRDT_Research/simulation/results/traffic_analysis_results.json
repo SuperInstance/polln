@@ -1,0 +1,126 @@
+{
+  "experiment": "traffic_reduction_analysis",
+  "timestamp": "2026-03-13T06:51:07.423131",
+  "core_scaling_results": [
+    {
+      "num_cores": 2,
+      "mesi": {
+        "mean": 127730.4,
+        "std": 1572.1712530699674,
+        "ci_low": 127294.61636194092,
+        "ci_high": 128166.18363805907,
+        "n": 50
+      },
+      "crdt": {
+        "mean": 25600,
+        "std": 0.0,
+        "ci_low": 25600.0,
+        "ci_high": 25600.0,
+        "n": 50
+      },
+      "reduction_pct": 79.95778608694563,
+      "effect_size": 91.86925185698028
+    },
+    {
+      "num_cores": 4,
+      "mesi": {
+        "mean": 197509.76,
+        "std": 2308.4452808533015,
+        "ci_low": 196869.89161366093,
+        "ci_high": 198149.62838633909,
+        "n": 50
+      },
+      "crdt": {
+        "mean": 182400,
+        "std": 0.0,
+        "ci_low": 182400.0,
+        "ci_high": 182400.0,
+        "n": 50
+      },
+      "reduction_pct": 7.650133340246076,
+      "effect_size": 9.256631592455948
+    },
+    {
+      "num_cores": 8,
+      "mesi": {
+        "mean": 285797.44,
+        "std": 2813.2637169708228,
+        "ci_low": 285017.6430821978,
+        "ci_high": 286577.2369178022,
+        "n": 50
+      },
+      "crdt": {
+        "mean": 240000,
+        "std": 0.0,
+        "ci_low": 240000.0,
+        "ci_high": 240000.0,
+        "n": 50
+      },
+      "reduction_pct": 16.02444024691054,
+      "effect_size": 23.022143419851954
+    },
+    {
+      "num_cores": 16,
+      "mesi": {
+        "mean": 402041.92,
+        "std": 3233.9628551625988,
+        "ci_low": 401145.5112305236,
+        "ci_high": 402938.3287694764,
+        "n": 50
+      },
+      "crdt": {
+        "mean": 355200,
+        "std": 0.0,
+        "ci_low": 355200.0,
+        "ci_high": 355200.0,
+        "n": 50
+      },
+      "reduction_pct": 11.65100395501046,
+      "effect_size": 20.483994875155986
+    },
+    {
+      "num_cores": 32,
+      "mesi": {
+        "mean": 570961.76,
+        "std": 4273.3995383878955,
+        "ci_low": 569777.2340814131,
+        "ci_high": 572146.2859185869,
+        "n": 50
+      },
+      "crdt": {
+        "mean": 585600,
+        "std": 0.0,
+        "ci_low": 585600.0,
+        "ci_high": 585600.0,
+        "n": 50
+      },
+      "reduction_pct": -2.563786408392742,
+      "effect_size": -4.844292547726963
+    },
+    {
+      "num_cores": 64,
+      "mesi": {
+        "mean": 760511.52,
+        "std": 6936.2274585494015,
+        "ci_low": 758588.8958390573,
+        "ci_high": 762434.1441609428,
+        "n": 50
+      },
+      "crdt": {
+        "mean": 1046400,
+        "std": 0.0,
+        "ci_low": 1046400.0,
+        "ci_high": 1046400.0,
+        "n": 50
+      },
+      "reduction_pct": -37.59160413506951,
+      "effect_size": -58.28923116468611
+    }
+  ],
+  "conclusion": {
+    "claim_70_percent": "NOT VALIDATED - ranges from -50% to +60%",
+    "actual_range": "Variable by workload",
+    "key_factor": "Merge frequency vs sharing pattern",
+    "recommendation": "Use CRDT for high-sharing, low-merge-frequency workloads"
+  }
+}

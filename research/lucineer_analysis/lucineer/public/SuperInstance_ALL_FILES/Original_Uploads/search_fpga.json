@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.sciencedirect.com/science/article/abs/pii/S138376212400184X",
+    "name": "A survey of FPGA and ASIC designs for transformer",
+    "snippet": "2024 · Cited by 36 — This study investigates and analyzes the model compression methods, various optimization techniques, and architectures of accelerators related to FPGA - and ... Read more",
+    "host_name": "www.sciencedirect.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://arxiv.org/html/2409.13975v1",
+    "name": "Programmable Transformer Encoder Acceleration on FPGA",
+    "snippet": "Sep 21, 2024 — Transformer neural networks (TNN) have been widely utilized on a diverse range of applications, including natural language processing (NLP), ... Read more",
+    "host_name": "arxiv.org",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "http://www.doc.ic.ac.uk/~wl/papers/22/fpt22fw.pdf",
+    "name": "Accelerating Transformer Neural Networks on FPGAs for High",
+    "snippet": "Cited by 25 — This paper proposes an FPGA accelerator for TNN- based jet-tagging . The state-of-the-art software architecture is adapted in a hardware-aware manner to the HLF ... Read more 8 pages",
+    "host_name": "www.doc.ic.ac.uk",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://dl.acm.org/doi/10.1145/3289185",
+    "name": "[DL] A Survey of FPGA-based Neural Network Inference",
+    "snippet": "In this article, we give an overview of previous work on neural network inference accelerators based on FPGA and summarize the main techniques used. Read more",
+    "host_name": "dl.acm.org",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://people.ece.uw.edu/hauck/publications/Transformer_Taiwan.pdf",
+    "name": "Efficient Implementation of Transformer Inference via a",
+    "snippet": "In this research, we utilized the FlashAttention-. 2 algorithm on an FPGA , which is a device that has greater on-chip memory resources compared to a GPU. This ... Read more 5 pages",
+    "host_name": "people.ece.uw.edu",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://ieeexplore.ieee.org/document/10296316",
+    "name": "HPTA: A High Performance Transformer Accelerator Based",
+    "snippet": "2023 · Cited by 33 — This paper proposes HPTA, a high-performance accelerator for implementing transformers on FPGA . We analyze the structural features of transformer networks . Read more\nThe transformer neural networks have achieved remarkable performance in both Natural Language Processing (NLP) and Computer Vision (CV) applications, with encod",
+    "host_name": "ieeexplore.ieee.org",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/aliemo/transfomers-silicon-research",
+    "name": "aliemo/transfomers-silicon-research",
+    "snippet": "We propose a new simple network architecture, the Transformer , based solely on attention mechanisms, dispensing with recurrence and convolutions entirely. Read more",
+    "host_name": "github.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://arxiv.org/pdf/2412.15666",
+    "name": "A survey on FPGA-based accelerator for ML models",
+    "snippet": "2024 · Cited by 26 — This leads to an important question: Are FPGA-based ML accelerators better suited for neural network models than non-neural ones? Neural ... Read more",
+    "host_name": "arxiv.org",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.preprints.org/manuscript/202507.1187",
+    "name": "High-Performance FPGA Acceleration for Transformer",
+    "snippet": "Jul 15, 2025 — This paper provides a comprehensive and in-depth review of FPGA-based accelerators for foundation neural networks , systematically examining the ... Read more",
+    "host_name": "www.preprints.org",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.sciencedirect.com/science/article/pii/S138376212400184X",
+    "name": "A survey of FPGA and ASIC designs for transformer inference",
+    "snippet": "This study investigates and analyzes the model compression methods, various optimization techniques, and architectures of accelerators related to FPGA- and ASIC-based transformer designs. We expect this study to serve as a valuable guide for hardware research in the transformer field.",
+    "host_name": "www.sciencedirect.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

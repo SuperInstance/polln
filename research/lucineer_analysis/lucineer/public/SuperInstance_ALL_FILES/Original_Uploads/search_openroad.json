@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://github.com/The-OpenROAD-Project/OpenROAD",
+    "name": "OpenROAD",
+    "snippet": "The OpenROAD flow delivers an Autonomous, No-Human-In-Loop (NHIL) flow , 24 hour turnaround from RTL - GDSII for rapid design exploration and physical design ...",
+    "host_name": "github.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://openroad.readthedocs.io",
+    "name": "Welcome to OpenROAD's documentation! — OpenROAD",
+    "snippet": "Flow (github) (docs): This is the native OpenROAD flow that consists of a set of integrated scripts for an autonomous RTL - GDSII flow using OpenROAD and other ...",
+    "host_name": "openroad.readthedocs.io",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.researchgate.net/publication/401374941_Advancements_in_Open_Source_RTL-to-GDSII_Toolchains_and_the_Integration_of_Artificial_Intelligence_in_Electronic_Design_Automation",
+    "name": "(PDF) Advancements in Open Source RTL-to-GDSII",
+    "snippet": "1 day ago — Advancements in Open Source RTL-to-GDSII Toolchains and the Integration of Artificial Intelligence in Electronic Design Automation. March 2026.",
+    "host_name": "www.researchgate.net",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.mdpi.com/2079-9292/14/19/3866",
+    "name": "Comprehensive RTL-to-GDSII Workflow for Custom",
+    "snippet": "2025 — The main objective of this work is to provide a comprehensive explanation of the Register Transfer Level ( RTL ) to Graphic Data System II ( GDSII ) flow for ...",
+    "host_name": "www.mdpi.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://ucsc-ospo.github.io/project/osre24/openroad/openroad",
+    "name": "An Open-Source, Autonomous RTL-GDSII Flow for Chip",
+    "snippet": "Jan 22, 2024 — OpenROAD is the fastest onramp to gain knowledge, skills and create pathways for great career opportunities in chip design .",
+    "host_name": "ucsc-ospo.github.io",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://theopenroadproject.org/blogs",
+    "name": "Blogs",
+    "snippet": "Feb 9, 2024 — OpenROAD is a foundational application for open-source VLSI design from RTL to GDSII . It is used widely by many popular Open Source tools and initiatives.",
+    "host_name": "theopenroadproject.org",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://en.wikipedia.org/wiki/OpenROAD_Project",
+    "name": "OpenROAD Project",
+    "snippet": "The OpenROAD Project is a major open - source project that aims to provide a fully automated, end-to-end digital integrated circuit design flow ( RTL-to-GDSII ) ...",
+    "host_name": "en.wikipedia.org",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://opensource.siemens.com/events/2024cn/slides/workshop/09_AI4EDA_TaoSimin.pdf",
+    "name": "RTL-to-Vector-to-GDS",
+    "snippet": "Represent chip data using AI models ( RTL -to-Vector), then use the representative information to guide chip design (Vector-to- GDS ). Page 3. RTL-to-GDS (iEDA).",
+    "host_name": "opensource.siemens.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.facebook.com/vsdopen/posts/an-open-source-rtl-to-gds-flow-using-scl180-and-openroad/947119761329496",
+    "name": "An Open-Source RTL-to-GDS Flow Using SCL180 and",
+    "snippet": "RTL to GDS II can be achieved using open source EDA + IP + PDK. @tak6uchi1 shows how to host this semiconductor design environment on Intel Mac, ...",
+    "host_name": "www.facebook.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.scribd.com/document/933885036/openroadasicdesignflow-1395",
+    "name": "ASIC Design Flow with OpenROAD Guide | PDF",
+    "snippet": "• Demo : Complete flow from RTL - GDSII ... - 2019 - Toward An Open - Source Digital Flow First Learnings From The OpenROAD Project. 4 pages. Open Source ASIC Design ...",
+    "host_name": "www.scribd.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

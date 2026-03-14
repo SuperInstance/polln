@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://www.zerotoasiccourse.com",
+    "name": "Zero to ASIC Course",
+    "snippet": "This course will give you the experience of designing your own microchip using free and open source tools and getting it manufactured on an open source PDK.",
+    "host_name": "www.zerotoasiccourse.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.mattvenn.net/stem/zero-to-asic-course",
+    "name": "Learn to design your own chips",
+    "snippet": "21 Mar 2021 — Learn to design your own chips. In March 2020 I started getting interested in Open Source ASIC tooling. I don't remember exactly what sparked my interest.\nMar 21, 2021 — Learn to design your own chips . In March 2020 I started getting interested in Open Source ASIC tooling. I don't remember exactly what sparked my interest.",
+    "host_name": "www.mattvenn.net",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.zerotoasiccourse.com/matt_venn",
+    "name": "About Matt Venn",
+    "snippet": "22 Oct 2021 — I have helped people like you to create thousands of designs. I can teach you how to design chips and how to get them made! What I learned in 6 ...\nOct 22, 2021 — Matthew Venn is a science & technology communicator and electronic engineer . He brings 20 years of engineering experience to create excellent and innovative ...",
+    "host_name": "www.zerotoasiccourse.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/posts/matt-venn_asic-opensource-asic-activity-7280919828054355968-DrD8",
+    "name": "Matt Venn's Post - asic #opensource #asic",
+    "snippet": "We now have some exclusive, limited edition, open source chips mounted in epoxy resin! Each chip is numbered and comes with a GDS render and ...",
+    "host_name": "www.linkedin.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/c/zerotoasic/videos",
+    "name": "Zero To ASIC Course",
+    "snippet": "Learn how to design your own computer chips! The Zero to ASIC courses covers everything you need to design your own digital or analog chip using open source ...\nThe Zero to ASIC courses covers everything you need to design your own digital or analog chip using open source tools . You can even get it manufactured into ...",
+    "host_name": "www.youtube.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/mattvenn/awesome-opensource-asic-resources",
+    "name": "mattvenn/awesome-opensource-asic-resources",
+    "snippet": "Zero To ASIC course ... Efabless - simplifying chip creation; LibreSilicon - open source manufacturing process standard; LowRISC - open source silicon designs and ...\nAwesome open source ASIC resources . Terminology, Digital focussed tools, High level synthesis (HLS), Analogue focussed tools, Generators, PDK Community.",
+    "host_name": "github.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://podcasts.apple.com/us/podcast/zero-to-asic-course/id1559758970",
+    "name": "Zero to ASIC Course - Podcast",
+    "snippet": "Interviews and news from the world of Open Source Silicon, ASICs and Semiconductors. Information. Creator. Matt Venn. Years Active.",
+    "host_name": "podcasts.apple.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://hardwear.io/netherlands-2021/training/zero-to-ASIC-course.php",
+    "name": "Zero to ASIC course - Netherlands 2021",
+    "snippet": "You will gain familiarity with the capabilities and possibilities of the new open source PDK (process design kit) and open source ASIC tools. You will learn:.",
+    "host_name": "hardwear.io",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

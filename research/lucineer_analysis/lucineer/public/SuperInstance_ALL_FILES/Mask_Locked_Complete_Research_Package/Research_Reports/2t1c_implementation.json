@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.researchgate.net/publication/394002343_Dual-mode_2T1C_DRAM_Process-In-Memory_Architecture_for_Boolean_and_MAC_Operations",
+    "name": "(PDF) Dual-mode 2T1C DRAM Process-In-Memory Architecture for",
+    "snippet": "In this article, we propose a 2T1C DRAM-based PIM architecture that supports dual-mode operation with minimal additional hardware. The proposed architecture has ...",
+    "host_name": "www.researchgate.net",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://scholarworks.bwise.kr/cau/bitstream/2019.sw.cau/86269/1/Dual-Mode%202T1C%20DRAM%20Process-In-Memory%20Architecture%20for%20Boolean%20and%20MAC%20Operations.pdf",
+    "name": "[PDF] Dual-Mode 2T1C DRAM Process-In-Memory Architecture for",
+    "snippet": "Based on this concept, we implemented a prototype dual-mode PIM chip using a 2T1C DRAM cell array. The chip successfully performs both Boolean and MAC.",
+    "host_name": "scholarworks.bwise.kr",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.nso-journal.org/articles/nso/full_html/2023/04/NSO20220088/NSO20220088.html",
+    "name": "2T1C DRAM based on semiconducting MoS 2 and semimetallic",
+    "snippet": "We propose a 2T1C DRAM structure for in-memory computing. It integrates a monolayer graphene transistor, a monolayer MoS 2 transistor, and a capacitor.",
+    "host_name": "www.nso-journal.org",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.researchgate.net/publication/372008087_2T1C_DRAM_based_on_semiconducting_MoS2_and_semimetallic_graphene_for_in-memory_computing",
+    "name": "2T1C DRAM based on semiconducting MoS 2 and semimetallic",
+    "snippet": "In this work, we propose a 2T1C DRAM structure for in-memory computing. It integrates a monolayer graphene transistor, a monolayer MoS2 ...",
+    "host_name": "www.researchgate.net",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.nso-journal.org/articles/nso/pdf/2023/04/NSO20220088.pdf",
+    "name": "[PDF] 2T1C DRAM based on semiconducting MoS2 and semimetallic",
+    "snippet": "A logic-compatible eDRAM compute-in-memory with embedded ADCs for processing neural networks. IEEE Trans Circuits Syst I 2021; 68: 667–679.",
+    "host_name": "www.nso-journal.org",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.researchgate.net/publication/221117217_A_700MHz_2T1C_embedded_DRAM_macro_in_a_generic_logic_process_with_no_boosted_supplies",
+    "name": "A 700MHz 2T1C embedded DRAM macro in a generic logic process",
+    "snippet": "In this work, we designed 65 nm CMOS-based 2T0C DRAM unit cells with the NN, NP, PN, and PP device types using Sentaurus 3D TCAD simulation and ...",
+    "host_name": "www.researchgate.net",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.researchgate.net/publication/365902672_Comparative_of_performance_and_delays_between_topologies_cells_2T1C_3T1C_and_4T2C_for_DRAM",
+    "name": "Comparative of performance and delays between topologies cells",
+    "snippet": "In this article, we propose a 2T1C DRAM-based PIM architecture that supports dual-mode operation with minimal additional hardware. The proposed ...",
+    "host_name": "www.researchgate.net",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://ir.lib.ncu.edu.tw:444/thesis/view_etd.asp?URN=109521037",
+    "name": "中大機構典藏-NCU Institutional Repository-博碩士論文109521037",
+    "snippet": "本研究設計容量為4kb的embedded DRAM矩陣單位面積僅有0.07 μm2，晶片面積為0.214 μm2，且單元記憶胞(unit cell) 的良率超過99 %，具有小面積、高良率與低成本的優勢。",
+    "host_name": "ir.lib.ncu.edu.tw",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.researchgate.net/publication/346865700_A_Logic-Compatible_eDRAM_Compute-In-Memory_With_Embedded_ADCs_for_Processing_Neural_Networks",
+    "name": "A Logic-Compatible eDRAM Compute-In-Memory With Embedded",
+    "snippet": "A novel 4T2C ternary embedded DRAM (eDRAM) cell is proposed for computing a vector-matrix multiplication in the memory array. The proposed eDRAM-based ...",
+    "host_name": "www.researchgate.net",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.researchgate.net/publication/366814682_An_ADC-less_RRAM-based_Computing-in-Memory_Macro_with_Binary_CNN_for_Efficient_Edge_AI",
+    "name": "(PDF) An ADC-less RRAM-based Computing-in-Memory Macro with",
+    "snippet": "To address these issues, we propose a 3T2R digital nvCIM macro for a fully hardware-implemented binary convolutional neural network (HBCNN), focusing on ...",
+    "host_name": "www.researchgate.net",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

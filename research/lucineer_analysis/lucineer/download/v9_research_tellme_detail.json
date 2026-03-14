@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://arxiv.org/html/2510.15926v1",
+    "name": "TeLLMe v2: An Efficient End-to-End Ternary LLM Prefill",
+    "snippet": "We present TeLLMe —the Ternary Large Language Model edge accelerator —an edge FPGA accelerator , to our knowledge, the first to incorporate a table-lookup (TL) ... Read more\nThroughput (TK/S) is tokens per second; energy efficiency (TK/J) is tokens per joule. ... TeLLMe Hardware Accelerator Floorplan on KV260 Report issue for ...",
+    "host_name": "arxiv.org",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://chatpaper.com/paper/201840",
+    "name": "TeLLMe v2: An Efficient End-to-End Ternary LLM Prefill and",
+    "snippet": "Under a 5~W power budget, TeLLMe delivers up to 25~ tokens /s decoding throughput and 0.45–0.96~s time-to-first- token (TTFT) for 64–128 token prompts, marking a ...\nUnder a 5~W power budget, TeLLMe delivers up to 25~tokens/s decoding throughput and 0.45–0.96~s time-to-first-token (TTFT) for 64–128 token prompts, marking a ...\nTeLLMe (KV260) with BitNet 0.73B: Power: 4.8 W; WT-2 PPL: 12.79; Throughput (Prefill): 143 TK/S; Throughput (Decode): 25 TK/S; Intelligence/J (Prefill): 2.330 ...",
+    "host_name": "chatpaper.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://arxiv.org/pdf/2510.15926",
+    "name": "TeLLMe v2: An Efficient End-to-End Ternary LLM Prefill",
+    "snippet": "2025 · Cited by 1 — TeLLMe targets cost-effective low-power FPGAs (AMD Kria KV260 ), supports 1.58-bit ( ternary ) weights and 8-bit activations, and co-optimizes ... Read more\nTeLLMe targets cost-effective low-power FPGAs (AMD Kria KV260), supports 1.58-bit (ternary) weights and 8-bit activations, and co-optimizes ...\n2025 · Cited by 1 — TeLLMe targets cost-effective low-power FPGAs (AMD Kria KV260), supports 1.58-bit (ternary) weights and 8-bit activations, and co-optimizes ...",
+    "host_name": "arxiv.org",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://arxiv.org/html/2510.15926v2",
+    "name": "TeLLMe v2: An Efficient End-to-End Ternary LLM Prefill and Decode Accelerator with Table-Lookup Matmul on Edge FPGAs",
+    "snippet": "Oct 21, 2025 — The implemented model is BitNet 0.73B (bitnet158, ) , comprising 49M ... TeLLMe Hardware Accelerator Floorplan on KV260 Report issue for preceding ...\nWe present TeLLMe, the first table-lookup-based ternary LLM accelerator for low-power edge FPGAs that fully supports both prefill and autoregressive decoding using 1.58-bit weights and 8-bit activations.",
+    "host_name": "arxiv.org",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://arxiv.org/html/2512.11550v1",
+    "name": "PD-Swap: Prefill–Decode Logic Swapping for End-to-End LLM Inference on Edge FPGAs via Dynamic Partial Reconfiguration",
+    "snippet": "Dec 12, 2025 — Recent TLMM-based accelerators on AMD Kria KV260 demonstrate end-to-end 1.58-bit LLM inference within a 5–7 W power envelope and competitive ...",
+    "host_name": "arxiv.org",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/yifan-zhang97/tellme_fpga_2026",
+    "name": "TeLLMe: An Efficient End-to-End Ternary LLM Prefill and",
+    "snippet": "TeLLMe: An Efficient End-to-End Ternary LLM Prefill and Decode Accelerator with Table-Lookup Matmul on Edge FPGAs [FPGA2026] - yifan-zhang97/tellme_fpga_2026",
+    "host_name": "github.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://coinmarketcap.com",
+    "name": "CoinMarketCap - Cryptocurrency Prices, Charts And Market",
+    "snippet": "Top cryptocurrency prices and charts, listed by market capitalization. Free access to current and historic data for Bitcoin and thousands of altcoins.",
+    "host_name": "coinmarketcap.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://arxiv.org/abs/2504.16266",
+    "name": "TeLLMe: An Energy-Efficient Ternary LLM Accelerator for",
+    "snippet": "We present TeLLMe, the first ternary LLM accelerator for low-power FPGAs (e.g., AMD KV260) that fully supports both prefill and autoregressive decoding using 1.58-bit weights and 8-bit activations.",
+    "host_name": "arxiv.org",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://arxiv.org/pdf/2504.16266",
+    "name": "TeLLMe: An Energy-Efficient Ternary LLM Accelerator for",
+    "snippet": "on-chip resources, power budgets, and the often-neglected latency of the prefill phase. We present TeLLMe, the first ternary LLM accelerator for low-power FPGAs (e.g., AMD KV260) that fully suppor.",
+    "host_name": "arxiv.org",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/UCI-CORSA/TeLLMe_FPGA_2026/blob/main/README.md",
+    "name": "TeLLMe_FPGA_2026/README.md at main - GitHub",
+    "snippet": "TeLLMe: An Efficient End-to-End Ternary LLM Prefill and Decode Accelerator with Table-Lookup Matmul on Edge FPGAs [FPGA2026] - UCI-CORSA/TeLLMe_FPGA_2026",
+    "host_name": "github.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

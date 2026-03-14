@@ -1,0 +1,62 @@
+{
+  "model": {
+    "name": "BitNet b1.58-2B",
+    "params": 2000000000,
+    "weight_memory_mb": 376.70135498046875
+  },
+  "fpga": {
+    "name": "KV260",
+    "target_freq_mhz": 250,
+    "dsp_slices": 1248,
+    "bram_kb": 5017.6
+  },
+  "pe_array": {
+    "size": "32x32",
+    "total_pes": 1024
+  },
+  "operations": {
+    "attention_proj": 12582912,
+    "attention_score": 67108864,
+    "ffn_ops": 22544384,
+    "layer_norm": 98304,
+    "per_layer": 102334464,
+    "total_layers": 2521563136,
+    "logits": 65536000,
+    "total_ops_per_token": 2587099136
+  },
+  "throughput": {
+    "theoretical_tps": 98.95252811835039,
+    "derating_factor": 0.38154374999999996,
+    "realistic_tps": 3.64375597069902,
+    "bottleneck": "memory"
+  },
+  "memory": {
+    "weight_bytes_per_token": 395000000,
+    "kv_bytes_per_token": 196608,
+    "total_bytes_per_token": 395196608,
+    "required_bw_gbps": 312.8456277231736,
+    "available_bw_gbps": 12.8,
+    "bw_utilization": 24.441064665872936
+  },
+  "power": {
+    "dsp_power_mw": 1872.0,
+    "bram_power_mw": 503.99999999999994,
+    "lut_power_mw": 351.36,
+    "clock_power_mw": 200,
+    "io_power_mw": 500,
+    "static_power_mw": 800,
+    "total_power_mw": 4227.360000000001,
+    "total_power_w": 4.227360000000001
+  },
+  "validation": {
+    "target_tps": 20,
+    "actual_tps": 3.64375597069902,
+    "tps_margin": -81.78122014650491,
+    "tps_pass": false,
+    "target_power_w": 5.0,
+    "actual_power_w": 4.227360000000001,
+    "power_margin": 15.452799999999984,
+    "power_pass": true,
+    "overall_pass": false
+  }
+}

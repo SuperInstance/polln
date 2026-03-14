@@ -1,0 +1,83 @@
+[
+  {
+    "url": "https://www.ite.or.jp/contents/tech_guide/tech_guide202202_202301.pdf",
+    "name": "量子コンピューティング〔全6回〕 開講にあたって",
+    "snippet": "本稿では，量子コンピュータの基本事項を紹介した．実. 用化のためには，量子ビット数の大規模化，低ノイズ化，. 集積化など，多くのブレークスルーがどの方式にも必要と.",
+    "host_name": "www.ite.or.jp",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://weel.co.jp/media/tech/qwen2-72b-instruct",
+    "name": "【Qwen2-72B-Instruct】北京大学の難問数学テストも完璧に解ける！？ | WEEL",
+    "snippet": "1 Aug 2024 — Qwen2-72B-Instructが最新版で大規模な言語およびマルチモーダルデータで事前にトレーニングされています。 そのためQwenは自然言語理解をはじめ、 ...",
+    "host_name": "weel.co.jp",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://ipsj.ixsq.nii.ac.jp/record/2001726/files/IPSJ-DP660501.pdf",
+    "name": "量子コンピュータとイジングマシンの最新動向：社 会実装に向けて",
+    "snippet": "量子コンピュータとイジングマシンの研究開発が世界的に活発化しており，実用化を目指した. ハードウェア・ソフトウェア両面での取り組みが進められている．",
+    "host_name": "ipsj.ixsq.nii.ac.jp",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.ipsj.or.jp/dp/contents/publication/62/DP62-S01.html",
+    "name": "量子コンピュータとイジングマシンの最新動向：社会実装に向けて",
+    "snippet": "量子コンピュータとイジングマシンの研究開発が世界的に活発化しており，実用化を目指したハードウェア・ソフトウェア両面での取り組みが進められている．",
+    "host_name": "www.ipsj.or.jp",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://dl.ndl.go.jp/view/download/digidepo_12213087_po_20210603.pdf?contentNo=1",
+    "name": "国立国会図書館調査及び立法考査局",
+    "snippet": "30 Mar 2022 — ... 量子ドットを集積することで大規模化も可能になると. 期待できる。 図 5 はオランダのデルフト工科大学のグループが作製した半導体量子ドットデバイスの ...",
+    "host_name": "dl.ndl.go.jp",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://journal.ntt.co.jp/wp-content/uploads/2023/03/JN202304.pdf",
+    "name": "冊子PDFダウンロード - NTT技術ジャーナル",
+    "snippet": "本特集では，NTTの量子技術の代. 表例として，光量子コンピュータ，超. 伝導量子ビットによる量子情報技術，. 光格子時計ネットワーク，量子コン. ピュータの高速なアルゴリズム ...",
+    "host_name": "journal.ntt.co.jp",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://researchmap.jp/blogs/blog_entries/index/limit:100/page:5?frame_id=329253",
+    "name": "武部 尚志 (Takashi Takebe) - 研究ブログ",
+    "snippet": "18 Apr 2025 — AdS/CFT 対応を使って三次元球面上の ABJM 模型の分配関数を M 理論の計算から求めよう、という話。これも一通り弦理論の計算を知っている人向け。途中の ...",
+    "host_name": "researchmap.jp",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://kurporateadvisory.jp/articles/tech/QEM_QEC.html",
+    "name": "量子誤り緩和QEM及び量子誤り訂正QECを敷衍してみた",
+    "snippet": "しかし量子コンピューターを大規模化する(量子ビット数を増やして、大規模計算を実行可能にする)ことを考えた場合、この”冗長的符号化”は、大規模化の大きな壁となる。",
+    "host_name": "kurporateadvisory.jp",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.nedo.go.jp/content/100897617.pdf",
+    "name": "「超先端材料超高速開発基盤技術プロジェクト」 中間評価報告書",
+    "snippet": "11 Sept 2018 — 機能拡張や大規模化・高速化. 多階層接続に必要な粗視化シミュレータの開発. 第一原理計算・分子動力学計算・連続体シミュレーション. 多階層接続及び多 ...",
+    "host_name": "www.nedo.go.jp",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  }
+]

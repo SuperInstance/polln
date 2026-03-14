@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.forbes.com/sites/karlfreund/2026/02/19/taalas-launches-hardcore-chip-with-insane-ai-inference-performance",
+    "name": "Taalas Launches Hardcore Chip With 'Insane' AI Inference Performance",
+    "snippet": "19 Feb 2026 — Inference queries for a single model cost 0.75 cents per million tokens for Llama 3.1 8B and 7.6 cents for the DeepSeek R1 reasoning model.",
+    "host_name": "www.forbes.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reuters.com/world/asia-pacific/chip-startup-taalas-raises-169-million-help-build-ai-chips-take-nvidia-2026-02-19",
+    "name": "Chip startup Taalas raises $169 million to help build AI chips to take on Nvidia",
+    "snippet": "19 Feb 2026 — Toronto-based chip startup Taalas said on Thursday it had raised $169 million and has developed a chip capable of running artificial ...",
+    "host_name": "www.reuters.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.electronicsweekly.com/news/business/taalas-raises-169m-to-tailor-chips-for-ai-models-2026-02",
+    "name": "Taalas raises $219m to tailor chips for AI models",
+    "snippet": "20 Feb 2026 — Taalas of Toronto, a two year-old startup, has raised $219 million to make customised chips to run any AI model.",
+    "host_name": "www.electronicsweekly.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.heise.de/en/news/AI-inference-cast-in-silicon-Taalas-announces-HC1-chip-11185112.html",
+    "name": "AI inference cast in silicon: Taalas announces HC1 chip",
+    "snippet": "21 Feb 2026 — For an N6 chip with 53 billion transistors, 30 million US dollars in development costs is very little. Given the extremely high prices for ...",
+    "host_name": "www.heise.de",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/posts/edwardxiyang_ai-hardware-inference-activity-7431238682398949376-OCwi",
+    "name": "Canadian Startup Taalas Prints AI Model into Chip, 74x Faster than Nvidia H200 | Edward Yang posted on the topic",
+    "snippet": "It reportedly cuts inference costs for large models by 90%. ... Cost and accessibility: cutting-edge AI silicon often comes with steep price ...",
+    "host_name": "www.linkedin.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://mlq.ai/news/taalas-secures-169m-funding-to-develop-ai-chips-challenging-nvidia",
+    "name": "Taalas Raises $169M to Develop AI Chips Challenging Nvidia",
+    "snippet": "19 Feb 2026 — Toronto-based AI chip startup Taalas announced Thursday it has raised $169 million to develop specialized processors designed to run artificial ...",
+    "host_name": "mlq.ai",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/singularity/comments/1r9frzk/taalas_llms_baked_into_hardware_no_hbm_weights",
+    "name": "Taalas: LLMs baked into hardware. No HBM, weights and model architecture in silicon -> 16.000 tokens/second : r/singularity",
+    "snippet": "... cost that much up front. Now if you tape out 100k chips of these dev cost goes to around 200 per chip plus production cost and margins etc.",
+    "host_name": "www.reddit.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.marktechpost.com/2026/02/22/taalas-is-replacing-programmable-gpus-with-hardwired-ai-chips-to-achieve-17000-tokens-per-second-for-ubiquitous-inference",
+    "name": "Taalas is replacing programmable GPUs with hardwired AI chips to achieve 17000 tokens per second for ubiquitous inference",
+    "snippet": "22 Feb 2026 — Taalas is replacing programmable GPUs with hardwired AI chips to achieve 17000 tokens per second for ubiquitous inference.",
+    "host_name": "www.marktechpost.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.ertas.ai/blog/ai-inference-cost-comparison-2026",
+    "name": "AI Inference Costs Compared: Cloud APIs vs Self-Hosted vs Dedicated Silicon (2026)",
+    "snippet": "21 Feb 2026 — Currently available as a beta inference API service. Known pricing: Provider, Model, Cost per 1M tokens, Tokens/sec per user. Taalas HC1, Llama ...",
+    "host_name": "www.ertas.ai",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.vktr.com/ai-news/taalas-debuts-hard-wired-llama-chip-promising-10x-faster-ai-at-a-fraction-of-the-cost",
+    "name": "Taalas Debuts Hard-Wired Llama Chip, Promising 10X Faster AI at a Fraction of the Cost",
+    "snippet": "23 Feb 2026 — The startup says its silicon version dramatically reduces latency, cost and power consumption compared to conventional AI hardware. Table of ...",
+    "host_name": "www.vktr.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

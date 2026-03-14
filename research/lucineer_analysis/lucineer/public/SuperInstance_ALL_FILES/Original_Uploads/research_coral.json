@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.coral.ai/docs/edgetpu/benchmarks",
+    "name": "Edge TPU performance benchmarks - Coral",
+    "snippet": "An individual Edge TPU is capable of performing 4 trillion operations (tera-operations) per second (TOPS), using 0.5 watts for each TOPS (2 TOPS per watt).",
+    "host_name": "www.coral.ai",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://developers.google.com/coral/guides/power",
+    "name": "Performance and power consumption | Coral - Google for Developers",
+    "snippet": "AI/ML accelerator performance ... Missing: specifications 2024",
+    "host_name": "developers.google.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://developers.googleblog.com/introducing-coral-npu-a-full-stack-platform-for-edge-ai",
+    "name": "Introducing Coral NPU: A full-stack platform for Edge AI - Google for Developers Blog",
+    "snippet": "Coral NPU: A full-stack platform for Edge AI, enabling private, efficient, and always-on intelligence for wearables and IoT devices. Missing: 2024 | Show results with: 2024",
+    "host_name": "developers.googleblog.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.proxpc.com/blogs/google-coral-for-computer-vision-applications-in-2024",
+    "name": "Google Coral for Computer Vision Applications in 2024 - ProX PC",
+    "snippet": "In this article, we present Google Coral and its on-device Edge AI with its TPU (Tensor Processing Unit) computing capabilities. Edge AI allows ...",
+    "host_name": "www.proxpc.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.coral.ai/products",
+    "name": "Products | Coral",
+    "snippet": "Coral provides a complete platform for accelerating neural networks on embedded devices. At the heart of our accelerators is the Edge TPU coprocessor. It's a ... Missing: 2024 | Show results with: 2024",
+    "host_name": "www.coral.ai",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://blog.american-technology.net/ai-edge-computing-running-ai-on-low-power-devices",
+    "name": "AI Edge Computing: Running AI on Low-Power Devices — The future of AI beyond the cloud",
+    "snippet": "A Coral USB Accelerator enabled smart camera performs INT8 object detection in-device (up to several TOPS at low power by Edge TPU) and only streams event ...",
+    "host_name": "blog.american-technology.net",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://en.wikipedia.org/wiki/Tensor_Processing_Unit",
+    "name": "Tensor Processing Unit - Wikipedia",
+    "snippet": "Tensor Processing Unit (TPU) is a neural processing unit (NPU) application-specific integrated circuit (ASIC) developed by Google for neural network machine ...",
+    "host_name": "en.wikipedia.org",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://my.cytron.io/amp-p-google-coral-dual-edge-tpu-m.2-module",
+    "name": "Google Coral Dual Edge TPU M.2 E.Key Module - Cytron.io",
+    "snippet": "In stock Rating 5.0 (1) Performs high-speed ML inferencing. Each Edge TPU coprocessor is capable of performing 4 trillion operations per second (4 TOPS), using 2 watts of power. For ... Missing: 2024 | Show results with: 2024",
+    "host_name": "my.cytron.io",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.researchgate.net/publication/369177924_Exploring_Edge_TPU_for_deep_feed-forward_neural_networks",
+    "name": "(PDF) Exploring Edge TPU for deep feed-forward neural networks - ResearchGate",
+    "snippet": "This paper explores the performance of Google's Edge TPU on feed forward neural networks. We consider Edge TPU as a hardware platform and ...",
+    "host_name": "www.researchgate.net",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/@fernandosrinesh/harnessing-the-power-of-ai-with-the-coral-usb-tpu-a-compact-accelerator-for-edge-computing-57610fcb0a86",
+    "name": "Harnessing the Power of AI with the Coral USB TPU: A Compact Accelerator for Edge Computing | by Heshan Fernando | Medium",
+    "snippet": "The Coral USB Accelerator, developed by Google AI, is a plug-and-play device that embeds the Edge TPU, a custom-designed machine learning ...",
+    "host_name": "medium.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

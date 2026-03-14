@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://forums.raspberrypi.com/viewtopic.php?t=254516",
+    "name": "Max current available from +5V GPIO Pin",
+    "snippet": "Nov 18, 2021 — The current limit on the 5V pin is limited by the copper tracks linking the the pin to the 5V usb-c port, so if you limit it to around 1-1.5A you should be ok.",
+    "host_name": "forums.raspberrypi.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/raspberry_pi/comments/270tgy/maximum_currentvoltage_input_gpio_can_handle",
+    "name": "Maximum current/voltage input GPIO can handle? : r/raspberry_pi",
+    "snippet": "max of 5v pin: 5v, 750mA. max of other GPIO pins: 3.3v, 50mA. GPIO in: 3.3v, 16mA.\nmax of 5v pin: 5v, 750mA. max of other GPIO pins: 3.3v, 50mA. GPIO in: 3.3v, 16mA. how many amps can i draw from the 5 V gpio pin? : r/raspberry_pi Powering a Pi5 from GPIO : r/cyberDeck More results from www.reddit.com",
+    "host_name": "www.reddit.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://raspberrypi.stackexchange.com/questions/101494/using-both-5v-gpio-pins-for-more-current",
+    "name": "Using Both +5V GPIO Pins for More Current?",
+    "snippet": "Aug 10, 2019 — According to this website: https://pinout.xyz/pinout/pin2_5v_power# The +5V GPIO pins can push up to 1.5A of current, and are attached directly to ...\nThe +5V GPIO pins can push up to 1.5A of current, and are attached directly to the Pi's power supply. My question is, if I use both +5V pins ... What are the max current rating for 3.3v and 5v rail of the Rpi 4B What is the maximum current the GPIO pins can output? - Raspberry Pi Stack Exchange More results from raspberrypi.stackexchange.com",
+    "host_name": "raspberrypi.stackexchange.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://bret.dk/how-to-power-the-raspberry-pi-5-a-complete-guide",
+    "name": "How to Power the Raspberry Pi 5: A Complete Guide",
+    "snippet": "Jan 6, 2025 — Want a TL;DR? Input Voltage: 5.1V DC Max Current: 5.0A (27W) Minimum for Boot: 5V / 3A (USB ports limited to 600mA) Connector: USB-C\nInput Voltage: 5.1V DC ; Max Current: 5.0A (27W) ; Minimum for Boot: 5V / 3A (USB ports limited to 600mA) ; Connector: USB-C ; Alternative Power: ...",
+    "host_name": "bret.dk",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://pinout.xyz/pinout/5v_power",
+    "name": "5v Power at Raspberry Pi GPIO Pinout",
+    "snippet": "The 5v power pins are connected directly to the Pi's power input and will capably provide the full supply current of your mains adaptor.\nWith a decent power supply, such as the official Pi adaptor, you can expect to pull about 1.5A. This varies by Pi model and adapter used. Missing: limit | Show results with: limit",
+    "host_name": "pinout.xyz",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://forum.core-electronics.com.au/t/gpio-current-limits/6300",
+    "name": "GPIO current limits - Raspberry Pi",
+    "snippet": "Sep 4, 2019 — The 50mA is referring to all the GPIO's added up in total shouldn't draw more than 50mA and the 3mA is per pin.",
+    "host_name": "forum.core-electronics.com.au",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://community.element14.com/products/raspberry-pi/f/forum/19139/how-much-current-can-i-put-into-my-rpi",
+    "name": "How much current can I put into my RPi?",
+    "snippet": "Maximum permitted current draw from the 5 V pin is the USB input current (usually 1 A) minus any current draw from the rest of the board. Model A: 1000 mA - 500 ...",
+    "host_name": "community.element14.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://forums.raspberrypi.com/viewtopic.php?t=286044",
+    "name": "5v pin max current draw - Raspberry Pi Forums",
+    "snippet": "The 4B uses a maximum of 1A25 under stress, and the USB peripherals are limited to 1A2. If you have the official 5V1 3A PSU, that leaves 3-1.25-1.2=0.55 (550mA",
+    "host_name": "forums.raspberrypi.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://forums.raspberrypi.com/viewtopic.php?t=196531",
+    "name": "Voltage and Amperage Specs for GPIO Pins - Raspberry Pi Forums",
+    "snippet": "The GPIO total output current limit is 100mA for the newer models (40 pin) and 50mA for the older models (26 pin), with a limit of 16mA per GPIO pin.",
+    "host_name": "forums.raspberrypi.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.sunfounder.com/blogs/news/comprehensive-guide-to-the-pin-diagram-of-raspberry-pi-5-understanding-gpio-pins-and-their-functions?srsltid=AfmBOoq3H_7Tp4kBHV3id2uIcVLRSXLIXyYyzTlmkrD3jkk7DOT1VZg6",
+    "name": "Comprehensive Guide to the Pin Diagram of Raspberry Pi 5: Understanding GPIO Pins and Their Functions - SunFounder",
+    "snippet": "5V Pins (Pin 2 and Pin 4): Provide 5V directly from the Raspberry Pi's power supply, useful for powering components like relays or higher-power ...",
+    "host_name": "www.sunfounder.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

@@ -1,0 +1,524 @@
+{
+  "ATTENTION_MATH_SHORTCUTS": {
+    "metadata": {
+      "version": "1.0",
+      "date": "2025-01-20",
+      "purpose": "Mathematical shortcuts for attention mechanism optimization in edge LLM inference"
+    },
+
+    "linear_attention": {
+      "applicable": "yes_with_tradeoffs",
+      "core_mathematics": {
+        "standard_attention": "softmax(QK^T / sqrt(d)) * V",
+        "linear_attention": "phi(Q) * (phi(K)^T * V) where phi is a kernel function",
+        "complexity_reduction": "O(n^2 * d) -> O(n * d^2)"
+      },
+      "method": {
+        "primary": "Performer (FAVOR+)",
+        "kernel_functions": [
+          {
+            "name": "Random Fourier Features (RFF)",
+            "formula": "phi(x) = exp(-||x||^2/2) * [sin(w_1^T x), cos(w_1^T x), ...]",
+            "approximation_quality": "Good for long sequences, degrades on short sequences"
+          },
+          {
+            "name": "Positive Random Features",
+            "formula": "phi(x) = exp(x) * random_projection(x)",
+            "approximation_quality": "Better numerical stability, used in Performer"
+          },
+          {
+            "name": "Performer Kernel",
+            "formula": "ELU(x) + 1 based kernel",
+            "approximation_quality": "Trains well, maintains softmax-like behavior"
+          }
+        ],
+        "alternative_approaches": [
+          {
+            "name": "Linear Transformer",
+            "paper": "Katharopoulos et al., 2020",
+            "mechanism": "Feature map phi(x) = elu(x) + 1, decomposes softmax"
+          },
+          {
+            "name": "Fast Attention Via Orthogonal Random Features (FAVOR+)",
+            "paper": "Choromanski et al., 2020 (Performer)",
+            "mechanism": "Random feature approximation of softmax kernel"
+          },
+          {
+            "name": "RWKV",
+            "paper": "Peng et al., 2023",
+            "mechanism": "RNN-like linear attention, no KV cache needed"
+          }
+        ]
+      },
+      "quality_tradeoff": {
+        "perplexity_increase": "5-15% on language modeling benchmarks",
+        "long_range_dependency": "Degraded - linear attention loses precision on long-range tokens",
+        "training_instability": "Requires careful initialization, learning rate scheduling",
+        "in_context_learning": "Reduced capability compared to softmax attention",
+        "best_use_cases": [
+          "Very long sequences (>16K tokens)",
+          "Streaming applications",
+          "Memory-constrained edge devices"
+        ],
+        "worst_use_cases": [
+          "Tasks requiring precise long-range dependencies",
+          "In-context learning tasks",
+          "Tasks requiring exact attention patterns"
+        ]
+      },
+      "hardware_implication": {
+        "memory_reduction": "O(n) KV cache vs O(n^2) attention matrix",
+        "compute_reduction": "From O(n^2*d) to O(n*d^2)",
+        "implementation_complexity": "Medium - requires custom kernel functions",
+        "systolic_array_compatibility": "High - matrix operations map well",
+        "edge_benefit": "Enables 10K+ context length with fixed memory",
+        "for_bitnet": {
+          "applicable": "Yes - can combine with ternary weights",
+          "challenge": "Kernel functions need higher precision than ternary"
+        }
+      }
+    },
+
+    "flash_attention": {
+      "core_concept": {
+        "problem": "Standard attention materializes O(n^2) attention matrix in HBM",
+        "solution": "Tiled computation keeping attention matrix in SRAM",
+        "key_innovation": "Online softmax computation with tiling"
+      },
+      "edge_applicability": {
+        "memory_bandwidth_reduction": {
+          "standard": "O(n^2) HBM reads/writes",
+          "flash": "O(n) HBM reads/writes",
+          "reduction_factor": "8-10x fewer memory accesses"
+        },
+        "inference_specific": {
+          "benefit": "Reduced memory bandwidth for prompt processing",
+          "autoregressive_phase": "Less benefit during token generation (sequential)",
+          "prefill_phase": "Significant benefit - 2-4x speedup"
+        },
+        "hardware_requirements": {
+          "on_chip_sram": "Need ~1-2 MB per attention head for tiling",
+          "compute_units": "Requires efficient softmax in hardware",
+          "memory_hierarchy": "Benefits from SRAM/BRAM rich architecture"
+        },
+        "flash_attention_2": {
+          "improvements": "Better parallelism, less non-matmul FLOPs",
+          "inference_speedup": "2-3x on prompt processing, 1.2x on generation"
+        },
+        "flash_attention_3": {
+          "improvements": "H100 optimized, async operations",
+          "edge_relevance": "Limited - targets Hopper architecture"
+        },
+        "for_edge_fpga": {
+          "applicability": "High",
+          "implementation": "Use BRAM tiles for attention computation",
+          "challenge": "Softmax in fixed-point arithmetic"
+        },
+        "for_mask_locked_chip": {
+          "applicability": "Medium",
+          "rationale": "Weight access already eliminated, but activation bandwidth still matters"
+        }
+      },
+      "implementation_notes": {
+        "tile_size": "Typically 128x128 or 256x256 blocks",
+        "rescaling": "Online softmax requires careful numerical handling",
+        "backward_pass": "Flash Attention includes memory-efficient backward (for training)"
+      }
+    },
+
+    "sparse_patterns": [
+      {
+        "pattern": "Sliding Window Attention",
+        "description": "Each token attends only to W previous tokens",
+        "memory_reduction": "W/n where W is window size, n is sequence length",
+        "example": "W=512, n=4096 -> 8x memory reduction",
+        "quality_impact": {
+          "assessment": "Low for most tasks",
+          "reason": "Most attention is local in practice",
+          "affected_tasks": "Tasks requiring document-wide context"
+        },
+        "hardware_complexity": "Low - fixed access pattern",
+        "implementations": [
+          "Mistral AI uses W=4096",
+          "Longformer uses sliding window + global tokens"
+        ]
+      },
+      {
+        "pattern": "Dilated Attention",
+        "description": "Attend to every k-th token, different dilation per head",
+        "memory_reduction": "1/k where k is dilation factor",
+        "example": "k=4 -> 4x memory reduction",
+        "quality_impact": {
+          "assessment": "Medium",
+          "reason": "Can miss important tokens if dilation poorly chosen",
+          "mitigation": "Multiple dilation rates across heads"
+        },
+        "hardware_complexity": "Medium - strided memory access"
+      },
+      {
+        "pattern": "Global-Local Attention",
+        "description": "Mix of local attention (window) and global tokens (CLS, special)",
+        "memory_reduction": "Depends on ratio of global to local",
+        "example": "5% global + 95% local -> ~10x reduction",
+        "quality_impact": {
+          "assessment": "Low-Medium",
+          "reason": "Global tokens handle cross-document info",
+          "used_in": "Longformer, BigBird"
+        },
+        "hardware_complexity": "Medium - two attention patterns"
+      },
+      {
+        "pattern": "Block Sparse Attention",
+        "description": "Attention in blocks, with sparse block selection",
+        "memory_reduction": "Variable, depends on sparsity pattern",
+        "quality_impact": {
+          "assessment": "Medium-High",
+          "reason": "Learned patterns work well but fixed patterns may miss"
+        },
+        "hardware_complexity": "High - requires sparse matrix operations"
+      },
+      {
+        "pattern": "Streaming LLM / Attention Sink",
+        "description": "Keep initial tokens (attention sinks) + sliding window",
+        "memory_reduction": "(W + S)/n where S is sink tokens, W is window",
+        "example": "4 sink tokens + 4096 window -> near-constant memory",
+        "quality_impact": {
+          "assessment": "Low",
+          "reason": "Attention naturally focuses on initial tokens (sink phenomenon)",
+          "key_insight": "First few tokens 'absorb' attention scores, preventing collapse"
+        },
+        "hardware_complexity": "Low",
+        "enables": "Infinite context length with fixed memory"
+      },
+      {
+        "pattern": "Hash-based Attention (Reformer)",
+        "description": "Use locality-sensitive hashing to group similar queries",
+        "memory_reduction": "O(n log n) instead of O(n^2)",
+        "quality_impact": {
+          "assessment": "High",
+          "reason": "Hash collisions cause missed attention",
+          "mitigation": "Multiple hash rounds"
+        },
+        "hardware_complexity": "High - LSH computation, bucket management"
+      }
+    ],
+
+    "mqa_gqa": {
+      "description": {
+        "mqa": "Multi-Query Attention - all heads share single K, V",
+        "gqa": "Grouped-Query Attention - groups of heads share K, V"
+      },
+      "bitnet_status": {
+        "uses_mqa": false,
+        "uses_gqa": true,
+        "details": "BitNet b1.58 2B4T uses 32 query heads with 4 KV heads (GQA-8)",
+        "gqa_ratio": "8:1 (8 query heads per KV head)"
+      },
+      "kv_cache_reduction": {
+        "mqa": "Reduce KV cache by h where h = number of attention heads",
+        "gqa": "Reduce KV cache by h/g where g = number of KV head groups",
+        "example_32_heads": {
+          "mqa": "32x reduction (1 KV head)",
+          "gqa_4": "8x reduction (4 KV heads)",
+          "gqa_8": "4x reduction (8 KV heads)"
+        }
+      },
+      "quality_impact": {
+        "mqa": "Moderate degradation on complex tasks",
+        "gqa": "Minimal degradation, close to full attention quality",
+        "studies": "GQA with 8 groups matches MHA quality in most benchmarks"
+      },
+      "modification_potential": {
+        "for_existing_models": {
+          "uptraining": "Can convert MHA to GQA with small fine-tuning",
+          "procedure": "1. Cluster similar attention heads, 2. Average their weights, 3. Fine-tune",
+          "training_cost": "~10% of original training compute"
+        },
+        "for_new_training": "Native GQA training is straightforward"
+      },
+      "hardware_implication": {
+        "memory_bandwidth": "Reduced proportionally to KV head reduction",
+        "compute": "Unchanged - still compute all Q heads",
+        "edge_benefit": "Critical for long context - enables 4-8x longer sequences"
+      }
+    },
+
+    "attention_sink": {
+      "core_mechanism": {
+        "discovery": "Attention scores concentrate on initial tokens (softmax normalization)",
+        "problem": "Evicting initial tokens causes attention collapse",
+        "solution": "Keep initial 'sink' tokens in KV cache permanently"
+      },
+      "mathematical_explanation": {
+        "softmax_property": "Softmax outputs sum to 1, needs 'anchor' tokens",
+        "sink_tokens": "Initial tokens become attention sinks, absorbing scores",
+        "without_sinks": "Evicting sinks causes attention weights to become uniform (collapse)"
+      },
+      "streaming_llm": {
+        "method": "Rolling KV cache: keep sink tokens + recent window",
+        "formula": "KV_cache = [sink_tokens] + [recent_window]",
+        "sink_count": "Typically 1-4 initial tokens sufficient",
+        "window_size": "Variable, typically 2048-4096"
+      },
+      "applicability": {
+        "use_cases": [
+          "Infinite-length streaming inference",
+          "Memory-constrained edge deployment",
+          "Real-time transcription/translation"
+        ],
+        "limitations": [
+          "Cannot recall information outside window",
+          "Quality depends on sink token count"
+        ]
+      },
+      "memory_savings": {
+        "calculation": "Fixed memory = sink_tokens + window_size",
+        "example": "4 sinks + 4096 window = constant 4100 tokens in KV cache",
+        "vs_full": "For 100K sequence: 24x reduction"
+      },
+      "hardware_implementation": {
+        "fifo_buffer": "Simple circular buffer for recent window",
+        "fixed_slots": "Reserved slots for sink tokens",
+        "complexity": "Low - standard memory management"
+      },
+      "for_bitnet": {
+        "compatible": true,
+        "benefit": "Combined with ternary weights, enables very efficient inference"
+      }
+    },
+
+    "quantized_attention": {
+      "approaches": [
+        {
+          "name": "INT8 QKV Quantization",
+          "description": "Quantize Query, Key, Value matrices to INT8",
+          "implementation": "Per-token absmax quantization for activations",
+          "quality_impact": {
+            "assessment": "Low",
+            "details": "<1% perplexity increase with proper calibration"
+          },
+          "hardware_benefit": "2x memory reduction, 2-4x compute speedup with INT8 units",
+          "challenge": "Softmax still needs higher precision"
+        },
+        {
+          "name": "KV Cache Quantization",
+          "description": "Quantize stored K, V cache to lower precision",
+          "methods": [
+            "INT8 KV cache",
+            "INT4 KV cache (more aggressive)",
+            "FP8 KV cache (H100 native)"
+          ],
+          "quality_impact": {
+            "int8": "Negligible",
+            "int4": "1-3% perplexity increase, task-dependent"
+          },
+          "memory_reduction": {
+            "int8": "2x (from FP16)",
+            "int4": "4x (from FP16)"
+          },
+          "for_edge": "Critical - KV cache dominates memory for long sequences"
+        },
+        {
+          "name": "Logarithmic Attention",
+          "description": "Compute attention in log domain",
+          "mechanism": "log(softmax(x)) = x - log(sum(exp(x)))",
+          "benefit": "Avoids numerical overflow, enables lower precision",
+          "challenge": "log and exp operations expensive in hardware",
+          "hardware_complexity": "High"
+        },
+        {
+          "name": "Ternary Attention Weights",
+          "description": "Attention scores in {-1, 0, +1}",
+          "feasibility": {
+            "assessment": "Low",
+            "reason": "Softmax produces continuous distribution, hard to ternarize"
+          },
+          "alternatives": [
+            "Top-k sparsification (keep top k attention scores)",
+            "Threshold-based sparsification"
+          ]
+        },
+        {
+          "name": "Sparsemax Attention",
+          "description": "Replace softmax with sparsemax",
+          "mechanism": "sparsemax(z) = argmin_p ||p - z||^2 s.t. p in probability simplex",
+          "benefit": "Naturally produces sparse attention (exact zeros)",
+          "quality_impact": "Similar to softmax for most tasks",
+          "hardware_benefit": "Sparse output enables skipping computation"
+        }
+      ],
+      "bitnet_specific": {
+        "weight_precision": "Ternary weights (-1, 0, +1)",
+        "activation_precision": "INT8 per-token quantization",
+        "attention_computation": {
+          "qk_multiplication": "Ternary @ INT8 -> can use popcount-based computation",
+          "attention_weights": "Still computed in higher precision (FP16/FP32)",
+          "kv_cache": "INT8 quantized"
+        },
+        "unique_benefit": "Ternary weights eliminate weight memory access entirely"
+      }
+    },
+
+    "additional_techniques": {
+      "multi_query_attention_variants": [
+        {
+          "name": "Multi-Query Attention (MQA)",
+          "paper": "Shazeer, 2019",
+          "description": "Single KV head shared across all query heads",
+          "memory_reduction": "h / 1 = h times",
+          "quality_tradeoff": "Moderate degradation on some tasks"
+        },
+        {
+          "name": "Grouped-Query Attention (GQA)",
+          "paper": "Ainslie et al., 2023",
+          "description": "Groups of query heads share one KV head",
+          "memory_reduction": "h / g times",
+          "quality_tradeoff": "Minimal, bridges MQA and MHA quality"
+        },
+        {
+          "name": "Claude's Multi-Query",
+          "notes": "Claude models use MQA for efficiency"
+        }
+      ],
+      "paged_attention": {
+        "description": "KV cache stored in non-contiguous memory pages",
+        "benefit": {
+          "memory_efficiency": "No fragmentation, exact allocation",
+          "sharing": "Share KV cache across sequences (beam search)",
+          "paging": "Can offload to CPU memory when not needed"
+        },
+        "origin": "vLLM paper, PagedAttention",
+        "hardware_implication": "Requires memory management unit, not trivial in ASIC"
+      },
+      "speculative_decoding_attention": {
+        "description": "Verify multiple draft tokens in single attention pass",
+        "benefit": "Amortize attention overhead across multiple tokens",
+        "relevant_for": "Edge devices with compute-bound attention"
+      }
+    },
+
+    "recommended_approach": [
+      {
+        "priority": 1,
+        "approach": "Grouped-Query Attention (GQA-8)",
+        "justification": "4x KV cache reduction with minimal quality loss. BitNet already uses this. Standard in modern LLMs (Llama 3, etc.). Hardware complexity is low.",
+        "implementation": "Native training with GQA, or uptrain existing MHA models"
+      },
+      {
+        "priority": 2,
+        "approach": "KV Cache Quantization (INT8)",
+        "justification": "2x additional memory reduction. Minimal quality impact. Simple implementation. Works with GQA for compound savings.",
+        "implementation": "Per-token absmax quantization, calibrate on validation set"
+      },
+      {
+        "priority": 3,
+        "approach": "Flash Attention for Prefill",
+        "justification": "8-10x memory bandwidth reduction during prompt processing. Critical for long prompts. Well-understood implementation.",
+        "implementation": "Tile attention computation in on-chip SRAM/BRAM"
+      },
+      {
+        "priority": 4,
+        "approach": "Attention Sink / Streaming LLM",
+        "justification": "Enables fixed memory for long conversations. Simple to implement. Compatible with all other techniques.",
+        "implementation": "Reserve 4 initial token slots, use circular buffer for window"
+      },
+      {
+        "priority": 5,
+        "approach": "Sliding Window Attention (Optional)",
+        "justification": "Additional memory reduction when full context not needed. Combine with attention sink for best results.",
+        "implementation": "Window size 2048-4096 based on task requirements"
+      }
+    ],
+
+    "combination_analysis": {
+      "description": "Optimal combination for edge deployment",
+      "recommended_stack": [
+        "GQA-8 (4x KV reduction)",
+        "INT8 KV Cache (2x reduction)",
+        "Flash Attention (memory bandwidth)",
+        "Attention Sink (constant memory)"
+      ],
+      "compound_benefit": {
+        "kv_cache_reduction": "8x (4x from GQA * 2x from INT8)",
+        "memory_bandwidth": "8-10x (Flash Attention)",
+        "max_context": "Unbounded with Attention Sink + window",
+        "quality_impact": "<2% perplexity increase (dominated by INT8 KV)"
+      },
+      "hardware_complexity": "Medium - all techniques have proven implementations"
+    },
+
+    "bitnet_specific_recommendations": {
+      "current_state": {
+        "weight_precision": "Ternary (1.58 bits)",
+        "uses_gqa": true,
+        "activation_precision": "INT8 per-token"
+      },
+      "additional_optimizations": [
+        "Add INT8 KV cache quantization (BitNet.cpp implements this)",
+        "Implement Flash Attention for prefill phase",
+        "Add attention sink for streaming applications"
+      ],
+      "mask_locked_specific": {
+        "weight_access": "Already eliminated by hardwiring",
+        "remaining_bottleneck": "KV cache and activation memory bandwidth",
+        "priority": "KV cache optimization + Flash Attention for activations"
+      }
+    },
+
+    "implementation_roadmap": {
+      "phase_1": {
+        "duration": "2-4 weeks",
+        "tasks": [
+          "Implement GQA in model architecture",
+          "Add INT8 KV cache quantization",
+          "Validate quality on benchmarks"
+        ]
+      },
+      "phase_2": {
+        "duration": "4-6 weeks",
+        "tasks": [
+          "Implement Flash Attention tiling in hardware",
+          "Optimize softmax for fixed-point",
+          "Profile memory bandwidth reduction"
+        ]
+      },
+      "phase_3": {
+        "duration": "2-3 weeks",
+        "tasks": [
+          "Add attention sink mechanism",
+          "Implement circular KV cache buffer",
+          "Test streaming inference"
+        ]
+      }
+    },
+
+    "references": {
+      "linear_attention": [
+        "Performer: Rethinking Attention with Performers (Choromanski et al., 2020)",
+        "Linear Transformers Are Secretly Fast Weight Programmers (Katharopoulos et al., 2020)",
+        "RWKV: Reinventing RNNs for the Transformer Era (Peng et al., 2023)"
+      ],
+      "flash_attention": [
+        "FlashAttention: Fast and Memory-Efficient Exact Attention (Dao et al., 2022)",
+        "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning (Dao, 2023)"
+      ],
+      "sparse_attention": [
+        "Longformer: The Long-Document Transformer (Beltagy et al., 2020)",
+        "BigBird: Transformers for Longer Sequences (Zaheer et al., 2020)",
+        "StreamingLLM: Efficient Streaming Language Models with Attention Sinks (Xiao et al., 2023)"
+      ],
+      "mqa_gqa": [
+        "Fast Transformer Decoding: One Write-Head is All You Need (Shazeer, 2019)",
+        "GQA: Training Generalized Multi-Query Transformer Models (Ainslie et al., 2023)"
+      ],
+      "attention_sink": [
+        "StreamingLLM: Efficient Streaming Language Models (Xiao et al., 2023)",
+        "Attention Sink phenomenon analysis"
+      ],
+      "quantized_attention": [
+        "LLM.int8(): 8-bit Matrix Multiplication (Dettmers et al., 2022)",
+        "BitNet b1.58: The Era of 1-bit LLMs (Ma et al., 2024)"
+      ]
+    }
+  }
+}

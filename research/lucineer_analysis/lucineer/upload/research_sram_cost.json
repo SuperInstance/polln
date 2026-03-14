@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.mordorintelligence.com/industry-reports/static-random-access-memory-market",
+    "name": "Static Random Access Memory (SRAM) Market Size & Share Analysis",
+    "snippet": "The Static Random Access Memory market was valued at USD 1.71 billion in 2025 and estimated to grow from USD 1.81 billion in 2026 to reach USD ...\nThe Static Random Access Memory (SRAM) Market worth USD 1.81 billion in 2026 is growing at a CAGR of 5.56% to reach USD 2.37 billion by 2031 ...",
+    "host_name": "www.mordorintelligence.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/BUAA-CI-LAB/Literatures-on-SRAM-based-CIM",
+    "name": "Literature on SRAM-based Compute-In-Memory - GitHub",
+    "snippet": "This repository serves as a comprehensive resource for the rapidly advancing field of SRAM-based Compute-In-Memory (CIM), particularly in the context of AI ...",
+    "host_name": "github.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.sciencedirect.com/science/article/pii/S1738573325003535",
+    "name": "Atmospheric neutron inducing single event effects on AI chips",
+    "snippet": "This study investigates the SEE susceptibility of SRAM cells fabricated using an 8 nm FinFET technology integrated into the AI chip, leveraging the atmospheric ...",
+    "host_name": "www.sciencedirect.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://dl.acm.org/doi/abs/10.1145/3508352.3549423",
+    "name": "Low-Cost 7T-SRAM Compute-in-Memory Design Based",
+    "snippet": "In this paper, we present a 7T SRAM CIM that seamlessly supports multiply-accumulation (MAC) operation between 4-bit inputs and 8-bit weights.",
+    "host_name": "dl.acm.org",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://counterpointresearch.com/en/insights/Memory-Prices-Surge-Up-to-90-From-Q4-2025",
+    "name": "Memory Prices Surge Up to 90% From Q4 2025 - Counterpoint Research",
+    "snippet": "Memory prices have soared 80%-90% in Q1 2026 so far compared to Q4 2025, with DRAM, NAND and HBM all hitting record-breaking highs.",
+    "host_name": "counterpointresearch.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.researchgate.net/publication/378454644_S_2_RAM_Optimization_of_SRAM_with_Memory_Access_Patterns",
+    "name": "(PDF) S 2 RAM: Optimization of SRAM with Memory Access Patterns",
+    "snippet": "Numerical results show that the proposed S 2 RAM saves up to 76% of operating energy compared to conventional SRAM at the cost of 8% increased area.",
+    "host_name": "www.researchgate.net",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.semanticscholar.org/paper/A-28-nm-36-Kb-SRAM-CIM-Engine-With-0.173-%CE%BCm2-4T1T-Zhao-Fang/60b112e64b7ed840e2b32f6c119fd7efacca84ce/figure/14",
+    "name": "Figure 4 from A 28-nm 36 Kb SRAM CIM Engine With 0.173 μm2",
+    "snippet": "2 Citations · 41 References.",
+    "host_name": "www.semanticscholar.org",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://link.springer.com/article/10.1557/s43579-024-00660-2",
+    "name": "Progress of emerging non-volatile memory technologies in industry",
+    "snippet": "This prospective and performance summary provides a view on the state of the art of emerging non-volatile memory (eNVM) in the semiconductor industry.",
+    "host_name": "link.springer.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reportprime.com/stt-mram-chips-r3525",
+    "name": "STT MRAM Chips Market Size, Growth, Forecast Till  - Report Prime",
+    "snippet": "The STT MRAM Chips Market is expected to grow from USD 185.00 Million in 2024 to USD 1054.05 Million by 2031, at a CAGR of 28.22% during the forecast ...",
+    "host_name": "www.reportprime.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://files.futurememorystorage.com/proceedings/2019/08-05-Monday/20190805_MRAMDD_Plenary_Bertolazzi.pdf",
+    "name": "[PDF] MRAM Technology and Market Trends - Flash Memory Summit",
+    "snippet": "for technology nodes ≤ 28nm. ▫ The embedded STT-MRAM market has the potential to grow up to ~$1.2B by. 2024, driven by code/data storage and “slow” working ...",
+    "host_name": "files.futurememorystorage.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

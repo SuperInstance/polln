@@ -1,0 +1,248 @@
+{
+  "simulation_id": "A3_thermal",
+  "die_configuration": {
+    "name": "SuperInstance Mask-Locked Die",
+    "die_size_mm": 5.0,
+    "die_area_mm2": 25.0,
+    "die_thickness_um": 300.0,
+    "power_budget_w": 5.0,
+    "package": "QFN-48"
+  },
+  "power_distribution": {
+    "total_power_w": 5.0,
+    "blocks": [
+      {
+        "name": "PE_Array",
+        "x_mm": 2.5,
+        "y_mm": 2.5,
+        "w_mm": 2.0,
+        "h_mm": 2.0,
+        "power_w": 3.0,
+        "fraction": 0.6
+      },
+      {
+        "name": "Memory_0",
+        "x_mm": 0.5,
+        "y_mm": 2.5,
+        "w_mm": 0.6,
+        "h_mm": 1.5,
+        "power_w": 0.3125,
+        "fraction": 0.0625
+      },
+      {
+        "name": "Memory_1",
+        "x_mm": 4.5,
+        "y_mm": 2.5,
+        "w_mm": 0.6,
+        "h_mm": 1.5,
+        "power_w": 0.3125,
+        "fraction": 0.0625
+      },
+      {
+        "name": "Memory_2",
+        "x_mm": 2.5,
+        "y_mm": 0.5,
+        "w_mm": 1.5,
+        "h_mm": 0.6,
+        "power_w": 0.3125,
+        "fraction": 0.0625
+      },
+      {
+        "name": "Memory_3",
+        "x_mm": 2.5,
+        "y_mm": 4.5,
+        "w_mm": 1.5,
+        "h_mm": 0.6,
+        "power_w": 0.3125,
+        "fraction": 0.0625
+      },
+      {
+        "name": "IO_Top",
+        "x_mm": 2.5,
+        "y_mm": 4.75,
+        "w_mm": 3.0,
+        "h_mm": 0.3,
+        "power_w": 0.1875,
+        "fraction": 0.0375
+      },
+      {
+        "name": "IO_Bottom",
+        "x_mm": 2.5,
+        "y_mm": 0.25,
+        "w_mm": 3.0,
+        "h_mm": 0.3,
+        "power_w": 0.1875,
+        "fraction": 0.0375
+      },
+      {
+        "name": "IO_Left",
+        "x_mm": 0.25,
+        "y_mm": 2.5,
+        "w_mm": 0.3,
+        "h_mm": 3.0,
+        "power_w": 0.1875,
+        "fraction": 0.0375
+      },
+      {
+        "name": "IO_Right",
+        "x_mm": 4.75,
+        "y_mm": 2.5,
+        "w_mm": 0.3,
+        "h_mm": 3.0,
+        "power_w": 0.1875,
+        "fraction": 0.0375
+      }
+    ],
+    "pe_array_fraction": 0.6,
+    "memory_fraction": 0.25,
+    "io_fraction": 0.15
+  },
+  "package_analysis": {
+    "QFN-48": {
+      "name": "QFN-48 (7x7mm)",
+      "R_jc": 8.0,
+      "R_ja_pcb": 35.0,
+      "T_junction_C": 245.0
+    },
+    "QFN-64": {
+      "name": "QFN-64 (9x9mm)",
+      "R_jc": 5.0,
+      "R_ja_pcb": 28.0,
+      "T_junction_C": 210.0
+    },
+    "BGA-144": {
+      "name": "BGA-144 (10x10mm)",
+      "R_jc": 7.0,
+      "R_ja_pcb": 32.0,
+      "T_junction_C": 230.0
+    }
+  },
+  "cooling_options": [
+    {
+      "name": "Natural Convection (QFN-64)",
+      "R_ja": 28.0,
+      "T_junction_C": 210.0,
+      "margin_C": -110.0,
+      "cost_usd": 0.0,
+      "type": "passive",
+      "recommended": false
+    },
+    {
+      "name": "Thermal Pad to PCB",
+      "R_ja": 24.0,
+      "T_junction_C": 190.0,
+      "margin_C": -90.0,
+      "cost_usd": 0.15,
+      "type": "passive",
+      "recommended": false
+    },
+    {
+      "name": "Small Heatsink (20 K/W)",
+      "R_ja": 12.0,
+      "T_junction_C": 130.0,
+      "margin_C": -30.0,
+      "cost_usd": 1.5,
+      "type": "heatsink",
+      "recommended": false
+    },
+    {
+      "name": "Medium Heatsink (10 K/W)",
+      "R_ja": 7.0,
+      "T_junction_C": 105.0,
+      "margin_C": -5.0,
+      "cost_usd": 3.0,
+      "type": "heatsink",
+      "recommended": false
+    },
+    {
+      "name": "Large Heatsink (6 K/W)",
+      "R_ja": 5.0,
+      "T_junction_C": 95.0,
+      "margin_C": 5.0,
+      "cost_usd": 5.0,
+      "type": "heatsink",
+      "recommended": false
+    },
+    {
+      "name": "Premium Heatsink (4 K/W)",
+      "R_ja": 4.0,
+      "T_junction_C": 90.0,
+      "margin_C": 10.0,
+      "cost_usd": 8.0,
+      "type": "heatsink",
+      "recommended": false
+    }
+  ],
+  "recommended_solution": {
+    "package": "QFN-64 (9x9mm)",
+    "cooling": "Medium Heatsink (10 K/W)",
+    "R_ja_achieved": 7.0,
+    "T_junction_at_70C": 105.0
+  },
+  "transient": {
+    "die_capacitance_mJ_K": 12.227249999999998,
+    "package_capacitance_mJ_K": 480.00000000000006,
+    "time_constant_s": 3.3600000000000003,
+    "time_to_90_percent_s": 7.736685912459995,
+    "time_to_95_percent_s": 10.065660439141407,
+    "T_junction_1s_C": 79.0095538721821,
+    "T_junction_5s_C": 97.09691789395241,
+    "T_junction_steady_C": 105.0
+  },
+  "hotspot": {
+    "pe_power_density_W_cm2": 75.0,
+    "hotspot_radius_mm": 1.1283791670955123,
+    "hotspot_temp_rise_K": 1.4295344177730314,
+    "location_mm": [
+      2.5,
+      2.5
+    ],
+    "thermal_gradient_K_mm": 6.756756756756757
+  },
+  "validation": {
+    "temperatures": [
+      {
+        "T_ambient_C": 0.0,
+        "T_junction_C": 36.429534417773034,
+        "margin_C": 63.570465582226966
+      },
+      {
+        "T_ambient_C": 25.0,
+        "T_junction_C": 61.429534417773034,
+        "margin_C": 38.570465582226966
+      },
+      {
+        "T_ambient_C": 45.0,
+        "T_junction_C": 81.42953441777303,
+        "margin_C": 18.570465582226973
+      },
+      {
+        "T_ambient_C": 70.0,
+        "T_junction_C": 106.42953441777303,
+        "margin_C": -6.429534417773027
+      }
+    ],
+    "Tj_below_100_at_70C": "False",
+    "thermal_margin_over_10C": "False",
+    "no_active_cooling": true,
+    "overall_pass": false,
+    "T_junction_at_70C": 106.42953441777303,
+    "thermal_margin_C": -6.429534417773027
+  },
+  "recommendations": {
+    "recommended_package": "QFN-64 (9x9mm)",
+    "recommended_cooling": "Medium Heatsink (10 K/W)",
+    "key_findings": [
+      "PE Array generates 60% of power (3W) in 4mm\u00b2 - main hotspot",
+      "Hotspot temperature rise: 1.4\u00b0C above average",
+      "Time to thermal steady state: ~8s with heatsink",
+      "Passive heatsink required - natural convection insufficient",
+      "Thermal margin at 70\u00b0C ambient: -6.4\u00b0C"
+    ],
+    "thermal_budget": {
+      "R_ja_max_for_10C_margin": 4.0,
+      "achieved_R_ja": 7.0,
+      "margin_to_limit": 3.0
+    }
+  }
+}

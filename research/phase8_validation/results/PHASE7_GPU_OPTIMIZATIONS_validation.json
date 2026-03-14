@@ -1,0 +1,170 @@
+{
+  "discovery_id": "PHASE7_GPU_OPTIMIZATIONS",
+  "discovery_description": "GPU-accelerated simulations on NVIDIA RTX 4050",
+  "overall_validated": false,
+  "statistical_power": 0.5,
+  "reproducibility_score": 0.9433150704790123,
+  "generation_time": 0.004050731658935547,
+  "recommendations": [
+    "2 claims failed validation - review methodology",
+    "Low statistical power (0.50) - increase sample size"
+  ],
+  "results": [
+    {
+      "claim_id": "GPU-001",
+      "validated": false,
+      "mean": 58.798264889011534,
+      "std": 3.3360963410046964,
+      "confidence_interval": [
+        58.13631099781684,
+        59.460218780206226
+      ],
+      "tests": [
+        {
+          "name": "One-Sample t-Test",
+          "statistic": -0.6047040923515755,
+          "p_value": 0.5467591041077094,
+          "effect_size": null,
+          "passed": false
+        },
+        {
+          "name": "Wilcoxon Signed-Rank Test",
+          "statistic": 2435.0,
+          "p_value": 0.756979822125134,
+          "effect_size": null,
+          "passed": false
+        },
+        {
+          "name": "Confidence Interval Test",
+          "statistic": 0.0,
+          "p_value": 0.05,
+          "effect_size": 0.0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "claim_id": "GPU-002",
+      "validated": true,
+      "mean": 46.40440502881275,
+      "std": 2.9818731928589703,
+      "confidence_interval": [
+        45.81273669513756,
+        46.996073362487934
+      ],
+      "tests": [
+        {
+          "name": "One-Sample t-Test",
+          "statistic": 1.3562113566104053,
+          "p_value": 0.17811704759962513,
+          "effect_size": null,
+          "passed": false
+        },
+        {
+          "name": "Wilcoxon Signed-Rank Test",
+          "statistic": 2054.0,
+          "p_value": 0.10535026094391692,
+          "effect_size": null,
+          "passed": false
+        },
+        {
+          "name": "Confidence Interval Test",
+          "statistic": 0.0,
+          "p_value": 0.05,
+          "effect_size": 0.0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "claim_id": "GPU-003",
+      "validated": false,
+      "mean": 50.576986155428024,
+      "std": 2.7147251633773353,
+      "confidence_interval": [
+        50.038325786620874,
+        51.115646524235174
+      ],
+      "tests": [
+        {
+          "name": "One-Sample t-Test",
+          "statistic": -1.5582197795879744,
+          "p_value": 0.12237230405560669,
+          "effect_size": null,
+          "passed": false
+        },
+        {
+          "name": "Wilcoxon Signed-Rank Test",
+          "statistic": 2061.0,
+          "p_value": 0.11062667611849883,
+          "effect_size": null,
+          "passed": false
+        },
+        {
+          "name": "Confidence Interval Test",
+          "statistic": 0.0,
+          "p_value": 0.05,
+          "effect_size": 0.0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "claim_id": "GPU-004",
+      "validated": true,
+      "mean": 96.26916566519152,
+      "std": 5.012561793011183,
+      "confidence_interval": [
+        95.2745646571348,
+        97.26376667324824
+      ],
+      "tests": [
+        {
+          "name": "One-Sample t-Test",
+          "statistic": 2.5319701134878176,
+          "p_value": 0.012914982828260514,
+          "effect_size": null,
+          "passed": true
+        },
+        {
+          "name": "Wilcoxon Signed-Rank Test",
+          "statistic": 1704.0,
+          "p_value": 0.00475966539313037,
+          "effect_size": null,
+          "passed": true
+        },
+        {
+          "name": "Confidence Interval Test",
+          "statistic": 0.0,
+          "p_value": 0.01,
+          "effect_size": 0.0,
+          "passed": false
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "corrected_p_values": [
+      6.561109249292514,
+      9.083757865501608,
+      0.6000000000000001,
+      2.1374045711955016,
+      1.264203131327003,
+      0.6000000000000001,
+      1.4684676486672803,
+      1.3275201134219858,
+      0.6000000000000001,
+      0.15497979393912617,
+      0.05711598471756444,
+      0.12
+    ],
+    "config": {
+      "num_trials": 100,
+      "confidence_level": 0.95,
+      "effect_size_threshold": 0.8,
+      "multiple_comparison_correction": "bonferroni",
+      "random_seed": 42,
+      "max_duration_seconds": 300.0
+    }
+  }
+}

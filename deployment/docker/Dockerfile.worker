@@ -1,0 +1,53 @@
+# SuperInstance Research Platform - GPU Worker
+# Optimized for CUDA 12.1 with RTX 4050 support
+
+FROM nvidia/cuda:12.1-runtime-ubuntu22.04
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    python3.11 \
+    python3-pip \
+    python3-venv \
+    curl \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create virtual environment
+RUN python3 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Upgrade pip
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel
+
+# Install Python dependencies
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy simulation code
+COPY simulations ./simulations
+COPY production ./production
+
+# Create non-root user
+RUN useradd -m -u 1001 -s /bin/bash worker && \
+    chown -R worker:worker /app
+
+# Set environment
+ENV PYTHONPATH=/app \
+    PYTHONUNBUFFERED=1 \
+    CUDA_VISIBLE_DEVICES=0 \
+    WORKER_TYPE=gpu
+
+# Switch to worker user
+USER worker
+
+# Expose metrics port
+EXPOSE 8001
+
+# Health check
+HEALTHCHECK --interval=60s --timeout=30s --start-period=120s --retries=3 \
+    CMD curl -f http://localhost:8001/health || exit 1
+
+# Start worker with GPU support
+CMD ["python3", "-u", "-m", "production.gpu_worker"]

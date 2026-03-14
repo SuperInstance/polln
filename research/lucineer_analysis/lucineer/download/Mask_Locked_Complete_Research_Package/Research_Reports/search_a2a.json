@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability",
+    "name": "Announcing the Agent2Agent Protocol (A2A)",
+    "snippet": "Apr 9, 2025 — The A2A protocol will allow AI agents to communicate with each other, securely exchange information, and coordinate actions on top of various enterprise ...",
+    "host_name": "developers.googleblog.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://a2a-protocol.org/latest",
+    "name": "A2A Protocol",
+    "snippet": "A2A: Provides agent-to-agent communication . As a universal, decentralized standard, A2A acts as the public internet that allows ai agents—including those using ...",
+    "host_name": "a2a-protocol.org",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://wikidocs.net/323751",
+    "name": "구글의 A2A 프로토콜, ADK, MCP를 활용한 멀티 에이전트 AI",
+    "snippet": "Jan 22, 2026 — A2A 프로토콜 (에이전트 간 프로토콜)**. Google's Agent-to-Agent (A2A) Protocol serves as the communication backbone for multi-agent systems.",
+    "host_name": "wikidocs.net",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://a2aprotocol.ai",
+    "name": "A2A Protocol - Agent2Agent Communication",
+    "snippet": "A2A Protocol is an open standard that enables AI agents to communicate and collaborate across different platforms and frameworks, regardless of their underlying ...",
+    "host_name": "a2aprotocol.ai",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://onereach.ai/blog/what-is-a2a-agent-to-agent-protocol",
+    "name": "A2A Protocol Explained: Secure Interoperability for Agentic",
+    "snippet": "Nov 6, 2025 — The A2A protocol operates within a three- agent communication framework: users who trigger tasks, client agents that solicit and deliver tasks on ...",
+    "host_name": "onereach.ai",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.ibm.com/think/tutorials/use-a2a-protocol-for-ai-agent-communication",
+    "name": "Use the A2A Protocol for AI Agent Communication",
+    "snippet": "In this tutorial, you can build an agent system where a chat client processes user queries and sends them to an AI agent running on an A2A-compliant server.",
+    "host_name": "www.ibm.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/a2aproject/A2A",
+    "name": "a2aproject/A2A: Agent2Agent (A2A) is an open protocol",
+    "snippet": "The Agent2Agent ( A2A ) protocol addresses a critical challenge in the AI landscape: enabling gen AI agents , built on diverse frameworks by different companies.",
+    "host_name": "github.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.ruh.ai/blogs/ai-agent-protocols-2026-complete-guide",
+    "name": "AI Agent Protocols 2026: Complete Guide",
+    "snippet": "Jan 16, 2026 — In this guide, we will discover the three major protocols—MCP for agent-to-tool connections, A2A for multi-agent coordination , and ACP for ...",
+    "host_name": "www.ruh.ai",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://getstream.io/blog/ai-agent-protocols",
+    "name": "Guide to AI Agent Protocols: MCP, A2A, ACP & More",
+    "snippet": "Jan 13, 2026 — Learn how AI agent protocols work , how they differ, and which ones are compatible. This is a clear guide to MCP, A2A, ACP, ANP, AP2, ...",
+    "host_name": "getstream.io",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/@aftab001x/mcp-and-a2a-the-protocols-building-the-ai-agent-internet-bc807181e68a",
+    "name": "MCP and A2A: The Protocols Building the AI Agent Internet",
+    "snippet": "Two protocols launched within six months. MCP (November 2024) for AI-to-tool connections. A2A (April 2025) for AI-to-agent communication .",
+    "host_name": "medium.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

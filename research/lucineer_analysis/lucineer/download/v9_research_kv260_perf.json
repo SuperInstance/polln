@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://arxiv.org/html/2504.17376v1",
+    "name": "On-Device Qwen2.5: Efficient LLM Inference with Model Compression and Hardware Acceleration",
+    "snippet": "24 Apr 2025 — Our framework achieves a model compression rate of 55.08% compared to the original model and produces output at a rate of 5.1 tokens per second, ...",
+    "host_name": "arxiv.org",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.amd.com/en/developer/resources/technical-articles/2025/inferencemax-benchmarking-progress-in-real-time.html",
+    "name": "InferenceMAX Benchmarking Progress in Real Time",
+    "snippet": "10 Oct 2025 — Step-by-step guide to clustering AMD Ryzen™ AI Max+ systems for local one trillion-parameter LLM inference using llama.cpp RPC and ROCm.",
+    "host_name": "www.amd.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.researchgate.net/publication/391120273_On-Device_Qwen25_Efficient_LLM_Inference_with_Model_Compression_and_Hardware_Acceleration",
+    "name": "(PDF) On-Device Qwen2.5: Efficient LLM Inference with Model Compression and Hardware Acceleration",
+    "snippet": "25 Aug 2025 — Our framework achieves a model compression rate of 55.08% compared to the original model and produces output at a rate of 5.1 tokens per second, ...",
+    "host_name": "www.researchgate.net",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.amd.com/en/developer/resources/technical-articles/2025/speculative-llm-inference-on-the-5th-gen-amd-epyc-processors-wit.html",
+    "name": "Speculative LLM Inference on the 5th Gen AMD EPYC Processors with PARD and PACE",
+    "snippet": "23 Jul 2025 — In this blog, we will explore how PARD and AMD PACE work together to optimize inference performance for Transformer models, particularly in data",
+    "host_name": "www.amd.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.amd.com/en/blogs/2025/rocm7-supercharging-ai-and-hpc-infrastructure.html",
+    "name": "AMD ROCm 7.0 Software: Supercharging AI and HPC Infrastructure with AMD Instinct Series GPUs and Open Innovation",
+    "snippet": "1 Oct 2025 — Up to 4.6× Inference Throughput Uplift for Generative AI Infrastructure: A preview version of ROCm 7.0 achieves up to 4.6× more tokens/sec as a ...",
+    "host_name": "www.amd.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://arxiv.org/html/2410.04466v4",
+    "name": "Large Language Model Inference Acceleration: A Comprehensive Hardware Perspective",
+    "snippet": "13 Jun 2025 — They introduce a comprehensive analytical model to estimate the LLM inference performance of FPGA accelerator with W4A8 quantization, and ...",
+    "host_name": "arxiv.org",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.amd.com/en/developer/resources/technical-articles/2025/unlocking-peak-ai-performance-with-mlperf-client-on-ryzen-ai-.html",
+    "name": "Unlocking Peak AI Performance with MLPerf Client on Ryzen AI",
+    "snippet": "15 Aug 2025 — AMD Ryzen™ Al Max+ 395 iGPU sets the bar – Achieves up to 61 tokens per second (TPS) , delivering top-tier client-side LLM performance and ...",
+    "host_name": "www.amd.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.themoonlight.io/en/review/on-device-qwen25-efficient-llm-inference-with-model-compression-and-hardware-acceleration",
+    "name": "[Literature Review] On-Device Qwen2.5: Efficient LLM Inference with Model Compression and Hardware Acceleration",
+    "snippet": "The paper demonstrates a model compression rate of 55.08% and an output rate of 5.1 tokens per second on the KV260 platform, outperforming a baseline ...",
+    "host_name": "www.themoonlight.io",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.amd.com/en/blogs/2026/amd-ryzen-ai-max-ai-pcs-deliver-exceptional-intelligence.html",
+    "name": "AMD Ryzen™ AI Max+ AI PCs Deliver Exceptional Intelligence Right on Your Desk",
+    "snippet": "5 Jan 2026 — Slide showcasing tokens per second performance difference between the NVIDIA DGX Spark and AMD Ryzen AI. One platform for Windows and Linux.",
+    "host_name": "www.amd.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.amd.com/en/blogs/2025/introduction-to-paiton-by-eliovp.html",
+    "name": "Introduction to Paiton by ElioVP",
+    "snippet": "10 Oct 2025 — In short: Paiton translates an AI model's architecture into highly optimized kernels, enabling much faster and more efficient inference compared ...",
+    "host_name": "www.amd.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

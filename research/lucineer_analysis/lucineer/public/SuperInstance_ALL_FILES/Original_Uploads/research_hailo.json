@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://hailo.ai/products/ai-accelerators/hailo-8-ai-accelerator",
+    "name": "AI Accelerator Hailo-8 For Edge Devices | Fully Integrated Memory",
+    "snippet": "The Hailo-8 edge AI processor, featuring up to 26 tera-operations per second (TOPS), significantly outperforms all other edge processors.",
+    "host_name": "hailo.ai",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.crazypi.com/raspberry-pi-ai-hat-plus-13-tops-hailo-8-india?srsltid=AfmBOorR4VRNbcEYYL8WStvmGXtF-ntQkLqlE2oTcTLrVeYTdUxlbuUh",
+    "name": "Buy Raspberry Pi AI HAT+ 13 TOPS India | Hailo-8 Accelerator | CrazyPi.com",
+    "snippet": "Accelerator Chip, Hailo-8L ; Performance, 13 TOPS ; Network Size, Moderate networks ; Processing Speed, Standard speed ; Multi-Model, 1-2 concurrent models ...",
+    "host_name": "www.crazypi.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://makerbazar.in/products/raspberry-pi-ai-kit-with-m-2-hat-and-hailo-ai-module?srsltid=AfmBOoqbhrs85E75-E5A5S3A-5g15oJWUiRR4XwQscaXdkPvB8mZvw9Z",
+    "name": "Raspberry Pi AI Kit with M.2 HAT and Hailo AI Module - MakerBazar.in",
+    "snippet": "The Hailo AI module delivers robust AI computing power, enabling real-time inferencing for deep learning models. Suitable for edge AI applications like smart ...",
+    "host_name": "makerbazar.in",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://hailo.ai/products/ai-accelerators/hailo-8-century-high-performance-pcie-card",
+    "name": "Hailo-8 Century High Performance PCIe Card",
+    "snippet": "Hailo-8 Century AI accelerator cards offer up to 208 TOPS of AI performance, real-time deep neural network inferencing with optimal power.",
+    "host_name": "hailo.ai",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.thingbits.in/products/raspberry-pi-ai-kit-with-m-2-hat-and-hailo-ai-module?srsltid=AfmBOormdK7F7zyp0C1ttqIbXaHNsafw5FcV68MjeSTrSo_thpstmvY9",
+    "name": "Raspberry Pi AI Kit with M.2 HAT and Hailo AI Module - Thingbits India",
+    "snippet": "The AI module is built around the advanced Hailo-8L chip, it delivers an impressive 13 tera-operations per second (TOPS) for rapid neural network inference. It ...",
+    "host_name": "www.thingbits.in",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.raspberrypi.com/products/ai-kit",
+    "name": "Buy a Raspberry Pi AI Kit",
+    "snippet": "The AI module is a 13 tera-operations per second (TOPS) neural network inference accelerator built around the Hailo-8L chip. The module uses the M.2 2242 ...",
+    "host_name": "www.raspberrypi.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://buyzero.de/en/blogs/news/edge-ai-showdown-hailo-vs-coral-which-chip-is-right-for-you?srsltid=AfmBOopmb6vAA_66s0argisRCeaP83UoBo5od1rlFVDBIWAElHTbxm5D",
+    "name": "Edge AI Showdown: Hailo vs Coral - Which Chip is Right for You? - Buyzero",
+    "snippet": "Price Comparison ; Hailo, Hailo-8 M.2, €195 ; Hailo, Hailo-8 Century, €739 ; Hailo, Hailo-8L M.2, €115 ; Coral, Coral M.2 Accelerator, €29.61 ...",
+    "host_name": "buyzero.de",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://up-board.org/hailo-8",
+    "name": "HAILO-8™ AI Module - UP Bridge the Gap - Edge AI",
+    "snippet": "Enabling real-time, low latency, and high-efficiency AI ...",
+    "host_name": "up-board.org",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.eenewseurope.com/en/hailo-10h-edge-ai-accelerator-with-on-device-generative-ai",
+    "name": "New Hailo-10H edge AI accelerator with on-device generative AI  - eeNews Europe",
+    "snippet": "31 Jul 2025",
+    "host_name": "www.eenewseurope.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.amazon.in/Hailo-8-Accelerator-Compatible-Raspberry-Acce/dp/B0D97KVT1J",
+    "name": "Hailo-8 M.2 AI Accelerator Module Compatible With Raspberry Pi 5, Based On The 26TOPS  - Amazon.in",
+    "snippet": "Enabling real-time, low latency and high-efficiency AI inferencing on the edge devices. Supports TensorFlow, TensorFlow Lite, ONNX, Keras, Pytorch frameworks. Missing: inference | Show results with: inference",
+    "host_name": "www.amazon.in",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

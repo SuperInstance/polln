@@ -1,0 +1,134 @@
+{
+  "discovery_id": "PHASE6_EMERGENCE_PREDICTION",
+  "discovery_description": "Emergence prediction system with early warning signals",
+  "overall_validated": false,
+  "statistical_power": 0.3333333333333333,
+  "reproducibility_score": 0.9154288175898011,
+  "generation_time": 0.0029764175415039062,
+  "recommendations": [
+    "2 claims failed validation - review methodology",
+    "Low statistical power (0.33) - increase sample size"
+  ],
+  "results": [
+    {
+      "claim_id": "EMERG-001",
+      "validated": true,
+      "mean": 0.8574205267863525,
+      "std": 0.032578761555024094,
+      "confidence_interval": [
+        0.8509561936924355,
+        0.8638848598802695
+      ],
+      "tests": [
+        {
+          "name": "One-Sample t-Test",
+          "statistic": 6.268048818204203,
+          "p_value": 9.573839029885242e-09,
+          "effect_size": null,
+          "passed": true
+        },
+        {
+          "name": "Wilcoxon Signed-Rank Test",
+          "statistic": 859.0,
+          "p_value": 1.01472437539144e-08,
+          "effect_size": null,
+          "passed": true
+        },
+        {
+          "name": "Confidence Interval Test",
+          "statistic": 0.0,
+          "p_value": 0.01,
+          "effect_size": 0.0,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "claim_id": "EMERG-002",
+      "validated": false,
+      "mean": 7.176923919343654,
+      "std": 0.7765207706033067,
+      "confidence_interval": [
+        7.022845351714651,
+        7.331002486972657
+      ],
+      "tests": [
+        {
+          "name": "One-Sample t-Test",
+          "statistic": -0.2971727419270126,
+          "p_value": 0.7669572708533955,
+          "effect_size": null,
+          "passed": false
+        },
+        {
+          "name": "Wilcoxon Signed-Rank Test",
+          "statistic": 2474.0,
+          "p_value": 0.8608010376424908,
+          "effect_size": null,
+          "passed": false
+        },
+        {
+          "name": "Confidence Interval Test",
+          "statistic": 0.0,
+          "p_value": 0.05,
+          "effect_size": 0.0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "claim_id": "EMERG-003",
+      "validated": false,
+      "mean": 0.1750892287557092,
+      "std": 0.018825667702133626,
+      "confidence_interval": [
+        0.17135380785775856,
+        0.17882464965365985
+      ],
+      "tests": [
+        {
+          "name": "One-Sample t-Test",
+          "statistic": 1.1097767095253843,
+          "p_value": 0.2697836627830148,
+          "effect_size": null,
+          "passed": false
+        },
+        {
+          "name": "Wilcoxon Signed-Rank Test",
+          "statistic": 2292.0,
+          "p_value": 0.42305657051311696,
+          "effect_size": null,
+          "passed": false
+        },
+        {
+          "name": "Confidence Interval Test",
+          "statistic": 0.0,
+          "p_value": 0.05,
+          "effect_size": 0.0,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "corrected_p_values": [
+      8.616455126896718e-08,
+      9.13251937852296e-08,
+      0.09,
+      6.902615437680559,
+      7.747209338782417,
+      0.45,
+      2.428052965047133,
+      3.8075091346180527,
+      0.45
+    ],
+    "config": {
+      "num_trials": 100,
+      "confidence_level": 0.95,
+      "effect_size_threshold": 0.8,
+      "multiple_comparison_correction": "bonferroni",
+      "random_seed": 42,
+      "max_duration_seconds": 300.0
+    }
+  }
+}

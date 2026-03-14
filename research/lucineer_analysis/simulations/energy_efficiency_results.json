@@ -1,0 +1,44 @@
+{
+  "validation": {
+    "claim_description": "50.0x energy efficiency improvement",
+    "claim_value": 50.0,
+    "measured_value": 4.994601083284638,
+    "confidence_interval": [
+      4.502123238502556,
+      5.487078928066721
+    ],
+    "p_value": 1.3579184259752736e-60,
+    "claim_validated": "False",
+    "effect_size": 2.320458311729258,
+    "statistical_power": 1.0,
+    "sample_size": 150,
+    "test_used": "paired_t_test",
+    "sensitivity_analysis": {
+      "best_case_improvement": 38.486782476157956,
+      "worst_case_improvement": 1.4906716107268367,
+      "median_improvement": 6.007368035661456,
+      "bootstrap_ci_lower": 4.590947210204857,
+      "bootstrap_ci_upper": 5.45929209571877
+    }
+  },
+  "architectures": {
+    "lucineer": {
+      "mean_energy_per_token_joules": 0.00025879857355687764,
+      "std_energy_per_token_joules": 0.00020977655864075416,
+      "mean_power_watts": 0.10012675819029489,
+      "sample_size": 150
+    },
+    "gpu_fp16": {
+      "mean_energy_per_token_joules": 0.0012925956358397002,
+      "std_energy_per_token_joules": 0.0005941039887801157,
+      "mean_power_watts": 5.821267284511142,
+      "sample_size": 150
+    },
+    "gpu_int8": {
+      "mean_energy_per_token_joules": 0.001291174727613464,
+      "std_energy_per_token_joules": 0.0005931306048028145,
+      "mean_power_watts": 5.816370390854386,
+      "sample_size": 150
+    }
+  }
+}

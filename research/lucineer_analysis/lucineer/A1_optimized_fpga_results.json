@@ -1,0 +1,50 @@
+{
+  "model": {
+    "name": "BitNet b1.58-500M",
+    "params": 500000000,
+    "weight_memory_mb": 94.17533874511719
+  },
+  "fpga": "KV260-Optimized",
+  "pe_array": "16x16",
+  "optimizations": {
+    "weight_caching": {
+      "weight_mb": 94.17533874511719,
+      "cache_hit_rate": 0.9,
+      "effective_weight_load_factor": 0.09999999999999998
+    },
+    "kv_quantization": {
+      "compression_ratio": 4,
+      "kv_bytes_per_token": 12288.0
+    }
+  },
+  "performance": {
+    "theoretical_tps": 339.02534282242664,
+    "derating_factor": 0.48735000000000006,
+    "realistic_tps": 153.73275260111774,
+    "bottleneck": "memory",
+    "memory_bw_required_gbps": 13.06893824531331,
+    "memory_bw_available_gbps": 12.8
+  },
+  "power": {
+    "breakdown_mw": {
+      "dsp_power_mw": 1248.0,
+      "bram_power_mw": 432.0,
+      "lut_power_mw": 292.8,
+      "clock_power_mw": 180,
+      "io_power_mw": 400,
+      "static_power_mw": 750
+    },
+    "total_w": 3.3028000000000004
+  },
+  "validation": {
+    "target_tps": 20,
+    "actual_tps": 153.73275260111774,
+    "tps_margin": 668.6637630055886,
+    "tps_pass": true,
+    "target_power_w": 5.0,
+    "actual_power_w": 3.3028000000000004,
+    "power_margin": 33.94399999999999,
+    "power_pass": true,
+    "overall_pass": true
+  }
+}

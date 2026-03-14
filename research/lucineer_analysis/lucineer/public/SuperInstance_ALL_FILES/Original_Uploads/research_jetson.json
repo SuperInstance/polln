@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-orin/nano-super-developer-kit",
+    "name": "Jetson Orin Nano Super Developer Kit - NVIDIA",
+    "snippet": "NVIDIA's latest software update enhances Jetson Orin Nano's AI performance from 40 to 67 AI TOPs and memory bandwidth from 68 to 102 GB/s, allowing developers ...",
+    "host_name": "www.nvidia.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://developer.nvidia.com/blog/nvidia-jetson-orin-nano-developer-kit-gets-a-super-boost",
+    "name": "NVIDIA Jetson Orin Nano Developer Kit Gets a “Super” Boost",
+    "snippet": "Dec 17, 2024",
+    "host_name": "developer.nvidia.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.techpowerup.com/gpu-specs/jetson-orin-nano-8-gb.c4082",
+    "name": "NVIDIA Jetson Orin Nano 8 GB Specs | TechPowerUp GPU Database",
+    "snippet": "Its price at launch was 299 US Dollars. Graphics Processor. GPU Name: GA10B. Architecture: Ampere. Foundry: Samsung. Process ... Missing: 2024 | Show results with: 2024",
+    "host_name": "www.techpowerup.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://developer.nvidia.com/embedded/buy-jetson",
+    "name": "Buy the Latest Jetson Products | NVIDIA Developer",
+    "snippet": "The NVIDIA® Jetson AGX Orin™ Industrial module delivers up to 248 TOPs of AI performance for embedded industrial applications with power configurable between ...",
+    "host_name": "developer.nvidia.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://tannatechbiz.com/blog/post/nvidia-jetson-orin-nano-super-developer-kit?srsltid=AfmBOorefbKegt--FGdcn260HKPcD3OJ8n164wfGgqIYdYSUcnxs3Sns",
+    "name": "NVIDIA Jetson Orin Nano Super Kit Elevates AI Performance",
+    "snippet": "AI Performance: 67 TOPS ; Storage: Supports SD card slot and external NVMe ; Expandable memory: Supports up to 8GB LPDDR5 ; Connectivity: Offers ...",
+    "host_name": "tannatechbiz.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://blogs.nvidia.com/blog/jetson-generative-ai-supercomputer",
+    "name": "NVIDIA Unveils Its Most Affordable Generative AI Supercomputer",
+    "snippet": "The Jetson Orin Nano Super delivers up to a 1.7x gain in generative AI performance, supporting popular models for hobbyists, developers and students.",
+    "host_name": "blogs.nvidia.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.makerlab-electronics.com/products/nvidia-r-jetson-orin-nano-developer-kit-102110839?srsltid=AfmBOopCPu5NhCmeHFqAVkU8CRJA609askFzTC8jX1paJ3dk0Og_E67D",
+    "name": "NVIDIA® Jetson Orin™ Nano Super Developer Kit - Makerlab Electronics",
+    "snippet": "In stock Rating 3.5 20 Excellent AI Performance for Production: It has low power and low latency with up to 67 TOPS AI performance, featuring an Ampere architecture GPU and a 6-core ...",
+    "host_name": "www.makerlab-electronics.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.therobotreport.com/jetson-orin-nano-super-developer-kit-available",
+    "name": "Jetson Orin Nano Super developer kit available from NVIDIA",
+    "snippet": "The result is up to 1.7X generative AI model performance gains and only 25 watts of power consumption. The Nano is the smallest computer ...",
+    "host_name": "www.therobotreport.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://monraspberry.com/en/raspberry-pi-vs-nvidia-jetson-the-ultimate-2025-comparison",
+    "name": "Raspberry Pi vs NVIDIA Jetson: the ultimate 2025 comparison",
+    "snippet": "Jetson Orin Nano Super (2024), 6 × Cortex-A78AE 1.5 GHz, 1024C Ampere + 32 Tensor ; Jetson Orin NX 16 GB (2023), 8 × Cortex-A78AE 2 GHz, 1024C Ampere + Tensor ...",
+    "host_name": "monraspberry.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://my.cytron.io/p-nvidia-jetson-orin-nano-8gb-dev-kit",
+    "name": "NVIDIA Jetson Orin Nano Super 8GB Dev Kit - Cytron.io",
+    "snippet": "In stock Rating 4.0 (19) NVIDIA Jetson Orin Nano dev kit deliver up to 67 TOPS in the smallest Jetson form-factor. This gives up to 80X the performance of NVIDIA Jetson Nano, ...",
+    "host_name": "my.cytron.io",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

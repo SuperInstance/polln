@@ -1,0 +1,42 @@
+{
+  "supply_chain": {
+    "delivery_reliability": 0.772,
+    "geographic_concentration": 0.25,
+    "single_source_count": 3,
+    "p95_delay": 110.55959584498248,
+    "mean_recovery_time": 49.726852812419395
+  },
+  "human_technology": {
+    "error_rates": {
+      "design_verification": 0.0049,
+      "mask_preparation": 0.002,
+      "wafer_processing": 0.0004,
+      "testing": 0.0009,
+      "packaging": 0.0021,
+      "quality_inspection": 0.0027
+    },
+    "automation_recommendations": {
+      "testing": "AUTOMATE",
+      "packaging": "AUTOMATE",
+      "quality": "AUTOMATE"
+    }
+  },
+  "organization": {
+    "centralization": 0.2032967032967033,
+    "coordination_efficiency": 0.24761904761904763,
+    "ip_protection_score": 0.6759703703703702,
+    "annual_coordination_cost": 321750.0
+  },
+  "economics": {
+    "scale_elasticity": -0.7290773306874337,
+    "minimum_efficient_scale": 1000000,
+    "total_capital_required": 18720000.0,
+    "peak_cash_requirement": 15600000.0
+  },
+  "integrated_risk": {
+    "total_risk_score": 0.48498080179080183,
+    "risk_rating": "MEDIUM",
+    "risk_mitigation_budget": 1089460.873142857
+  },
+  "recommendations_count": 7
+}

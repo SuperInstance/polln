@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://patents.google.com/patent/KR101585037B1/en",
+    "name": "KR101585037B1 - Hybrid ternary content addressable memory",
+    "snippet": "매치 라인 ML NAND은 직렬의 중간 매치 라인들(ML 0 - ML n-1)에 접속된다. 중간 매치 라인들(ML 0 - ML n-1) 각각은 송신 게이트를 통해 마스크 셀(Mask 0 - Mask n-1) 및 ...",
+    "host_name": "patents.google.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://arxiv.org/html/2602.20662v1",
+    "name": "TOM: A Ternary Read-only Memory Accelerator for LLM-powered Edge",
+    "snippet": "First, we propose a sparsity-aware ROM architecture that synthesizes ternary-quantized weights as standard-cell logic, eliminating the area cost ...",
+    "host_name": "arxiv.org",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://mediatum.ub.tum.de/doc/1771403/1771403.pdf",
+    "name": "[PDF] Integration of Multi-Level 1T1R RRAM Cells as Embedded Memory",
+    "snippet": "There are many different ways to realize ROM, this work briefly introduces two types: Masked ROM Masked ROM is realized by directly programming the.\nThis work also proposes a way, how this concept can be expanded to more levels stored in one dif- ferential RRAM cells by utilizing specific combinations of ...",
+    "host_name": "mediatum.ub.tum.de",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.researchgate.net/publication/381322439_Insights_on_Ternary_Content_Addressable_Memory_for_Network_Applications",
+    "name": "(PDF) Insights on Ternary Content Addressable Memory for Network",
+    "snippet": "Ternary Content-Addressable Memory (TCAM) is a critical component in modern network systems, widely used for high-speed packet forwarding ...",
+    "host_name": "www.researchgate.net",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://patents.google.com/patent/US20150127900A1/en",
+    "name": "Ternary content addressable memory utilizing common masks and hash",
+    "snippet": "A ternary content-addressable memory (TCAM) that is implemented based on other types of memory (e.g., SRAM) in conjunction with processing, ...",
+    "host_name": "patents.google.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.sciencedirect.com/topics/computer-science/memory-capacity",
+    "name": "Memory Capacity - an overview | ScienceDirect Topics",
+    "snippet": "The packing density of a mask-programmable ROM is higher (roughly two or three times) than that of a dynamic RAM whose packing density is higher than a static ...",
+    "host_name": "www.sciencedirect.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://electronics.stackexchange.com/questions/458450/is-there-any-memory-cell-that-can-store-more-than-one-bit",
+    "name": "Is there any memory cell that can store more than one bit? [closed]",
+    "snippet": "... bit per cell. Mask programmed ROM is inherently one bit per cell. Only Flash memory offers a practical way to store multiple bits per cell. Missing: ternary | Show results with: ternary",
+    "host_name": "electronics.stackexchange.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://rua.ua.es/dspace/bitstream/10045/12018/1/SPIE_v7358_art73581C_2009.pdf",
+    "name": "[PDF] Multiplexing holograms for data page storage using a LCD as a  - RUA",
+    "snippet": "Holographic data storage is a new optical technology which allows an important number of bits to be stored in a recording material.",
+    "host_name": "rua.ua.es",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.mdpi.com/2079-9268/11/4/36",
+    "name": "Comprehensive Study of Security and Privacy of Emerging Non-Volatile",
+    "snippet": "This work identifies NVM vulnerabilities and attack vectors originating from the device level all the way to circuits and systems, considering both storage and ...",
+    "host_name": "www.mdpi.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://patents.google.com/patent/US12119064B2/en",
+    "name": "US12119064B2 - Binary to ternary convertor for multilevel memory - Google Patents",
+    "snippet": "the converter may also convert ternary data read from the memory to binary data at a conversion ratio of 2 trits to 3 bits (e.g., by using the same mappings ...",
+    "host_name": "patents.google.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

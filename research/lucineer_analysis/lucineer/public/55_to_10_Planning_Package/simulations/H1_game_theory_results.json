@@ -1,0 +1,287 @@
+{
+  "market_entry_simulation": [
+    {
+      "year": 1,
+      "our_market_share": 0.15,
+      "competitor_responses": {
+        "Hailo": {
+          "strategy": "ignore",
+          "market_share": 0.15
+        },
+        "Google_Coral": {
+          "strategy": "compete_price",
+          "market_share": 0.19
+        },
+        "NVIDIA_Jetson": {
+          "strategy": "ignore",
+          "market_share": 0.35
+        },
+        "Qualcomm": {
+          "strategy": "compete_price",
+          "market_share": 0.095
+        },
+        "Groq": {
+          "strategy": "compete_price",
+          "market_share": 0.0475
+        },
+        "Taalas": {
+          "strategy": "compete_price",
+          "market_share": 0.0
+        }
+      },
+      "total_market": 0.9825
+    },
+    {
+      "year": 2,
+      "our_market_share": 0.27749999999999997,
+      "competitor_responses": {
+        "Hailo": {
+          "strategy": "compete_price",
+          "market_share": 0.1425
+        },
+        "Google_Coral": {
+          "strategy": "compete_price",
+          "market_share": 0.1805
+        },
+        "NVIDIA_Jetson": {
+          "strategy": "compete_price",
+          "market_share": 0.33249999999999996
+        },
+        "Qualcomm": {
+          "strategy": "compete_price",
+          "market_share": 0.09025
+        },
+        "Groq": {
+          "strategy": "compete_price",
+          "market_share": 0.045125
+        },
+        "Taalas": {
+          "strategy": "compete_price",
+          "market_share": 0.0
+        }
+      },
+      "total_market": 1.068375
+    },
+    {
+      "year": 3,
+      "our_market_share": 0.3,
+      "competitor_responses": {
+        "Hailo": {
+          "strategy": "compete_price",
+          "market_share": 0.135375
+        },
+        "Google_Coral": {
+          "strategy": "compete_price",
+          "market_share": 0.171475
+        },
+        "NVIDIA_Jetson": {
+          "strategy": "ignore",
+          "market_share": 0.33249999999999996
+        },
+        "Qualcomm": {
+          "strategy": "compete_price",
+          "market_share": 0.0857375
+        },
+        "Groq": {
+          "strategy": "compete_price",
+          "market_share": 0.04286875
+        },
+        "Taalas": {
+          "strategy": "compete_price",
+          "market_share": 0.0
+        }
+      },
+      "total_market": 1.06795625
+    },
+    {
+      "year": 4,
+      "our_market_share": 0.3,
+      "competitor_responses": {
+        "Hailo": {
+          "strategy": "compete_price",
+          "market_share": 0.12860624999999998
+        },
+        "Google_Coral": {
+          "strategy": "compete_price",
+          "market_share": 0.16290124999999997
+        },
+        "NVIDIA_Jetson": {
+          "strategy": "compete_price",
+          "market_share": 0.31587499999999996
+        },
+        "Qualcomm": {
+          "strategy": "compete_price",
+          "market_share": 0.08145062499999998
+        },
+        "Groq": {
+          "strategy": "compete_price",
+          "market_share": 0.04072531249999999
+        },
+        "Taalas": {
+          "strategy": "compete_price",
+          "market_share": 0.0
+        }
+      },
+      "total_market": 1.0295584375
+    },
+    {
+      "year": 5,
+      "our_market_share": 0.3,
+      "competitor_responses": {
+        "Hailo": {
+          "strategy": "compete_price",
+          "market_share": 0.12217593749999997
+        },
+        "Google_Coral": {
+          "strategy": "ignore",
+          "market_share": 0.16290124999999997
+        },
+        "NVIDIA_Jetson": {
+          "strategy": "compete_price",
+          "market_share": 0.30008124999999997
+        },
+        "Qualcomm": {
+          "strategy": "compete_price",
+          "market_share": 0.07737809374999999
+        },
+        "Groq": {
+          "strategy": "compete_price",
+          "market_share": 0.038689046874999994
+        },
+        "Taalas": {
+          "strategy": "compete_price",
+          "market_share": 0.0
+        }
+      },
+      "total_market": 1.001225578125
+    }
+  ],
+  "optimal_launch_timing": {
+    "launch_month": 1,
+    "quarter": 1,
+    "vulnerability_score": 4.888888888888889,
+    "seasonality_factor": 1.1,
+    "overall_score": 5.377777777777778
+  },
+  "dominant_strategies": {
+    "Hailo": {
+      "best_strategy": "partner",
+      "expected_payoff": 0.0968,
+      "all_payoffs": {
+        "ignore": 0.0020015686274509788,
+        "compete_price": -0.03341411764705883,
+        "compete_perf": 0.03762,
+        "acquire": 0.0,
+        "pivot": 0.0,
+        "partner": 0.0968
+      }
+    },
+    "Google_Coral": {
+      "best_strategy": "partner",
+      "expected_payoff": 0.09964500000000001,
+      "all_payoffs": {
+        "ignore": 0.029382499999999992,
+        "compete_price": -0.02299500000000001,
+        "compete_perf": 0.034492499999999995,
+        "acquire": 0.0,
+        "pivot": 0.0,
+        "partner": 0.09964500000000001
+      }
+    },
+    "NVIDIA_Jetson": {
+      "best_strategy": "partner",
+      "expected_payoff": 0.09252750000000003,
+      "all_payoffs": {
+        "ignore": 0.021352499999999996,
+        "compete_price": -0.028470000000000013,
+        "compete_perf": 0.03202875,
+        "acquire": 0.0,
+        "pivot": 0.0,
+        "partner": 0.09252750000000003
+      }
+    },
+    "Qualcomm": {
+      "best_strategy": "partner",
+      "expected_payoff": 0.09566666666666668,
+      "all_payoffs": {
+        "ignore": 0.013351282051282061,
+        "compete_price": -0.03632179487179488,
+        "compete_perf": 0.033824999999999994,
+        "acquire": 0.0,
+        "pivot": 0.0,
+        "partner": 0.09566666666666668
+      }
+    },
+    "Groq": {
+      "best_strategy": "partner",
+      "expected_payoff": 0.08739361702127661,
+      "all_payoffs": {
+        "ignore": -0.007784223203532711,
+        "compete_price": -0.03707617422721799,
+        "compete_perf": 0.034875,
+        "acquire": 0.0,
+        "pivot": 0.0,
+        "partner": 0.08739361702127661
+      }
+    },
+    "Taalas": {
+      "best_strategy": "partner",
+      "expected_payoff": 0.09128906249999999,
+      "all_payoffs": {
+        "ignore": -0.002740451388888874,
+        "compete_price": -0.04153385416666665,
+        "compete_perf": 0.03459374999999999,
+        "acquire": 0.0,
+        "pivot": 0.0,
+        "partner": 0.09128906249999999
+      }
+    }
+  },
+  "price_war_simulation": {
+    "rounds": [
+      {
+        "round": 0,
+        "prices": {
+          "Hailo": 90.0,
+          "Google_Coral": 75,
+          "NVIDIA_Jetson": 89.10000000000001
+        },
+        "our_price": 55
+      },
+      {
+        "round": 1,
+        "prices": {
+          "Hailo": 81.0,
+          "Google_Coral": 75,
+          "NVIDIA_Jetson": 80.19000000000001
+        },
+        "our_price": 55
+      },
+      {
+        "round": 2,
+        "prices": {
+          "Hailo": 81.0,
+          "Google_Coral": 75,
+          "NVIDIA_Jetson": 80.19000000000001
+        },
+        "our_price": 55,
+        "equilibrium_reached": true
+      }
+    ],
+    "final_our_price": 55,
+    "final_competitor_prices": {
+      "Hailo": 81.0,
+      "Google_Coral": 75,
+      "NVIDIA_Jetson": 80.19000000000001
+    },
+    "our_margin_impact": 0.0
+  },
+  "validation": {
+    "target_market_share": 0.1,
+    "actual_market_share": 0.3,
+    "market_share_pass": true,
+    "acquisition_probability": false,
+    "optimal_launch_window": false,
+    "overall_pass": true
+  }
+}

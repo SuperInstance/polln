@@ -1,0 +1,39 @@
+{
+  "round_id": 1,
+  "status": "completed",
+  "start_time": "2026-03-07T08:34:22.173293",
+  "end_time": "2026-03-07T08:40:33.748359",
+  "model_calls": [
+    {
+      "model": "deepseek-coder",
+      "task_type": "verilog_generation",
+      "latency_ms": 58139
+    },
+    {
+      "model": "deepseek-coder",
+      "task_type": "verilog_generation",
+      "latency_ms": 112130
+    },
+    {
+      "model": "deepseek-coder",
+      "task_type": "verilog_generation",
+      "latency_ms": 97667
+    },
+    {
+      "model": "deepseek-coder",
+      "task_type": "verilog_generation",
+      "latency_ms": 103635
+    }
+  ],
+  "outputs": {
+    "rau.v": "/home/z/my-project/research/twelve_round_framework/rtl/rau.v",
+    "pe_unit.v": "/home/z/my-project/research/twelve_round_framework/rtl/pe_unit.v",
+    "weight_rom.v": "/home/z/my-project/research/twelve_round_framework/rtl/weight_rom.v",
+    "kv_cache.v": "/home/z/my-project/research/twelve_round_framework/rtl/kv_cache.v"
+  },
+  "metrics": {
+    "modules_generated": 4,
+    "total_lines": 1043
+  },
+  "feedback": null
+}

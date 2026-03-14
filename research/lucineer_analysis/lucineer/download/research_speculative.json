@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://arxiv.org/html/2506.09397v4",
+    "name": "SLED: A Speculative LLM Decoding Framework for Efficient Edge Serving",
+    "snippet": "13 Jul 2025 — We propose SLED, a framework that allows lightweight edge devices to draft multiple candidate tokens locally using diverse draft models, while a ...",
+    "host_name": "arxiv.org",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.datacamp.com/tutorial/speculative-decoding",
+    "name": "Speculative Decoding: A Guide With Implementation",
+    "snippet": "8 Nov 2024 — A smaller, faster \"draft\" model acts as the editor, quickly generating potential continuations of the text. The main LLM then evaluates these ...",
+    "host_name": "www.datacamp.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://dl.acm.org/doi/10.1145/3769102.3770608",
+    "name": "SLED: A Speculative LLM Decoding Framework for Efficient Edge Serving",
+    "snippet": "3 Dec 2025 — We propose SLED, a framework that allows lightweight edge devices to draft multiple candidate tokens locally using diverse draft models, while a ...",
+    "host_name": "dl.acm.org",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.sciencedirect.com/science/article/pii/S2949715925000782",
+    "name": "Fast Collaborative Inference via Distributed Speculative Decoding",
+    "snippet": "2026 — Speculative decoding accelerates large language model (LLM) inference by allowing a small draft model to predict multiple future tokens for ...",
+    "host_name": "www.sciencedirect.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.sciopen.com/article/10.26599/TST.2025.9010166",
+    "name": "Efficient Inference for Edge Large Language Models: A Survey",
+    "snippet": "2026 · Cited by 2 — Speculative decoding aims to tackle the memory bandwidth limitations. It mitigates decoding latency by using a small draft model to propose ...",
+    "host_name": "www.sciopen.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.newline.co/@zaoyang/ultimate-guide-to-speculative-decoding--540ed334",
+    "name": "Ultimate Guide to Speculative Decoding",
+    "snippet": "17 Sept 2025 — It works by combining two models: a smaller, quicker \"draft\" model predicts multiple tokens at once, and a larger, more accurate \"target\" model ...",
+    "host_name": "www.newline.co",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/openvino-toolkit/accelerating-llm-inference-with-speculative-decoding-using-openvino-genai-api-d965dfbb443e",
+    "name": "Accelerating LLM Inference with Speculative Decoding - OpenVINO GenAI",
+    "snippet": "This iterative process minimizes the computational burden on the main model by offloading most of the token generation work to the draft model.",
+    "host_name": "medium.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/llmsresearch/specstream",
+    "name": "llmsresearch/specstream: Fast LLM inference with 2.8x speedup using speculative decoding",
+    "snippet": "The paper introduces a revolutionary approach to speculative decoding that eliminates the need for auxiliary draft models - a major limitation of traditional ...",
+    "host_name": "github.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.amd.com/en/developer/resources/technical-articles/introducing-amd-first-slm-135m-model-fuels-ai-advancements.html",
+    "name": "Introducing the First AMD SLM (Small Language Model): AMD-135M Model Fuels AI Advancements",
+    "snippet": "17 Sept 2024 — Using AMD-Llama-135M-code as a draft model for CodeLlama-7b, we tested the performance with and without speculative decoding on the MI250 ...",
+    "host_name": "www.amd.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://aclanthology.org/2025.emnlp-main.240.pdf",
+    "name": "QSPEC: Speculative Decoding with Complementary Quantization Schemes",
+    "snippet": "2025 · Cited by 7 — Unlike traditional speculative decoding that requires a draft model, QSPEC shares weights and KV cache across activation modes, achieving zero ...",
+    "host_name": "aclanthology.org",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.ibm.com/think/topics/agentic-architecture",
+    "name": "What Is Agentic Architecture? | IBM",
+    "snippet": "An agentic architecture is one that shapes the virtual space and workflow structure to automate AI models within an agentic AI system.",
+    "host_name": "www.ibm.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://arxiv.org/abs/2601.01743",
+    "name": "[2601.01743] AI Agent Systems: Architectures, Applications, and Evaluation - arXiv.org",
+    "snippet": "We discuss key design trade-offs -- latency vs.\\ accuracy, autonomy vs.\\ controllability, and capability vs.\\ reliability -- and highlight how ...",
+    "host_name": "arxiv.org",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.facebook.com/nguyen.tiep.454727/posts/agentic-architectures-ki%E1%BA%BFn-tr%C3%BAc-d%C3%A0nh-cho-h%E1%BB%87-th%E1%BB%91ng-nhi%E1%BB%81u-agent-ai-multi-agent-sys/1028195709270414",
+    "name": "Agentic Architectures – kiến trúc dành cho hệ thống nhiều agent AI (Multi-Agent Systems  - Facebook",
+    "snippet": "Agentic Architectures – kiến trúc dành cho hệ thống nhiều agent AI (Multi-Agent Systems) giúp tổ chức hiệu quả các nhiệm vụ phức tạp. 1. Định ...",
+    "host_name": "www.facebook.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://blog.langchain.com/choosing-the-right-multi-agent-architecture",
+    "name": "Choosing the Right Multi-Agent Architecture - LangChain Blog",
+    "snippet": "This architecture provides centralized control where all routing passes through the main agent, which can invoke multiple subagents in parallel.",
+    "host_name": "blog.langchain.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf",
+    "name": "[PDF] A practical guide to building agents - OpenAI",
+    "snippet": "When should you build an agent? Building agents requires rethinking how your systems make decisions and handle complexity. Unlike conventional automation, ...",
+    "host_name": "cdn.openai.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/@anil.jain.baba/agentic-ai-architectures-and-design-patterns-288ac589179a",
+    "name": "Agentic AI Architectures And Design Patterns | by Anil Jain | AI / ML Architect - Medium",
+    "snippet": "The architecture of these systems is layered, often including input layers for data collection, agent orchestration for task management, and ...",
+    "host_name": "medium.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work",
+    "name": "Towards a science of scaling agent systems: When and why agent systems work",
+    "snippet": "We evaluated five canonical architectures: one single-agent system (SAS) and four multi-agent variants (independent, centralized ...",
+    "host_name": "research.google",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://dev.to/leena_malhotra/the-architecture-of-multi-agent-ai-systems-explained-5440",
+    "name": "The Architecture of Multi-Agent AI Systems, Explained - DEV Community",
+    "snippet": "Multi-agent systems can process multiple workflows simultaneously. While one agent handles research, another can be working on analysis for a ...",
+    "host_name": "dev.to",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.anthropic.com/engineering/multi-agent-research-system",
+    "name": "How we built our multi-agent research system - Anthropic",
+    "snippet": "Our Research system uses a multi-agent architecture with an orchestrator-worker pattern, where a lead agent coordinates the process while ...",
+    "host_name": "www.anthropic.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/ai-agent-design-patterns",
+    "name": "AI Agent Orchestration Patterns - Azure Architecture Center | Microsoft Learn",
+    "snippet": "Learn about fundamental orchestration patterns for AI agent architectures, including sequential, concurrent, group chat, handoff, and magentic patterns.",
+    "host_name": "learn.microsoft.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

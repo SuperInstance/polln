@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://blackdevice.com/installing-local-llms-raspberry-pi-cm5-benchmarking-performance",
+    "name": "Ollama on Raspberry Pi. Benchmarking local LLMs on Pi Hack",
+    "snippet": "2 Dec 2025 — Install Ollama on a Raspberry Pi CM5, 8GB and test lightweight LLMs (Gemma3, TinyLlama, Deepseek). Step-by-step install and performance ...\n02-Dec-2025 — Install Ollama on a Raspberry Pi CM5, 8GB and test lightweight LLMs (Gemma3, TinyLlama, Deepseek). Step-by-step install and performance stats.",
+    "host_name": "blackdevice.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.stratosphereips.org/blog/2025/6/5/how-well-do-llms-perform-on-a-raspberry-pi-5",
+    "name": "How Well Do LLMs Perform on a Raspberry Pi 5?",
+    "snippet": "5 Jun 2025 — At a generation rate of about 5 tokens per second, the test takes roughly 15 minutes to complete. Promptfoo , however, terminates the ...\n05-Jun-2025 — BitNet models demonstrated strong potential on the Raspberry Pi 5, achieving around 8 tokens per second (TPS) with a low memory footprint.",
+    "host_name": "www.stratosphereips.org",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://forums.raspberrypi.com/viewtopic.php?t=384602",
+    "name": "Performance increase with LLMs running in Ollama by overclocking?",
+    "snippet": "Using a 13b LLM on a Pi5 16GB is bound to be slower, a few tokens per second? Useful speed LLM's seem to be below 3b or < 2GB of ram. Some benchmarks here.\n24-Feb-2025 — Using a 13b LLM on a Pi5 16GB is bound to be slower, a few tokens per second? Useful speed LLM's seem to be below 3b or < 2GB of ram. Some benchmarks here.",
+    "host_name": "forums.raspberrypi.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.dfrobot.com/blog-15784.html?srsltid=AfmBOopg113zSj9wVjC3r_GL7wmT7geiogNOD6oWhIqlqL7lgm08RifD",
+    "name": "Run Qwen2.5 on Raspberry Pi 5 using Ollama",
+    "snippet": "11 Dec 2024 — On a Raspberry Pi 5, the qwen2.5 model is expected to achieve a token speed of approximately 20 tokens per second, which is sufficient for ...",
+    "host_name": "www.dfrobot.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/geerlingguy/ollama-benchmark/issues/1",
+    "name": "Benchmark AMD GPUs on Raspberry Pi 5 · Issue #1 · geerlingguy/ai-benchmarks",
+    "snippet": "18 Nov 2024 — Pi 5 - 8GB / AMD RX 7600 8GB, GPU, llama3.1:8b, 32.60 Tokens/s, 174 W ; Pi 5 - 8GB / AMD RX 7600 8GB, GPU, llama2:13b, 2.42 Tokens/s, 106 W ...",
+    "host_name": "github.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://arxiv.org/html/2511.07425v1",
+    "name": "An Evaluation of LLMs Inference on Popular Single-board Computers",
+    "snippet": "20 Oct 2025 — In this work, we benchmark the performance of 25 quantized open-source LLMs across three SBCs—Raspberry Pi 4, Raspberry Pi 5, and Orange Pi 5 ...\n20-Oct-2025 — Models in the 135M–360M range showed moderate performance (5–15 tokens/second), while models ≥ \\geq 1B parameters struggled to run reliably, ...",
+    "host_name": "arxiv.org",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/aidatatools/raspberry-pi-os-2024-10-22-benchmark-for-ollama-llama3-2-3b-and-1b-c649ebc1acd4",
+    "name": "Raspberry PI OS 2024–10–22 benchmark for Ollama (Llama3.2, 3b and 1b) - aidatatools",
+    "snippet": "With Ollama (llama3.2), the rate is between 3.3 tokens/sec and 5.8 tokens/sec. With smaller size of number of parameters, the output text is reasonable.",
+    "host_name": "medium.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.digikey.com/en/maker/tutorials/2025/local-llms-on-raspberry-pi",
+    "name": "Local LLMs on Raspberry Pi",
+    "snippet": "25 Nov 2025 — Ollama supports many different models, but the majority of them are made for running on fancy GPUs and higher powered computers than the ...",
+    "host_name": "www.digikey.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/ollama/comments/1jf9lww/gemma312b_performance_on_my_machine_for_reference",
+    "name": "Gemma3:12b performance on my machine for reference. : r/ollama",
+    "snippet": "I asked the same model on the same GPU, but on a 96GB Ryzen 9 system to explain MCPs and their application in AI and got 33.03 tokens/s, so ...",
+    "host_name": "www.reddit.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://dev.to/jeremycmorgan/running-deepseek-r1-locally-on-a-raspberry-pi-1gh8",
+    "name": "Running DeepSeek R1 Locally on a Raspberry Pi",
+    "snippet": "14-Feb-2025 — In this tutorial, we'll walk through how to run DeepSeek R1 models on a Raspberry Pi 5 and evaluate their performance. ... Speed: ~6.12 tokens/ ...",
+    "host_name": "dev.to",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

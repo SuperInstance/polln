@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.huawei.com/cn/news/2025/9/hc-xu-keynote-speech",
+    "name": "以开创的超节点互联技术，引领AI基础设施新范式- 华为 - Huawei",
+    "snippet": "算力的基础是芯片，昇腾芯片是华为AI算力战略的基础。自2018年发布Ascend 310芯片，2019年发布Ascend 910芯片，到2025年，Ascend 910C芯片随着Atlas 900超节点 ... Missing: 边缘 | Show results with: 边缘",
+    "host_name": "www.huawei.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://developer.huawei.com/consumer/cn/blog/topic/03202360509626288",
+    "name": "昇腾（Ascend）的诞生和演变史| 华为开发者联盟 - Huawei Developer",
+    "snippet": "2025 年4 月：发布昇腾920，提升云端训练与推理性能，强化集群扩展能力。 2025 年6 月：推出昇腾384 超节点，算力达300PFLPS，以“超节点+ 集群” 突破大规模算力 ...",
+    "host_name": "developer.huawei.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://cj.sina.cn/articles/view/7879848900/1d5acf3c401902r152?froms=ggmp",
+    "name": "华为昇腾AI生态蓬勃发展:开发者超400万,多款芯片规划有序推进 - 新浪财经",
+    "snippet": "这一战略布局在最新披露的路线图中得到具体呈现：定位高端训练场景的Ascend 910C芯片将于2025年第一季度正式商用；面向推理优化的Ascend 950PR芯片计划2026 ...",
+    "host_name": "cj.sina.cn",
+    "rank": 2,
+    "date": "Feb 26, 2026",
+    "favicon": ""
+  },
+  {
+    "url": "https://xueqiu.com/3578700268/376915757",
+    "name": "华为昇腾产业链 - 雪球",
+    "snippet": "... 昇腾芯片的长期规划——2026年至2028年将陆续推出950PR、950DT、960、970系列芯片，覆盖训练、推理、边缘计算等多元场景。这一战略规划意味着昇腾产业链 ...",
+    "host_name": "xueqiu.com",
+    "rank": 3,
+    "date": "Feb 24, 2026",
+    "favicon": ""
+  },
+  {
+    "url": "https://pdf.dfcfw.com/pdf/H3_AP202509231749108328_1.pdf?1758643736000.pdf",
+    "name": "[PDF] 华为昇腾AI 芯片与超节点技术",
+    "snippet": "昇腾芯片持续迭代，从2026 年的950 系列到2028 年的970 系列，. 算力不断提升。950 系列针对推理与训练场景分别优化，960 及. 970 系列更支持自研HiF4 格式， ...",
+    "host_name": "pdf.dfcfw.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.hiascend.com",
+    "name": "昇腾社区官网-昇腾万里让智能无所不及",
+    "snippet": "昇腾社区是基于昇腾系列处理器和基础软件构建的全栈AI计算基础设施、行业应用及服务，包括昇腾系列处理器、系列硬件、CANN异构计算架构、AI计算框架、应用使能、开发 ...",
+    "host_name": "www.hiascend.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://developer.huawei.com/consumer/cn/blog/topic/03202360222234319",
+    "name": "昇腾（Ascend）是什么| 华为开发者联盟 - Huawei Developer",
+    "snippet": "二、核心硬件：昇腾芯片与Atlas 产品矩阵 · 昇腾310 系列：面向边缘推理，低功耗（约8W），适用于智能摄像头、机器人等端边设备。 · 昇腾910/920 系列：面向云端 ...",
+    "host_name": "developer.huawei.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.ednchina.com/technews/36451.html",
+    "name": "国产AI芯片：华为昇腾的迭代路线 - 电子技术设计",
+    "snippet": "通过在计算单元设计、内存带宽利用、芯片互联和系统生态上的迭代，这建立起能够支撑大模型训练与推理的完整算力体系。 2025年华为全联接大会上，昇腾AI芯片 ...",
+    "host_name": "www.ednchina.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.eet-china.com/news/202509188322.html",
+    "name": "华为全联接大会2025发布昇腾芯片路线图，将采用自研HBM",
+    "snippet": "徐直军在大会上表示，华为已经规划了未来三年昇腾系列的多款芯片，包括昇腾950PR、昇腾950DT、昇腾960和昇腾970。",
+    "host_name": "www.eet-china.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://m.36kr.com/p/3322025045829894",
+    "name": "一文看懂华为昇腾芯片 - 36氪",
+    "snippet": "基于昇腾芯片，华为开发了AI算力板卡、服务器、集群等一系列硬件产品，如下图所示：. 这些硬件覆盖了边缘推理、云端推理、云端训练三大场景，可以满足不同行业 ...",
+    "host_name": "m.36kr.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

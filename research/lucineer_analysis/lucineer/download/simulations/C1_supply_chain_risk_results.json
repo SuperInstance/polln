@@ -1,0 +1,398 @@
+{
+  "simulation_metadata": {
+    "n_iterations": 10000,
+    "random_seed": 42,
+    "timestamp": "2025-01-15"
+  },
+  "supply_chain_network": {
+    "total_nodes": 11,
+    "total_edges": 18,
+    "nodes_by_type": {
+      "foundry": 3,
+      "osat": 2,
+      "memory": 3,
+      "substrate": 2,
+      "assembly": 1,
+      "warehouse": 0,
+      "customer": 0
+    },
+    "critical_path": [
+      "TSMC_28nm",
+      "ASE_Taiwan",
+      "Final_Assembly"
+    ],
+    "single_source_nodes": [
+      "TSMC_28nm",
+      "Micron_LPDDR4",
+      "Samsung_LPDDR4"
+    ]
+  },
+  "disruption_scenarios": {
+    "total_scenarios": 11,
+    "scenarios_by_type": {
+      "natural_disaster": 0.02,
+      "equipment_failure": 0.16999999999999998,
+      "geopolitical": 0.04,
+      "shortage": 0.25,
+      "capacity_constraint": 0.12,
+      "quality_issue": 0.06,
+      "logistics_disruption": 0.08
+    },
+    "high_probability_scenarios": [
+      {
+        "id": "MEM_001",
+        "type": "shortage",
+        "probability": 0.15,
+        "affected_nodes": [
+          "Micron_LPDDR4",
+          "Samsung_LPDDR4",
+          "SKHynix_LPDDR4"
+        ]
+      },
+      {
+        "id": "OSAT_001",
+        "type": "capacity_constraint",
+        "probability": 0.12,
+        "affected_nodes": [
+          "ASE_Taiwan"
+        ]
+      },
+      {
+        "id": "SUB_001",
+        "type": "shortage",
+        "probability": 0.1,
+        "affected_nodes": [
+          "Ibiden_Substrate",
+          "Unimicron_Substrate"
+        ]
+      },
+      {
+        "id": "MEM_002",
+        "type": "equipment_failure",
+        "probability": 0.08,
+        "affected_nodes": [
+          "Micron_LPDDR4"
+        ]
+      },
+      {
+        "id": "LOG_001",
+        "type": "logistics_disruption",
+        "probability": 0.08,
+        "affected_nodes": [
+          "Final_Assembly"
+        ]
+      }
+    ]
+  },
+  "risk_metrics": {
+    "expected_annual_loss": 941155.1832324613,
+    "var_95": 3082302.6039063013,
+    "var_99": 12247334.88637251,
+    "expected_shortfall_95": 8243059.775657956,
+    "expected_shortfall_99": 21737926.928250376,
+    "disruption_probability": 0.5387,
+    "mean_recovery_days": 45.625223087116176,
+    "max_recovery_days": 350.1376084350337,
+    "impact_by_disruption_type": {
+      "equipment_failure": {
+        "count": 1052,
+        "mean_impact": 1347793.4226548965,
+        "total_impact": 1417878680.632951
+      },
+      "logistics_disruption": {
+        "count": 836,
+        "mean_impact": 1191527.8457386428,
+        "total_impact": 996117279.0375054
+      },
+      "shortage": {
+        "count": 1849,
+        "mean_impact": 1948725.4714003315,
+        "total_impact": 3603193396.619213
+      },
+      "capacity_constraint": {
+        "count": 876,
+        "mean_impact": 1051903.5366208325,
+        "total_impact": 921467498.0798492
+      },
+      "natural_disaster": {
+        "count": 80,
+        "mean_impact": 5480787.526159624,
+        "total_impact": 438463002.0927699
+      },
+      "geopolitical": {
+        "count": 208,
+        "mean_impact": 7204882.782589941,
+        "total_impact": 1498615618.778708
+      },
+      "quality_issue": {
+        "count": 486,
+        "mean_impact": 1102502.79235312,
+        "total_impact": 535816357.0836163
+      }
+    },
+    "percentile_50": 229828.16080425636,
+    "percentile_75": 1083969.624571126,
+    "percentile_90": 2372848.6774297487,
+    "max_impact": 33809564.83877046,
+    "min_impact": 0
+  },
+  "inventory_policy": {
+    "order_quantity": 13199.091933711366,
+    "reorder_point": 52976.21756631311,
+    "safety_stock": 9809.55089964645,
+    "service_level": 0.95,
+    "carrying_cost_rate": 0.2
+  },
+  "inventory_costs": {
+    "annual_ordering_cost": 45457.672619701945,
+    "annual_holding_cost": 113025.85921646672,
+    "safety_stock_cost": 67568.18659676476,
+    "total_inventory_cost": 158483.53183616867,
+    "avg_inventory_units": 16409.096866502136,
+    "orders_per_year": 9.091534523940389,
+    "cost_as_pct_of_revenue": 1.671767213461695
+  },
+  "mitigation_strategies": {
+    "dual_sourcing": {
+      "strategies": [
+        {
+          "component": "Foundry (Wafers)",
+          "primary": "TSMC 28nm",
+          "secondary": "GlobalFoundries 22FDX",
+          "qualification_cost": 150000,
+          "annual_savings": 282346.5549697384,
+          "implementation_time": "6-12 months",
+          "risk_reduction": 0.4,
+          "roi_months": 18
+        },
+        {
+          "component": "LPDDR4 Memory",
+          "primary": "Micron",
+          "secondary": "Samsung + SK Hynix",
+          "qualification_cost": 75000,
+          "annual_savings": 188231.03664649228,
+          "implementation_time": "3-6 months",
+          "risk_reduction": 0.25,
+          "roi_months": 12
+        },
+        {
+          "component": "Packaging (OSAT)",
+          "primary": "ASE Taiwan",
+          "secondary": "Amkor US",
+          "qualification_cost": 50000,
+          "annual_savings": 141173.2774848692,
+          "implementation_time": "3-6 months",
+          "risk_reduction": 0.2,
+          "roi_months": 8
+        }
+      ],
+      "total_qualification_cost": 275000,
+      "total_risk_reduction": 0.2833333333333334
+    },
+    "geographic_diversification": {
+      "current_exposure": {
+        "Taiwan": 21.53846153846154,
+        "Korea": 26.153846153846157,
+        "US": 8.205128205128204,
+        "Japan": 8.205128205128204,
+        "China": 15.384615384615385
+      },
+      "target_exposure": {
+        "Taiwan": 25,
+        "Korea": 20,
+        "US": 30,
+        "Japan": 15,
+        "China": 10
+      },
+      "recommendations": [
+        {
+          "action": "Primary Foundry Switch to GlobalFoundries",
+          "current_region": "Taiwan",
+          "target_region": "US",
+          "cost": 2500000,
+          "risk_reduction": 0.35,
+          "timeline": "12-18 months"
+        },
+        {
+          "action": "Add Amkor as Secondary OSAT",
+          "current_region": "Taiwan",
+          "target_region": "US",
+          "cost": 50000,
+          "risk_reduction": 0.15,
+          "timeline": "3-6 months"
+        },
+        {
+          "action": "Qualify Ibiden as Primary Substrate",
+          "current_region": "Taiwan",
+          "target_region": "Japan",
+          "cost": 30000,
+          "risk_reduction": 0.1,
+          "timeline": "3 months"
+        }
+      ],
+      "geopolitical_risk_score": 3.4307692307692306
+    },
+    "safety_stock_optimization": {
+      "recommendations": [
+        {
+          "component": "LPDDR4 Memory",
+          "current_stock_months": 1,
+          "recommended_stock_months": 1.6,
+          "stock_value_usd": 164159.33,
+          "annual_carrying_cost": 32831.87,
+          "risk_reduction": 0.27
+        },
+        {
+          "component": "Wafers (WIP)",
+          "current_stock_months": 0.5,
+          "recommended_stock_months": 1.6,
+          "stock_value_usd": 49274514.39,
+          "annual_carrying_cost": 9854902.88,
+          "risk_reduction": 0.285
+        },
+        {
+          "component": "Package Substrate",
+          "current_stock_months": 1,
+          "recommended_stock_months": 1.3,
+          "stock_value_usd": 6366.61,
+          "annual_carrying_cost": 1273.32,
+          "risk_reduction": 0.21
+        },
+        {
+          "component": "Finished Goods",
+          "current_stock_months": 1,
+          "recommended_stock_months": 1.0,
+          "stock_value_usd": 344400.0,
+          "annual_carrying_cost": 68880.0,
+          "risk_reduction": 0.3
+        }
+      ],
+      "total_inventory_value": 49789440.33,
+      "total_annual_carrying_cost": 9957888.07,
+      "carrying_cost_pct_of_cogs": 240.9477368854046
+    },
+    "roi_analysis": {
+      "strategies": [
+        {
+          "strategy": "Dual Sourcing - Foundry",
+          "investment": 150000,
+          "annual_risk_reduction": 376462.07329298457,
+          "ongoing_annual_cost": 25000,
+          "net_annual_benefit": 351462.07329298457,
+          "payback_months": 5.1,
+          "roi_pct": 234.3,
+          "implementation_months": 12
+        },
+        {
+          "strategy": "Dual Sourcing - Memory",
+          "investment": 75000,
+          "annual_risk_reduction": 235288.79580811533,
+          "ongoing_annual_cost": 10000,
+          "net_annual_benefit": 225288.79580811533,
+          "payback_months": 4.0,
+          "roi_pct": 300.4,
+          "implementation_months": 6
+        },
+        {
+          "strategy": "Geographic Diversification",
+          "investment": 500000,
+          "annual_risk_reduction": 329404.31413136143,
+          "ongoing_annual_cost": 50000,
+          "net_annual_benefit": 279404.31413136143,
+          "payback_months": 21.5,
+          "roi_pct": 55.9,
+          "implementation_months": 18
+        },
+        {
+          "strategy": "Increased Safety Stock",
+          "investment": 200000,
+          "annual_risk_reduction": 188231.03664649228,
+          "ongoing_annual_cost": 40000,
+          "net_annual_benefit": 148231.03664649228,
+          "payback_months": 16.2,
+          "roi_pct": 74.1,
+          "implementation_months": 1
+        },
+        {
+          "strategy": "Supply Chain Insurance",
+          "investment": 0,
+          "annual_risk_reduction": 141173.2774848692,
+          "ongoing_annual_cost": 75000,
+          "net_annual_benefit": 66173.2774848692,
+          "payback_months": 0,
+          "roi_pct": "N/A",
+          "implementation_months": 1
+        }
+      ],
+      "total_investment": 925000,
+      "total_annual_risk_reduction": 1270559.4973638228,
+      "recommended_priorities": [
+        {
+          "strategy": "Dual Sourcing - Foundry",
+          "investment": 150000,
+          "annual_risk_reduction": 376462.07329298457,
+          "ongoing_annual_cost": 25000,
+          "net_annual_benefit": 351462.07329298457,
+          "payback_months": 5.1,
+          "roi_pct": 234.3,
+          "implementation_months": 12
+        },
+        {
+          "strategy": "Geographic Diversification",
+          "investment": 500000,
+          "annual_risk_reduction": 329404.31413136143,
+          "ongoing_annual_cost": 50000,
+          "net_annual_benefit": 279404.31413136143,
+          "payback_months": 21.5,
+          "roi_pct": 55.9,
+          "implementation_months": 18
+        },
+        {
+          "strategy": "Dual Sourcing - Memory",
+          "investment": 75000,
+          "annual_risk_reduction": 235288.79580811533,
+          "ongoing_annual_cost": 10000,
+          "net_annual_benefit": 225288.79580811533,
+          "payback_months": 4.0,
+          "roi_pct": 300.4,
+          "implementation_months": 6
+        }
+      ]
+    }
+  },
+  "success_criteria": {
+    "no_single_point_failures": {
+      "status": "FAIL",
+      "details": "3 single-source nodes identified"
+    },
+    "recovery_under_2_weeks": {
+      "status": "FAIL",
+      "details": "45.6 days mean recovery"
+    },
+    "inventory_cost_under_5pct": {
+      "status": "PASS",
+      "details": "1.67% of revenue"
+    }
+  },
+  "recommendations": {
+    "immediate_actions": [
+      "Lock LPDDR4 supply contract within 90 days",
+      "Qualify GlobalFoundries 22FDX as secondary foundry",
+      "Increase memory safety stock to 3 months",
+      "Engage Amkor as secondary OSAT"
+    ],
+    "medium_term_actions": [
+      "Implement dual sourcing for all critical components",
+      "Reduce Taiwan exposure from 40% to 25%",
+      "Build 6-month memory buffer inventory",
+      "Establish supply chain insurance policy"
+    ],
+    "risk_budget_allocation": {
+      "safety_stock": 72000,
+      "dual_source_qualification": 275000,
+      "premium_pricing_reserve": 50000,
+      "insurance": 30000,
+      "total_annual": 427000
+    }
+  }
+}

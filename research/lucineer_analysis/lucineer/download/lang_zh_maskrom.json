@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://news.futunn.com/post/69131690",
+    "name": "性能碾压英伟达B200！这家把大模型“刻”进芯片的公司什么来头？ - 富途资讯",
+    "snippet": "Feb 23, 2026 — 简单来说，Taalas创新性的存储架构包含了两部分：可编程SRAM区域，用于保存微调权重（如LoRA）和KV缓存；而模型主体则通过掩模ROM固化执行。而为弥补 ...",
+    "host_name": "news.futunn.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://patents.google.com/patent/CN110598224A/zh",
+    "name": "CN110598224A - 翻译模型的训练方法、文本处理方法、装置及存储介质",
+    "snippet": "本发明提供了一种翻译模型的训练方法包括：获取第一训练样本集合；对第一训练样本集合进行去噪处理，以形成相应的第二训练样本集合；通过翻译模型对第一训练样本集合进行 ...",
+    "host_name": "patents.google.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://zhuanlan.zhihu.com/p/710281865?utm_psn=1869116128288186369",
+    "name": "NVDLA",
+    "snippet": "用于从外部存储器（SRAM或DRAM）中批量读取待卷积数据（包括图片、特征值、权重），并按照卷积所需的数据顺序存入CBUF（卷积缓存）中，以满足卷积引擎计算的需要。 CBUF ( ...",
+    "host_name": "zhuanlan.zhihu.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?stockid=688385&id=7404089",
+    "name": "复旦微电首次公开发行股票并在科创板上市招股说明书",
+    "snippet": "Jul 29, 2021 — ... 存储器还包括PROM（可编程只读存储器）、EPROM （可擦除可编程只读存储器）等。 挥发性存储器在外部电源切断后，存储器内的数据也随之消失，存储容量较小但读 ...",
+    "host_name": "vip.stock.finance.sina.com.cn",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.intel.cn/content/dam/www/central-libraries/cn/zh/documents/2025-08/25-ccg-xeon-w-battlematrix-ai-computiong-platform-white-paper0829.pdf",
+    "name": "Xeon W AI Computing Platform_White Paper0829 - 英特尔",
+    "snippet": "不论是推理还是训练，不论是神经网络还是Transformer，其计算过程主要是大量的矩阵乘法计算——矢量化. 的信息在网络中根据设定的参数（权重、偏置等）逐层进行计算。推理 ...",
+    "host_name": "www.intel.cn",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www-file.huawei.com/admin/asset/v1/pro/view/dda7ee674ced41d4bb989b365ea0a028.pdf",
+    "name": "工业与AI融合应用指南",
+    "snippet": "相比传统的模块化架构，端到端模. 型的神经网络可以实现从规则驱动转变为. 数据驱动。 • 端到端：采用数据驱动方式，通过单. 一神经网络实现从“视觉输入、控制. 输出”的全 ...",
+    "host_name": "www-file.huawei.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://ocic.nthu.edu.tw/ocic_patent_search_excel.php?kwd=",
+    "name": "Worksheet",
+    "snippet": "本發明提供一種基於混合精度演算法和記憶體內運算加速器之軟硬體協同運作系統，其處理器從記憶體獲得預訓練模型之初始權重參數；針對初始權重參數進行剪枝程序，以產生剪枝 ...",
+    "host_name": "ocic.nthu.edu.tw",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www1.hkexnews.hk/app/sehk/2025/107683/documents/sehk25091500845_c.pdf",
+    "name": "Ingenic Semiconductor Co., Ltd. 北京君正集成電路股份有限公司",
+    "snippet": "Sep 8, 2025 — ... 中文及英文載列中國法律及法規、政府機關、機構、自然. 人或其他實體（包括本公司的附屬公司）的名稱。如有任何歧義，概以中文版本為準。 Page 40. 技術 ...",
+    "host_name": "www1.hkexnews.hk",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://blog.csdn.net/weixin_49199313/article/details/148987647",
+    "name": "【人工智能基础】Transformer与模型微调",
+    "snippet": "其中 Q （查询）、 K （键）、 V （值）由输入线性变换得到。 · ​作用​ ...",
+    "host_name": "blog.csdn.net",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.acem.sjtu.edu.cn/ueditor/jsp/upload/file/20250427/1745731689854071357.pdf",
+    "name": "2025 上海交大行研院报告，引用注明出处",
+    "snippet": "May 6, 2025 — 本节将试图用比较通俗的语言来解构支撑大模型发展的核心技术体系：首先剖析. Transformer 架构的自注意力机制如何突破传统神经网络的序列建模瓶颈，奠定大 ...",
+    "host_name": "www.acem.sjtu.edu.cn",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

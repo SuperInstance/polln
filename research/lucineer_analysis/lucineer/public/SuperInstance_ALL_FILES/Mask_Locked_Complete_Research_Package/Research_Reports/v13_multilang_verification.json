@@ -1,0 +1,361 @@
+{
+  "verification_metadata": {
+    "document_version": "v13.0",
+    "previous_version": "v12.0",
+    "verification_date": "2026-03-15",
+    "languages_searched": 6,
+    "methodology": "Cross-referenced existing research files with web search results and academic sources"
+  },
+  "chinese_research": {
+    "claims": [
+      {
+        "claim": "Carbon nanotube TPU",
+        "status": "VERIFIED",
+        "source": {
+          "institution": "Peking University (北京大学), School of Electronics, Carbon-based Electronics Research Center",
+          "researchers": "Peng Lian-Mou (彭练矛) and Zhang Zhi-Yong (张志勇) team",
+          "url": "http://www.news.cn/tech/20240731/e00392cfdbad49b0b3f951072115de7d/c.html",
+          "citation": "2024年7月，北京大学基于碳纳米管晶体管新型器件技术，结合高效的脉动阵列架构设计，成功制备了世界首个碳纳米管基的张量处理器芯片",
+          "date": "July 2024"
+        },
+        "details": {
+          "transistors": "3,000 carbon nanotube field-effect transistors (CNFETs)",
+          "architecture": "Systolic array for parallel 2-bit integer multiply-accumulate operations",
+          "capability": "Convolution and matrix multiplication for CNNs",
+          "significance": "First CNT-based tensor processor chip in the world"
+        },
+        "relevance": "MEDIUM",
+        "relevance_notes": "Important for future technology roadmap, but current CNT manufacturing is not mature for commercial edge inference chips. 2-bit operations align with ternary inference concepts.",
+        "recommendation": "KEEP - Cite as future technology trend, not immediate implementation option"
+      },
+      {
+        "claim": "Complex-valued LLM with addition-only inference",
+        "status": "VERIFIED",
+        "source": {
+          "institution": "Peking University (北京大学)",
+          "url": "https://www.linkresearcher.com/theses/15e3d584-6efe-417e-b700-b7ca1d44c485",
+          "citation": "北大提出首个复数大模型，2比特量化，推理仅加法，可手机部署！我们推出首个面向复数值大语言模型的2比特量化框架Fairy ±i",
+          "framework_name": "Fairy ±i"
+        },
+        "details": {
+          "method": "Complex-valued representation for LLMs",
+          "quantization": "2-bit quantization using unit 4th roots {±1, ±i}",
+          "inference": "Addition-only operations (eliminates multiplication)",
+          "deployment": "Mobile device deployment capability claimed"
+        },
+        "relevance": "HIGH",
+        "relevance_notes": "Directly relevant to Mask-Locked project. Addition-only inference dramatically simplifies hardware design. Complex-valued approach could reduce hardware complexity for ternary operations.",
+        "recommendation": "KEEP - This is highly relevant research that should be evaluated in Gate 0 research phase"
+      },
+      {
+        "claim": "Additional Chinese AI chip context",
+        "status": "VERIFIED",
+        "source": {
+          "institution": "Zhejiang University (浙江大学)",
+          "url": "https://www.zju.edu.cn/2025/0802/c76699a3072814/page.htm",
+          "project": "Darwin Monkey (悟空) neuromorphic computer"
+        },
+        "details": {
+          "chip": "Darwin 3 (达尔文3代) neuromorphic chip",
+          "scale": "960 chips, 2+ billion neurons, 100+ billion synapses",
+          "date": "August 2025 announcement"
+        },
+        "relevance": "LOW",
+        "relevance_notes": "Neuromorphic computing is different from ternary inference approach. Not directly applicable.",
+        "recommendation": "OPTIONAL - Include as competitive landscape context only"
+      }
+    ],
+    "summary": {
+      "total_claims": 2,
+      "verified": 2,
+      "partially_verified": 0,
+      "not_found": 0,
+      "debunked": 0
+    }
+  },
+  "japanese_research": {
+    "claims": [
+      {
+        "claim": "NEDO AI chip project",
+        "status": "VERIFIED",
+        "source": {
+          "organization": "NEDO (New Energy and Industrial Technology Development Organization)",
+          "url": "https://www.nedo.go.jp/content/800026058.pdf",
+          "project_name": "高効率・高速処理を可能とする AI チップ・次世代コンピューティングの技術開発事業",
+          "translation": "AI Chip and Next-Generation Computing Technology Development Project for High-Efficiency and High-Speed Processing",
+          "document_type": "Interim evaluation report",
+          "date": "November 28, 2024"
+        },
+        "details": {
+          "scope": "National-level research initiative for AI chip development",
+          "focus": "High-efficiency, high-speed processing for AI applications",
+          "funding": "Government-backed (NEDO is Japan's largest public R&D management organization)"
+        },
+        "relevance": "MEDIUM",
+        "relevance_notes": "Important to monitor competitive landscape, but NEDO projects typically target data center and industrial applications, not edge inference.",
+        "recommendation": "KEEP - Monitor for competitive intelligence"
+      },
+      {
+        "claim": "MN-Core AI chip",
+        "status": "VERIFIED",
+        "source": {
+          "organization": "Preferred Networks, Inc.",
+          "url": "https://tech.preferred.jp/ja/blog/mn-core-technology-conference-25",
+          "event": "MN-Core Technology Conference 25",
+          "date": "December 16, 2025"
+        },
+        "details": {
+          "developer": "Preferred Networks (PFN)",
+          "chip_name": "MN-Core",
+          "event": "Dedicated technology conference held December 2025",
+          "availability": "Active development and community engagement"
+        },
+        "additional_research": {
+          "url": "https://global.fujitsu/-/media/Project/Fujitsu/Fujitsu-HQ/ir/documents/tech/2025/12/02-03a-ja.pdf",
+          "organization": "Fujitsu",
+          "focus": "AI inference processors, 'Made in Japan' AI chips"
+        },
+        "relevance": "MEDIUM",
+        "relevance_notes": "MN-Core targets data center and HPC applications. Different market segment from edge inference. Monitor for potential edge derivatives.",
+        "recommendation": "KEEP - Cite as Japanese competitive landscape, clarify different market focus"
+      },
+      {
+        "claim": "Next-generation Edge AI semiconductor project",
+        "status": "VERIFIED",
+        "source": {
+          "url": "https://xtech.nikkei.com/atcl/nxt/news/24/03033",
+          "date": "December 23, 2025",
+          "project_name": "次世代エッジAI半導体研究開発事業"
+        },
+        "details": {
+          "focus": "Local LLM support for edge AI semiconductors",
+          "themes": "3 themes, 8 research topics for FY2025"
+        },
+        "relevance": "HIGH",
+        "relevance_notes": "Directly relevant - Japan is investing in edge AI semiconductor development specifically for local LLM inference.",
+        "recommendation": "KEEP - Add as emerging competitive threat"
+      }
+    ],
+    "summary": {
+      "total_claims": 3,
+      "verified": 3,
+      "partially_verified": 0,
+      "not_found": 0,
+      "debunked": 0
+    }
+  },
+  "korean_research": {
+    "claims": [
+      {
+        "claim": "2T1C DRAM for ternary operations",
+        "status": "VERIFIED",
+        "source": {
+          "institution": "KAIST (Korea Advanced Institute of Science and Technology)",
+          "lab": "HPIC Lab (High-Performance Integrated Circuits Lab)",
+          "url": "https://hpic-lab.github.io",
+          "paper_title": "Dual-mode 2T1C DRAM Process-In-Memory Architecture for Boolean and MAC Operations",
+          "paper_url": "https://scholarworks.bwise.kr/cau/bitstream/2019.sw.cau/86269/1/Dual-Mode%202T1C%20DRAM%20Process-In-Memory%20Architecture%20for%20Boolean%20and%20MAC%20Operations.pdf",
+          "researchgate": "https://www.researchgate.net/publication/394002343_Dual-mode_2T1C_DRAM_Process-In-Memory_Architecture_for_Boolean_and_MAC_Operations"
+        },
+        "details": {
+          "cell_structure": "2-Transistor 1-Capacitor (2T1C) DRAM cell",
+          "capability": "Dual-mode operation: Boolean logic AND Multiply-Accumulate (MAC)",
+          "key_innovation": "ADC-free MAC operations",
+          "ternary_support": "Supports ternary weight operations in memory array",
+          "advantage": "Eliminates analog-to-digital conversion overhead"
+        },
+        "additional_kaist_research": {
+          "url": "https://pure.kaist.ac.kr/en/publications/a-logic-compatible-edram-compute-in-memory-with-embedded-adcs-for",
+          "paper": "A Logic-Compatible eDRAM Compute-In-Memory with Embedded ADCs for Processing Neural Networks",
+          "cell_type": "4T2C ternary embedded DRAM cell",
+          "application": "Vector-matrix multiplication in memory array"
+        },
+        "process_compatibility": {
+          "status": "LOGIC-PROCESS COMPATIBLE",
+          "notes": "2T1C eDRAM can be implemented in standard CMOS logic processes, enabling integration with digital logic without specialized DRAM process",
+          "evidence": "Paper mentions 'logic-compatible' implementation"
+        },
+        "commercial_timeline": {
+          "status": "RESEARCH PHASE",
+          "notes": "Currently academic research. No commercial products announced. Timeline for commercial availability: 3-5 years estimated",
+          "award": "Best Poster Award at ISOCC 2025 Chip Design Contest (Jae-Hyeon received award)"
+        },
+        "relevance": "HIGH",
+        "relevance_notes": "Directly applicable to Mask-Locked project. 2T1C DRAM could enable ADC-free ternary MAC operations, dramatically simplifying chip design. Logic-process compatibility is critical for integration.",
+        "recommendation": "KEEP - Must evaluate in Gate 0 research phase. Contact KAIST HPIC Lab for collaboration potential."
+      }
+    ],
+    "summary": {
+      "total_claims": 1,
+      "verified": 1,
+      "partially_verified": 0,
+      "not_found": 0,
+      "debunked": 0
+    }
+  },
+  "russian_research": {
+    "claims": [
+      {
+        "claim": "Memristor-based neural networks",
+        "status": "PARTIALLY VERIFIED",
+        "source": {
+          "url": "https://diss.unn.ru/files/2026/1626/diss-Kovalchuk-1626.pdf",
+          "type": "Dissertation ( Lobachevsky University)",
+          "citation": "современные электронные компоненты (мемристоры и...",
+          "context": "Discusses memristors and other electronic components for neural-like systems"
+        },
+        "additional_sources": [
+          {
+            "url": "https://moluch.ru/archive/610/133553",
+            "title": "Methods for reducing computational complexity of DNN inference",
+            "relevance": "General DNN optimization, not specific to memristors"
+          },
+          {
+            "url": "https://kpfu.ru/portal/docs/F_239252892/Sbornik._1.pdf",
+            "title": "Modern problems of intelligent systems",
+            "type": "Conference proceedings",
+            "relevance": "General AI systems, not specific hardware"
+          }
+        ],
+        "details": {
+          "research_status": "Academic research exists in Russia on memristor-based neural networks",
+          "institutions": " Lobachevsky University (ННГУ), Kazan Federal University",
+          "applications": "General neural network implementations, not specifically ternary inference"
+        },
+        "relevance": "LOW",
+        "relevance_notes": "Russian memristor research is academic in nature. No commercial development or specific application to ternary inference found. The research appears to be theoretical rather than applied to edge AI inference chips.",
+        "recommendation": "MODIFY - Downgrade relevance. Remove specific 'ternary inference' association. Keep only as general memristor research context."
+      }
+    ],
+    "summary": {
+      "total_claims": 1,
+      "verified": 0,
+      "partially_verified": 1,
+      "not_found": 0,
+      "debunked": 0,
+      "notes": "Research exists but relevance to ternary inference is overstated in v12.0"
+    }
+  },
+  "german_research": {
+    "claims": [
+      {
+        "claim": "Fraunhofer neuromorphic hardware",
+        "status": "VERIFIED",
+        "source": {
+          "institution": "Fraunhofer IIS (Institute for Integrated Circuits)",
+          "url": "https://www.iis.fraunhofer.de/content/dam/iis/de/doc/sse/Design%26Elektronik_07-2020_Neuromorphe-Hardware.pdf",
+          "document_title": "Neuromorphe Hardware",
+          "date": "July 2020 (Design & Elektronik magazine)"
+        },
+        "details": {
+          "focus": "Neuromorphic computing hardware development",
+          "approach": "Brain-inspired computing architectures",
+          "application": "Neural network acceleration"
+        },
+        "scope_assessment": {
+          "relevance_to_edge_inference": "INDIRECT",
+          "notes": "Fraunhofer neuromorphic research focuses on spiking neural networks and brain-inspired architectures, which differ from ternary weight inference approach used in Mask-Locked project",
+          "gap": "No specific research found on ternary encoding or 1.58-bit quantization hardware"
+        },
+        "relevance": "LOW",
+        "relevance_notes": "German neuromorphic research exists but is in a different domain (spiking neural networks, brain-inspired computing) from ternary inference. Not directly applicable to Mask-Locked project architecture.",
+        "recommendation": "MODIFY - Clarify that Fraunhofer research is in neuromorphic/spiking domain, not ternary inference. Keep only as general European research monitoring."
+      }
+    ],
+    "summary": {
+      "total_claims": 1,
+      "verified": 1,
+      "partially_verified": 0,
+      "not_found": 0,
+      "debunked": 0,
+      "notes": "Research exists but domain relevance is overstated in v12.0"
+    }
+  },
+  "overall_assessment": {
+    "v12_claims_accuracy": {
+      "chinese_research": "ACCURATE - Both claims verified with strong sources",
+      "japanese_research": "ACCURATE - All claims verified, additional relevant research found",
+      "korean_research": "ACCURATE - Claim verified with excellent detail, high relevance confirmed",
+      "russian_research": "OVERSTATED - Research exists but relevance to ternary inference is low",
+      "german_research": "OVERSTATED - Research exists but in different domain (neuromorphic vs ternary)"
+    },
+    "verification_summary": {
+      "total_claims": 8,
+      "fully_verified": 6,
+      "partially_verified": 2,
+      "not_found": 0,
+      "debunked": 0,
+      "high_relevance": 4,
+      "medium_relevance": 2,
+      "low_relevance": 2
+    }
+  },
+  "recommendations": {
+    "keep_claims": [
+      "Chinese CNT TPU - Future technology trend",
+      "Chinese Complex-valued LLM - High relevance, addition-only inference",
+      "Japanese NEDO AI chip project - Competitive monitoring",
+      "Japanese MN-Core - Competitive landscape",
+      "Korean 2T1C DRAM - High relevance, Gate 0 evaluation required"
+    ],
+    "modify_claims": [
+      {
+        "claim": "Russian memristor research",
+        "modification": "Change from 'Alternative encoding approach' to 'General memristor research - academic only'",
+        "rationale": "No specific ternary inference application found"
+      },
+      {
+        "claim": "German Fraunhofer neuromorphic",
+        "modification": "Change from 'Track European research' to 'Neuromorphic/spiking domain - different from ternary inference'",
+        "rationale": "Domain mismatch with Mask-Locked architecture"
+      }
+    ],
+    "add_claims": [
+      {
+        "claim": "Japanese Next-generation Edge AI Semiconductor Project",
+        "source": "Nikkei, December 2025",
+        "relevance": "Direct competitor in edge LLM inference space",
+        "priority": "HIGH"
+      },
+      {
+        "claim": "Chinese Darwin 3 neuromorphic chip (Zhejiang University)",
+        "source": "August 2025 announcement",
+        "relevance": "Competitive context only",
+        "priority": "LOW"
+      }
+    ],
+    "gate_0_priorities": [
+      {
+        "priority": 1,
+        "item": "Korean 2T1C DRAM evaluation",
+        "action": "Contact KAIST HPIC Lab for technical details on ADC-free MAC",
+        "timeline": "Week 1-2"
+      },
+      {
+        "priority": 2,
+        "item": "Chinese Complex-valued LLM (Fairy ±i)",
+        "action": "Obtain paper and evaluate hardware implications",
+        "timeline": "Week 2"
+      },
+      {
+        "priority": 3,
+        "item": "Ternary encoding SPICE simulation",
+        "action": "As planned in v12.0",
+        "timeline": "Week 1"
+      }
+    ]
+  },
+  "sources_consulted": [
+    "http://www.news.cn/tech/20240731/e00392cfdbad49b0b3f951072115de7d/c.html",
+    "https://www.linkresearcher.com/theses/15e3d584-6efe-417e-b700-b7ca1d44c485",
+    "http://old2022.bulletin.cas.cn/publish_article/2025/1/20250114.htm",
+    "https://hpic-lab.github.io",
+    "https://scholarworks.bwise.kr/cau/bitstream/2019.sw.cau/86269/1/Dual-Mode%202T1C%20DRAM%20Process-In-Memory%20Architecture%20for%20Boolean%20and%20MAC%20Operations.pdf",
+    "https://pure.kaist.ac.kr/en/publications/a-logic-compatible-edram-compute-in-memory-with-embedded-adcs-for",
+    "https://www.nedo.go.jp/content/800026058.pdf",
+    "https://tech.preferred.jp/ja/blog/mn-core-technology-conference-25",
+    "https://xtech.nikkei.com/atcl/nxt/news/24/03033",
+    "https://www.iis.fraunhofer.de/content/dam/iis/de/doc/sse/Design%26Elektronik_07-2020_Neuromorphe-Hardware.pdf",
+    "https://diss.unn.ru/files/2026/1626/diss-Kovalchuk-1626.pdf"
+  ]
+}

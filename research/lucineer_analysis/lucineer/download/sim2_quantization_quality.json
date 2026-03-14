@@ -1,0 +1,841 @@
+{
+  "models": {
+    "bitnet_2b": {
+      "config": {
+        "name": "BitNet b1.58-2B-4T",
+        "params_b": 2.0,
+        "hidden_size": 2048,
+        "layers": 24
+      },
+      "quantization_results": {
+        "FP16": {
+          "mmlu": 52.3,
+          "gsm8k": 45.2,
+          "humaneval": 28.5,
+          "avg_degradation": 0.0
+        },
+        "INT8": {
+          "mmlu": 51.8,
+          "gsm8k": 44.400000000000006,
+          "humaneval": 27.3,
+          "avg_degradation": 2.312153588254974
+        },
+        "INT4": {
+          "mmlu": 49.8,
+          "gsm8k": 41.0,
+          "humaneval": 20.0,
+          "avg_degradation": 14.632237174830735
+        },
+        "Ternary": {
+          "mmlu": 49.099999999999994,
+          "gsm8k": 40.1,
+          "humaneval": 16.2,
+          "avg_degradation": 20.186542474224783
+        },
+        "Ternary_QAT": {
+          "mmlu": 50.5,
+          "gsm8k": 42.300000000000004,
+          "humaneval": 22.0,
+          "avg_degradation": 10.88820978259396
+        },
+        "Binary": {
+          "mmlu": 39.8,
+          "gsm8k": 26.900000000000002,
+          "humaneval": 3.5,
+          "avg_degradation": 50.70219917436586
+        }
+      }
+    },
+    "llama_3b": {
+      "config": {
+        "name": "Llama-3.2-3B",
+        "params_b": 3.0,
+        "hidden_size": 3072,
+        "layers": 28
+      },
+      "quantization_results": {
+        "FP16": {
+          "mmlu": 63.4,
+          "gsm8k": 57.8,
+          "humaneval": 42.1,
+          "avg_degradation": 0.0
+        },
+        "INT8": {
+          "mmlu": 62.9,
+          "gsm8k": 57.0,
+          "humaneval": 40.9,
+          "avg_degradation": 1.674360957547515
+        },
+        "INT4": {
+          "mmlu": 60.9,
+          "gsm8k": 53.599999999999994,
+          "humaneval": 33.6,
+          "avg_degradation": 10.466559134914478
+        },
+        "Ternary": {
+          "mmlu": 60.199999999999996,
+          "gsm8k": 52.699999999999996,
+          "humaneval": 29.8,
+          "avg_degradation": 14.362333347584823
+        },
+        "Ternary_QAT": {
+          "mmlu": 61.6,
+          "gsm8k": 54.9,
+          "humaneval": 35.6,
+          "avg_degradation": 7.765282562015426
+        },
+        "Binary": {
+          "mmlu": 50.9,
+          "gsm8k": 39.5,
+          "humaneval": 17.1,
+          "avg_degradation": 36.919803594968435
+        }
+      }
+    },
+    "gemma_2b": {
+      "config": {
+        "name": "Gemma-2-2B",
+        "params_b": 2.0,
+        "hidden_size": 2048,
+        "layers": 18
+      },
+      "quantization_results": {
+        "FP16": {
+          "mmlu": 51.3,
+          "gsm8k": 42.5,
+          "humaneval": 26.8,
+          "avg_degradation": 0.0
+        },
+        "INT8": {
+          "mmlu": 50.8,
+          "gsm8k": 41.7,
+          "humaneval": 25.6,
+          "avg_degradation": 2.4448745836235632
+        },
+        "INT4": {
+          "mmlu": 48.8,
+          "gsm8k": 38.3,
+          "humaneval": 18.3,
+          "avg_degradation": 15.490688399534264
+        },
+        "Ternary": {
+          "mmlu": 48.099999999999994,
+          "gsm8k": 37.4,
+          "humaneval": 14.5,
+          "avg_degradation": 21.37777971739742
+        },
+        "Ternary_QAT": {
+          "mmlu": 49.5,
+          "gsm8k": 39.6,
+          "humaneval": 20.3,
+          "avg_degradation": 11.528677561624283
+        },
+        "Binary": {
+          "mmlu": 38.8,
+          "gsm8k": 24.2,
+          "humaneval": 1.8000000000000007,
+          "avg_degradation": 53.56962578461893
+        }
+      }
+    },
+    "phi_3b": {
+      "config": {
+        "name": "Phi-3-mini",
+        "params_b": 3.8,
+        "hidden_size": 3072,
+        "layers": 32
+      },
+      "quantization_results": {
+        "FP16": {
+          "mmlu": 68.1,
+          "gsm8k": 61.3,
+          "humaneval": 48.7,
+          "avg_degradation": 0.0
+        },
+        "INT8": {
+          "mmlu": 67.6,
+          "gsm8k": 60.5,
+          "humaneval": 47.5,
+          "avg_degradation": 1.501112398422969
+        },
+        "INT4": {
+          "mmlu": 65.6,
+          "gsm8k": 57.099999999999994,
+          "humaneval": 40.2,
+          "avg_degradation": 9.325473492093073
+        },
+        "Ternary": {
+          "mmlu": 64.89999999999999,
+          "gsm8k": 56.199999999999996,
+          "humaneval": 36.400000000000006,
+          "avg_degradation": 12.758461533242516
+        },
+        "Ternary_QAT": {
+          "mmlu": 66.3,
+          "gsm8k": 58.4,
+          "humaneval": 42.2,
+          "avg_degradation": 6.9070087891117495
+        },
+        "Binary": {
+          "mmlu": 55.599999999999994,
+          "gsm8k": 43.0,
+          "humaneval": 23.700000000000003,
+          "avg_degradation": 33.181081033483466
+        }
+      }
+    }
+  },
+  "comparison": {},
+  "layer_analysis": {
+    "bitnet_2b": {
+      "layer_0": {
+        "position": 0.0,
+        "sensitivity": 0.7610967291054802,
+        "attention_sensitivity": 0.6849870561949322,
+        "ffn_sensitivity": 0.8372064020160283
+      },
+      "layer_1": {
+        "position": 0.041666666666666664,
+        "sensitivity": 0.7258802450709418,
+        "attention_sensitivity": 0.6532922205638477,
+        "ffn_sensitivity": 0.7984682695780361
+      },
+      "layer_2": {
+        "position": 0.08333333333333333,
+        "sensitivity": 0.7468780742156521,
+        "attention_sensitivity": 0.6721902667940869,
+        "ffn_sensitivity": 0.8215658816372173
+      },
+      "layer_3": {
+        "position": 0.125,
+        "sensitivity": 0.7072374856074233,
+        "attention_sensitivity": 0.636513737046681,
+        "ffn_sensitivity": 0.7779612341681656
+      },
+      "layer_4": {
+        "position": 0.16666666666666666,
+        "sensitivity": 0.7961257638918934,
+        "attention_sensitivity": 0.7165131875027041,
+        "ffn_sensitivity": 0.8757383402810828
+      },
+      "layer_5": {
+        "position": 0.20833333333333334,
+        "sensitivity": 0.9616432188164638,
+        "attention_sensitivity": 0.8654788969348174,
+        "ffn_sensitivity": 1.0578075406981102
+      },
+      "layer_6": {
+        "position": 0.25,
+        "sensitivity": 0.9914240539097715,
+        "attention_sensitivity": 0.8922816485187943,
+        "ffn_sensitivity": 1.0905664593007487
+      },
+      "layer_7": {
+        "position": 0.2916666666666667,
+        "sensitivity": 0.9263290184900895,
+        "attention_sensitivity": 0.8336961166410806,
+        "ffn_sensitivity": 1.0189619203390985
+      },
+      "layer_8": {
+        "position": 0.3333333333333333,
+        "sensitivity": 1.0858337508682994,
+        "attention_sensitivity": 0.9772503757814694,
+        "ffn_sensitivity": 1.1944171259551295
+      },
+      "layer_9": {
+        "position": 0.375,
+        "sensitivity": 0.9849309443457258,
+        "attention_sensitivity": 0.8864378499111533,
+        "ffn_sensitivity": 1.0834240387802985
+      },
+      "layer_10": {
+        "position": 0.4166666666666667,
+        "sensitivity": 0.9322890962073338,
+        "attention_sensitivity": 0.8390601865866004,
+        "ffn_sensitivity": 1.0255180058280673
+      },
+      "layer_11": {
+        "position": 0.4583333333333333,
+        "sensitivity": 0.9976958958026505,
+        "attention_sensitivity": 0.8979263062223855,
+        "ffn_sensitivity": 1.0974654853829156
+      },
+      "layer_12": {
+        "position": 0.5,
+        "sensitivity": 0.9372604169544761,
+        "attention_sensitivity": 0.8435343752590285,
+        "ffn_sensitivity": 1.0309864586499238
+      },
+      "layer_13": {
+        "position": 0.5416666666666666,
+        "sensitivity": 0.9406686819808283,
+        "attention_sensitivity": 0.8466018137827455,
+        "ffn_sensitivity": 1.0347355501789113
+      },
+      "layer_14": {
+        "position": 0.5833333333333334,
+        "sensitivity": 1.0590993910683837,
+        "attention_sensitivity": 0.9531894519615454,
+        "ffn_sensitivity": 1.1650093301752222
+      },
+      "layer_15": {
+        "position": 0.625,
+        "sensitivity": 0.9823409413848632,
+        "attention_sensitivity": 0.8841068472463769,
+        "ffn_sensitivity": 1.0805750355233497
+      },
+      "layer_16": {
+        "position": 0.6666666666666666,
+        "sensitivity": 0.958793364688684,
+        "attention_sensitivity": 0.8629140282198157,
+        "ffn_sensitivity": 1.0546727011575525
+      },
+      "layer_17": {
+        "position": 0.7083333333333334,
+        "sensitivity": 0.9548063728364566,
+        "attention_sensitivity": 0.859325735552811,
+        "ffn_sensitivity": 1.0502870101201023
+      },
+      "layer_18": {
+        "position": 0.75,
+        "sensitivity": 1.0138509829585522,
+        "attention_sensitivity": 0.9124658846626971,
+        "ffn_sensitivity": 1.1152360812544075
+      },
+      "layer_19": {
+        "position": 0.7916666666666666,
+        "sensitivity": 1.0294913250153177,
+        "attention_sensitivity": 0.926542192513786,
+        "ffn_sensitivity": 1.1324404575168496
+      },
+      "layer_20": {
+        "position": 0.8333333333333334,
+        "sensitivity": 1.1308513930573438,
+        "attention_sensitivity": 1.0177662537516095,
+        "ffn_sensitivity": 1.2439365323630782
+      },
+      "layer_21": {
+        "position": 0.875,
+        "sensitivity": 1.2951104507938132,
+        "attention_sensitivity": 1.1655994057144319,
+        "ffn_sensitivity": 1.4246214958731946
+      },
+      "layer_22": {
+        "position": 0.9166666666666666,
+        "sensitivity": 1.1723979558931947,
+        "attention_sensitivity": 1.0551581603038753,
+        "ffn_sensitivity": 1.2896377514825144
+      },
+      "layer_23": {
+        "position": 0.9583333333333334,
+        "sensitivity": 1.2854616837711594,
+        "attention_sensitivity": 1.1569155153940436,
+        "ffn_sensitivity": 1.4140078521482755
+      }
+    },
+    "llama_3b": {
+      "layer_0": {
+        "position": 0.0,
+        "sensitivity": 0.8123707239980541,
+        "attention_sensitivity": 0.7311336515982487,
+        "ffn_sensitivity": 0.8936077963978596
+      },
+      "layer_1": {
+        "position": 0.03571428571428571,
+        "sensitivity": 0.7967886227937164,
+        "attention_sensitivity": 0.7171097605143448,
+        "ffn_sensitivity": 0.8764674850730881
+      },
+      "layer_2": {
+        "position": 0.07142857142857142,
+        "sensitivity": 0.8600885642276634,
+        "attention_sensitivity": 0.7740797078048971,
+        "ffn_sensitivity": 0.9460974206504299
+      },
+      "layer_3": {
+        "position": 0.10714285714285714,
+        "sensitivity": 0.792157728239513,
+        "attention_sensitivity": 0.7129419554155617,
+        "ffn_sensitivity": 0.8713735010634645
+      },
+      "layer_4": {
+        "position": 0.14285714285714285,
+        "sensitivity": 0.8509153483471987,
+        "attention_sensitivity": 0.7658238135124789,
+        "ffn_sensitivity": 0.9360068831819187
+      },
+      "layer_5": {
+        "position": 0.17857142857142858,
+        "sensitivity": 0.890183311648891,
+        "attention_sensitivity": 0.8011649804840019,
+        "ffn_sensitivity": 0.9792016428137802
+      },
+      "layer_6": {
+        "position": 0.21428571428571427,
+        "sensitivity": 0.963067584669809,
+        "attention_sensitivity": 0.8667608262028281,
+        "ffn_sensitivity": 1.05937434313679
+      },
+      "layer_7": {
+        "position": 0.25,
+        "sensitivity": 1.0402804499151426,
+        "attention_sensitivity": 0.9362524049236284,
+        "ffn_sensitivity": 1.1443084949066569
+      },
+      "layer_8": {
+        "position": 0.2857142857142857,
+        "sensitivity": 0.9330375499565522,
+        "attention_sensitivity": 0.839733794960897,
+        "ffn_sensitivity": 1.0263413049522074
+      },
+      "layer_9": {
+        "position": 0.32142857142857145,
+        "sensitivity": 1.0893523544785837,
+        "attention_sensitivity": 0.9804171190307254,
+        "ffn_sensitivity": 1.1982875899264422
+      },
+      "layer_10": {
+        "position": 0.35714285714285715,
+        "sensitivity": 1.005349439891533,
+        "attention_sensitivity": 0.9048144959023797,
+        "ffn_sensitivity": 1.1058843838806864
+      },
+      "layer_11": {
+        "position": 0.39285714285714285,
+        "sensitivity": 0.9507435399401075,
+        "attention_sensitivity": 0.8556691859460968,
+        "ffn_sensitivity": 1.0458178939341183
+      },
+      "layer_12": {
+        "position": 0.42857142857142855,
+        "sensitivity": 1.0333183938313064,
+        "attention_sensitivity": 0.9299865544481758,
+        "ffn_sensitivity": 1.1366502332144373
+      },
+      "layer_13": {
+        "position": 0.4642857142857143,
+        "sensitivity": 1.0090627617729202,
+        "attention_sensitivity": 0.9081564855956282,
+        "ffn_sensitivity": 1.1099690379502123
+      },
+      "layer_14": {
+        "position": 0.5,
+        "sensitivity": 0.9705941196214548,
+        "attention_sensitivity": 0.8735347076593093,
+        "ffn_sensitivity": 1.0676535315836004
+      },
+      "layer_15": {
+        "position": 0.5357142857142857,
+        "sensitivity": 0.9045669126533122,
+        "attention_sensitivity": 0.8141102213879811,
+        "ffn_sensitivity": 0.9950236039186435
+      },
+      "layer_16": {
+        "position": 0.5714285714285714,
+        "sensitivity": 1.0632988760436188,
+        "attention_sensitivity": 0.9569689884392569,
+        "ffn_sensitivity": 1.1696287636479807
+      },
+      "layer_17": {
+        "position": 0.6071428571428571,
+        "sensitivity": 1.0024202223624692,
+        "attention_sensitivity": 0.9021782001262223,
+        "ffn_sensitivity": 1.1026622445987162
+      },
+      "layer_18": {
+        "position": 0.6428571428571429,
+        "sensitivity": 0.9538361425540111,
+        "attention_sensitivity": 0.85845252829861,
+        "ffn_sensitivity": 1.0492197568094122
+      },
+      "layer_19": {
+        "position": 0.6785714285714286,
+        "sensitivity": 1.0447635146768928,
+        "attention_sensitivity": 0.9402871632092035,
+        "ffn_sensitivity": 1.1492398661445822
+      },
+      "layer_20": {
+        "position": 0.7142857142857143,
+        "sensitivity": 1.082124143955063,
+        "attention_sensitivity": 0.9739117295595567,
+        "ffn_sensitivity": 1.1903365583505694
+      },
+      "layer_21": {
+        "position": 0.75,
+        "sensitivity": 0.9815791666281015,
+        "attention_sensitivity": 0.8834212499652914,
+        "ffn_sensitivity": 1.0797370832909117
+      },
+      "layer_22": {
+        "position": 0.7857142857142857,
+        "sensitivity": 0.9370837610701248,
+        "attention_sensitivity": 0.8433753849631124,
+        "ffn_sensitivity": 1.0307921371771374
+      },
+      "layer_23": {
+        "position": 0.8214285714285714,
+        "sensitivity": 1.2349297577870166,
+        "attention_sensitivity": 1.111436782008315,
+        "ffn_sensitivity": 1.3584227335657184
+      },
+      "layer_24": {
+        "position": 0.8571428571428571,
+        "sensitivity": 1.2497822848602886,
+        "attention_sensitivity": 1.1248040563742598,
+        "ffn_sensitivity": 1.3747605133463177
+      },
+      "layer_25": {
+        "position": 0.8928571428571429,
+        "sensitivity": 1.1798884671511267,
+        "attention_sensitivity": 1.061899620436014,
+        "ffn_sensitivity": 1.2978773138662394
+      },
+      "layer_26": {
+        "position": 0.9285714285714286,
+        "sensitivity": 1.1690118925494541,
+        "attention_sensitivity": 1.0521107032945087,
+        "ffn_sensitivity": 1.2859130818043996
+      },
+      "layer_27": {
+        "position": 0.9642857142857143,
+        "sensitivity": 1.139599477105652,
+        "attention_sensitivity": 1.0256395293950868,
+        "ffn_sensitivity": 1.2535594248162172
+      }
+    },
+    "gemma_2b": {
+      "layer_0": {
+        "position": 0.0,
+        "sensitivity": 0.789388646891259,
+        "attention_sensitivity": 0.7104497822021331,
+        "ffn_sensitivity": 0.8683275115803849
+      },
+      "layer_1": {
+        "position": 0.05555555555555555,
+        "sensitivity": 0.8630990632251208,
+        "attention_sensitivity": 0.7767891569026087,
+        "ffn_sensitivity": 0.9494089695476329
+      },
+      "layer_2": {
+        "position": 0.1111111111111111,
+        "sensitivity": 0.8412444778691462,
+        "attention_sensitivity": 0.7571200300822316,
+        "ffn_sensitivity": 0.925368925656061
+      },
+      "layer_3": {
+        "position": 0.16666666666666666,
+        "sensitivity": 0.8421894914895734,
+        "attention_sensitivity": 0.7579705423406161,
+        "ffn_sensitivity": 0.9264084406385309
+      },
+      "layer_4": {
+        "position": 0.2222222222222222,
+        "sensitivity": 0.9569198075437111,
+        "attention_sensitivity": 0.86122782678934,
+        "ffn_sensitivity": 1.0526117882980823
+      },
+      "layer_5": {
+        "position": 0.2777777777777778,
+        "sensitivity": 0.9432406481028744,
+        "attention_sensitivity": 0.848916583292587,
+        "ffn_sensitivity": 1.037564712913162
+      },
+      "layer_6": {
+        "position": 0.3333333333333333,
+        "sensitivity": 0.9913292890501016,
+        "attention_sensitivity": 0.8921963601450915,
+        "ffn_sensitivity": 1.090462217955112
+      },
+      "layer_7": {
+        "position": 0.3888888888888889,
+        "sensitivity": 1.0112927195261756,
+        "attention_sensitivity": 0.910163447573558,
+        "ffn_sensitivity": 1.1124219914787932
+      },
+      "layer_8": {
+        "position": 0.4444444444444444,
+        "sensitivity": 0.9170765257504341,
+        "attention_sensitivity": 0.8253688731753906,
+        "ffn_sensitivity": 1.0087841783254776
+      },
+      "layer_9": {
+        "position": 0.5,
+        "sensitivity": 0.9022769331429046,
+        "attention_sensitivity": 0.8120492398286141,
+        "ffn_sensitivity": 0.9925046264571952
+      },
+      "layer_10": {
+        "position": 0.5555555555555556,
+        "sensitivity": 1.0582489451029744,
+        "attention_sensitivity": 0.952424050592677,
+        "ffn_sensitivity": 1.164073839613272
+      },
+      "layer_11": {
+        "position": 0.6111111111111112,
+        "sensitivity": 1.076815892685641,
+        "attention_sensitivity": 0.969134303417077,
+        "ffn_sensitivity": 1.1844974819542053
+      },
+      "layer_12": {
+        "position": 0.6666666666666666,
+        "sensitivity": 0.9483144803899556,
+        "attention_sensitivity": 0.85348303235096,
+        "ffn_sensitivity": 1.0431459284289513
+      },
+      "layer_13": {
+        "position": 0.7222222222222222,
+        "sensitivity": 1.0284962361686039,
+        "attention_sensitivity": 0.9256466125517435,
+        "ffn_sensitivity": 1.1313458597854644
+      },
+      "layer_14": {
+        "position": 0.7777777777777778,
+        "sensitivity": 1.0676757952868368,
+        "attention_sensitivity": 0.9609082157581531,
+        "ffn_sensitivity": 1.1744433748155205
+      },
+      "layer_15": {
+        "position": 0.8333333333333334,
+        "sensitivity": 1.1089103618941896,
+        "attention_sensitivity": 0.9980193257047706,
+        "ffn_sensitivity": 1.2198013980836087
+      },
+      "layer_16": {
+        "position": 0.8888888888888888,
+        "sensitivity": 1.2886472481429019,
+        "attention_sensitivity": 1.1597825233286116,
+        "ffn_sensitivity": 1.4175119729571921
+      },
+      "layer_17": {
+        "position": 0.9444444444444444,
+        "sensitivity": 1.1032900232909137,
+        "attention_sensitivity": 0.9929610209618224,
+        "ffn_sensitivity": 1.2136190256200052
+      }
+    },
+    "phi_3b": {
+      "layer_0": {
+        "position": 0.0,
+        "sensitivity": 0.7519862651633227,
+        "attention_sensitivity": 0.6767876386469904,
+        "ffn_sensitivity": 0.827184891679655
+      },
+      "layer_1": {
+        "position": 0.03125,
+        "sensitivity": 0.7148269044730154,
+        "attention_sensitivity": 0.643344214025714,
+        "ffn_sensitivity": 0.786309594920317
+      },
+      "layer_2": {
+        "position": 0.0625,
+        "sensitivity": 0.7783158365403764,
+        "attention_sensitivity": 0.7004842528863388,
+        "ffn_sensitivity": 0.8561474201944141
+      },
+      "layer_3": {
+        "position": 0.09375,
+        "sensitivity": 0.8262201518459861,
+        "attention_sensitivity": 0.7435981366613875,
+        "ffn_sensitivity": 0.9088421670305847
+      },
+      "layer_4": {
+        "position": 0.125,
+        "sensitivity": 0.8121328744567349,
+        "attention_sensitivity": 0.7309195870110614,
+        "ffn_sensitivity": 0.8933461619024085
+      },
+      "layer_5": {
+        "position": 0.15625,
+        "sensitivity": 0.8093170014907254,
+        "attention_sensitivity": 0.7283853013416529,
+        "ffn_sensitivity": 0.890248701639798
+      },
+      "layer_6": {
+        "position": 0.1875,
+        "sensitivity": 0.7395870311731229,
+        "attention_sensitivity": 0.6656283280558106,
+        "ffn_sensitivity": 0.8135457342904352
+      },
+      "layer_7": {
+        "position": 0.21875,
+        "sensitivity": 1.0558524353989938,
+        "attention_sensitivity": 0.9502671918590944,
+        "ffn_sensitivity": 1.1614376789388932
+      },
+      "layer_8": {
+        "position": 0.25,
+        "sensitivity": 0.9063618833989642,
+        "attention_sensitivity": 0.8157256950590678,
+        "ffn_sensitivity": 0.9969980717388607
+      },
+      "layer_9": {
+        "position": 0.28125,
+        "sensitivity": 0.9909989510689053,
+        "attention_sensitivity": 0.8918990559620148,
+        "ffn_sensitivity": 1.0900988461757959
+      },
+      "layer_10": {
+        "position": 0.3125,
+        "sensitivity": 0.9167810105256881,
+        "attention_sensitivity": 0.8251029094731193,
+        "ffn_sensitivity": 1.0084591115782569
+      },
+      "layer_11": {
+        "position": 0.34375,
+        "sensitivity": 1.0552215878858877,
+        "attention_sensitivity": 0.949699429097299,
+        "ffn_sensitivity": 1.1607437466744766
+      },
+      "layer_12": {
+        "position": 0.375,
+        "sensitivity": 0.9101802388281759,
+        "attention_sensitivity": 0.8191622149453583,
+        "ffn_sensitivity": 1.0011982627109937
+      },
+      "layer_13": {
+        "position": 0.40625,
+        "sensitivity": 1.0317407928200408,
+        "attention_sensitivity": 0.9285667135380368,
+        "ffn_sensitivity": 1.134914872102045
+      },
+      "layer_14": {
+        "position": 0.4375,
+        "sensitivity": 1.078908050099046,
+        "attention_sensitivity": 0.9710172450891414,
+        "ffn_sensitivity": 1.1867988551089508
+      },
+      "layer_15": {
+        "position": 0.46875,
+        "sensitivity": 0.9525253923047273,
+        "attention_sensitivity": 0.8572728530742546,
+        "ffn_sensitivity": 1.0477779315352
+      },
+      "layer_16": {
+        "position": 0.5,
+        "sensitivity": 0.9129174056567368,
+        "attention_sensitivity": 0.8216256650910632,
+        "ffn_sensitivity": 1.0042091462224105
+      },
+      "layer_17": {
+        "position": 0.53125,
+        "sensitivity": 0.9091893585367135,
+        "attention_sensitivity": 0.8182704226830422,
+        "ffn_sensitivity": 1.000108294390385
+      },
+      "layer_18": {
+        "position": 0.5625,
+        "sensitivity": 1.0360026934805362,
+        "attention_sensitivity": 0.9324024241324826,
+        "ffn_sensitivity": 1.13960296282859
+      },
+      "layer_19": {
+        "position": 0.59375,
+        "sensitivity": 1.0050173594782292,
+        "attention_sensitivity": 0.9045156235304064,
+        "ffn_sensitivity": 1.1055190954260523
+      },
+      "layer_20": {
+        "position": 0.625,
+        "sensitivity": 0.9298321895179631,
+        "attention_sensitivity": 0.8368489705661668,
+        "ffn_sensitivity": 1.0228154084697594
+      },
+      "layer_21": {
+        "position": 0.65625,
+        "sensitivity": 1.0093959506086845,
+        "attention_sensitivity": 0.908456355547816,
+        "ffn_sensitivity": 1.110335545669553
+      },
+      "layer_22": {
+        "position": 0.6875,
+        "sensitivity": 1.033047642695266,
+        "attention_sensitivity": 0.9297428784257393,
+        "ffn_sensitivity": 1.1363524069647926
+      },
+      "layer_23": {
+        "position": 0.71875,
+        "sensitivity": 1.0164601948961263,
+        "attention_sensitivity": 0.9148141754065137,
+        "ffn_sensitivity": 1.118106214385739
+      },
+      "layer_24": {
+        "position": 0.75,
+        "sensitivity": 0.946765085260499,
+        "attention_sensitivity": 0.852088576734449,
+        "ffn_sensitivity": 1.0414415937865489
+      },
+      "layer_25": {
+        "position": 0.78125,
+        "sensitivity": 1.0688335071390818,
+        "attention_sensitivity": 0.9619501564251736,
+        "ffn_sensitivity": 1.17571685785299
+      },
+      "layer_26": {
+        "position": 0.8125,
+        "sensitivity": 1.2311891177251688,
+        "attention_sensitivity": 1.108070205952652,
+        "ffn_sensitivity": 1.3543080294976857
+      },
+      "layer_27": {
+        "position": 0.84375,
+        "sensitivity": 1.2084178701401602,
+        "attention_sensitivity": 1.0875760831261443,
+        "ffn_sensitivity": 1.3292596571541764
+      },
+      "layer_28": {
+        "position": 0.875,
+        "sensitivity": 1.1784477335138008,
+        "attention_sensitivity": 1.0606029601624207,
+        "ffn_sensitivity": 1.296292506865181
+      },
+      "layer_29": {
+        "position": 0.90625,
+        "sensitivity": 1.1224358866058468,
+        "attention_sensitivity": 1.0101922979452622,
+        "ffn_sensitivity": 1.2346794752664316
+      },
+      "layer_30": {
+        "position": 0.9375,
+        "sensitivity": 1.13491426386626,
+        "attention_sensitivity": 1.021422837479634,
+        "ffn_sensitivity": 1.248405690252886
+      },
+      "layer_31": {
+        "position": 0.96875,
+        "sensitivity": 1.1175872668810327,
+        "attention_sensitivity": 1.0058285401929294,
+        "ffn_sensitivity": 1.229345993569136
+      }
+    }
+  },
+  "perplexity": {
+    "bitnet_2b": {
+      "model": "bitnet_2b",
+      "fp16_perplexity": 12.5,
+      "ternary_perplexity": 14.000000000000002,
+      "ternary_qat_perplexity": 13.125,
+      "degradation_pct": 12.000000000000014
+    },
+    "llama_3b": {
+      "model": "llama_3b",
+      "fp16_perplexity": 9.8,
+      "ternary_perplexity": 10.976000000000003,
+      "ternary_qat_perplexity": 10.290000000000001,
+      "degradation_pct": 12.00000000000002
+    },
+    "gemma_2b": {
+      "model": "gemma_2b",
+      "fp16_perplexity": 13.2,
+      "ternary_perplexity": 14.784,
+      "ternary_qat_perplexity": 13.86,
+      "degradation_pct": 12.00000000000001
+    },
+    "phi_3b": {
+      "model": "phi_3b",
+      "fp16_perplexity": 8.5,
+      "ternary_perplexity": 9.520000000000001,
+      "ternary_qat_perplexity": 8.925,
+      "degradation_pct": 12.000000000000016
+    }
+  }
+}

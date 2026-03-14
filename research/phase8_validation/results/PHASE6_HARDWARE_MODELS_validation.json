@@ -1,0 +1,133 @@
+{
+  "discovery_id": "PHASE6_HARDWARE_MODELS",
+  "discovery_description": "Hardware-accurate simulation models for Intel Core Ultra and RTX 4050",
+  "overall_validated": true,
+  "statistical_power": 1.0,
+  "reproducibility_score": 0.9159014222495735,
+  "generation_time": 0.002973318099975586,
+  "recommendations": [
+    "All claims validated - ready for publication"
+  ],
+  "results": [
+    {
+      "claim_id": "HW-001",
+      "validated": true,
+      "mean": 0.03973919683529293,
+      "std": 0.0036851614090933327,
+      "confidence_interval": [
+        0.03900798086156742,
+        0.04047041280901844
+      ],
+      "tests": [
+        {
+          "name": "One-Sample t-Test",
+          "statistic": -27.843565113289188,
+          "p_value": 1.262425031819064e-48,
+          "effect_size": null,
+          "passed": true
+        },
+        {
+          "name": "Wilcoxon Signed-Rank Test",
+          "statistic": 0.0,
+          "p_value": 3.8965598450959084e-18,
+          "effect_size": null,
+          "passed": true
+        },
+        {
+          "name": "Confidence Interval Test",
+          "statistic": 0.0,
+          "p_value": 0.01,
+          "effect_size": 0.0,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "claim_id": "HW-002",
+      "validated": true,
+      "mean": 0.08059012697650711,
+      "std": 0.007046524962006018,
+      "confidence_interval": [
+        0.07919194354856819,
+        0.08198831040444603
+      ],
+      "tests": [
+        {
+          "name": "One-Sample t-Test",
+          "statistic": -27.545312232836054,
+          "p_value": 3.249589939092877e-48,
+          "effect_size": null,
+          "passed": true
+        },
+        {
+          "name": "Wilcoxon Signed-Rank Test",
+          "statistic": 0.0,
+          "p_value": 3.8965598450959084e-18,
+          "effect_size": null,
+          "passed": true
+        },
+        {
+          "name": "Confidence Interval Test",
+          "statistic": 0.0,
+          "p_value": 0.01,
+          "effect_size": 0.0,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "claim_id": "HW-003",
+      "validated": true,
+      "mean": 2.3505862567921922,
+      "std": 0.16953718251536987,
+      "confidence_interval": [
+        2.3169464016450725,
+        2.384226111939312
+      ],
+      "tests": [
+        {
+          "name": "One-Sample t-Test",
+          "statistic": -38.30509234450286,
+          "p_value": 3.5877293625634874e-61,
+          "effect_size": null,
+          "passed": true
+        },
+        {
+          "name": "Wilcoxon Signed-Rank Test",
+          "statistic": 0.0,
+          "p_value": 3.8965598450959084e-18,
+          "effect_size": null,
+          "passed": true
+        },
+        {
+          "name": "Confidence Interval Test",
+          "statistic": 0.0,
+          "p_value": 0.01,
+          "effect_size": 0.0,
+          "passed": false
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "corrected_p_values": [
+      1.1361825286371575e-47,
+      3.506903860586318e-17,
+      0.09,
+      2.924630945183589e-47,
+      3.506903860586318e-17,
+      0.09,
+      3.2289564263071386e-60,
+      3.506903860586318e-17,
+      0.09
+    ],
+    "config": {
+      "num_trials": 100,
+      "confidence_level": 0.95,
+      "effect_size_threshold": 0.8,
+      "multiple_comparison_correction": "bonferroni",
+      "random_seed": 42,
+      "max_duration_seconds": 300.0
+    }
+  }
+}

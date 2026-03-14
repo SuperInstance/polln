@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://ieeexplore.ieee.org/iel8/6287639/10820123/11266886.pdf",
+    "name": "A Systematic Review of State-of-the-Art TinyML Applications in Healthcare, Education, and Transportation - IEEE Xplore",
+    "snippet": "These devices typi- cally feature less than 1MB of memory, operate at clock speeds of under 100 MHz, and consume milliwatts or even microwatts ...",
+    "host_name": "ieeexplore.ieee.org",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/pulse/tinyml-edge-ai-how-lightweight-models-reshaping-iot-devices-infolks-qbc0c",
+    "name": "TinyML & Edge AI: How Lightweight AI Models Are Reshaping IoT Devices - LinkedIn",
+    "snippet": "TinyML allows IoT devices to run machine learning locally with ultra-low power usage, enabling real-time intelligence without constant cloud ...",
+    "host_name": "www.linkedin.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://talent500.com/blog/what-is-tinyml-introduction",
+    "name": "What Is TinyML? A Guide to Tiny Machine Learning on Edge Devices - Talent500",
+    "snippet": "Since TinyML models run on microcontrollers (often under 1 milliwatt of power), devices can run for months or even years on small batteries.",
+    "host_name": "talent500.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/umitkacar/awesome-tinyml",
+    "name": "umitkacar/awesome-tinyml: TinyML & Edge AI: On-device inference, model quantization, embedded ML, ultra-low-power AI for microcontrollers and IoT devices. - GitHub",
+    "snippet": "Evolution from TinyML to deep learning on edge. Focus Areas: Deep learning on ultra-constrained hardware; Power consumption in mW range; On-device ...",
+    "host_name": "github.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.tredence.com/blog/tinyml",
+    "name": "TinyML in Action: 5 High Impact Use Cases for Edge Machine Learning - Tredence",
+    "snippet": "Explore how TinyML powers edge computing through use cases in manufacturing, healthcare, smart homes, and environmental monitoring. Missing: LLM | Show results with: LLM",
+    "host_name": "www.tredence.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://en.eeworld.com.cn/mp/EEWorld/a401250.jspx",
+    "name": "Giants flock to the TinyML track: Edge AI is about to usher in a new",
+    "snippet": "... LLM AI chip is US$ 20,000 to US$70,000 , requiring tens of thousands of chips, and the average power consumption of each AI chip is 700 to 1200 watts. In recent ...",
+    "host_name": "en.eeworld.com.cn",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://arxiv.org/html/2508.15008v2",
+    "name": "Quantized Neural Networks for Microcontrollers: A Comprehensive Review of Methods, Platforms, and Applications - arXiv",
+    "snippet": "Tiny Machine Learning (TinyML) addresses these issues by integrating advancements across machine learning algorithms, hardware acceleration, and software ...",
+    "host_name": "arxiv.org",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.nature.com/articles/s41467-025-57352-1",
+    "name": "The road to commercial success for neuromorphic technologies | Nature Communications",
+    "snippet": "In the low-resource TinyML market, these are low-power microcontrollers, low-power DSPs, FPGAs and other ASICs. In the high-resource datacenter ...",
+    "host_name": "www.nature.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.mdpi.com/2673-2688/6/12/325",
+    "name": "Online On-Device Adaptation of Linguistic Fuzzy Models for TinyML Systems - MDPI",
+    "snippet": "The energy consumption of these devices typically falls within the milliwatt range. The most popular microcontroller cores used in devices for TinyML ...",
+    "host_name": "www.mdpi.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://dev.to/vaib/edge-ai-revolutionizing-real-time-inference-on-resource-constrained-devices-58mf",
+    "name": "Edge AI: Revolutionizing Real-Time Inference on Resource-Constrained Devices",
+    "snippet": "Perfect for TinyML applications where minimal power consumption and connectivity are crucial, such as smart home sensors or simple anomaly ...",
+    "host_name": "dev.to",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

@@ -1,0 +1,192 @@
+{
+  "process": {
+    "name": "28nm",
+    "defect_density_per_cm2": 0.5,
+    "wafer_diameter_mm": 300,
+    "wafer_cost_usd": 3000,
+    "mask_cost_usd": 2500000
+  },
+  "dies": {
+    "nano_1b": {
+      "name": "Nano (1B)",
+      "area_mm2": 12.25,
+      "gross_dies_per_wafer": 4904,
+      "yield_murphy": 0.9408821563813562,
+      "yield_poisson": 0.9405880633643421,
+      "yield_seeds": 0.8879010989163444,
+      "good_dies_per_wafer": 4614,
+      "yield_distribution": {
+        "mean_yield": 0.9413022428585229,
+        "std_yield": 0.041119064589137194,
+        "min_yield": 0.8031498176044802,
+        "max_yield": 0.9948984133717678,
+        "mean_good_dies": 4617.62,
+        "total_good_dies": 461762,
+        "gross_dies_per_wafer": 4904
+      },
+      "volume_analysis": {
+        "prototype": {
+          "wafer_cost_per_die": 0.6501950585175552,
+          "mask_amort_per_die": 265708.0892696519,
+          "pkg_test_cost": 2.5,
+          "total_cost_per_die": 57.33311660164716,
+          "good_dies_per_wafer": 4614,
+          "total_good_dies": 46140
+        },
+        "pilot": {
+          "wafer_cost_per_die": 0.6501950585175552,
+          "mask_amort_per_die": 53141.61785393039,
+          "pkg_test_cost": 2.5,
+          "total_cost_per_die": 13.986779367143477,
+          "good_dies_per_wafer": 4614,
+          "total_good_dies": 230700
+        },
+        "low_volume": {
+          "wafer_cost_per_die": 0.6501950585175552,
+          "mask_amort_per_die": 13285.404463482597,
+          "pkg_test_cost": 2.5,
+          "total_cost_per_die": 5.859341135674035,
+          "good_dies_per_wafer": 4614,
+          "total_good_dies": 922800
+        },
+        "medium_volume": {
+          "wafer_cost_per_die": 0.6501950585175552,
+          "mask_amort_per_die": 2657.080892696519,
+          "pkg_test_cost": 2.5,
+          "total_cost_per_die": 3.692024273948851,
+          "good_dies_per_wafer": 4614,
+          "total_good_dies": 4614000
+        },
+        "high_volume": {
+          "wafer_cost_per_die": 0.6501950585175552,
+          "mask_amort_per_die": 531.4161785393038,
+          "pkg_test_cost": 2.5,
+          "total_cost_per_die": 3.2585609016038144,
+          "good_dies_per_wafer": 4614,
+          "total_good_dies": 23070000
+        }
+      }
+    },
+    "micro_2b": {
+      "name": "Micro (2B)",
+      "area_mm2": 25.0,
+      "gross_dies_per_wafer": 2403,
+      "yield_murphy": 0.8836465857417009,
+      "yield_poisson": 0.8824969025845953,
+      "yield_seeds": 0.7901234567901234,
+      "good_dies_per_wafer": 2123,
+      "yield_distribution": {
+        "mean_yield": 0.8872319065969526,
+        "std_yield": 0.07647498531911949,
+        "min_yield": 0.6376058712910173,
+        "max_yield": 0.9913119397894657,
+        "mean_good_dies": 2131.7,
+        "total_good_dies": 213170,
+        "gross_dies_per_wafer": 2403
+      },
+      "volume_analysis": {
+        "prototype": {
+          "wafer_cost_per_die": 1.413094677343382,
+          "mask_amort_per_die": 282918.5378339453,
+          "pkg_test_cost": 2.5,
+          "total_cost_per_die": 121.67098445595855,
+          "good_dies_per_wafer": 2123,
+          "total_good_dies": 21230
+        },
+        "pilot": {
+          "wafer_cost_per_die": 1.413094677343382,
+          "mask_amort_per_die": 56583.70756678907,
+          "pkg_test_cost": 2.5,
+          "total_cost_per_die": 27.464672633066414,
+          "good_dies_per_wafer": 2123,
+          "total_good_dies": 106150
+        },
+        "low_volume": {
+          "wafer_cost_per_die": 1.413094677343382,
+          "mask_amort_per_die": 14145.926891697267,
+          "pkg_test_cost": 2.5,
+          "total_cost_per_die": 9.80098916627414,
+          "good_dies_per_wafer": 2123,
+          "total_good_dies": 424600
+        },
+        "medium_volume": {
+          "wafer_cost_per_die": 1.413094677343382,
+          "mask_amort_per_die": 2829.185378339453,
+          "pkg_test_cost": 2.5,
+          "total_cost_per_die": 5.090673575129534,
+          "good_dies_per_wafer": 2123,
+          "total_good_dies": 2123000
+        },
+        "high_volume": {
+          "wafer_cost_per_die": 1.413094677343382,
+          "mask_amort_per_die": 565.8370756678906,
+          "pkg_test_cost": 2.5,
+          "total_cost_per_die": 4.148610456900612,
+          "good_dies_per_wafer": 2123,
+          "total_good_dies": 10615000
+        }
+      }
+    },
+    "standard_4b": {
+      "name": "Standard (4B)",
+      "area_mm2": 49.0,
+      "gross_dies_per_wafer": 1226,
+      "yield_murphy": 0.7866275335390212,
+      "yield_poisson": 0.7827045382418681,
+      "yield_seeds": 0.6451508846631505,
+      "good_dies_per_wafer": 964,
+      "yield_distribution": {
+        "mean_yield": 0.8047837968343658,
+        "std_yield": 0.11187431838391262,
+        "min_yield": 0.47356859968226733,
+        "max_yield": 0.9921948788927557,
+        "mean_good_dies": 986.98,
+        "total_good_dies": 98698,
+        "gross_dies_per_wafer": 1226
+      },
+      "volume_analysis": {
+        "prototype": {
+          "wafer_cost_per_die": 3.112033195020747,
+          "mask_amort_per_die": 317812.4199076215,
+          "pkg_test_cost": 2.5,
+          "total_cost_per_die": 264.948132780083,
+          "good_dies_per_wafer": 964,
+          "total_good_dies": 9640
+        },
+        "pilot": {
+          "wafer_cost_per_die": 3.112033195020747,
+          "mask_amort_per_die": 63562.483981524296,
+          "pkg_test_cost": 2.5,
+          "total_cost_per_die": 57.47925311203319,
+          "good_dies_per_wafer": 964,
+          "total_good_dies": 48200
+        },
+        "low_volume": {
+          "wafer_cost_per_die": 3.112033195020747,
+          "mask_amort_per_die": 15890.620995381074,
+          "pkg_test_cost": 2.5,
+          "total_cost_per_die": 18.57883817427386,
+          "good_dies_per_wafer": 964,
+          "total_good_dies": 192800
+        },
+        "medium_volume": {
+          "wafer_cost_per_die": 3.112033195020747,
+          "mask_amort_per_die": 3178.124199076215,
+          "pkg_test_cost": 2.5,
+          "total_cost_per_die": 8.205394190871369,
+          "good_dies_per_wafer": 964,
+          "total_good_dies": 964000
+        },
+        "high_volume": {
+          "wafer_cost_per_die": 3.112033195020747,
+          "mask_amort_per_die": 635.624839815243,
+          "pkg_test_cost": 2.5,
+          "total_cost_per_die": 6.130705394190872,
+          "good_dies_per_wafer": 964,
+          "total_good_dies": 4820000
+        }
+      }
+    }
+  },
+  "volume_analysis": {}
+}

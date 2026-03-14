@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://blog.csdn.net/evolone/article/details/90317637",
+    "name": "AI芯片：华为昇腾（ASCEND）310结构分析",
+    "snippet": "29 Jan 2026 — L4 Drive 场景，单片平均功耗在65W，最大业务功耗不超过120W。COMe 尺寸 ... 边缘计算场景，可快速搭建AI推理平台。 继续访问. 【环境部署系列04】 ...",
+    "host_name": "blog.csdn.net",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.hiascend.com/zh/poweredbyascend/ihv/yanhua",
+    "name": "研华科技",
+    "snippet": "整机形态. BOX PC. AI处理器. 昇腾310. AI加速卡. Atlas 300I 推理卡. AI算力. 88 TOPS INT8. 内存规格. Max 64G. 本地存储. 1* Nvme M.2 + 1*2.5寸硬盘. 功耗. Max 180W.",
+    "host_name": "www.hiascend.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://zhuanlan.zhihu.com/p/1913660152676094004",
+    "name": "一文看懂华为昇腾芯片",
+    "snippet": "4 June 2025 — 昇腾310是SoC小芯片，和我们手机芯片差不多，只有指甲盖那么大，功耗仅有8W。 它集成了多个运算单元，包括CPU（8个ARM A55 Core）、AI Core、 ...",
+    "host_name": "zhuanlan.zhihu.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://e.huawei.com/cn/products/computing/ascend",
+    "name": "昇腾计算-华为Ascend-AI计算",
+    "snippet": "基于昇腾系列（华为Ascend）AI处理器，华为昇腾计算包括Atlas系列模块、板卡、小站、服务器、集群等产品形态，打造面向“端、边、云”的全场景AI基础设施方案。",
+    "host_name": "e.huawei.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://pdf.dfcfw.com/pdf/H3_AP202309091598192604_1.pdf?1694341767000.pdf",
+    "name": "昇腾万里，力算未来",
+    "snippet": "8 Sept 2023 — 昇腾310，高能效比推理型AI 处理器，本质上是一块完整的SoC，集成. 了多个运算单元，包括CPU（8 个a55）、AI Core、数字视觉预处理子系. 统等，实现高通量、大算 ...",
+    "host_name": "pdf.dfcfw.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://blog.csdn.net/jerryer121/article/details/89451196",
+    "name": "【转】一张图详解华为昇腾310 AI芯片：自研达芬奇架构算力和能效比大幅提升",
+    "snippet": "【AI芯片技术】 ...",
+    "host_name": "blog.csdn.net",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://docs.feishu.cn/v/wiki/TkyuwbsohiVFAvk9hEtcgplqnOj/af",
+    "name": "2024华为AI芯片生态全栈深度分析",
+    "snippet": "**昇腾910，高性能训练AI 处理器，**性能接近英伟达A100（40GB），半精度（FP16）算力达到320 TFLOPS，整数精度（INT8）算力达到640 TOPS，功耗310W，采用7nm先进工艺。",
+    "host_name": "docs.feishu.cn",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://news.qq.com/rain/a/20250604A07ITG00",
+    "name": "一文看懂华为昇腾芯片",
+    "snippet": "4 June 2025 — 它集成了多个运算单元，包括CPU（8个ARM A55 Core）、AI Core、数字视觉预处理子系统等，主要面向边缘计算与低功耗终端，以完成AI推理任务为主。",
+    "host_name": "news.qq.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.elecfans.com/zt/23186",
+    "name": "昇腾310",
+    "snippet": "典型功耗仅8W。超低功耗设计使其非常适合对功耗敏感的边缘设备、物联网设备以及嵌入式应用。",
+    "host_name": "www.elecfans.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.eet-china.com/mp/a224814.html",
+    "name": "昇腾AI处理器：Ascend310和CANN简介",
+    "snippet": "3 June 2023 — 这些AI Core通过特别设计的架构和电路实现了高通量、大算力和低功耗，特别适合处理深度学习中神经网络必须的常用计算如矩阵相乘等。目前该芯片能对整型数（ ...",
+    "host_name": "www.eet-china.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

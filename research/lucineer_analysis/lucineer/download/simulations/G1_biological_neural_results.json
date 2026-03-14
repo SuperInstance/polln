@@ -1,0 +1,439 @@
+{
+  "metadata": {
+    "simulation_id": "G1_biological_neural_mapping",
+    "timestamp": "2026-03-08T09:35:15.900480",
+    "version": "1.0",
+    "description": "Map chip architecture to biological neural constraints"
+  },
+  "biological_constants": {
+    "human_brain": {
+      "neurons": 86000000000,
+      "synapses": 1000000000000000,
+      "power_watts": 20.0
+    },
+    "c_elegans": {
+      "neurons": 302,
+      "synapses": 7600,
+      "power_microwatts": 0.05
+    },
+    "synaptic_precision_bits": 4.0,
+    "sparsity_percent": 95.0
+  },
+  "chip_specifications": {
+    "pe_array": "64x64",
+    "total_pes": 4096,
+    "weight_levels": 3,
+    "power_watts": 3.0,
+    "throughput_tokens_per_sec": 30.0
+  },
+  "efficiency_analysis": {
+    "brain_ops_per_watt": {
+      "total_synapses": 1000000000000000,
+      "active_synapses": 50000000000000.05,
+      "average_firing_rate_hz": 3.1622776601683795,
+      "ops_per_second": 158113883008419.12,
+      "ops_per_watt": 7905694150420.956,
+      "ops_per_watt_scientific": "7.91e+12",
+      "efficiency_flops_per_watt": 7905694150420.956
+    },
+    "chip_ops_per_watt": {
+      "model_params": 500000000,
+      "flops_per_token": 1000000000,
+      "tokens_per_second": 30.0,
+      "flops_per_second": 30000000000.0,
+      "flops_per_watt": 10000000000.0,
+      "flops_per_watt_scientific": "1.00e+10",
+      "power_watts": 3.0
+    },
+    "gap_analysis": {
+      "brain_ops_per_watt": 7905694150420.956,
+      "chip_ops_per_watt": 10000000000.0,
+      "efficiency_ratio": 790.5694150420956,
+      "efficiency_ratio_order_of_magnitude": 2.897940008672038,
+      "brain_efficiency": {
+        "total_synapses": 1000000000000000,
+        "active_synapses": 50000000000000.05,
+        "average_firing_rate_hz": 3.1622776601683795,
+        "ops_per_second": 158113883008419.12,
+        "ops_per_watt": 7905694150420.956,
+        "ops_per_watt_scientific": "7.91e+12",
+        "efficiency_flops_per_watt": 7905694150420.956
+      },
+      "chip_efficiency": {
+        "model_params": 500000000,
+        "flops_per_token": 1000000000,
+        "tokens_per_second": 30.0,
+        "flops_per_second": 30000000000.0,
+        "flops_per_watt": 10000000000.0,
+        "flops_per_watt_scientific": "1.00e+10",
+        "power_watts": 3.0
+      },
+      "efficiency_factors": {
+        "sparsity_advantage": 20,
+        "precision_advantage": 1581138830.084188,
+        "communication_advantage": 10,
+        "local_memory_advantage": 5
+      },
+      "total_synthetic_advantage": 1581138830084.1882
+    }
+  },
+  "neural_column_mapping": {
+    "pe_to_minicolumn": {
+      "pe_array_size": "64x64",
+      "total_pes": 4096,
+      "neurons_per_minicolumn": 100,
+      "synapses_per_minicolumn": 1500,
+      "pe_as_neuron_equivalent": 4096,
+      "pe_as_synapse_equivalent": 409600,
+      "equivalent_minicolumns": 40.96,
+      "equivalent_hypercolumns": 0.4096,
+      "biological_scale": "Micro-column equivalent"
+    },
+    "celegans_equivalent": {
+      "celegans_neurons": 302,
+      "celegans_synapses": 7600,
+      "synapses_per_neuron": 25.165562913907284,
+      "chip_pes_needed": 302,
+      "chip_utilization_percent": 7.373046875,
+      "synaptic_connections_per_pe": 25,
+      "scaled_power_watts": 0.22119140625,
+      "biological_power_watts": 5.0000000000000004e-08,
+      "power_ratio_synthetic_vs_bio": 4423828.125,
+      "efficiency_gap_c_elegans": "4423828.1x less efficient than biological"
+    },
+    "hierarchical_mapping": {
+      "level_1_neuron": {
+        "biological": "Individual neuron (~20um diameter)",
+        "chip_equivalent": "Single PE (processing element)",
+        "count_chip": 4096
+      },
+      "level_2_minicolumn": {
+        "biological": "~100 neurons, vertical organization",
+        "chip_equivalent": "PE sub-array (8x8 = 64 PEs)",
+        "count_chip": 64
+      },
+      "level_3_hypercolumn": {
+        "biological": "~100 minicolumns, functional unit",
+        "chip_equivalent": "PE quadrant (32x32 = 1024 PEs)",
+        "count_chip": 4
+      },
+      "level_4_area": {
+        "biological": "Cortical area (visual, motor, etc.)",
+        "chip_equivalent": "Full PE array (64x64 = 4096 PEs)",
+        "count_chip": 1
+      }
+    }
+  },
+  "precision_comparison": {
+    "precision_analysis": {
+      "biological": {
+        "bits_per_synapse": 4.0,
+        "weight_levels": 16.0,
+        "information_entropy_bits": 4.0
+      },
+      "ternary_weights": {
+        "bits_per_weight": 1.584962500721156,
+        "weight_levels": 3,
+        "information_entropy_bits": 1.584962500721156,
+        "precision_vs_biological": 0.396240625180289,
+        "precision_deficit_percent": 60.3759374819711
+      },
+      "c4_complex_weights": {
+        "bits_per_weight": 2.0,
+        "weight_levels": 4,
+        "information_entropy_bits": 2.0,
+        "precision_vs_biological": 0.5,
+        "precision_deficit_percent": 50.0
+      },
+      "insight": "Ternary weights capture ~40% of biological synaptic precision, but structure compensates"
+    },
+    "sparse_coding": {
+      "biological_active_fraction": 0.050000000000000044,
+      "biological_sparsity_percent": 95.0,
+      "ternary_active_fraction_range": [
+        0.1,
+        0.4
+      ],
+      "ternary_sparsity_percent_range": [
+        90.0,
+        60.0
+      ],
+      "sparse_coding_benefits": {
+        "compute_savings": "Skip 90%-60% of multiply operations",
+        "memory_savings": "Compress to 10%-40% of dense storage",
+        "energy_savings": "Proportional to compute savings",
+        "biological_analogy": "Mimics sparse neural activation patterns"
+      },
+      "sparsity_alignment_score": 1.9999999999999984
+    }
+  },
+  "sparsity_analysis": {
+    "biological_sparsity": {
+      "active_fraction": 0.050000000000000044,
+      "sparsity_percent": 95.0,
+      "efficiency_implication": "95% of synapses inactive at any time"
+    },
+    "ternary_sparsity": {
+      "zero_weight_fraction": "Model dependent, typically 30-70%",
+      "compute_savings": "Multiplication by zero skipped",
+      "memory_savings": "Sparse storage formats possible"
+    },
+    "sparsity_alignment": {
+      "biological_principle": "Only compute what matters",
+      "chip_implementation": "Ternary zeros enable skip",
+      "alignment_score": 0.8
+    }
+  },
+  "computation_paradigm": {
+    "paradigm_comparison": {
+      "clocked_synthetic": {
+        "paradigm": "Synchronous, clock-driven",
+        "clock_frequency_mhz": 500,
+        "clock_period_ns": 2.0,
+        "power_characteristic": "Dynamic power even when idle",
+        "timing_precision": "High (sub-ns)",
+        "complexity": "Lower design complexity"
+      },
+      "event_driven_biological": {
+        "paradigm": "Asynchronous, event-driven",
+        "typical_isi_ms": 316.2277660168379,
+        "power_characteristic": "Power only on activity",
+        "timing_precision": "Variable (ms precision)",
+        "complexity": "Higher coordination complexity"
+      }
+    },
+    "energy_savings": {
+      "clocked_design": {
+        "activity_factor": 0.3,
+        "idle_power_percent": 70.0,
+        "always_on_overhead": "Significant idle power consumption"
+      },
+      "mask_locked_advantage": {
+        "streaming_utilization": 0.85,
+        "no_memory_fetch_overhead": true,
+        "weights_always_local": true,
+        "efficiency_gain": "Near-continuous useful work"
+      },
+      "event_driven_potential": {
+        "potential_savings_percent": 70.0,
+        "biological_inspiration": "Power only on spike events",
+        "implementation_complexity": "High - requires async design",
+        "suitability_for_mask_locked": "Partial - streaming architecture already efficient"
+      }
+    }
+  },
+  "design_principles": {
+    "hierarchical_organization": {
+      "principle_1_scale_hierarchy": {
+        "biological_implementation": "Neurons \u2192 Minicolumns \u2192 Hypercolumns \u2192 Areas",
+        "chip_application": "PE \u2192 Sub-array \u2192 Quadrant \u2192 Full Array",
+        "benefit": "Efficient information routing, fault tolerance, locality",
+        "implementation_status": "Partially implemented in chip architecture"
+      },
+      "principle_2_layered_processing": {
+        "biological_implementation": "Cortical layers I-VI with distinct functions",
+        "chip_application": "Could implement staged processing in PE pipeline",
+        "benefit": "Specialized computation stages, attention mechanisms",
+        "implementation_status": "Not currently implemented"
+      },
+      "principle_3_recurrency": {
+        "biological_implementation": "Feedback connections at all levels",
+        "chip_application": "Add recurrent paths in PE array",
+        "benefit": "Temporal processing, memory, attention",
+        "implementation_status": "Limited - streaming architecture is feedforward"
+      }
+    },
+    "sparse_coding": {
+      "principle_1_structural_sparsity": {
+        "biological_implementation": "Only ~5% of neurons active at once",
+        "chip_application": "Ternary weights with zeros, prune inactive paths",
+        "efficiency_gain": "95% reduction in compute operations",
+        "mask_locked_advantage": "Zeros can skip entire weight reads"
+      },
+      "principle_2_activity_dependent_sparsity": {
+        "biological_implementation": "Winner-take-all, lateral inhibition",
+        "chip_application": "Top-k activation, softmax temperature",
+        "efficiency_gain": "Focus computation on relevant pathways",
+        "implementation_status": "Possible in model architecture"
+      },
+      "principle_3_representation_efficiency": {
+        "biological_implementation": "Distributed sparse representations",
+        "chip_application": "High-dimensional sparse embeddings",
+        "efficiency_gain": "Robustness, generalization, noise immunity",
+        "implementation_status": "Model-dependent"
+      }
+    },
+    "predictive_coding": {
+      "principle_1_prediction_error": {
+        "biological_implementation": "Only transmit prediction errors",
+        "chip_application": "Compute residuals instead of full values",
+        "efficiency_gain": "Reduce information bandwidth 10-100x",
+        "implementation_status": "Not currently implemented"
+      },
+      "principle_2_top_down_prediction": {
+        "biological_implementation": "Higher layers predict lower layer activity",
+        "chip_application": "Could implement hierarchical prediction",
+        "benefit": "Attention, context, efficiency",
+        "implementation_status": "Research direction"
+      },
+      "principle_3_local_error_computation": {
+        "biological_implementation": "Errors computed locally, not centralized",
+        "chip_application": "Distributed error computation in PEs",
+        "benefit": "Scalability, no bottleneck",
+        "implementation_status": "Partially implemented"
+      }
+    },
+    "local_learning": {
+      "principle_1_hebbian_learning": {
+        "biological_implementation": "Fire together, wire together",
+        "chip_application": "Local weight updates based on pre/post activity",
+        "challenge_for_mask_locked": "Weights are immutable - cannot update",
+        "alternative": "Adapter modules for fine-tuning"
+      },
+      "principle_2_spike_timing_dependent_plasticity": {
+        "biological_implementation": "Timing determines weight change direction",
+        "chip_application": "Temporal credit assignment",
+        "challenge_for_mask_locked": "No runtime plasticity",
+        "alternative": "Training-time incorporation of STDP-like rules"
+      },
+      "principle_3_local_reward_modulation": {
+        "biological_implementation": "Dopamine modulates plasticity",
+        "chip_application": "Global signal for local updates",
+        "challenge_for_mask_locked": "Immutable weights",
+        "alternative": "External adapter training, not on-chip"
+      }
+    }
+  },
+  "neuromorphic_analysis": {
+    "neuromorphic_design_proposal": {
+      "enhancement_1_event_driven_compute": {
+        "description": "Replace clocked compute with event-driven",
+        "mechanism": "PEs activate only on input events",
+        "estimated_efficiency_gain": "3-5x for sparse workloads",
+        "implementation_complexity": "High - requires async design",
+        "compatibility_with_mask_locked": "Moderate - needs careful timing"
+      },
+      "enhancement_2_integrated_memory_compute": {
+        "description": "True compute-in-memory with synaptic storage",
+        "mechanism": "Weights stored at computation site",
+        "estimated_efficiency_gain": "5-10x vs. von Neumann",
+        "implementation_complexity": "Already partially achieved",
+        "compatibility_with_mask_locked": "High - mask-locking is this paradigm"
+      },
+      "enhancement_3_spike_based_communication": {
+        "description": "Replace parallel buses with spike events",
+        "mechanism": "Sparse spike encoding, event routing",
+        "estimated_efficiency_gain": "10-50x for sparse data",
+        "implementation_complexity": "Very High",
+        "compatibility_with_mask_locked": "Low - major architecture change"
+      },
+      "enhancement_4_adaptive_precision": {
+        "description": "Variable precision based on importance",
+        "mechanism": "High precision for critical weights, low for others",
+        "estimated_efficiency_gain": "2-3x",
+        "implementation_complexity": "Moderate",
+        "compatibility_with_mask_locked": "Moderate - design-time decision"
+      }
+    },
+    "synaptic_pruning_analogy": {
+      "biological_pruning": {
+        "description": "Brain eliminates ~50% of synapses during development",
+        "mechanism": "Activity-dependent elimination",
+        "result": "Efficient, specialized circuits"
+      },
+      "chip_analogy_training": {
+        "description": "Prune model before mask-locking",
+        "mechanism": "Magnitude pruning, structured pruning",
+        "result": "Smaller models, same performance",
+        "current_implementation": "Ternary weights include zero class"
+      },
+      "chip_analogy_runtime": {
+        "description": "Dynamic path activation",
+        "mechanism": "Gating, conditional compute",
+        "result": "Only compute active paths",
+        "current_implementation": "Streaming architecture",
+        "limitation": "No runtime weight changes in mask-locked"
+      },
+      "compression_potential": {
+        "from_pruning": "2-4x model size reduction",
+        "from_quantization": "8-16x precision reduction (32-bit to ternary)",
+        "from_structured_sparsity": "2-3x compute reduction",
+        "total_potential": "32-192x efficiency improvement potential"
+      }
+    },
+    "scaling_analysis": {
+      "scale_hierarchy": {
+        "c_elegans": {
+          "neurons": 302,
+          "synapses": 7600,
+          "power_uw": 0.05
+        },
+        "human": {
+          "neurons": 86000000000,
+          "synapses": 1000000000000000,
+          "power_w": 20.0
+        },
+        "scaling_factor": {
+          "neurons": 284768211.9205298,
+          "synapses": 131578947368.42105,
+          "power": 400000000.0
+        }
+      },
+      "scaling_laws": {
+        "observation": "Power scales sublinearly with neurons in biology",
+        "neuron_power_ratio": 2.3255813953488372e-10,
+        "synapse_power_ratio": 2e-14,
+        "implication": "Biology achieves better than linear scaling"
+      },
+      "chip_scaling_potential": {
+        "current_pes": 4096,
+        "brain_equivalent_pes_needed": 86000000000,
+        "scaling_factor_to_brain": 20996093.75,
+        "power_at_brain_scale_linear": 62988281.25,
+        "biological_power_at_same_scale": 20.0,
+        "efficiency_gap": 3149414.0625
+      }
+    }
+  },
+  "key_insights": {
+    "efficiency_gap": {
+      "ratio": 790.5694150420956,
+      "interpretation": "Brain is 8e+02x more efficient than current chip",
+      "primary_causes": [
+        "95% sparsity (20x advantage)",
+        "Event-driven computation (5-10x advantage)",
+        "Local compute+storage (5x advantage)",
+        "~4x precision (2-4x advantage)"
+      ]
+    },
+    "precision_paradox": {
+      "observation": "Ternary weights have only ~40% of biological precision",
+      "explanation": "But structure and sparsity compensate - models still perform",
+      "implication": "Architecture matters more than precision for efficiency"
+    },
+    "mask_locked_advantage": {
+      "observation": "Mask-locked architecture mimics biological fixed connectivity",
+      "advantages": [
+        "No memory fetch energy overhead",
+        "Weights always 'local' like synapses",
+        "Compute where memory is (synaptic analogy)"
+      ]
+    },
+    "neuromorphic_potential": {
+      "event_driven_compute": "3-5x efficiency gain possible",
+      "adaptive_precision": "2-3x efficiency gain possible",
+      "total_potential": "10-15x efficiency improvement with neuromorphic techniques"
+    },
+    "biological_principles_applied": [
+      "Hierarchical organization - implemented in PE array structure",
+      "Sparse coding - ternary zeros enable structural sparsity",
+      "Local compute - mask-locking provides synaptic locality",
+      "Predictive coding - could be added in future iterations"
+    ],
+    "scaling_insight": {
+      "observation": "Biology scales power sublinearly with neurons",
+      "chip_implication": "Larger chip arrays may be more efficient per PE",
+      "recommendation": "Consider scaling PE array for efficiency gains"
+    }
+  }
+}

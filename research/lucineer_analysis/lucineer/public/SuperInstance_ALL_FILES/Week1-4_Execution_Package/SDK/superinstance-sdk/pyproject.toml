@@ -1,0 +1,76 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "superinstance-sdk"
+version = "0.1.0"
+description = "SDK for SuperInstance mask-locked inference hardware"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+requires-python = ">=3.8"
+authors = [
+    {name = "SuperInstance.AI", email = "sdk@superinstance.ai"}
+]
+keywords = ["ai", "llm", "inference", "hardware", "edge", "superinstance"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "black>=23.0",
+    "isort>=5.0",
+    "mypy>=1.0",
+    "ruff>=0.1.0",
+]
+serial = [
+    "pyserial>=3.5",
+]
+
+[project.urls]
+Documentation = "https://docs.superinstance.ai"
+Source = "https://github.com/superinstance-ai/superinstance-sdk"
+Tracker = "https://github.com/superinstance-ai/superinstance-sdk/issues"
+
+[project.scripts]
+superinstance = "superinstance.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["superinstance*"]
+exclude = ["tests*", "examples*"]
+
+[tool.black]
+line-length = 100
+target-version = ["py38", "py39", "py310", "py311"]
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.ruff]
+line-length = 100
+select = ["E", "F", "W", "I", "N", "UP", "B"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --cov=superinstance"

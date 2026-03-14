@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.mdpi.com/2079-8954/14/1/76",
+    "name": "From Automation to Autonomy: A Digital Twin Framework for Transparent Agent and Human Collaboration in Industrial Multi-Agent Systems",
+    "snippet": "2026 — With the advancement of digitization in the era of Industry 4.0 (I4.0), highly automated, semi-autonomous, and fully autonomous systems are emerging.\n2026 — This streamlines distributed process orchestration, as an agent can autonomously discover and invoke the capabilities of other agents. Figure 6.",
+    "host_name": "www.mdpi.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.sciencedirect.com/science/article/pii/S0926580526000610",
+    "name": "Digital twins in offsite construction: Current implementations, challenges, and future pathways",
+    "snippet": "2026 — Digital Twin (DT) technology is emerging as a critical enabler for Off-Site Construction (OSC). However, current research remains fragmented.",
+    "host_name": "www.sciencedirect.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.researchgate.net/publication/400065743_Autonomous_AI-Enabled_Digital_Twins_for_Socio-Technical_Systems_Architectures_Autonomy_Levels_and_Governance_-A_Comparative_Review",
+    "name": "(PDF) Autonomous AI-Enabled Digital Twins for Socio-Technical Systems: Architectures, Autonomy Levels, and Governance -A Comparative Review",
+    "snippet": "28 Jan 2026 — The potential for fully autonomous AI-enabled digital twins to support the modeling, monitoring, and governance of complex socio-technical ...",
+    "host_name": "www.researchgate.net",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://arxiv.org/html/2512.05270v1",
+    "name": "XR-DT: Extended Reality-Enhanced Digital Twin for Agentic Mobile Robots",
+    "snippet": "4 Dec 2025 — The relationship between DT and IoT represents a mutually advantageous architecture, where IoT collects real-time multimodal data and DT fuses ...",
+    "host_name": "arxiv.org",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.tandfonline.com/doi/full/10.1080/27525783.2025.2555877",
+    "name": "Full article: A new era for digital twins: progress and industry adoption",
+    "snippet": "2025 · Cited by 11 — Abstract. This systematic review provides a comprehensive evaluation of the core components and diverse applications of digital twin (DT) technology, ...",
+    "host_name": "www.tandfonline.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://ietresearch.onlinelibrary.wiley.com/doi/10.1049/dgt2.70025",
+    "name": "Principles for Applying AI to Address the Challenges of Scaling Digital Twins",
+    "snippet": "11 Feb 2026 — The term likely emerged in 2017–2018 as the capabilities of DT with the advancements in AI, and the desire for more sophisticated and autonomous ...",
+    "host_name": "ietresearch.onlinelibrary.wiley.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://dl.acm.org/doi/10.1145/3697350",
+    "name": "The Role of Multi-Agents in Digital Twin Implementation: Short Survey",
+    "snippet": "The primary goal of this article is to explore the role of agents in DT implementations, seeking to understand their predominant usage scenarios and purposes.",
+    "host_name": "dl.acm.org",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.preprints.org/manuscript/202505.0784",
+    "name": "A New Era for Digital Twins: Progress and Industry Adoption",
+    "snippet": "12 May 2025 — A DT is a real-time digital replica of a physical system, built on a foundation of key components such as sensors, data acquisition systems, ...",
+    "host_name": "www.preprints.org",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.sciencedirect.com/science/article/pii/S2667241323000137",
+    "name": "Digital Twin applications toward Industry 4.0: A Review",
+    "snippet": "2023 · Cited by 474 — A digital twin is a virtual model duplicating an IoT device's physical components and behaviours across all phases of its lifespan. A digital twin is formed by ...",
+    "host_name": "www.sciencedirect.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.sciopen.com/article/10.26599/TST.2024.9010163",
+    "name": "Building a Self-Evolving Digital Twin System with Bayesian Optimization and Deep Reinforcement Learning for Complex Equipment Optimization and Control",
+    "snippet": "2026 · Cited by 2 — The ultimate goal of equipment digital twin system is to achieve real-time interaction between virtual and physical spaces, enabling simulation ...",
+    "host_name": "www.sciopen.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

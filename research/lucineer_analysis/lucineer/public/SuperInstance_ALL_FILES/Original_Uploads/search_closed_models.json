@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://aquent.com/blog/whats-better-open-source-versus-closed-source-ai",
+    "name": "What's better? Open-source versus closed-source AI.",
+    "snippet": "Licensing terms and whether a model is open or closed source can significantly impact your organization's technological capabilities, operational risks,",
+    "host_name": "aquent.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.itu.int/epublications/zh/publication/itu-t-f-748-48-2025-03-technical-specification-for-artificial-intelligence-cloud-platforms-artificial-intelligence-model-deployment",
+    "name": "Artificial intelligence model deployment",
+    "snippet": "End-edge deployment refers to deploying AI models on end or edge devices, enabling local processing and inference close to the data source.",
+    "host_name": "www.itu.int",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://aws.amazon.com/blogs/machine-learning/train-optimize-and-deploy-models-on-edge-devices-using-amazon-sagemaker-and-qualcomm-ai-hub",
+    "name": "Train, optimize, and deploy models on edge devices using",
+    "snippet": "In this post, we introduce an innovative solution for end-to-end model customization and deployment at the edge using Amazon SageMaker and Qualcomm AI Hub.",
+    "host_name": "aws.amazon.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/pulse/how-reduce-model-deployment-costs-open-source-ai-frameworks-6ywof",
+    "name": "How to Reduce Model Deployment Costs with Open-",
+    "snippet": "Eliminate licensing fees – Unlike commercial platforms, open-source is free to use. Offer flexible deployment options – Most support deployment ...",
+    "host_name": "www.linkedin.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.mdpi.com/2227-7390/13/11/1878",
+    "name": "Deploying AI on Edge: Advancement and Challenges in",
+    "snippet": "This article systematically reviews the current advancements in edge intelligence technologies, highlights key enabling techniques including model sparsity, ...",
+    "host_name": "www.mdpi.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://dac.digital/edge-ai-best-practices",
+    "name": "Edge AI – Best Practices for Efficient Deployment",
+    "snippet": "Here are 5 best practices for deploying edge AI efficiently and make sure that ML and DL models run smoothly on resource-constraint devices. Optimize Data for Edge AI · Compress Data Early",
+    "host_name": "dac.digital",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.anaconda.com/topics/open-source-ai",
+    "name": "Exploring Open-Source AI: Definition, Benefits, and Tools",
+    "snippet": "The Phi-3.5-mini model, for example, provides strong capabilities while being small enough to run on edge devices and personal computers. This ...",
+    "host_name": "www.anaconda.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/posts/andrewyng_learn-to-deploy-ai-models-to-edge-devices-activity-7198685657064460289-G1kP",
+    "name": "How to deploy AI models on-device | Andrew Ng posted",
+    "snippet": "In this course, you'll deploy a real-time image segmentation model on-device, and through this learn key steps for on-device deployment.",
+    "host_name": "www.linkedin.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

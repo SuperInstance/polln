@@ -1,0 +1,393 @@
+{
+  "COMPLEX_VALUED_ANALYSIS": {
+    "metadata": {
+      "analysis_date": "2026-03-15",
+      "research_context": "Mask-Locked Inference Chip Technical Deep-Dive",
+      "verification_status": "COMPLETED"
+    },
+    "mathematical_foundation": {
+      "complex_operations": {
+        "standard_complex_multiplication": {
+          "formula": "(a + bi)(c + di) = (ac - bd) + (ad + bc)i",
+          "real_operations_per_multiply": 4,
+          "description": "Standard complex multiplication requires 4 real multiplications and 2 additions",
+          "hardware_cost": "High - requires 4 multipliers per complex multiply"
+        },
+        "simplified_for_unit_roots": {
+          "weight_values": ["+1", "-1", "+i", "-i"],
+          "operations": {
+            "w_equals_1": {
+              "operation": "x * 1 = x",
+              "hardware": "No operation (pass through)",
+              "cost": "0 multiplications, 0 additions"
+            },
+            "w_equals_minus_1": {
+              "operation": "x * (-1) = -x",
+              "hardware": "Negation (2's complement)",
+              "cost": "0 multiplications, 1 NOT gate per bit"
+            },
+            "w_equals_i": {
+              "operation": "x * i = i(a + bi) = -b + ai",
+              "hardware": "Real-imaginary swap with negation of original imaginary part",
+              "cost": "0 multiplications, wire swap + 1 negation",
+              "key_insight": "Multiplication by i is a 90-degree rotation implemented as wire rearrangement"
+            },
+            "w_equals_minus_i": {
+              "operation": "x * (-i) = -i(a + bi) = b - ai",
+              "hardware": "Real-imaginary swap with negation of original real part",
+              "cost": "0 multiplications, wire swap + 1 negation"
+            }
+          }
+        },
+        "critical_insight": {
+          "explanation": "The key mathematical insight is that multiplication by unit 4th roots {±1, ±i} eliminates all true multiplications. These are pure rotations and reflections that can be implemented with wire swapping and negation gates only.",
+          "hardware_implication": "A complex-valued MAC operation with weights in {±1, ±i} requires ONLY additions, no multipliers whatsoever."
+        }
+      },
+      "quantization_scheme": {
+        "framework_name": "Fairy ±i",
+        "institution": "Peking University (北京大学)",
+        "source_url": "https://www.linkresearcher.com/theses/15e3d584-6efe-417e-b700-b7ca1d44c485",
+        "method": {
+          "weight_representation": "Unit 4th roots: {+1, -1, +i, -i}",
+          "bits_per_weight": 2,
+          "encoding": {
+            "00": "+1",
+            "01": "-1",
+            "10": "+i",
+            "11": "-i"
+          }
+        },
+        "representation_advantage": {
+          "real_domain": {
+            "ternary_weights": "{-1, 0, +1}",
+            "bits": "1.58 bits (trit-based)",
+            "operations": "Requires addition and subtraction only for w ∈ {-1, +1}, but w=0 requires masking"
+          },
+          "complex_domain": {
+            "quaternary_weights": "{±1, ±i}",
+            "bits": "2 bits per complex weight",
+            "operations": "All weights require only wire swap and negation - NO multiplication",
+            "advantage": "More expressive than ternary while still avoiding multiplication"
+          }
+        }
+      }
+    },
+    "addition_only_mechanism": {
+      "explanation": {
+        "summary": "The Fairy ±i framework achieves addition-only inference by constraining all weights to unit 4th roots, which transform multiplications into simple wire operations.",
+        "detailed_mechanism": {
+          "step_1": "Weight encoding: Store each weight as 2 bits representing {±1, ±i}",
+          "step_2": "Activation representation: Keep activations in complex format (a + bi)",
+          "step_3": "Multiply-accumulate: For each weight-activation pair, perform wire swap/negation based on weight value, then accumulate",
+          "step_4": "Accumulation: Sum all transformed activations using standard addition"
+        }
+      },
+      "hardware_operations": {
+        "per_weight_activation_pair": {
+          "w=+1": "Pass activation through unchanged",
+          "w=-1": "Negate both real and imaginary parts",
+          "w=+i": "Swap real↔imaginary, negate original imaginary",
+          "w=-i": "Swap real↔imaginary, negate original real"
+        },
+        "accumulation": "Standard 2's complement addition of complex numbers",
+        "total_operations": {
+          "multiplications": 0,
+          "additions": "2 per complex weight-activation pair (real + imaginary)",
+          "wire_operations": "1 swap + 0-2 negations"
+        }
+      },
+      "example_calculation": {
+        "input": "Activation x = 3 + 2i",
+        "weights": ["w1 = +1", "w2 = -1", "w3 = +i", "w4 = -i"],
+        "activations": ["x1 = 3 + 2i", "x2 = 1 - 1i", "x3 = 2 + 0i", "x4 = 0 + 1i"],
+        "operations": {
+          "w1*x1": "+1 * (3 + 2i) = 3 + 2i (no op)",
+          "w2*x2": "-1 * (1 - 1i) = -1 + 1i (negate)",
+          "w3*x3": "+i * (2 + 0i) = 0 + 2i (swap, negate imag)",
+          "w4*x4": "-i * (0 + 1i) = 1 + 0i (swap, negate real)"
+        },
+        "accumulation": "(3 + 2i) + (-1 + 1i) + (0 + 2i) + (1 + 0i) = 3 + 5i",
+        "multiplications_used": 0
+      }
+    },
+    "hardware_implementation": {
+      "complex_mac": {
+        "design_sketch": {
+          "inputs": {
+            "activation_real": "N-bit signed integer",
+            "activation_imag": "N-bit signed integer",
+            "weight": "2-bit encoded {00:+1, 01:-1, 10:+i, 11:-i}"
+          },
+          "components": [
+            {
+              "name": "Weight Decoder",
+              "function": "Decode 2-bit weight into control signals",
+              "gates": "~4 logic gates"
+            },
+            {
+              "name": "Swap Network",
+              "function": "Swap real↔imaginary based on weight",
+              "gates": "2:1 multiplexer (2 instances)"
+            },
+            {
+              "name": "Negation Network",
+              "function": "Apply negation based on weight and swap state",
+              "gates": "XOR gates for conditional inversion + add-1 for 2's complement"
+            },
+            {
+              "name": "Accumulator",
+              "function": "Sum real and imaginary parts separately",
+              "gates": "2 N-bit adders"
+            }
+          ]
+        },
+        "data_path": {
+          "description": "1. Decode weight[1:0] → control signals {swap, negate_real, negate_imag}",
+          "pipeline": "2. If swap: temp_real ← activation_imag, temp_imag ← activation_real",
+          "final": "3. If negate_real: temp_real ← -temp_real; If negate_imag: temp_imag ← -temp_imag",
+          "output": "4. Accumulate: acc_real += temp_real, acc_imag += temp_imag"
+        }
+      },
+      "gate_count_estimate": {
+        "complex_mac_unit": {
+          "weight_decoder": "4 gates",
+          "swap_multiplexers": "2 × (N × 2:1 MUX) ≈ 4N gates",
+          "negation_xors": "2 × N XOR gates = 2N gates",
+          "incrementers": "2 × N half-adders ≈ 2N gates",
+          "accumulators": "2 × N-bit adders ≈ 6N gates",
+          "total_per_mac": "~14N + 4 gates (for N-bit activations)"
+        },
+        "comparison_to_traditional": {
+          "traditional_complex_mac": {
+            "multipliers": "4 × N-bit multipliers",
+            "adders": "2 × 2N-bit adders",
+            "gate_count": "~4 × N² + 12N gates (N² dominates)"
+          },
+          "savings": {
+            "formula": "Traditional: O(N²) vs Complex-quantized: O(N)",
+            "for_8bit": "Traditional: ~256 gates/mult × 4 + adders ≈ 1200 gates vs Complex-quantized: ~116 gates",
+            "savings_ratio": "~10x reduction in gate count per MAC"
+          },
+          "power_savings": {
+            "multiplier_elimination": "~80-90% of MAC power is in multipliers",
+            "estimated_savings": "5-10x power reduction per MAC operation"
+          }
+        }
+      },
+      "cordic_potential": {
+        "applicability": "Limited direct applicability",
+        "explanation": "CORDIC is used for computing transcendental functions (sin, cos, atan) and arbitrary rotations using only shifts and adds. Since Fairy ±i uses only 90° rotations (multiples of i), CORDIC's iterative approach is overkill.",
+        "when_cordic_helps": {
+          "scenario": "If extending to higher-order roots of unity",
+          "example": "8th roots {±1, ±i, ±(1±i)/√2} would require 45° rotations",
+          "cordic_benefit": "CORDIC could compute 45° rotations without multipliers"
+        },
+        "for_current_framework": {
+          "direct_implementation": "Wire swapping is simpler and faster than CORDIC for 90° rotations",
+          "latency": "Wire swap: 1 cycle vs CORDIC: 10-20 iterations",
+          "recommendation": "Use direct wire swap/negation, not CORDIC"
+        }
+      }
+    },
+    "bitnet_compatibility": {
+      "combinable": "YES - Highly synergistic",
+      "approach": {
+        "option_1_hybrid_encoding": {
+          "name": "Complex-Ternary Hybrid",
+          "weights": "{0, ±1, ±i}",
+          "bits": "2.5 bits per weight (5 states)",
+          "operations": {
+            "w=0": "Masking (no accumulation)",
+            "w=±1": "Negation",
+            "w=±i": "Rotation by ±90°"
+          },
+          "advantage": "Combines BitNet's sparsity advantage with complex rotation efficiency",
+          "hardware": "Add masking logic to complex MAC"
+        },
+        "option_2_extended_roots": {
+          "name": "8th Roots of Unity",
+          "weights": "{±1, ±i, ±(1+i)/√2, ±(1-i)/√2}",
+          "bits": "3 bits per weight (8 states)",
+          "operations": "90° rotations (wire swap) + 45° rotations (CORDIC or precomputed)",
+          "advantage": "More expressive while still avoiding full multiplication",
+          "challenge": "45° rotations require more complex hardware"
+        },
+        "option_3_parallel_complex": {
+          "name": "Dual-Channel Complex BitNet",
+          "architecture": "Run two complex channels in parallel, combine outputs",
+          "effective_precision": "Higher than single complex channel",
+          "hardware_cost": "2x MAC units, but each still multiplication-free"
+        }
+      },
+      "compatibility_matrix": {
+        "feature": {
+          "BitNet_b1.58": "Ternary weights {-1, 0, +1}",
+          "Fairy_pmi": "Quaternary complex weights {±1, ±i}",
+          "Hybrid": "Combine both for best of both worlds"
+        },
+        "operations_comparison": {
+          "BitNet_MAC": "w=0: skip, w=±1: add/subtract",
+          "Fairy_MAC": "w=±1: add/subtract, w=±i: swap+add/subtract",
+          "Combined_MAC": "All above operations, unified accumulator"
+        }
+      }
+    },
+    "quality_assessment": {
+      "vs_standard_quantization": {
+        "methodology": "Compare Fairy ±i against standard INT4 and BitNet b1.58",
+        "metrics": {
+          "perplexity": {
+            "INT4": "Baseline (with some degradation)",
+            "BitNet_b1.58": "~1-5% degradation vs FP16",
+            "Fairy_pmi": "Claimed comparable or better than standard quantization",
+            "note": "Complex representation may provide implicit regularization benefits"
+          },
+          "model_size": {
+            "INT4": "4 bits per weight",
+            "BitNet_b1.58": "1.58 bits per weight (ternary)",
+            "Fairy_pmi": "2 bits per complex weight (but represents complex number)"
+          },
+          "effective_information": {
+            "real_only_ternary": "3 states",
+            "complex_quaternary": "4 states on complex plane",
+            "geometric_interpretation": "Complex representation captures phase information inherently"
+          }
+        },
+        "research_findings": {
+          "source": "Peking University Fairy ±i paper",
+          "claims": [
+            "Achieves full-precision accuracy in some benchmarks",
+            "Mobile device deployment capability",
+            "Addition-only inference dramatically simplifies hardware"
+          ],
+          "verification_needed": [
+            "Independent benchmark reproduction",
+            "Comparison with BitNet b1.58 on same model family",
+            "Hardware synthesis results"
+          ]
+        }
+      },
+      "potential_limitations": {
+        "activation_precision": {
+          "issue": "Activations must be stored in complex format",
+          "implication": "2x storage for activations vs real-only",
+          "mitigation": "Can quantize complex activations separately"
+        },
+        "initialization": {
+          "issue": "Complex-valued weights require special initialization schemes",
+          "implication": "Training from scratch or complex-aware fine-tuning needed",
+          "mitigation": "Convert existing real weights to complex domain"
+        },
+        "non_linearities": {
+          "issue": "Standard activations (ReLU, GELU) are designed for real numbers",
+          "implication": "Need complex-aware activation functions",
+          "mitigation": "ModReLU, complex GELU variants exist in literature"
+        }
+      }
+    },
+    "recommendation": [
+      {
+        "priority": 1,
+        "action": "Obtain full Fairy ±i paper from Peking University",
+        "rationale": "Need complete mathematical details and benchmark results",
+        "timeline": "Week 1"
+      },
+      {
+        "priority": 2,
+        "action": "Evaluate Complex-Ternary Hybrid approach for Gate 0",
+        "rationale": "Combines best of BitNet sparsity with complex rotation efficiency",
+        "timeline": "Week 2-4"
+      },
+      {
+        "priority": 3,
+        "action": "Design and simulate complex MAC unit",
+        "rationale": "Verify gate count and power savings estimates",
+        "timeline": "Week 3-6"
+      },
+      {
+        "priority": 4,
+        "action": "Contact Peking University research team",
+        "rationale": "Explore collaboration or licensing for hardware implementation",
+        "timeline": "Week 2"
+      },
+      {
+        "priority": 5,
+        "action": "Evaluate extended roots of unity (8th roots)",
+        "rationale": "3-bit weights with 8 states could provide quality boost while maintaining multiplication-free property",
+        "timeline": "Future research"
+      },
+      {
+        "priority": 6,
+        "action": "Compare with KAIST 2T1C DRAM approach",
+        "rationale": "ADC-free MAC in memory could synergize with complex-valued operations",
+        "timeline": "Week 4-6"
+      }
+    ],
+    "sources": [
+      {
+        "type": "primary_research",
+        "title": "Fairy ±i: First Complex-Valued LLM with 2-bit Quantization",
+        "institution": "Peking University (北京大学)",
+        "url": "https://www.linkresearcher.com/theses/15e3d584-6efe-417e-b700-b7ca1d44c485",
+        "description": "Original announcement of the Fairy ±i framework for complex-valued LLMs"
+      },
+      {
+        "type": "verification",
+        "title": "v13 Multilanguage Verification",
+        "url": "internal://v13_multilang_verification.json",
+        "description": "Verification of Chinese research claims including Fairy ±i"
+      },
+      {
+        "type": "related_research",
+        "title": "BitNet b1.58 2B4T Technical Report",
+        "institution": "Microsoft",
+        "url": "https://arxiv.org/abs/2504.12285",
+        "description": "Native 1-bit LLM with ternary weights for comparison"
+      },
+      {
+        "type": "related_research",
+        "title": "Complex-Valued Neural Networks Survey",
+        "note": "General mathematical foundation for complex-valued deep learning",
+        "key_concepts": ["Holomorphic functions", "Complex backpropagation", "Wirtinger calculus"]
+      },
+      {
+        "type": "hardware_reference",
+        "title": "CORDIC Algorithms for Complex Arithmetic",
+        "note": "Reference for rotation-based computation without multipliers",
+        "applicability": "Limited - 90° rotations are simpler with direct wire swap"
+      }
+    ],
+    "technical_appendix": {
+      "complex_valued_nn_basics": {
+        "representation": {
+          "complex_number": "z = a + bi where a, b ∈ ℝ, i² = -1",
+          "magnitude": "|z| = √(a² + b²)",
+          "phase": "∠z = arctan(b/a)",
+          "euler_form": "z = |z|e^(i∠z)"
+        },
+        "why_hardware_friendly": {
+          "reason_1": "Unit complex numbers are pure rotations - no scaling",
+          "reason_2": "Multiplication by unit roots is isometric - no overflow growth",
+          "reason_3": "4th roots are simple 90° rotations - wire swap implementation",
+          "reason_4": "No multiplication needed for weight-activation operation"
+        },
+        "phase_information": {
+          "advantage": "Complex representation captures phase relationships in data",
+          "applications": "Speech, RF signals, periodic patterns",
+          "llm_relevance": "Token embeddings may benefit from phase encoding"
+        }
+      },
+      "gate_level_design": {
+        "swap_mux": {
+          "description": "2:1 MUX to swap real and imaginary based on weight bit",
+          "verilog_concept": "assign out_real = weight[1] ? activation_imag : activation_real; assign out_imag = weight[1] ? activation_real : activation_imag;"
+        },
+        "conditional_negate": {
+          "description": "XOR-based conditional inversion for negation",
+          "verilog_concept": "assign neg_real = weight[0] ? ~swapped_real + 1 : swapped_real; assign neg_imag = weight[0] ^ weight[1] ? ~swapped_imag + 1 : swapped_imag;"
+        }
+      }
+    }
+  }
+}

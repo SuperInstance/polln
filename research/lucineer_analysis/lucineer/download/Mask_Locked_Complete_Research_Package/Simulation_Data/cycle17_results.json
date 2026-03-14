@@ -1,0 +1,120 @@
+{
+  "summary": {
+    "total_attacks_evaluated": 8,
+    "successful_attacks": 4,
+    "total_information_leaked_bits": 1.2606385418300192,
+    "security_rating": 5.1
+  },
+  "attack_results": {
+    "SPA": {
+      "success": false,
+      "traces_needed": 1,
+      "correlation": 9.727354223022032e-05,
+      "information_leaked_bits": 0.0,
+      "attack_cost_usd": 5000,
+      "attack_time_hours": 1,
+      "confidence": 0.3
+    },
+    "DPA": {
+      "success": true,
+      "traces_needed": 1000,
+      "correlation": 0.376149182624106,
+      "information_leaked_bits": 0.752298365248212,
+      "attack_cost_usd": 15000,
+      "attack_time_hours": 50,
+      "confidence": 1.88074591312053
+    },
+    "CPA": {
+      "success": false,
+      "traces_needed": -1,
+      "correlation": 0.004442286935877147,
+      "information_leaked_bits": 0.01332686080763144,
+      "attack_cost_usd": 25000,
+      "attack_time_hours": 25,
+      "confidence": 0.1
+    },
+    "TIMING": {
+      "success": true,
+      "traces_needed": 1000,
+      "correlation": 0.13612981203587682,
+      "information_leaked_bits": 0.06806490601793841,
+      "attack_cost_usd": 500,
+      "attack_time_hours": 5,
+      "confidence": 1.3612981203587682
+    },
+    "CACHE_TIMING": {
+      "success": true,
+      "traces_needed": 5000,
+      "correlation": 0.23200531529258409,
+      "information_leaked_bits": 0.32532103178099414,
+      "attack_cost_usd": 2000,
+      "attack_time_hours": 25,
+      "confidence": 0.3
+    },
+    "EM": {
+      "success": false,
+      "traces_needed": 500,
+      "correlation": 0.06273779752432579,
+      "information_leaked_bits": 0.0006273779752432579,
+      "attack_cost_usd": 100000,
+      "attack_time_hours": 100,
+      "confidence": 0.1
+    },
+    "ACOUSTIC": {
+      "success": false,
+      "traces_needed": 1,
+      "correlation": 0.01,
+      "information_leaked_bits": 0.001,
+      "attack_cost_usd": 5000,
+      "attack_time_hours": 25,
+      "confidence": 0.01
+    },
+    "THERMAL": {
+      "success": true,
+      "traces_needed": 600,
+      "correlation": 199.17139931644226,
+      "information_leaked_bits": 0.1,
+      "attack_cost_usd": 1000,
+      "attack_time_hours": 0.016666666666666666,
+      "confidence": 0.1
+    }
+  },
+  "countermeasures": {
+    "Constant-time KV cache": {
+      "overhead_percent": 2.0,
+      "power_overhead_percent": 1.0,
+      "effectiveness": 0.8,
+      "cost_usd": 10000
+    },
+    "Power randomization": {
+      "overhead_percent": 5.0,
+      "power_overhead_percent": 8.0,
+      "effectiveness": 0.7,
+      "cost_usd": 50000
+    },
+    "Operation shuffling": {
+      "overhead_percent": 10.0,
+      "power_overhead_percent": 5.0,
+      "effectiveness": 0.6,
+      "cost_usd": 30000
+    },
+    "Noise injection 20dB": {
+      "overhead_percent": 15.0,
+      "power_overhead_percent": 20.0,
+      "effectiveness": 0.9,
+      "cost_usd": 40000
+    },
+    "EM shielding": {
+      "overhead_percent": 0.0,
+      "power_overhead_percent": 0.0,
+      "effectiveness": 0.9,
+      "cost_usd": 50000
+    }
+  },
+  "mask_locked_considerations": {
+    "weights_public": true,
+    "attack_target": "User input privacy + Model architecture",
+    "key_difference": "No secret key to extract; timing attacks less effective",
+    "primary_vulnerability": "Power analysis on input-dependent activity"
+  }
+}

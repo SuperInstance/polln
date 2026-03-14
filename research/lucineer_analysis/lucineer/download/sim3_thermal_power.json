@@ -1,0 +1,5 @@
+{
+  "thermal_transient": {
+    "max_temp_C": 86.90914256514914,
+    "steady_state_temp_C": 72.29263408655997,
+    "throttling_required": 

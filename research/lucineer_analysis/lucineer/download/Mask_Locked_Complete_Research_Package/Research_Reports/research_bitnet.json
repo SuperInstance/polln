@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://arxiv.org/html/2504.12285v1",
+    "name": "BitNet b1.58 2B4T Technical Report",
+    "snippet": "16 Apr 2025 — We introduce BitNet b1 . 58 2B4T, the first open-source, native 1-bit Large Language Model (LLM) at the 2-billion parameter scale.",
+    "host_name": "arxiv.org",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/@akhshyganesh/the-dawn-of-native-1-bit-llms-how-bitnet-b1-58-2b-4t-is-changing-the-game-5db3b659a0a9",
+    "name": "The Dawn of Native 1-Bit LLMs: How BitNet b1.58–2B-4T Is",
+    "snippet": "It may push more research into sub-2-bit weights , better activation quantization, specialized hardware support (for ternary weights ), etc.",
+    "host_name": "medium.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/kevbuh/bitnet",
+    "name": "pure pytorch implementation of Microsoft's BitNet b1.58 2B4T",
+    "snippet": "bitnet is based on Microsoft's BitNet b1 . 58 2B4T, a binarized LLaMa3-style LLM ( ternary ‐ weight STE, per‐token 8-bit abs-max activation, SubLN, ReLU² FFN, ...",
+    "host_name": "github.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.emergentmind.com/topics/bitnet-b1-58",
+    "name": "BitNet b1.58: Ternary Quantization for LLMs",
+    "snippet": "7 Jan 2026 — BitNet b1.58 is a quantization-aware training approach that discretizes each weight to {-1, 0, +1}, representing ~1.58 bits per parameter.",
+    "host_name": "www.emergentmind.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/pulse/how-bitnet-b158-achieves-full-precision-performance-158-bit-blanchet-klq3e",
+    "name": "How BitNet b1.58 Achieves Full-Precision Performance",
+    "snippet": "Published: February 2024 (arXiv), with follow-up model release April 2025 . Microsoft's BitNet b1 . 58 replaced billions of floating-point ...",
+    "host_name": "www.linkedin.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://aclanthology.org/2025.acl-long.457.pdf",
+    "name": "Bitnet.cpp: Efficient Edge Inference for Ternary LLMs",
+    "snippet": "2025 · Cited by 21 — 58 BitNet b1 . 58 performs ternary quantization on weights and int8 per-tensor quantization on activations during train- ing. Based on this, if ... 18 pages",
+    "host_name": "aclanthology.org",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://ajithp.com/2024/03/09/bitnet-b1-58",
+    "name": "BitNet b1.58: The Beginning of the Sustainable AI",
+    "snippet": "9 Mar 2024 — BitNet b1 . 58 reduces the cost and energy required for AI technology. This is a big step towards a more environmentally responsible tech industry.",
+    "host_name": "ajithp.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.alphaxiv.org/overview/2504.12285",
+    "name": "BitNet b1.58 2B4T Technical Report",
+    "snippet": "The core innovation lies in replacing standard linear layers with specialized BitLinear layers that operate at 1.58-bit precision for weights and 8-bit ...",
+    "host_name": "www.alphaxiv.org",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://huggingface.co/microsoft/bitnet-b1.58-2B-4T-gguf",
+    "name": "microsoft/bitnet-b1.58-2B-4T-gguf",
+    "snippet": "16 Apr 2025 — This repository contains the weights for BitNet b1.58 2B4 T, the first open-source, native 1-bit Large Language Model (LLM) at the 2-billion parameter scale.",
+    "host_name": "huggingface.co",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.sciencedirect.com/science/article/abs/pii/S089360802500735X",
+    "name": "PT-BitNet: Scaling up the 1-Bit Large Language Model with",
+    "snippet": "2025 · Cited by 5 — BitNet (Wang et al., 2023), particularly its b1 . 58 variant (Ma et al., 2024 ), represents a significant advancement in efficient Large Language ...",
+    "host_name": "www.sciencedirect.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

@@ -1,0 +1,260 @@
+{
+  "parameters": {
+    "tdp_w": 5.0,
+    "t_ambient_k": 298.15,
+    "t_ambient_c": 25.0,
+    "t_max_junction_k": 358.15,
+    "t_max_junction_c": 85.0,
+    "die_size_mm": 6.5,
+    "package_type": "48-pin QFN"
+  },
+  "natural_convection": {
+    "convection_coefficient": 10.090027304121248,
+    "fin_efficiency": 0.983910152097861,
+    "total_surface_area_m2": 0.026276099893705242,
+    "num_fins": 16,
+    "fin_spacing_m": 0.0017000000000000001,
+    "rayleigh_number": 29949.38509069616,
+    "nusselt_number": 7.761559464708652,
+    "R_convection": 3.7717834823227947,
+    "R_spreading": 1.7288512965779521,
+    "R_total": 5.500634778900746
+  },
+  "forced_air": {
+    "v_0.5m_s": {
+      "velocity": 0.5,
+      "convection_coefficient": 29.58828078902474,
+      "fin_efficiency": 0.9545132764199683,
+      "total_surface_area_m2": 0.025523539876351187,
+      "num_fins": 16,
+      "reynolds_number": 636.2162162162163,
+      "nusselt_number": 22.760215991557494,
+      "R_convection": 1.3241566372442615,
+      "R_spreading": 1.7288512965779521,
+      "R_total": 3.0530079338222134,
+      "pressure_drop_Pa": 19.291825605536324,
+      "fan_power_W": 0.013118441411764704,
+      "flow_rate_m3_s": 0.00027200000000000005
+    },
+    "v_1.0m_s": {
+      "velocity": 1.0,
+      "convection_coefficient": 49.110308047455455,
+      "fin_efficiency": 0.9271215359347078,
+      "total_surface_area_m2": 0.02482231131992852,
+      "num_fins": 16,
+      "reynolds_number": 1272.4324324324325,
+      "nusselt_number": 37.7771600365042,
+      "R_convection": 0.820323444178534,
+      "R_spreading": 1.7288512965779521,
+      "R_total": 2.549174740756486,
+      "pressure_drop_Pa": 38.58365121107265,
+      "fan_power_W": 0.052473765647058815,
+      "flow_rate_m3_s": 0.0005440000000000001
+    },
+    "v_2.0m_s": {
+      "velocity": 2.0,
+      "convection_coefficient": 81.51275749047886,
+      "fin_efficiency": 0.8856175314596548,
+      "total_surface_area_m2": 0.023759808805367162,
+      "num_fins": 16,
+      "reynolds_number": 2544.864864864865,
+      "nusselt_number": 62.7021211465222,
+      "R_convection": 0.5163348911357533,
+      "R_spreading": 1.7288512965779521,
+      "R_total": 2.2451861877137054,
+      "pressure_drop_Pa": 77.1673024221453,
+      "fan_power_W": 0.20989506258823526,
+      "flow_rate_m3_s": 0.0010880000000000002
+    },
+    "v_3.0m_s": {
+      "velocity": 3.0,
+      "convection_coefficient": 109.63476637341611,
+      "fin_efficiency": 0.8530826764022369,
+      "total_surface_area_m2": 0.022926916515897264,
+      "num_fins": 16,
+      "reynolds_number": 3817.2972972972975,
+      "nusselt_number": 84.33443567185856,
+      "R_convection": 0.39783780944941255,
+      "R_spreading": 1.7288512965779521,
+      "R_total": 2.1266891060273645,
+      "pressure_drop_Pa": 115.75095363321796,
+      "fan_power_W": 0.47226389082352926,
+      "flow_rate_m3_s": 0.0016320000000000002
+    },
+    "v_5.0m_s": {
+      "velocity": 5.0,
+      "convection_coefficient": 159.26477465339218,
+      "fin_efficiency": 0.8022622197805854,
+      "total_surface_area_m2": 0.021625912826382987,
+      "num_fins": 16,
+      "reynolds_number": 6362.1621621621625,
+      "nusselt_number": 122.511365117994,
+      "R_convection": 0.29033929672683817,
+      "R_spreading": 1.7288512965779521,
+      "R_total": 2.0191905933047902,
+      "pressure_drop_Pa": 192.9182560553633,
+      "fan_power_W": 1.3118441411764705,
+      "flow_rate_m3_s": 0.00272
+    }
+  },
+  "tim_analysis": {
+    "comparison": [
+      {
+        "type": "liquid_metal",
+        "conductivity": 40.0,
+        "contact_resistance_m2K_W": 1e-06,
+        "R_total_K_W": 0.053254437869822466,
+        "temperature_drop_K": 0.26627218934911234,
+        "cost_factor": 5.0,
+        "performance_score": 3.7555555555555573
+      },
+      {
+        "type": "generic",
+        "conductivity": 4.0,
+        "contact_resistance_m2K_W": 1e-05,
+        "R_total_K_W": 0.5325443786982247,
+        "temperature_drop_K": 2.662721893491123,
+        "cost_factor": 0.5,
+        "performance_score": 3.755555555555557
+      },
+      {
+        "type": "phase_change",
+        "conductivity": 6.0,
+        "contact_resistance_m2K_W": 5e-06,
+        "R_total_K_W": 0.31558185404339245,
+        "temperature_drop_K": 1.5779092702169621,
+        "cost_factor": 1.0,
+        "performance_score": 3.1687500000000006
+      },
+      {
+        "type": "graphite",
+        "conductivity": 15.0,
+        "contact_resistance_m2K_W": 3e-06,
+        "R_total_K_W": 0.1499013806706114,
+        "temperature_drop_K": 0.749506903353057,
+        "cost_factor": 2.5,
+        "performance_score": 2.6684210526315795
+      }
+    ],
+    "optimal_thickness": {
+      "optimal_thickness_um": 10.0,
+      "min_thermal_resistance_K_W": 0.09237241761340724,
+      "temperature_drop_K": 0.4618620880670362
+    }
+  },
+  "temperature_distribution": {
+    "natural": {
+      "T_junction": 327.50957270798506,
+      "T_junction_c": 54.35957270798508,
+      "T_ambient": 298.15,
+      "R_total": 5.871914541597019,
+      "layers": [
+        {
+          "name": "die",
+          "R": 0.04797697105389411,
+          "material": "silicon"
+        },
+        {
+          "name": "tim",
+          "R": 0.31558185404339256,
+          "material": "tim"
+        },
+        {
+          "name": "spreader",
+          "R": 0.0016233766233766235,
+          "material": "copper"
+        },
+        {
+          "name": "heatsink_base",
+          "R": 0.006097560975609756,
+          "material": "aluminum"
+        },
+        {
+          "name": "convection",
+          "R": 5.500634778900746,
+          "material": "air"
+        }
+      ],
+      "temperatures": [
+        327.50957270798506,
+        327.2696878527156,
+        325.6917785824986,
+        325.6836616993818,
+        325.6531738945037,
+        298.15
+      ],
+      "R_cumulative": [
+        5.871914541597019,
+        5.823937570543125,
+        5.508355716499732,
+        5.506732339876356,
+        5.500634778900746
+      ]
+    },
+    "forced_air": {
+      "T_junction": 311.23232975204985,
+      "T_junction_c": 38.08232975204987,
+      "T_ambient": 298.15,
+      "R_total": 2.6164659504099776,
+      "layers": [
+        {
+          "name": "die",
+          "R": 0.04797697105389411,
+          "material": "silicon"
+        },
+        {
+          "name": "tim",
+          "R": 0.31558185404339256,
+          "material": "tim"
+        },
+        {
+          "name": "spreader",
+          "R": 0.0016233766233766235,
+          "material": "copper"
+        },
+        {
+          "name": "heatsink_base",
+          "R": 0.006097560975609756,
+          "material": "aluminum"
+        },
+        {
+          "name": "convection",
+          "R": 2.2451861877137054,
+          "material": "air"
+        }
+      ],
+      "temperatures": [
+        311.23232975204985,
+        310.9924448967804,
+        309.4145356265634,
+        309.4064187434466,
+        309.3759309385685,
+        298.15
+      ],
+      "R_cumulative": [
+        2.6164659504099776,
+        2.5684889793560837,
+        2.2529071253126913,
+        2.251283748689315,
+        2.2451861877137054
+      ]
+    }
+  },
+  "recommendations": [
+    {
+      "priority": "INFO",
+      "issue": "Natural convection: T_junction=54.4\u00b0C within budget",
+      "solution": "Margin: 30.6K"
+    },
+    {
+      "priority": "INFO",
+      "issue": "Forced air (2m/s): T_junction=38.1\u00b0C within budget",
+      "solution": "Margin: 46.9K"
+    },
+    {
+      "priority": "MEDIUM",
+      "issue": "TIM optimization",
+      "solution": "Best TIM: liquid_metal (R=53.25 mK/W)"
+    }
+  ]
+}

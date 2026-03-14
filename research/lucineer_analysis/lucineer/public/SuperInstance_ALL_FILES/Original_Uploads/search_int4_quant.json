@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://arxiv.org/html/2505.11574v4",
+    "name": "Quantization Meets Reasoning: Exploring and Mitigating Degradation of Low-Bit LLMs in Mathematical Reasoning - arXiv",
+    "snippet": "Notably, quantized models exhibited relatively minor accuracy losses on the simpler GSM8K benchmark, with an average performance decline of only ...",
+    "host_name": "arxiv.org",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.ijcai.org/proceedings/2025/0902.pdf",
+    "name": "[PDF] Exploring the Trade-Offs: Quantization Methods, Task Difficulty, and Model Size in Large Language Models From Edge to Giant - IJCAI",
+    "snippet": "[Kurtic et al., 2024] investigated the accuracy-performance trade-offs in quantizing. LLMs, evaluating formats like FP8, INT8, and INT4 across various tasks and ...",
+    "host_name": "www.ijcai.org",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://aclanthology.org/2025.acl-long.1304.pdf",
+    "name": "[PDF] “Give Me BF16 or Give Me Death”? Accuracy-Performance Trade-Offs in LLM Quantization - ACL Anthology",
+    "snippet": "In this paper, we conduct the most comprehensive empirical study to date, evaluating FP8, INT8, and INT4 quantization across academic benchmarks ...",
+    "host_name": "aclanthology.org",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://openreview.net/pdf/9f0817a1aee88fa9fd23d763fbf2203c244f43a7.pdf",
+    "name": "[PDF] MICROMIX: EFFICIENT MIXED-PRECISION QUANTI  - OpenReview",
+    "snippet": "To address the accuracy degradation observed in INT4 quantized models on downstream tasks, prior ... benchmarks: GSM8K, MMLU-. STEM, CMATH, and MATH ... 2024 ...",
+    "host_name": "openreview.net",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.researchgate.net/publication/385560558_Give_Me_BF16_or_Give_Me_Death_Accuracy-Performance_Trade-Offs_in_LLM_Quantization",
+    "name": "\"Give Me BF16 or Give Me Death\"? Accuracy-Performance Trade-Offs in LLM Quantization",
+    "snippet": "We present a comprehensive empirical study of quantized accuracy, evaluating popular quantization formats (FP8, INT8, INT4) across academic ...",
+    "host_name": "www.researchgate.net",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://arxiv.org/html/2410.11305v3",
+    "name": "QSpec: Speculative Decoding with Complementary Quantization Schemes - arXiv",
+    "snippet": "By converting high-precision values (e.g., FP16) into their lower-precision counterparts (e.g., INT4), quantization effectively lowers memory ...",
+    "host_name": "arxiv.org",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://raw.githubusercontent.com/mlresearch/v235/main/assets/li24bb/li24bb.pdf",
+    "name": "[PDF] Evaluating Quantized Large Language Models - GitHub",
+    "snippet": "(2) Effect of quantization on various LLMs: After quantization, is there any consistent trend in the performance degradation of the LLMs from different model ...",
+    "host_name": "raw.githubusercontent.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://aclanthology.org/2024.findings-acl.726.pdf",
+    "name": "[PDF] A Comprehensive Evaluation of Quantization Strategies for Large Language Models - ACL Anthology",
+    "snippet": "The “Average Accuracy” represents the mean accuracy of LLMs across the MMLU (Hendrycks et al., 2021), C-EVAL (Huang et al., 2023), GSM8K (Cobbe ...",
+    "host_name": "aclanthology.org",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.pure.ed.ac.uk/ws/portalfiles/portal/490038818/FuEtalArXiv2024MoE-CAPCost-Accuracy-PerformanceBenchmarking.pdf",
+    "name": "[PDF] Edinburgh Research Explorer - The University of Edinburgh",
+    "snippet": ", 2024). These methods reduce computational and memory demands but lead to inevitable performance degradation, particularly in terms of accuracy. MoE ...",
+    "host_name": "www.pure.ed.ac.uk",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.emergentmind.com/topics/uq-kv-cache",
+    "name": "UQ-KV Cache: Unified Quantization for LLMs - Emergent Mind",
+    "snippet": "Typical benchmarks include MMLU, GSM8K, HumanEval, and line retrieval (used to detect context retention failures) (Yang et al., 28 Feb 2024, Zhang et al., 7 ...",
+    "host_name": "www.emergentmind.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

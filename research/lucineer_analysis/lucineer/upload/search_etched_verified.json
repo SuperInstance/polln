@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.techpowerup.com/323887/ai-startup-etched-unveils-transformer-asic-claiming-20x-speed-up-over-nvidia-h100",
+    "name": "AI Startup Etched Unveils Transformer ASIC Claiming 20x",
+    "snippet": "25 Jun 2024 — While details are scarce, we know that the ASIC runs on 144 GB of HBM3E memory, and the chip is manufactured on TSMC's 4 nm process. Read more",
+    "host_name": "www.techpowerup.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://awesomeagents.ai/hardware/etched-sohu",
+    "name": "Etched Sohu - Transformer-Only Inference ASIC",
+    "snippet": "2 days ago — Key Specifications ; Memory Bandwidth, ~4,800 GB/s (estimated based on HBM3E configuration) ; Compute Approach, Hardwired transformer pipeline ( ... Read more",
+    "host_name": "awesomeagents.ai",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.tomshardware.com/tech-industry/artificial-intelligence/sohu-ai-chip-claimed-to-run-models-20x-faster-and-cheaper-than-nvidia-h100-gpus",
+    "name": "Sohu AI chip claimed to run models 20x faster and cheaper",
+    "snippet": "26 Jun 2024 — A single 8xSohu server is said to equal the performance of 160 H100 GPUs, meaning data processing centers can save both on initial and operational costs. Read more",
+    "host_name": "www.tomshardware.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/pulse/etcheds-sohu-chip-company-betting-big-ai-asic-anshuman-jha-bjsdc",
+    "name": "Etched's Sohu Chip: The Company Betting Big on",
+    "snippet": "What performance improvements does Sohu offer? Sohu claims to deliver 20x faster processing and lower costs compared to Nvidia's H100 GPUs. Read more",
+    "host_name": "www.linkedin.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/@maxel333/etched-sohu-revolutionizing-ai-with-transformer-specific-chips-4a8661394f49",
+    "name": "Etched Sohu: Revolutionizing AI with Transformer-Specific",
+    "snippet": "“ Etched scores $120M for an ASIC built for transformer models,” The Register, 2023. “ Sohu AI chip claimed to run models 20x faster and cheaper ... Read more",
+    "host_name": "medium.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://x.com/davut1karabulut/status/2022673699208417289",
+    "name": "What is Etched, the purpose-built AI ASIC",
+    "snippet": "... Sohu server has the capability to produce more than 500,000 tokens per second. This is a 20x improvement over the H100 and a 10x performance ... Read more",
+    "host_name": "x.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://cryptoslate.com/is-the-nvidia-top-in-as-etched-launches-asic-for-llms-10x-faster-than-h100-gpus",
+    "name": "Is the NVIDIA top in as Etched launches ASIC for LLMs 20x",
+    "snippet": "26 Jun 2024 — Etched claims its Sohu chip can process AI workloads up to 20 times faster than Nvidia's top-of-the-line GPUs while using significantly less power. Read more",
+    "host_name": "cryptoslate.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://manifold.markets/ahalekelly/will-the-sohu-ai-chip-ship-to-custo",
+    "name": "Will the Sohu AI chip ship to customers within a year? | Manifold",
+    "snippet": "The Sohu chip is an AI ASIC developed by Etched that is claiming 20x faster transformer inference than an Nvidia H100 . https://www. etched .com/. Their ... Read more",
+    "host_name": "manifold.markets",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://levelup.gitconnected.com/the-fastest-ai-chip-in-history-sohu-is-10-times-faster-than-b200-and-was-created-by-a-harvard-8731cadfc0b6",
+    "name": "The fastest AI chip in history, “Sohu”, is 10 times faster than",
+    "snippet": "1 Jul 2024 — In other words, Sohu runs more than 20 times faster than H100. Specifically, through specialization, Sohu has unprecedented performance. Read more",
+    "host_name": "levelup.gitconnected.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.lesswrong.com/posts/qhpB9NjcCHjdNDsMG/new-fast-transformer-inference-asic-sohu-by-etched",
+    "name": "New fast transformer inference ASIC — Sohu by Etched",
+    "snippet": "26 Jun 2024 — Benchmarks are for Llama-3 70B in FP8 precision , 2048 input/128 output lengths. What would happen if AI models get 20x faster and cheaper ... Read more",
+    "host_name": "www.lesswrong.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

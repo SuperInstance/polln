@@ -1,0 +1,237 @@
+{
+  "timestamp": "2026-03-07T07:41:29.546970",
+  "chip_config": {
+    "weights": 2400000000.0,
+    "throughput_tps": 25,
+    "power_w": 5.0,
+    "memory_bw_bytes": 31740000000000.0,
+    "die_size_mm2": 42,
+    "cost_usd": 35,
+    "io_links": 4,
+    "io_bandwidth_per_link_gbps": 25.0
+  },
+  "interconnect": {
+    "SERDES_10G": {
+      "bandwidth_gbps": 10.0,
+      "latency_ns": 50,
+      "pins_per_link": 4,
+      "power_mw": 150,
+      "latencies_us": {
+        "1KB": 0.86,
+        "1000KB": 800.0600000000001,
+        "1000000KB": 800000.0600000002
+      }
+    },
+    "SERDES_25G": {
+      "bandwidth_gbps": 25.0,
+      "latency_ns": 30,
+      "pins_per_link": 4,
+      "power_mw": 250,
+      "latencies_us": {
+        "1KB": 0.36000000000000004,
+        "1000KB": 320.04,
+        "1000000KB": 320000.04
+      }
+    },
+    "SERDES_56G": {
+      "bandwidth_gbps": 56.0,
+      "latency_ns": 20,
+      "pins_per_link": 4,
+      "power_mw": 400,
+      "latencies_us": {
+        "1KB": 0.17285714285714285,
+        "1000KB": 142.88714285714286,
+        "1000000KB": 142857.17285714284
+      }
+    },
+    "LVDS_1G": {
+      "bandwidth_gbps": 1.0,
+      "latency_ns": 5,
+      "pins_per_link": 2,
+      "power_mw": 50,
+      "latencies_us": {
+        "1KB": 8.015,
+        "1000KB": 8000.015000000001,
+        "1000000KB": 8000000.0150000015
+      }
+    },
+    "LVDS_5G": {
+      "bandwidth_gbps": 5.0,
+      "latency_ns": 8,
+      "pins_per_link": 2,
+      "power_mw": 100,
+      "latencies_us": {
+        "1KB": 1.6179999999999999,
+        "1000KB": 1600.018,
+        "1000000KB": 1600000.018
+      }
+    },
+    "PARALLEL_32BIT": {
+      "bandwidth_gbps": 32.0,
+      "latency_ns": 2,
+      "pins_per_link": 64,
+      "power_mw": 200,
+      "latencies_us": {
+        "1KB": 0.262,
+        "1000KB": 250.01199999999997,
+        "1000000KB": 250000.012
+      }
+    }
+  },
+  "topologies": {
+    "linear_chain": {
+      "num_chips": 4,
+      "diameter": 3,
+      "avg_hops": 1.6666666666666667,
+      "bisection_bandwidth": 1,
+      "links_per_chip": 2,
+      "total_links": 3,
+      "redundancy": 0.0,
+      "max_faults": 0
+    },
+    "ring": {
+      "num_chips": 4,
+      "diameter": 2,
+      "avg_hops": 1.0,
+      "bisection_bandwidth": 2,
+      "links_per_chip": 2,
+      "total_links": 4,
+      "redundancy": 0.25,
+      "max_faults": 1
+    },
+    "grid_2x2": {
+      "num_chips": 4,
+      "diameter": 2,
+      "avg_hops": 1.3333333333333333,
+      "bisection_bandwidth": 2,
+      "links_per_chip": 4,
+      "total_links": 4,
+      "redundancy": 0.5,
+      "max_faults": 1
+    },
+    "grid_4x4": {
+      "num_chips": 16,
+      "diameter": 6,
+      "avg_hops": 2.6666666666666665,
+      "bisection_bandwidth": 4,
+      "links_per_chip": 4,
+      "total_links": 24,
+      "redundancy": 0.5,
+      "max_faults": 3
+    },
+    "torus": {
+      "num_chips": 16,
+      "diameter": 2,
+      "avg_hops": 1.0,
+      "bisection_bandwidth": 8,
+      "links_per_chip": 4,
+      "total_links": 32,
+      "redundancy": 2.0,
+      "max_faults": 6
+    }
+  },
+  "parallelism": {
+    "layer_wise": {
+      "layers_per_chip": 0.0625,
+      "bubble_overhead": 0.46875,
+      "communication_ratio": 0.75,
+      "activation_transfer_bytes": 305504,
+      "memory_efficiency": 1.0,
+      "parallelism_efficiency": -0.21875
+    },
+    "tensor": {
+      "heads_per_chip": 74.5625,
+      "layers_shared": 1,
+      "communication_ratio": 0.0029296875,
+      "allreduce_bytes": 286410.0,
+      "memory_efficiency": 0.0625,
+      "parallelism_efficiency": 0.9970703125
+    },
+    "expert": {
+      "experts_per_chip": 4.0,
+      "expert_size": 1093750000.0,
+      "router_overhead": 0.02,
+      "load_imbalance_factor": 0.6,
+      "communication_ratio": 0.32,
+      "memory_efficiency": 0.0625,
+      "parallelism_efficiency": 0.408
+    },
+    "data": {
+      "viable": false,
+      "reason": "Model exceeds single chip capacity",
+      "parallelism_efficiency": 0.0
+    }
+  },
+  "amdahl": {
+    "pf_0.95": {
+      "parallel_fraction": 0.95,
+      "serial_fraction": 0.050000000000000044,
+      "max_speedup": 19.999999999999982,
+      "efficiency_16chips": 0.5714285714285712,
+      "efficiency_64chips": 0.24096385542168658
+    },
+    "pf_0.9": {
+      "parallel_fraction": 0.9,
+      "serial_fraction": 0.09999999999999998,
+      "max_speedup": 10.000000000000002,
+      "efficiency_16chips": 0.4000000000000001,
+      "efficiency_64chips": 0.13698630136986303
+    },
+    "pf_0.85": {
+      "parallel_fraction": 0.85,
+      "serial_fraction": 0.15000000000000002,
+      "max_speedup": 6.666666666666666,
+      "efficiency_16chips": 0.30769230769230765,
+      "efficiency_64chips": 0.0956937799043062
+    },
+    "pf_0.8": {
+      "parallel_fraction": 0.8,
+      "serial_fraction": 0.19999999999999996,
+      "max_speedup": 5.000000000000001,
+      "efficiency_16chips": 0.25000000000000006,
+      "efficiency_64chips": 0.0735294117647059
+    }
+  },
+  "scaling_summary": {
+    "10B": [
+      {
+        "num_chips": 5,
+        "throughput": 25.935,
+        "efficiency": 0.8644999999999999,
+        "power": 27.75
+      },
+      {
+        "num_chips": 10,
+        "throughput": 55.8425,
+        "efficiency": 0.9307083333333332,
+        "power": 55.5
+      },
+      {
+        "num_chips": 20,
+        "throughput": 116.45325000000001,
+        "efficiency": 0.97044375,
+        "power": 111.0
+      },
+      {
+        "num_chips": 40,
+        "throughput": 236.07850000000002,
+        "efficiency": 0.9836604166666667,
+        "power": 222.0
+      }
+    ],
+    "70B": [
+      {
+        "num_chips": 30,
+        "throughput": 25.14829081632653,
+        "efficiency": 0.9779890873015872,
+        "power": 166.5
+      },
+      {
+        "num_chips": 60,
+        "throughput": 50.814797619047624,
+        "efficiency": 0.9880655092592593,
+        "power": 333.0
+      }
+    ]
+  }
+}

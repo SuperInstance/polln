@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://forgeglobal.com/etched_stock",
+    "name": "Invest and Sell Etched Stock",
+    "snippet": "Etched's chip, called Sohu, is an ASIC (application-specific integrated circuit) — a chip tailored for a particular application — made for running transformers.",
+    "host_name": "forgeglobal.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.eenewseurope.com/en/startup-etched-raises-us120m-to-bet-on-transformer-only-asic",
+    "name": "Startup Etched raises US$120m to bet on transformer-only ASIC ..",
+    "snippet": "25 Jun 2024 — Etched.ai Inc. (Cupertino, Calif.), a 2022 startup, has raised US$120 million in Series A round of funding to develop a transformer-only ...",
+    "host_name": "www.eenewseurope.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.techpowerup.com/323887/ai-startup-etched-unveils-transformer-asic-claiming-20x-speed-up-over-nvidia-h100",
+    "name": "AI Startup Etched Unveils Transformer ASIC Claiming 20x Speed-up Over NVIDIA H100",
+    "snippet": "25 Jun 2024 — The Sohu architecture is so efficient that 90% of the FLOPS can be used, while traditional GPUs boast a 30-40% FLOP utilization rate. This ...",
+    "host_name": "www.techpowerup.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://byteiota.com/etched-ai-raises-500m-to-challenge-nvidia-with-asics",
+    "name": "Etched AI Raises $500M to Challenge Nvidia With ASICs",
+    "snippet": "17 Jan 2026 — Etched AI raised $500 million at a $5 billion valuation this week, positioning the Harvard dropout-founded startup as the first credible ...",
+    "host_name": "byteiota.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://news.ycombinator.com/item?id=40790842",
+    "name": "Sohu – first specialized chip (ASIC) for transformer models",
+    "snippet": "25 Jun 2024 — Sohu – first specialized chip (ASIC) for transformer models (twitter.com/etched) ... 2025 has only 25% more compute (1,250 TFLOPS per die).",
+    "host_name": "news.ycombinator.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://awesomeagents.ai/hardware/etched-sohu",
+    "name": "Etched Sohu - Transformer-Only Inference ASIC - Awesome Agents",
+    "snippet": "3 days ago — Full specs and critical analysis of the Etched Sohu - a transformer-specific ASIC claiming 500K+ tokens/sec on Llama 70B, built on TSMC 4nm with ...",
+    "host_name": "awesomeagents.ai",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/pulse/etcheds-sohu-chip-company-betting-big-ai-asic-anshuman-jha-bjsdc",
+    "name": "Etched's Sohu Chip: The Company Betting Big on Transformer-Specific AI ASIC",
+    "snippet": "Etched's recent funding round, which raised $120 million, reflects strong investor confidence in its vision. The startup's rapid growth—from its ...",
+    "host_name": "www.linkedin.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://teeming.ai/j/manufacturing-mechanical-engineer-taiwan/62a1f4d4-adef-a3b4-1981-4ac42f6dbde8/etched/db73b6e8-3a71-44da-b1e9-4795da332540",
+    "name": "Etched - Manufacturing Mechanical Engineer (Taiwan)",
+    "snippet": "... Etched.ai successfully raised $120M in a Series A funding round ... Etched.ai develops Sohu, the world's first ASIC designed specifically for transformer ...",
+    "host_name": "teeming.ai",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://techcrunch.com/2024/06/25/etched-is-building-an-ai-chip-that-only-runs-transformer-models",
+    "name": "Etched is building an AI chip that only runs one type of model",
+    "snippet": "25 Jun 2024 — Manufactured using TSMC's 4nm process, Sohu can deliver dramatically better inferencing performance than GPUs and other general-purpose AI chips ...",
+    "host_name": "techcrunch.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.nextbigfuture.com/2024/09/low-energy-and-super-efficient-ai-chips.html",
+    "name": "Low Energy and Super-Efficient AI Chips",
+    "snippet": "20 Sept 2024 — Taalas and Etched are two AI chip startups aiming to challenge Nvidia's dominance in the AI hardware market. Etched is using ASIC chips.",
+    "host_name": "www.nextbigfuture.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

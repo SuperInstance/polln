@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://developer.nvidia.com/embedded/buy-jetson",
+    "name": "Buy the Latest Jetson Products",
+    "snippet": "The NVIDIA Jetson Orin ™ Nano Super Developer Kit is a compact, yet powerful computer that redefines generative AI for small edge devices. At just USD $249 ...",
+    "host_name": "developer.nvidia.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-orin/nano-super-developer-kit",
+    "name": "Jetson Orin Nano Super Developer Kit",
+    "snippet": "The NVIDIA Jetson Orin Nano™ Super Developer Kit is a compact, yet powerful computer that redefines generative AI for small edge devices.",
+    "host_name": "www.nvidia.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.hackster.io/news/best-edge-ai-boards-summer-2025-edition-cfe8581d7460",
+    "name": "Best Edge AI Boards: Summer 2025 Edition",
+    "snippet": "These boards are known for being beginner-friendly, low cost , and because they are based on MCUs, battery life is excellent for edge AI scenarios that don't ...\nThese boards are known for being beginner-friendly, low cost , and because they are based on MCUs, battery life is excellent for edge AI scenarios that don't ... Read more",
+    "host_name": "www.hackster.io",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.genaiprotos.com/blog/top-5-edge-ai-devices",
+    "name": "Top 5 Edge AI Devices Like NVIDIA Jetson Nano",
+    "snippet": "Higher power consumption · Requires cooling for sustained loads · Pricier than ultra- low-cost ...\nHigher power consumption · Requires cooling for sustained loads · Pricier than ultra- low-cost ... Read more",
+    "host_name": "www.genaiprotos.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.nvidia.com/en-us/autonomous-machines/embedded-systems",
+    "name": "Embedded Systems Developer Kits & Modules",
+    "snippet": "NVIDIA Jetson is the leading platform for edge AI and robotics, offering powerful, compact computers and the NVIDIA JetPack SDK for accelerated development .",
+    "host_name": "www.nvidia.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://promwad.com/news/choose-edge-ai-platform-jetson-kria-coral-2025",
+    "name": "How to Choose the Best Edge AI Platform: Jetson, Kria",
+    "snippet": "Aug 6, 2025 — Prototyping/projects on budget : Raspberry Pi + accelerator (Coral or Jetson Nano). Evaluation checklist for teams. Define model architecture ...\nAug 6, 2025 — Prototyping/projects on budget : Raspberry Pi + accelerator (Coral or Jetson Nano). Evaluation checklist for teams. Define model architecture ... Read more",
+    "host_name": "promwad.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://axiomtek.com/Default.aspx?MenuId=Products&FunctionId=ProductView&ItemId=27212&C=AIE110-ONX&upcat=399",
+    "name": "AIE110-ONX",
+    "snippet": "NVIDIA ® Jetson Orin ™ NX (up to 100 TOPS) · 1 USB 2.0, 1 USB 3.2 Gen2, and 1 GbE LAN · Supports one 15W GbE PoE for camera · 1 M.2 Key M NVMe SSD slot · 1 ...",
+    "host_name": "axiomtek.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.waveshare.com/jetson-orin-nano-super-developer-kit.htm?srsltid=AfmBOoqmamZmbswhyLIG2NMvuFS3Jj96s9Yz2YAB6Z-gDAo6VwMmR9Ve",
+    "name": "N-VIDIA Jetson Orin Nano Super AI Development Kit",
+    "snippet": "At the same time, it simplifies the entry process of the Jetson Orin Nano series, and provides an affordable and accessible platform for developers, students, ...",
+    "host_name": "www.waveshare.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mask-Locked Inference Chip - Complete Research Package Index</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00d4ff;
+        }
+        
+        .stat-label {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        .section {
+            background: rgba(255,255,255,0.03);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .section-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+            color: #fff;
+        }
+        
+        .section-count {
+            background: rgba(0,212,255,0.2);
+            color: #00d4ff;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-left: auto;
+        }
+        
+        .file-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 15px;
+        }
+        
+        .file-card {
+            background: rgba(255,255,255,0.02);
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .file-card:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(0,212,255,0.3);
+            transform: translateY(-2px);
+        }
+        
+        .file-name {
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 5px;
+            word-break: break-all;
+        }
+        
+        .file-desc {
+            color: #888;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+        
+        .file-type {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-top: 8px;
+        }
+        
+        .type-pdf { background: #ff4444; color: white; }
+        .type-md { background: #083fa8; color: white; }
+        .type-docx { background: #2b579a; color: white; }
+        .type-json { background: #f5a623; color: #333; }
+        .type-py { background: #3776ab; color: #ffd43b; }
+        .type-sv { background: #0a0a0a; color: #00d4ff; }
+        .type-png { background: #9b59b6; color: white; }
+        
+        .priority-high {
+            border-left: 3px solid #ff4444;
+        }
+        
+        .priority-medium {
+            border-left: 3px solid #f5a623;
+        }
+        
+        /* Color schemes for different sections */
+        .icon-source { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .icon-research { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .icon-expert { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .icon-tech { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .icon-business { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .icon-patent { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: #333; }
+        .icon-sim { background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%); color: #333; }
+        
+        .investment-score {
+            background: linear-gradient(135deg, rgba(0,212,255,0.1), rgba(123,44,191,0.1));
+            border: 2px solid rgba(0,212,255,0.3);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .score-value {
+            font-size: 4rem;
+            font-weight: bold;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .score-label {
+            color: #00d4ff;
+            font-size: 1.2rem;
+            margin-top: 5px;
+        }
+        
+        .score-verdict {
+            margin-top: 15px;
+            padding: 10px 25px;
+            background: rgba(0,212,255,0.2);
+            border-radius: 25px;
+            display: inline-block;
+            font-weight: 600;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .stats { gap: 20px; }
+            .file-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔐 Mask-Locked Inference Chip</h1>
+            <p class="subtitle">Complete Research & Documentation Package</p>
+            
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value">300+</div>
+                    <div class="stat-label">Documents</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">24</div>
+                    <div class="stat-label">Expert Reviews</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">60+</div>
+                    <div class="stat-label">Cited Sources</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">19MB</div>
+                    <div class="stat-label">Package Size</div>
+                </div>
+            </div>
+        </header>
+        
+        <div class="investment-score">
+            <div class="score-value">5.5/10</div>
+            <div class="score-label">Investment Readiness Score</div>
+            <div class="score-verdict">✅ CONDITIONALLY INVESTABLE at $18-22M Pre-Money</div>
+        </div>
+
+        <!-- Original Documents -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon icon-source">📄</div>
+                <h2 class="section-title">Original Source Documents</h2>
+                <span class="section-count">6 files</span>
+            </div>
+            <div class="file-grid">
+                <div class="file-card priority-high">
+                    <div class="file-name">Mask-Locked_Inference_Chip_Developer_Plan (2) (2).pdf</div>
+                    <div class="file-desc">Complete developer plan - 10 pages covering architecture, roadmap, team requirements, and business model</div>
+                    <span class="file-type type-pdf">PDF</span>
+                </div>
+                <div class="file-card priority-high">
+                    <div class="file-name">Mask-Locked Chip Deep Dive (1).docx</div>
+                    <div class="file-desc">Kimi deep-dive research analysis with competitive landscape, technical validation, and go/no-go assessment (7.25/10)</div>
+                    <span class="file-type type-docx">DOCX</span>
+                </div>
+                <div class="file-card priority-high">
+                    <div class="file-name">Kimi_Swarm_Research_Report_v13_Complementary.md</div>
+                    <div class="file-desc">Multi-agent research synthesis validating BitNet, Taalas, iFairy, and memory pricing with 15 action items</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">developer_plan.md</div>
+                    <div class="file-desc">Extracted developer plan markdown with technical architecture and implementation details</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">mask_locked_deepdive.md</div>
+                    <div class="file-desc">Extracted deep-dive research with comprehensive advisory recommendations</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">Screenshot 2026-03-*.png (6 files)</div>
+                    <div class="file-desc">Visual references and diagrams from research sessions</div>
+                    <span class="file-type type-png">PNG</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Research Reports -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon icon-research">🔬</div>
+                <h2 class="section-title">Research Reports</h2>
+                <span class="section-count">80+ files</span>
+            </div>
+            <div class="file-grid">
+                <div class="file-card priority-high">
+                    <div class="file-name">DeepResearch_NVIDIA_Competitive_Response.md</div>
+                    <div class="file-desc">NVIDIA strategy analysis and competitive positioning recommendations</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card priority-high">
+                    <div class="file-name">DeepResearch_Exit_Strategy_Analysis.md</div>
+                    <div class="file-desc">Exit scenarios: $135M expected value, 38-45% IRR, Qualcomm as top acquirer (50-60%)</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card priority-high">
+                    <div class="file-name">DeepResearch_Supply_Chain_Risks.md</div>
+                    <div class="file-desc">Foundry analysis, LPDDR4 crisis, MPW strategy, GlobalFoundries 22FDX recommendation</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card priority-high">
+                    <div class="file-name">DeepResearch_Patent_IP_Strategy.md</div>
+                    <div class="file-desc">Patent landscape, FTO assessment, 10 patents identified for filing, $455K 5-year budget</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">DeepResearch_Customer_Acquisition.md</div>
+                    <div class="file-desc">Customer acquisition strategy, pricing analysis, channel recommendations</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">DeepResearch_Network_Effects_Ecosystem.md</div>
+                    <div class="file-desc">Ecosystem building strategy, developer network effects, community growth</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">DeepResearch_iFairy_IP_Relationship.md</div>
+                    <div class="file-desc">PKU iFairy licensing analysis, Apache 2.0 confirmed, complex-valued LLM implications</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">DeepResearch_Silicon_TapeOut_Validation.md</div>
+                    <div class="file-desc">Tapeout requirements, verification methodology, first-silicon success factors</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">DeepResearch_DRAM_Hedging_Strategy.md</div>
+                    <div class="file-desc">Memory supply chain hedging, LPDDR4 allocation, pricing forecasts</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">DeepResearch_MaskLocking_History.md</div>
+                    <div class="file-desc">Historical context of mask-locking, prior art analysis, technology evolution</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">Technical_Breakthrough_DeepDive_v1.md</div>
+                    <div class="file-desc">Technical breakthrough analysis, innovation assessment, differentiation factors</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">Mathematical_Framework_Mask_Locked_Inference.md</div>
+                    <div class="file-desc">Mathematical foundations for mask-locked architecture, quantization theory</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">Comprehensive_Mathematical_Principles_v2.md</div>
+                    <div class="file-desc">Extended mathematical principles, thermal dynamics, power analysis</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">Mask_Locked_Deep_Dive_v2.md</div>
+                    <div class="file-desc">Technical deep-dive with competitive analysis, quantization validation, cost modeling</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Expert Reviews -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon icon-expert">👨‍💼</div>
+                <h2 class="section-title">Expert Reviews</h2>
+                <span class="section-count">24 files</span>
+            </div>
+            <div class="file-grid">
+                <div class="file-card priority-high">
+                    <div class="file-name">Round2_Master_Synthesis_Final.md</div>
+                    <div class="file-desc">Master synthesis of all expert reviews - Overall score 5.5/10, conditional invest recommendation</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">Round2_Review_SupplyChain_Expert.md</div>
+                    <div class="file-desc">Supply chain analysis (5.0/10) - Foundry, memory, MPW, geopolitical risks</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">Round2_Review_AI_Security.md</div>
+                    <div class="file-desc">AI security review (6.5/10) - Threat model, adversarial robustness, backdoor prevention</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">Round2_Review_Patent_IP_Attorney.md</div>
+                    <div class="file-desc">Patent/IP review (7.5/10) - FTO analysis, 10 patents identified, $50-250M IP valuation</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">Round2_Review_Ecosystem_Builder.md</div>
+                    <div class="file-desc">Ecosystem review (4.2/10) - SDK strategy, community building, DevRel requirements</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">Round2_Review_Sustainability.md</div>
+                    <div class="file-desc">ESG analysis (8.5/10) - Carbon footprint, EU taxonomy alignment, climate tech positioning</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">Round2_Review_Distribution.md</div>
+                    <div class="file-desc">Distribution review (3.5/10) - Channel strategy, retail partnerships, pricing analysis</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">Round2_Review_CustomerSuccess.md</div>
+                    <div class="file-desc">Customer success review (3.2/10) - Support model, documentation, community strategy</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">Round2_Review_Financial_Analyst.md</div>
+                    <div class="file-desc">Financial analysis (6.2/10) - Valuation $15-25M, exit scenarios, investor targeting</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">Polyglot_Master_Synthesis_Report.md</div>
+                    <div class="file-desc">Multi-persona synthesis - Cross-cultural validation, 6 language markets analyzed</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">Persona_Review_*.md (6 files)</div>
+                    <div class="file-desc">Persona reviews: Academic, HardwareCEO, HardwareHacker, SiliconEngineer, StudentMaker, VCPartner</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">Polyglot_Review_*.md (8 files)</div>
+                    <div class="file-desc">Polyglot reviews: CEO, Developer, Educator, Hacker, Investor, Linguist, Student</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Specifications -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon icon-tech">⚙️</div>
+                <h2 class="section-title">Technical Specifications</h2>
+                <span class="section-count">15 files</span>
+            </div>
+            <div class="file-grid">
+                <div class="file-card priority-high">
+                    <div class="file-name">Mask_Locked_Chip_MVP_v13_Validated.pdf</div>
+                    <div class="file-desc">Latest validated MVP document - Investment-grade pitch with validation checklist</div>
+                    <span class="file-type type-pdf">PDF</span>
+                </div>
+                <div class="file-card priority-high">
+                    <div class="file-name">Mask_Locked_Chip_MVP_v12_Final.pdf</div>
+                    <div class="file-desc">Final MVP document with complete specifications and financial model</div>
+                    <span class="file-type type-pdf">PDF</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">Mask_Locked_Chip_Execution_Plan_v5_Verified.pdf</div>
+                    <div class="file-desc">Verified execution plan with 30-month timeline and milestone gates</div>
+                    <span class="file-type type-pdf">PDF</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">Mask_Locked_Chip_Execution_Plan_v5_Verified.docx</div>
+                    <div class="file-desc">Editable execution plan with resource allocation and risk mitigation</div>
+                    <span class="file-type type-docx">DOCX</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">SuperInstance_Technical_Specification_FINAL.pdf</div>
+                    <div class="file-desc">Complete technical specification document</div>
+                    <span class="file-type type-pdf">PDF</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">SuperInstance_Technical_Specification_10out10.pdf</div>
+                    <div class="file-desc">Premium technical specification with enhanced formatting</div>
+                    <span class="file-type type-pdf">PDF</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">SuperInstance_Technical_Specification_v11_Corrected.md</div>
+                    <div class="file-desc">Corrected technical specification with validated numbers</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">FPGA_Prototype_Implementation_Guide.md</div>
+                    <div class="file-desc">FPGA prototype guide - KV260 setup, BitNet implementation, Gate 0 requirements</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Business Strategy -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon icon-business">💼</div>
+                <h2 class="section-title">Business Strategy</h2>
+                <span class="section-count">10 files</span>
+            </div>
+            <div class="file-grid">
+                <div class="file-card priority-high">
+                    <div class="file-name">SuperInstance_Business_Model_FINAL.pdf</div>
+                    <div class="file-desc">Final business model - Unit economics, pricing strategy, LTV:CAC analysis</div>
+                    <span class="file-type type-pdf">PDF</span>
+                </div>
+                <div class="file-card priority-high">
+                    <div class="file-name">SuperInstance_Investor_Pitch_FINAL.pdf</div>
+                    <div class="file-desc">Investor pitch deck - Funding requirements, use of funds, exit scenarios</div>
+                    <span class="file-type type-pdf">PDF</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">SuperInstance_Business_Model_10out10.pdf</div>
+                    <div class="file-desc">Premium business model document with detailed financial projections</div>
+                    <span class="file-type type-pdf">PDF</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">SuperInstance_Investor_Pitch_Deck_10out10.pdf</div>
+                    <div class="file-desc">Premium investor pitch with enhanced visuals and narrative</div>
+                    <span class="file-type type-pdf">PDF</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">SuperInstance_Business_Model_v11_Revised.md</div>
+                    <div class="file-desc">Revised business model addressing reviewer feedback</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">Funding_Strategy_Report_2026.md</div>
+                    <div class="file-desc">Funding strategy - Seed $2-3M, Series A $6-8M, investor targeting</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">VP_Manufacturing_Week1-4_Execution.md</div>
+                    <div class="file-desc">Manufacturing execution plan - VP hiring, foundry engagement, supply chain</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">Business_Ecosystem_Strategy.md</div>
+                    <div class="file-desc">Ecosystem strategy - Partnerships, distribution channels, market positioning</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Patents -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon icon-patent">📜</div>
+                <h2 class="section-title">Patents & IP</h2>
+                <span class="section-count">3 files</span>
+            </div>
+            <div class="file-grid">
+                <div class="file-card priority-high">
+                    <div class="file-name">Provisional_1_Mask_Locked_Weights.md</div>
+                    <div class="file-desc">Patent 1: Mask-Locked Neural Network Weight Encoding - Device, method, system claims (30 claims)</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card priority-high">
+                    <div class="file-name">Provisional_2_RAU_Architecture.md</div>
+                    <div class="file-desc">Patent 2: Rotation-Accumulate Unit for Ternary Computation - 85% gate count reduction (30 claims)</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card priority-high">
+                    <div class="file-name">Provisional_3_Hybrid_Adapter.md</div>
+                    <div class="file-desc">Patent 3: Hybrid Mask-Locked + Adapter Architecture - Model upgrade pathway (30 claims)</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Simulation Data -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon icon-sim">🧪</div>
+                <h2 class="section-title">Simulation & Technical Data</h2>
+                <span class="section-count">150+ files</span>
+            </div>
+            <div class="file-grid">
+                <div class="file-card">
+                    <div class="file-name">fpga_simulation/</div>
+                    <div class="file-desc">FPGA simulation framework - RTL, testbenches, synthesis scripts, Makefile</div>
+                    <span class="file-type type-sv">RTL</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">rtl/*.sv (5 files)</div>
+                    <div class="file-desc">SystemVerilog RTL: top_level.sv, rau.sv, synaptic_array.sv, weight_rom.sv, kv_cache.sv</div>
+                    <span class="file-type type-sv">SV</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">cycle*_*.py (20+ files)</div>
+                    <div class="file-desc">Simulation cycles: thermal, power, network, statistical mechanics, game theory</div>
+                    <span class="file-type type-py">PY</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">thermal_*.py (5 files)</div>
+                    <div class="file-desc">Thermal simulation suite: core_thermal.py, transient_thermal.py, geometry_optimization.py</div>
+                    <span class="file-type type-py">PY</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">*.json (50+ files)</div>
+                    <div class="file-desc">Research data: market analysis, competitive intelligence, technical specifications</div>
+                    <span class="file-type type-json">JSON</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">*.png (40+ files)</div>
+                    <div class="file-desc">Visualization outputs: thermal maps, network diagrams, scaling analysis, phase portraits</div>
+                    <span class="file-type type-png">PNG</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Master Index -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon icon-source">📋</div>
+                <h2 class="section-title">Index & Worklog</h2>
+                <span class="section-count">2 files</span>
+            </div>
+            <div class="file-grid">
+                <div class="file-card priority-high">
+                    <div class="file-name">MASTER_SYNTHESIS_PACKAGE.md</div>
+                    <div class="file-desc">Complete package index with executive summary, key findings, financial model, and document guide</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+                <div class="file-card">
+                    <div class="file-name">worklog.md</div>
+                    <div class="file-desc">Complete development history - Task IDs, agent outputs, stage summaries</div>
+                    <span class="file-type type-md">MD</span>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Mask-Locked Inference Chip Research Package | March 2026</p>
+            <p>Investment Readiness: CONDITIONAL INVEST | Expected Exit: $135M | IRR: 38-45%</p>
+        </footer>
+    </div>
+</body>
+</html>

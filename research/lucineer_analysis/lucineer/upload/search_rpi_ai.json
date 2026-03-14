@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://www.raspberrypi.com/products/ai-kit",
+    "name": "Buy a Raspberry Pi AI Kit",
+    "snippet": "The Raspberry Pi AI Kit bundles the Raspberry Pi M.2 HAT+ with a Hailo AI acceleration module for use with Raspberry Pi 5.",
+    "host_name": "www.raspberrypi.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://hailo.ai/products/ai-accelerators/hailo-8-ai-accelerator",
+    "name": "AI Accelerator Hailo-8 For Edge Devices | Fully Integrated Memory",
+    "snippet": "The Hailo-8 edge AI processor, featuring up to 26 tera-operations per second (TOPS), significantly outperforms all other edge processors.",
+    "host_name": "hailo.ai",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.raspberrypi.com/documentation/accessories/ai-hat-plus.html",
+    "name": "AI HATs - Raspberry Pi Documentation",
+    "snippet": "An AI HAT integrates with Raspberry Pi 5 to provide hardware-accelerated AI inference using the on-board Hailo NPU (accelerator chip). When an AI HAT+ or AI ... Missing: development | Show results with: development",
+    "host_name": "www.raspberrypi.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/hailo-ai/hailo-rpi5-examples",
+    "name": "GitHub - hailo-ai/hailo-rpi5-examples",
+    "snippet": "The Hailo Python API is now available on the Raspberry Pi 5. This API allows you to run inference on the Hailo-8L AI processor using Python. For examples, see ... Missing: edge | Show results with: edge",
+    "host_name": "github.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=xiHv7xd1drY",
+    "name": "Computer vision on edge | Raspberry Pi 5 AI Kit | Hailo 8L | Object detection",
+    "snippet": "... developer-zone/ Timestamps ⏱️ 0:00 Intro 0:24 Start 2 ... Edge AI showdown: Raspberry Pi vs Hailo-8 vs Jetson Orin Nano. Joyce ...",
+    "host_name": "www.youtube.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://ubuntu.com/blog/hackers-guide-to-the-raspberry-pi-ai-kit-on-ubuntu",
+    "name": "Hacker's guide to the Raspberry Pi AI kit on Ubuntu",
+    "snippet": "In this blog post, we will discuss our experiences trying to get the Hailo-8L accelerator and its software running on Ubuntu 24.04 LTS.",
+    "host_name": "ubuntu.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/@tspann/unstructured-data-processing-with-a-raspberry-pi-ai-kit-c959dd7fff47",
+    "name": "Unstructured Data Processing with a Raspberry Pi AI Kit — Hailo Edge AI",
+    "snippet": "The AI Kit adds a neural network inference accelerator capable of 13 tera-operations per second (TOPS), which is pretty good for $70 US.",
+    "host_name": "medium.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.aliexpress.com/i/1005009244132780.html",
+    "name": "Raspberry Pi 5th generation Hailo-8 artificial intelligence AI kit M.2 Key",
+    "snippet": "In stock This AI development kit features the Raspberry Pi 5 with Hailo-8 AI accelerator, offering 26TOPS computing power via M.2 Key M interface.",
+    "host_name": "www.aliexpress.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

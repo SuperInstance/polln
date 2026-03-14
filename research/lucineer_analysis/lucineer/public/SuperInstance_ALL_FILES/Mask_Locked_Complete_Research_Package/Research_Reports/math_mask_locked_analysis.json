@@ -1,0 +1,646 @@
+{
+  "MASK_LOCKED_OPTIMIZATIONS": {
+    "title": "Unique Optimizations Only Possible with Mask-Locked Weights",
+    "subtitle": "Technical Analysis for BitNet b1.58-2B-4T Hardware Implementation",
+    "version": "1.0",
+    "date": "2025-01-19",
+    
+    "executive_summary": {
+      "core_thesis": "Mask-locked weights (etched in metal layers) create optimization opportunities that are IMPOSSIBLE for software-programmable inference. These optimizations derive from the fundamental constraint that weights are immutable at runtime.",
+      "key_findings": [
+        "Precomputation of weight-dependent values eliminates 40-60% of runtime computation",
+        "Silicon-specific optimizations enable 10-100x energy reduction vs SRAM-based weights",
+        "Deterministic data flow enables hardwired routing with zero arbitration overhead",
+        "Fixed weights enable exact error characterization and precomputed correction",
+        "Ternary weights enable novel analog computation approaches"
+      ],
+      "estimated_efficiency_gain": "10-100x energy efficiency improvement over SRAM-based inference"
+    },
+
+    "precomputation": {
+      "title": "Precomputation Opportunities",
+      "principle": "If weights W are fixed, any function f(W) that depends ONLY on weights can be precomputed at fabrication time",
+      
+      "matrix_decompositions": {
+        "description": "Decompose weight matrices offline for optimized computation",
+        "techniques": [
+          {
+            "name": "SVD Precomputation",
+            "applicable": "For any fixed weight matrix W",
+            "offline_compute": "W = U Σ V^T decomposition",
+            "runtime_benefit": "Replace matrix multiply with three smaller operations",
+            "memory_cost": "Store U, Σ, V matrices (may increase storage)",
+            "complexity_reduction": "O(n³) → O(k × n²) for rank-k approximation",
+            "applicability_to_ternary": "Limited - ternary weights sparse, SVD may not help"
+          },
+          {
+            "name": "QR Decomposition",
+            "offline_compute": "W = QR where Q is orthogonal, R is upper triangular",
+            "runtime_benefit": "Solve linear systems more efficiently",
+            "memory_cost": "Same as original matrix",
+            "applicability_to_ternary": "Moderate - useful for attention Q/K projections"
+          },
+          {
+            "name": "Ternary-Specific Sparse Pattern Encoding",
+            "offline_compute": "Identify all non-zero positions in ternary weight matrices",
+            "runtime_benefit": "Only compute MAC for non-zero weights (skip zeros)",
+            "memory_cost": "Index arrays for non-zero positions",
+            "sparsity_in_bitnet": "~30-50% zeros in ternary weights (model dependent)",
+            "efficiency_gain": "2-3x fewer operations by skipping zeros"
+          }
+        ]
+      },
+
+      "normalization_parameters": {
+        "description": "Precompute statistics that depend on weight distributions",
+        "techniques": [
+          {
+            "name": "Weight-Dependent LayerNorm Scales",
+            "insight": "LayerNorm depends on activation statistics, but weight distribution affects expected activation distribution",
+            "offline_compute": "Expected mean/variance of layer outputs given typical input distributions",
+            "runtime_benefit": "Initialize LayerNorm with optimal values, reduce warmup",
+            "applicability": "Moderate - still need runtime statistics"
+          },
+          {
+            "name": "Quantization Scale Factors",
+            "insight": "For ternary weights, the scale factor is determined during training",
+            "offline_compute": "Per-layer or per-channel scale factors are FIXED",
+            "runtime_benefit": "No runtime quantization computation needed",
+            "applicability": "CRITICAL - BitNet uses learned scale factors that are part of the model"
+          }
+        ]
+      },
+
+      "attention_optimizations": {
+        "techniques": [
+          {
+            "name": "Precomputed Attention Patterns",
+            "insight": "For some attention heads, the pattern of important tokens can be pre-analyzed",
+            "offline_compute": "Statistical analysis of attention head behavior on representative inputs",
+            "runtime_benefit": "Precomputed sparse attention masks",
+            "applicability": "Limited - attention patterns depend on input"
+          },
+          {
+            "name": "Fixed Q/K Projection Fusion",
+            "insight": "Q and K projections use fixed weight matrices",
+            "offline_compute": "Fuse Q and K computation into single operation",
+            "runtime_benefit": "Reduce memory bandwidth for attention",
+            "applicability": "HIGH - weights are fixed, can optimize data flow"
+          }
+        ]
+      },
+
+      "summary": {
+        "memory_compute_savings": {
+          "eliminated_runtime_ops": [
+            "Weight loading from memory (100% eliminated)",
+            "Weight quantization/dequantization (100% eliminated)",
+            "Scale factor lookup (precomputed)",
+            "Zero-weight skip logic (precomputed indices)"
+          ],
+          "estimated_savings": {
+            "memory_bandwidth_reduction": "70-85% (weights no longer loaded)",
+            "compute_reduction": "30-50% (skip zeros, precomputed values)",
+            "energy_reduction": "60-80% (eliminate memory access energy)"
+          }
+        }
+      }
+    },
+
+    "silicon_specific": {
+      "title": "Silicon-Specific Optimizations",
+      "principle": "Weights in metal layers have fundamentally different properties than SRAM/DRAM stored weights",
+
+      "metal_layer_encoding": {
+        "description": "Encode ternary weights directly in metal interconnect patterns",
+        "techniques": [
+          {
+            "name": "Via Pattern Encoding",
+            "encoding_scheme": {
+              "weight_plus_one": "Via present connecting metal layers",
+              "weight_minus_one": "Via present with inverted signal path",
+              "weight_zero": "No via (open circuit)"
+            },
+            "area_efficiency": "Much higher than SRAM (no 6T cell per weight)",
+            "access_energy": "~0.01-0.1 pJ per access (vs ~10 pJ for SRAM)",
+            "latency": "Combinational delay only (no read cycle)",
+            "notes": "Via programming is part of metal mask, determined at fab time"
+          },
+          {
+            "name": "Metal Trace Width Encoding",
+            "encoding_scheme": {
+              "weight_plus_one": "Wide trace (low resistance)",
+              "weight_minus_one": "Narrow trace with inverter",
+              "weight_zero": "No trace"
+            },
+            "advantage": "Analog-style encoding possible",
+            "challenge": "Process variation sensitivity"
+          }
+        ]
+      },
+
+      "three_d_integration": {
+        "description": "Use 3D stacking to separate weight storage from compute",
+        "approaches": [
+          {
+            "name": "Weight Layer on Top Metal",
+            "configuration": "Weights in M8-M10 layers, compute in lower layers",
+            "advantage": "Minimal routing distance to MAC units",
+            "heat_dissipation": "Good - compute heat doesn't affect weights",
+            "applicability": "Standard CMOS process, no exotic stacking needed"
+          },
+          {
+            "name": "Bit-Position Layering",
+            "insight": "For quantized weights, different bit positions can be on different layers",
+            "configuration": "MSB layer closer to compute, LSB layer farther",
+            "advantage": "Enable early-termination computation (stop if MSB zero)",
+            "applicability": "More relevant for 4+ bit weights, not ternary"
+          }
+        ]
+      },
+
+      "mask_rom_comparison": {
+        "vs_sram": {
+          "area": "Mask ROM: ~0.05 μm²/bit vs SRAM: ~0.84 μm²/bit (16x denser)",
+          "power": "Mask ROM: ~0 (static) vs SRAM: leakage + refresh power",
+          "access_time": "Mask ROM: ~1ns vs SRAM: ~0.5ns (combinational vs sequential)",
+          "flexibility": "Mask ROM: None vs SRAM: Full reprogrammability"
+        },
+        "ternary_specific": {
+          "area_per_trit": "Can encode ternary in single via presence/absence + polarity",
+          "estimated_density": "2-3x denser than binary mask ROM equivalent",
+          "notes": "Ternary enables more information per physical structure"
+        }
+      },
+
+      "hardwired_broadcast": {
+        "description": "Broadcast weight values through metal traces to multiple MAC units",
+        "technique": {
+          "name": "Weight Broadcasting Tree",
+          "implementation": "Single weight value drives multiple MAC units simultaneously",
+          "advantage": "One weight read serves N computations",
+          "efficiency": "N-way reduction in weight access energy",
+          "constraint": "Requires systolic or SIMD architecture"
+        }
+      }
+    },
+
+    "routing": {
+      "title": "Routing Optimizations for Deterministic Data Flow",
+      "principle": "With fixed weights and fixed model architecture, data flow is 100% deterministic",
+
+      "hardwired_interconnect": {
+        "techniques": [
+          {
+            "name": "Fixed Layer-to-Layer Connections",
+            "insight": "In a fixed model, the output of layer N always goes to layer N+1",
+            "implementation": "Dedicated metal traces between layer outputs and inputs",
+            "advantage": "Zero routing overhead, no network-on-chip needed",
+            "eliminates": [
+              "Routing arbitration logic",
+              "Buffer management for variable latency",
+              "Deadlock detection/resolution",
+              "Dynamic routing tables"
+            ]
+          },
+          {
+            "name": "Attention Head Routing",
+            "insight": "Number and configuration of attention heads is fixed",
+            "implementation": "Hardwired connections from each head to output aggregation",
+            "advantage": "Parallel head computation with deterministic merge"
+          }
+        ]
+      },
+
+      "systolic_array_optimization": {
+        "description": "Weight-stationary systolic array with permanently-stored weights",
+        "configuration": {
+          "architecture": "2D systolic array with weights locked in each processing element",
+          "weight_storage": "No storage needed - weights are the PE configuration",
+          "data_flow": "Activations flow through array, weights stay fixed",
+          "peak_efficiency": "100% PE utilization possible (no weight load overhead)"
+        },
+        "comparison": {
+          "traditional_tpu": "Weight load cycles: ~10-30% of total",
+          "mask_locked": "Weight load cycles: 0%",
+          "throughput_improvement": "1.1-1.4x same clock, but lower power enables higher clock"
+        }
+      },
+
+      "direct_connect_mac": {
+        "description": "Connect MAC units directly without intermediate buffering",
+        "technique": {
+          "name": "Pipeline-Direct MAC Chaining",
+          "implementation": "Output of MAC[i] directly feeds MAC[i+1] for accumulation",
+          "advantage": "Zero-cycle accumulation latency",
+          "constraint": "Must match exact computation pattern"
+        }
+      },
+
+      "eliminated_overhead": {
+        "components_eliminated": [
+          "Network-on-chip routers",
+          "Arbitration logic",
+          "Routing tables",
+          "Variable-latency buffers",
+          "Flow control logic"
+        ],
+        "estimated_area_savings": "20-40% of typical NPU area",
+        "estimated_power_savings": "15-25% of typical NPU power"
+      }
+    },
+
+    "error_correction": {
+      "title": "Error Analysis and Correction for Fixed Weights",
+      "principle": "With fixed weights, all errors can be characterized exactly during design/fab",
+
+      "quantization_error_characterization": {
+        "description": "Ternary quantization error is deterministic for each weight",
+        "offline_analysis": [
+          {
+            "name": "Per-Weight Error Table",
+            "compute": "For each weight: error = original_fp32 - quantized_ternary × scale",
+            "storage": "Error table stored alongside weights (or precompensated)",
+            "runtime_use": "Add correction term during computation",
+            "feasibility": "Large storage overhead - better to incorporate into training"
+          },
+          {
+            "name": "Statistical Error Characterization",
+            "compute": "Distribution of errors across each layer",
+            "runtime_use": "Apply layer-specific error compensation",
+            "feasibility": "Lower overhead, approximate correction"
+          }
+        ]
+      },
+
+      "process_variation_compensation": {
+        "description": "Manufacturing variations create systematic errors in weight encoding",
+        "techniques": [
+          {
+            "name": "Post-Fab Calibration",
+            "method": "Test each chip with known inputs, measure outputs",
+            "compute": "Derive per-chip compensation parameters",
+            "storage": "Small number of correction coefficients",
+            "runtime_cost": "Minimal - just apply correction to outputs"
+          },
+          {
+            "name": "Redundant Weight Encoding",
+            "method": "Encode critical weights with redundancy",
+            "compute": "Majority voting or error-correcting codes",
+            "cost": "Area overhead for redundancy",
+            "applicability": "Critical for analog computation approaches"
+          }
+        ]
+      },
+
+      "deterministic_error_bounds": {
+        "description": "For mask-locked weights, error bounds are FIXED and knowable",
+        "advantages": [
+          "Can prove worst-case error bounds mathematically",
+          "No runtime variation in precision",
+          "Can design error-aware downstream processing",
+          "Safety-critical applications can rely on guaranteed precision"
+        ],
+        "comparison_to_runtime_quantization": {
+          "runtime": "Error varies with input distribution, dynamic range",
+          "mask_locked": "Error is static, can be fully characterized once"
+        }
+      },
+
+      "precomputed_lut_correction": {
+        "description": "For certain operations, use precomputed lookup tables for error correction",
+        "technique": {
+          "name": "Output Correction LUT",
+          "method": "Precompute expected error for each possible output range",
+          "storage": "Small LUT per layer output",
+          "runtime": "Single LUT lookup per layer output"
+        }
+      }
+    },
+
+    "model_specific": {
+      "title": "BitNet b1.58-2B-4T Model-Specific Optimizations",
+      "architecture_details": {
+        "model_name": "BitNet b1.58-2B-4T",
+        "parameters": "2 billion",
+        "weight_precision": "1.58 bits per weight (ternary: {-1, 0, +1})",
+        "training_tokens": "4 trillion",
+        "license": "MIT (open weights, commercial use allowed)",
+        "architecture_family": "LLaMA-like decoder-only transformer"
+      },
+
+      "exact_dimensions": {
+        "note": "Based on BitNet b1.58-2B-4T technical report (arXiv:2504.12285)",
+        "estimated_config": {
+          "hidden_dim": "2048-2560 (estimated from 2B scale)",
+          "intermediate_dim": "5504-6912 (typically 2.7x hidden in LLaMA-style)",
+          "num_layers": "24-32 (estimated)",
+          "num_attention_heads": "16-32",
+          "vocab_size": "32000-128256 (LLaMA tokenizer)",
+          "context_length": "2048-4096 (training), extensible with KV cache"
+        },
+        "weights_breakdown": {
+          "embedding": "vocab_size × hidden_dim",
+          "attention_per_layer": "4 × hidden_dim × hidden_dim (Q, K, V, O projections)",
+          "ffn_per_layer": "2 × hidden_dim × intermediate_dim (up and down projections)",
+          "layer_norm": "2 × hidden_dim per layer",
+          "total_weights": "~2B ternary values"
+        }
+      },
+
+      "layer_specific_optimizations": [
+        {
+          "layer_type": "Embedding Layer",
+          "weight_characteristics": "Dense lookup table, vocab_size × hidden_dim",
+          "mask_locked_optimization": "Direct metal routing from token index to embedding vector",
+          "challenge": "Large storage requirement (~64-256MB for embedding)",
+          "recommendation": "Store embedding in mask ROM, use sparse access patterns"
+        },
+        {
+          "layer_type": "Attention Q/K/V Projections",
+          "weight_characteristics": "3 × hidden_dim × hidden_dim per layer, ternary",
+          "sparsity": "~30-50% zeros expected",
+          "mask_locked_optimization": "Skip-zero hardware, parallel Q/K/V computation",
+          "recommendation": "Fused Q/K/V projection unit with zero-skipping"
+        },
+        {
+          "layer_type": "Attention Output Projection",
+          "weight_characteristics": "hidden_dim × hidden_dim, ternary",
+          "mask_locked_optimization": "Direct routing from attention heads to output",
+          "recommendation": "Hardwired head aggregation"
+        },
+        {
+          "layer_type": "FFN Up Projection",
+          "weight_characteristics": "hidden_dim × intermediate_dim, ternary",
+          "sparsity": "~30-50% zeros expected",
+          "activation": "ReLU² or SwiGLU (model dependent)",
+          "recommendation": "Sparse compute, early termination for zeros"
+        },
+        {
+          "layer_type": "FFN Down Projection",
+          "weight_characteristics": "intermediate_dim × hidden_dim, ternary",
+          "recommendation": "Accumulate directly into residual stream"
+        }
+      ],
+
+      "exact_computational_graph": {
+        "per_token_operations": {
+          "embedding_lookup": "1 memory access per input token",
+          "attention_per_layer": "~4 × hidden_dim × hidden_dim MACs (before sparsity)",
+          "ffn_per_layer": "~2 × hidden_dim × intermediate_dim MACs (before sparsity)",
+          "total_macs_per_token": "~8-12B MACs per token generated (estimated for 2B model)"
+        },
+        "with_ternary_optimization": {
+          "mac_to_add": "Ternary MAC becomes: conditional add/sub (no multiplication)",
+          "operation_reduction": "~3x fewer gate operations than INT8 multiply",
+          "zero_skip": "30-50% of operations skipped (zeros in weights)"
+        }
+      },
+
+      "per_layer_optimization_table": {
+        "description": "Each layer can be individually optimized since dimensions are fixed",
+        "optimizations": [
+          "Hardwire exact matrix dimensions for each layer",
+          "Custom MAC array size per layer (no generic array needed)",
+          "Pipeline depth matched to layer computation",
+          "Register allocation optimized for fixed intermediate sizes"
+        ]
+      }
+    },
+
+    "analog_opportunities": {
+      "title": "Analog Computing Opportunities for Ternary Weights",
+      "principle": "Ternary values {-1, 0, +1} map naturally to analog voltage levels",
+
+      "voltage_encoding": {
+        "description": "Encode ternary weights as discrete voltage levels",
+        "encoding_schemes": [
+          {
+            "name": "Symmetric Voltage Encoding",
+            "levels": {
+              "plus_one": "+Vref (e.g., +1.0V)",
+              "zero": "0V (ground)",
+              "minus_one": "-Vref (e.g., -1.0V)"
+            },
+            "advantage": "Natural for differential circuits",
+            "challenge": "Requires negative voltage rails or differential signaling"
+          },
+          {
+            "name": "Single-Ended Encoding",
+            "levels": {
+              "plus_one": "+Vdd (e.g., +1.0V)",
+              "zero": "Vdd/2 (e.g., +0.5V)",
+              "minus_one": "0V (ground)"
+            },
+            "advantage": "Single supply voltage",
+            "challenge": "Zero state requires reference, more complex comparison"
+          }
+        ]
+      },
+
+      "analog_mac": {
+        "description": "Implement MAC operations in analog domain",
+        "approaches": [
+          {
+            "name": "Current-Mode Accumulation",
+            "principle": "Weight voltage × activation voltage = current; sum currents",
+            "implementation": "Transconductance amplifiers for V-to-I, current summing node",
+            "accuracy": "8-10 bits achievable with careful design",
+            "energy": "~0.1-1 pJ per MAC (100x better than digital)",
+            "speed": "Limited by RC time constants, ~10-100 MHz",
+            "challenge": "Process variation, noise, need ADC for output"
+          },
+          {
+            "name": "Charge-Domain Computation",
+            "principle": "Weight controls capacitor switching; sum charges",
+            "implementation": "Switched-capacitor circuits",
+            "accuracy": "10-12 bits achievable",
+            "energy": "~0.5-2 pJ per MAC",
+            "advantage": "Better accuracy than current-mode"
+          },
+          {
+            "name": "Memristor Crossbar",
+            "principle": "Weight stored as memristor conductance; activation as voltage; output is current",
+            "challenge_for_ternary": "Memristors typically store 2+ bits, overkill for ternary",
+            "ternary_adaptation": "Use 1-bit memristor (binary) + sign bit from separate device",
+            "advantage": "Native matrix-vector multiplication",
+            "energy": "~0.01-0.1 pJ per MAC",
+            "accuracy": "Limited by device variation, typically 4-6 bits"
+          }
+        ]
+      },
+
+      "mixed_signal_architecture": {
+        "description": "Hybrid analog-digital architecture for optimal efficiency",
+        "proposed_design": {
+          "weight_storage": "Mask-locked analog levels (via pattern encoding)",
+          "computation": "Analog MAC array",
+          "activation_functions": "Digital (ReLU, LayerNorm)",
+          "adc_requirement": "One ADC per column output",
+          "estimated_efficiency": "10-100x better than digital-only"
+        },
+        "challenges": [
+          "ADC power and area overhead",
+          "Process variation calibration",
+          "Noise accumulation through layers",
+          "Temperature sensitivity"
+        ]
+      },
+
+      "ternary_specific_advantages": {
+        "vs_binary_analog": {
+          "information_density": "log2(3) = 1.58 bits per element vs 1 bit",
+          "dynamic_range": "Built-in zero state for sparse computation",
+          "natural_representation": "Three states match many physical systems"
+        },
+        "vs_multilevel_analog": {
+          "robustness": "Only 3 levels vs 4+ levels, larger noise margin",
+          "process_tolerance": "Easier to distinguish 3 levels than 16+ levels",
+          "energy": "Smaller voltage swings needed"
+        }
+      },
+
+      "research_frontier": {
+        "emerging_technologies": [
+          {
+            "name": "Ferroelectric FET (FeFET)",
+            "capability": "Non-volatile, 3+ levels possible",
+            "ternary_fit": "Excellent - natural 3-level storage",
+            "maturity": "Research phase, not production-ready"
+          },
+          {
+            "name": "Phase-Change Memory (PCM)",
+            "capability": "Multi-level resistance states",
+            "ternary_fit": "Overkill for ternary, but usable",
+            "maturity": "Production (Intel Optane), but being discontinued"
+          },
+          {
+            "name": "Domain-Wall Motion Devices",
+            "capability": "Analog weight storage",
+            "ternary_fit": "Could encode ternary in magnetic domain position",
+            "maturity": "Early research"
+          }
+        ]
+      }
+    },
+
+    "unique_advantage_summary": {
+      "title": "Optimizations ONLY Possible with Mask-Locked Weights",
+      
+      "impossible_for_programmable": [
+        {
+          "optimization": "Zero-Cycle Weight Access",
+          "description": "Weights are hardwired, no memory read cycle",
+          "programmable_limitation": "Must always fetch weights from SRAM/DRAM"
+        },
+        {
+          "optimization": "Zero Weight Memory Power",
+          "description": "No dynamic power for weight storage",
+          "programmable_limitation": "SRAM leakage + read power always consumed"
+        },
+        {
+          "optimization": "Exact Error Characterization",
+          "description": "Can prove error bounds mathematically before fabrication",
+          "programmable_limitation": "Errors vary with which model is loaded"
+        },
+        {
+          "optimization": "Hardwired Data Flow",
+          "description": "No routing logic, arbitration, or buffers needed",
+          "programmable_limitation": "Must support arbitrary model architectures"
+        },
+        {
+          "optimization": "Analog Weight Encoding",
+          "description": "Weights can be voltage levels, not digital values",
+          "programmable_limitation": "Analog levels cannot be reprogrammed"
+        },
+        {
+          "optimization": "Process-Optimized Weights",
+          "description": "Each chip can be calibrated to its specific process corner",
+          "programmable_limitation": "Cannot optimize for unknown future models"
+        },
+        {
+          "optimization": "Via-Pattern Sparse Encoding",
+          "description": "Zeros are literally 'no connection' - zero silicon area",
+          "programmable_limitation": "Sparse storage still requires index bits"
+        },
+        {
+          "optimization": "3D Metal Layer Weight Storage",
+          "description": "Weights can occupy top metal layers, compute below",
+          "programmable_limitation": "Reprogramming requires transistor access to every weight"
+        }
+      ],
+
+      "quantified_advantages": {
+        "energy": {
+          "weight_access": "0 pJ (vs 10 pJ SRAM read)",
+          "weight_storage": "0 W static (vs SRAM leakage)",
+          "total_estimated": "60-80% energy reduction for inference"
+        },
+        "area": {
+          "weight_storage": "16x denser than SRAM per bit",
+          "routing": "20-40% area reduction from eliminated NoC",
+          "total_estimated": "50-70% smaller than equivalent SRAM-based NPU"
+        },
+        "latency": {
+          "weight_access": "0 cycles (vs 1+ cycles for SRAM)",
+          "no_contention": "No arbitration delays",
+          "deterministic": "Exact latency known at design time"
+        }
+      },
+
+      "tradeoffs": {
+        "flexibility": "ZERO - can never run a different model",
+        "upgrade_path": "New chip required for model updates",
+        "development_cost": "Higher NRE for each model variant",
+        "risk": "Model obsolescence could render chips useless"
+      }
+    },
+
+    "implementation_recommendations": {
+      "phase_1_digital": {
+        "approach": "Pure digital implementation with via-encoded weights",
+        "benefits": [
+          "Proven technology (mask ROM)",
+          "Good efficiency gains (10x vs SRAM)",
+          "Lower development risk"
+        ],
+        "timeline": "12-18 months to prototype"
+      },
+      "phase_2_mixed_signal": {
+        "approach": "Mixed-signal with analog MAC and digital control",
+        "benefits": [
+          "Higher efficiency (100x potential)",
+          "Novel differentiation"
+        ],
+        "risks": [
+          "Process variation sensitivity",
+          "ADC overhead",
+          "Longer development time"
+        ],
+        "timeline": "24-36 months to prototype"
+      },
+      "phase_3_full_analog": {
+        "approach": "Full analog weight storage and computation",
+        "benefits": [
+          "Maximum efficiency (1000x potential)",
+          "Ultra-low power edge deployment"
+        ],
+        "risks": [
+          "Accuracy limitations",
+          "Temperature sensitivity",
+          "Cutting-edge research required"
+        ],
+        "timeline": "36-48 months, may require new device technology"
+      }
+    },
+
+    "references": {
+      "bitnet_paper": "BitNet b1.58 2B4T Technical Report (arXiv:2504.12285)",
+      "mask_rom_density": "ScienceDirect - Memory Capacity Overview",
+      "ternary_hardware": "Design implementations of ternary logic systems (ScienceDirect, 2024)",
+      "analog_neural": "Ternary Neural Networks Based on on/off Memristors (2022)",
+      "systolic_arrays": "Google TPU architecture papers",
+      "pim_architecture": "2T1C DRAM Process-In-Memory Architecture (ResearchGate, 2024)"
+    }
+  }
+}

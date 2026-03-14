@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://aclanthology.org/2025.acl-long.457.pdf",
+    "name": "[PDF] Bitnet.cpp: Efficient Edge Inference for Ternary LLMs - ACL Anthology",
+    "snippet": "To effectively implement ELUT in ternary LLMs, noted as TL, we mitigate issues such as misaligned memory access through signed- unsigned weight ...",
+    "host_name": "aclanthology.org",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://arxiv.org/html/2504.12285v1",
+    "name": "BitNet b1.58 2B4T Technical Report - arXiv",
+    "snippet": "We introduce BitNet b1.58 2B4T, the first open-source, native 1-bit Large Language Model (LLM) at the 2-billion parameter scale.",
+    "host_name": "arxiv.org",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/microsoft/BitNet",
+    "name": "GitHub - microsoft/BitNet: Official inference framework for 1-bit LLMs",
+    "snippet": "Try it out via this demo, or build and run it on your own CPU or GPU. bitnet.cpp is the official inference framework for 1-bit LLMs (e.g., BitNet b1.58).",
+    "host_name": "github.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.emergentmind.com/topics/bitnet-style-1-58-bit-transformer",
+    "name": "BitNet-style 1.58-bit Transformer - Emergent Mind",
+    "snippet": "The architecture includes hardware optimizations and efficient custom kernels, yielding 2–6× faster inference and up to 82% energy savings ...",
+    "host_name": "www.emergentmind.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.sciencedirect.com/science/article/abs/pii/S089360802500735X",
+    "name": "PT-BitNet: Scaling up the 1-Bit Large Language Model with Post-Training",
+    "snippet": "This paper introduces PT-BitNet, a novel post-training quantization method that extends the benefits of BitNet's ternary quantization to large- ...",
+    "host_name": "www.sciencedirect.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://ieeexplore.ieee.org/iel8/6488907/6702522/11250544.pdf",
+    "name": "A Survey on Binary and Ternary Neural Networks and Their",
+    "snippet": "Second, we examine acceleration through kernel-level optimizations, showcasing how much faster BNNs/TNNs can perform inference compared to FP32 or INT8 models ...",
+    "host_name": "ieeexplore.ieee.org",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://dl.acm.org/doi/abs/10.1016/j.neunet.2025.107855",
+    "name": "PT-BitNet: : Scaling up the 1-Bit large language model with post-training",
+    "snippet": "Our results show that PT-BitNet achieves substantial reductions in model size and inference time, with minimal impact on task performance. For ...",
+    "host_name": "dl.acm.org",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/posts/jasonederle_what-happens-when-you-build-an-llm-using-activity-7409460654127951872-_S51",
+    "name": "BitNet AI Model: Ternary Weights for Faster Inference - LinkedIn",
+    "snippet": "BitNet is a really interesting AI model architecture. Instead of building models with 16/32 bit floats, you use simple ternary (-1, 0, 1).",
+    "host_name": "www.linkedin.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://arxiv.org/html/2502.11880v1",
+    "name": "Bitnet.cpp: Efficient Edge Inference for Ternary LLMs - arXiv",
+    "snippet": "Bitnet.cpp incorporates a novel mpGEMM library to facilitate sub-2-bits-per-weight, efficient and lossless inference.",
+    "host_name": "arxiv.org",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.researchgate.net/publication/394303093_Bitnetcpp_Efficient_Edge_Inference_for_Ternary_LLMs",
+    "name": "Bitnet.cpp: Efficient Edge Inference for Ternary LLMs - ResearchGate",
+    "snippet": "Download Citation | On Jan 1, 2025, Jinheng Wang and others published Bitnet.cpp: Efficient Edge Inference for Ternary LLMs | Find, ...",
+    "host_name": "www.researchgate.net",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

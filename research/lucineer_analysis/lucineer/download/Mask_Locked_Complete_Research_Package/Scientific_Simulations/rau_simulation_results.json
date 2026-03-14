@@ -1,0 +1,51 @@
+{
+  "energy": {
+    "rau_energy_fj": 4.0,
+    "mac_energy_fj": 20.000000000000004,
+    "savings_ratio": 5.0,
+    "n_operations": 1000,
+    "total_rau_energy": 4e-12,
+    "total_mac_energy": 2.0000000000000002e-11
+  },
+  "array": {
+    "array_size": 32,
+    "latency_cycles": 63,
+    "latency_ns": 62.99999999999999,
+    "throughput_ops_per_sec": 32000000000.0
+  },
+  "weight_-1": {
+    "weight": -1,
+    "resistance": 550.0,
+    "path": "inverted",
+    "inverter_count": 1
+  },
+  "weight_0": {
+    "weight": 0,
+    "resistance": Infinity,
+    "path": "open",
+    "inverter_count": 0
+  },
+  "weight_1": {
+    "weight": 1,
+    "resistance": 50.0,
+    "path": "direct",
+    "inverter_count": 0
+  },
+  "noise": {
+    "thermal_noise_v": 4.3964856419645e-05,
+    "thermal_noise_uv": 43.964856419645,
+    "shot_noise_a": 5.660700723408719e-07,
+    "shot_noise_na": 566.0700723408719,
+    "quantization_error_v": 0.16666666666666666,
+    "snr_linear": 1.4999999478114707,
+    "snr_db": 3.521824878911082
+  },
+  "phase_noise": {
+    "phase_noise_db": -100,
+    "jitter_rms_s": 1.5915494309189534e-15,
+    "jitter_ps": 0.0015915494309189533,
+    "timing_margin_s": 9.999952253517073e-10,
+    "timing_margin_ps": 999.9952253517073,
+    "clock_uncertainty_percent": 0.00015915494309189532
+  }
+}

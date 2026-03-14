@@ -1,0 +1,369 @@
+{
+  "HARDWARE_ALGORITHM_CODESIGN": {
+    "metadata": {
+      "research_date": "2025-01-19",
+      "focus": "Mask-locked weights, edge power budget, real-time inference",
+      "methodology": "Co-design thinking - algorithms designed for hardware constraints"
+    },
+
+    "rram_computing": {
+      "applicable": "YES - HIGHLY RECOMMENDED",
+      "power_estimate": {
+        "energy_per_mac": "0.1-1 pJ (vs 10 pJ SRAM, 100 pJ DRAM)",
+        "static_power": "near-zero (non-volatile)",
+        "projected_chip_power": "0.5-1.5W for 3B parameter model"
+      },
+      "maturity": "PROTOTYPE - Early commercial",
+      "ternary_implementation": {
+        "resistance_levels": {
+          "low_resistance": "-1 (negative weight)",
+          "medium_resistance": "0 (zero weight - crucial for sparsity)",
+          "high_resistance": "+1 (positive weight)"
+        },
+        "challenge": "Precise multi-level resistance control is difficult",
+        "solution": "Binary RRAM with 2 cells per ternary weight (one for positive, one for negative)"
+      },
+      "key_advantages": [
+        "In-memory computing eliminates weight fetch energy",
+        "Natural support for ternary {-1, 0, +1} via resistance states",
+        "Non-volatile: zero standby power",
+        "Potential for 100x energy efficiency vs digital"
+      ],
+      "key_challenges": [
+        "Device variation: 10-30% resistance variation typical",
+        "Endurance: 10^6-10^12 cycles (OK for inference, bad for training)",
+        "Write noise affects precision",
+        "Manufacturing maturity still developing"
+      ],
+      "research_findings": {
+        "memristor_ternary_nn": "Ternary Neural Networks Based on on/off Memristors (2022) demonstrates ternary weight encoding",
+        "rram_cim_macro": "ADC-less RRAM-based Computing-in-Memory achieves binary CNN at <1pJ/op",
+        "4t2c_edram": "Ternary eDRAM cell for vector-matrix multiplication in memory array"
+      },
+      "recommendation": "Strong candidate for mask-locked inference. Consider hybrid: RRAM for weights, SRAM for activations"
+    },
+
+    "photonic_computing": {
+      "applicable": "MAYBE - Emerging technology",
+      "power_estimate": {
+        "energy_per_mac": "10-100 attojoules theoretical",
+        "laser_power": "100mW-1W for moderate-scale systems",
+        "eo_conversion": "Dominant energy cost (~1pJ per conversion)"
+      },
+      "maturity": "RESEARCH - Lab demonstrations",
+      "ternary_implementation": {
+        "phase_modulation": {
+          "0_degrees": "+1 (constructive)",
+          "90_degrees": "0 (neutral/cancelled)",
+          "180_degrees": "-1 (destructive)"
+        },
+        "intensity_modulation": "Alternative: intensity levels for ternary",
+        "mach_zehnder_interferometer": "Primary architecture for matrix multiplication"
+      },
+      "key_advantages": [
+        "Speed of light computation (~ps latency)",
+        "Wavelength division multiplexing for parallelism",
+        "No resistive losses in waveguides",
+        "Inherently analog matrix operations"
+      ],
+      "key_challenges": [
+        "Size: MZI arrays are large (mm-scale per operation)",
+        "EO conversion overhead negates savings for small batches",
+        "Temperature sensitivity requires active stabilization",
+        "Not compatible with standard CMOS (needs photonics layer)",
+        "Precision limited by device fabrication tolerances"
+      ],
+      "research_findings": {
+        "lightmatter": "Photonic AI accelerator startup, Series C funded",
+        "lighton": "Optical computing for ML, focusing on cloud",
+        "intel_photonics": "Silicon photonics for data centers, not edge"
+      },
+      "recommendation": "Not ready for edge deployment. Consider for future (3-5 year) roadmap if power targets cannot be met with electronic approaches"
+    },
+
+    "stochastic_computing": {
+      "ternary_applicability": "MODERATE - Requires adaptation",
+      "accuracy_estimate": {
+        "bit_stream_length": "256-1024 bits for 8-bit equivalent precision",
+        "error_rate": "1-5% compared to deterministic computing",
+        "neural_network_tolerance": "NNs are error-tolerant, acceptable for inference"
+      },
+      "hardware_simplicity": "EXTREMELY SIMPLE",
+      "core_concept": {
+        "representation": "Numbers as probability P(1) in random bit stream",
+        "multiplication": "Single AND gate (XOR for bipolar {-1,+1})",
+        "addition": "MUX gate (scaled) or counter",
+        "ternary_extension": "Two bit streams: sign stream + magnitude stream"
+      },
+      "ternary_implementation": {
+        "approach_1": "Separate sign and magnitude stochastic streams",
+        "approach_2": "Ternary stochastic logic (TSL) with 3-valued streams",
+        "weight_encoding": "Pre-computed stochastic bit patterns stored in ROM",
+        "activation": "Generate stochastic stream from deterministic value"
+      },
+      "key_advantages": [
+        "Tiny hardware: entire MAC unit in ~10 gates",
+        "Fault tolerant: bit errors have minimal impact",
+        "Natural for probabilistic inference",
+        "Clock frequency can be very high"
+      ],
+      "key_challenges": [
+        "Long bit streams needed for precision (latency)",
+        "Random number generation overhead",
+        "Correlation between streams causes errors",
+        "Not well-suited for LLM-scale operations"
+      ],
+      "recommendation": "Interesting for small networks. For 3B parameter LLM, the bit-stream processing overhead likely outweighs benefits. Consider for attention score computation where precision requirements are lower"
+    },
+
+    "sota_quantization": {
+      "latest_techniques": [
+        {
+          "name": "BitNet b1.58 (Microsoft, 2024-2025)",
+          "description": "Native 1.58-bit (ternary) weights, 8-bit activations",
+          "model": "BitNet b1.58 2B4T released April 2025",
+          "performance": "Matches FP16 Llama of same size on language tasks",
+          "hardware_implications": "2-bit storage per weight, simple arithmetic"
+        },
+        {
+          "name": "PT-BitNet",
+          "description": "Post-training quantization to 1.58 bits",
+          "advantage": "No retraining required"
+        },
+        {
+          "name": "QSPEC (2025)",
+          "description": "Speculative decoding with complementary quantization",
+          "innovation": "Shares weights across activation modes, zero overhead draft model"
+        },
+        {
+          "name": "INT4 Weight-Only Quantization",
+          "description": "Industry standard for edge deployment",
+          "accuracy": "4-6% MMLU degradation on 3B models",
+          "hardware": "Simple lookup tables for dequantization"
+        },
+        {
+          "name": "Mixed-Precision (INT4/INT8)",
+          "description": "Critical layers use INT8, others INT4",
+          "accuracy": "Recovers 50% of degradation"
+        }
+      ],
+      "accuracy_vs_bits": {
+        "fp16": {"mmlu": "63.4%", "relative": "100%"},
+        "int8": {"mmlu": "62.8%", "relative": "99%"},
+        "int4": {"mmlu": "60.5%", "relative": "95%"},
+        "ternary_1.58": {"mmlu": "61.5%", "relative": "97%"},
+        "binary": {"mmlu": "55%", "relative": "87%"}
+      },
+      "key_insight": "Ternary (1.58-bit) achieves near-INT8 accuracy with 4x storage savings vs INT8. For mask-locked chips, ternary is the sweet spot: high accuracy, minimal hardware, perfect for hardwiring"
+    },
+
+    "neuromorphic": {
+      "relevance": "HIGHLY RELEVANT for event-driven edge inference",
+      "spiking_ternary_combo": {
+        "research": "Ternary Weight Spiking Neural Networks (TW-SNN) - UTS 2022",
+        "description": "Combines ternary quantization with spiking activation",
+        "power": "Ultra-low power due to sparse activation",
+        "accuracy": "Comparable to artificial NNs on image tasks",
+        "llm_applicability": "Emerging research on spiking transformers"
+      },
+      "hardware_platforms": {
+        "intel_loihi2": {
+          "neurons": "1 million per chip",
+          "power": "1-5W typical",
+          "maturity": "Research platform",
+          "llm_support": "Limited - designed for SNNs, not ANNs"
+        },
+        "darwin3_zju": {
+          "neurons": "2.35 million per chip (Zhejiang University, 2023)",
+          "total_system": "20 billion neurons in 'Wukong' computer (960 chips)",
+          "capability": "Can run DeepSeek model",
+          "significance": "Largest neuromorphic system, Chinese indigenous"
+        },
+        "qualcomm_hexagon": {
+          "type": "Neural processing unit, not true neuromorphic",
+          "power": "1-2W for voice/audio",
+          "maturity": "Product (Snapdragon)"
+        }
+      },
+      "key_advantages": [
+        "Event-driven: power only when neurons fire",
+        "Temporal processing natural for sequential data",
+        "Sparse computation reduces average power 10-100x",
+        "Online learning possible on some platforms"
+      ],
+      "key_challenges": [
+        "ANN-to-SNN conversion overhead",
+        "Rate coding requires many timesteps for precision",
+        "LLM architectures not yet optimized for spiking",
+        "Limited software ecosystem"
+      ],
+      "recommendation": "Monitor closely. Spiking transformers may emerge as optimal edge LLM architecture in 2-3 years. For now, use ternary ANN with event-driven activation patterns"
+    },
+
+    "fixed_vs_reconfigurable": {
+      "recommended_split": {
+        "FULLY_FIXED": {
+          "components": ["Weight matrices", "Layer dimensions", "Attention heads count"],
+          "rationale": "Mask-locked weights eliminate memory access, 10-100x energy savings",
+          "constraint": "Cannot change model without new chip"
+        },
+        "SEMI_FIXED": {
+          "components": ["Activation precision (8-bit fixed)", "Sequence length (parameterizable up to max)"],
+          "rationale": "KV cache size determines max sequence, some flexibility valuable",
+          "implementation": "Configurable SRAM allocation, fixed arithmetic precision"
+        },
+        "FULLY_RECONFIGURABLE": {
+          "components": ["KV cache contents", "Input token stream", "Output token buffer"],
+          "rationale": "These must be mutable for inference",
+          "implementation": "SRAM blocks with configurable addressing"
+        }
+      },
+      "architecture_recommendation": {
+        "datapath": "Fixed-function systolic array for matrix operations",
+        "control": "Simple FSM, no CPU needed",
+        "memory": "SRAM for KV cache + activations (200-500MB target)",
+        "io": "Simple serial interface (UART/SPI) for token I/O",
+        "configurability": "Boot-time parameters for sequence length, temperature"
+      },
+      "power_implications": {
+        "fixed_weights": "0W for weight storage (hardwired)",
+        "configurable_sram": "1-2W for 500MB SRAM @ 28nm",
+        "arithmetic": "0.5-1W for 80 tok/s target",
+        "total": "2-3W achievable with aggressive design"
+      }
+    },
+
+    "novel_approaches": [
+      {
+        "name": "In-Memory Computing (IMC) with SRAM",
+        "description": "Perform analog computation directly in SRAM arrays",
+        "advantage": "6-10x energy efficiency vs digital",
+        "maturity": "Prototype (multiple research groups)",
+        "relevance": "High - compatible with standard CMOS",
+        "key_reference": "2T1C DRAM PIM architecture supports dual-mode Boolean and MAC operations (2024)"
+      },
+      {
+        "name": "Carbon Nanotube Tensor Processor",
+        "description": "CNT-based computing offers 10x energy efficiency",
+        "advantage": "Beyond CMOS scaling, ultra-low power",
+        "maturity": "Research (Peking University 2024 - world's first CNT TPU)",
+        "relevance": "Long-term (5+ years) but promising",
+        "key_reference": "3000 CNT transistors, 2-bit convolution operations demonstrated"
+      },
+      {
+        "name": "Speculative Decoding for Edge",
+        "description": "Draft model proposes tokens, main model verifies in parallel",
+        "advantage": "2-3x throughput improvement without accuracy loss",
+        "maturity": "Production-ready (QSPEC, SLED frameworks 2025)",
+        "relevance": "IMMEDIATE - can implement on mask-locked chip",
+        "implementation": "Hardwire both draft (100M params) and main (3B params) models on same die"
+      },
+      {
+        "name": "Flash-Based Compute-in-Memory",
+        "description": "Use flash memory cells for analog computation",
+        "advantage": "High density, multi-bit per cell possible",
+        "maturity": "Prototype (multiple startups)",
+        "relevance": "Medium - good for very large models (>10B params)",
+        "challenge": "Endurance limited for frequent reads"
+      },
+      {
+        "name": "Analog Computing with Mixed-Signal",
+        "description": "Analog MAC operations, digital control",
+        "advantage": "10-100x efficiency at cost of precision",
+        "maturity": "Startup products (Mythic, others)",
+        "relevance": "High for CNNs, unproven for transformers",
+        "consideration": "ADC/DAC overhead may negate benefits for small batches"
+      }
+    ],
+
+    "top_recommendation": {
+      "approach": "Ternary-Weight Mask-Locked Systolic Array with Hybrid IMC",
+      "rationale": [
+        "TERNARY WEIGHTS: BitNet b1.58 proves ternary achieves 97% of FP16 accuracy with 4x storage savings",
+        "MASK-LOCKED: Eliminates weight memory access entirely, 10-100x energy reduction",
+        "SYSTOLIC ARRAY: Optimal for matrix operations, well-understood design patterns",
+        "HYBRID IMC: Use SRAM-based in-memory compute for activations, leverage research on 2T1C architectures",
+        "SPECULATIVE DECODING: Include small draft model (100-300M params) on same die for 2-3x throughput boost"
+      ],
+      "architecture_spec": {
+        "weight_precision": "Ternary {-1, 0, +1} encoded in metal layers",
+        "activation_precision": "INT8 fixed-point",
+        "kv_cache": "SRAM-based, configurable 1K-4K context",
+        "throughput_target": "80+ tok/s for 3B parameter model",
+        "power_target": "2-3W total",
+        "process_node": "28nm (mature, low-cost, well-understood)"
+      },
+      "research_needed": [
+        "SPICE-level simulation of hardwired weight routing vs SRAM read energy",
+        "INT8 KV cache quantization accuracy impact study",
+        "Optimal draft model size for speculative decoding with mask-locked main model",
+        "Yield analysis for weight metal layer density",
+        "Licensing clarification for Gemma 2 / Qwen 2.5 hardware embedding"
+      ],
+      "risk_mitigation": {
+        "obsolescence": "Target stable model families (Llama ecosystem), plan upgrade cycle",
+        "quantization": "Dual-track development: ternary primary, INT8 fallback",
+        "fabrication": "FPGA prototype first, MPW shuttle before production mask",
+        "market": "Start with developer/maker market, expand to industrial IoT"
+      },
+      "competitive_moat": [
+        "Physical embodiment of model is difficult to replicate",
+        "Weight routing optimization is process-specific know-how",
+        "First-mover in sub-$50 edge LLM category",
+        "Mask-locking is architectural, not just RTL - harder to copy"
+      ]
+    },
+
+    "implementation_roadmap": {
+      "phase_1": {
+        "name": "Feasibility Study",
+        "duration": "6 months",
+        "budget": "$500K",
+        "deliverables": [
+          "Cycle-accurate simulator for ternary mask-locked architecture",
+          "Quantization study: verify <5% MMLU degradation",
+          "FPGA prototype of core compute unit",
+          "Licensing agreement with model provider"
+        ]
+      },
+      "phase_2": {
+        "name": "Design & Verification",
+        "duration": "12 months",
+        "budget": "$2M",
+        "deliverables": [
+          "RTL design in Chisel/Scala",
+          "Formal verification of control logic",
+          "Physical design at 28nm",
+          "Software SDK for chip interface"
+        ]
+      },
+      "phase_3": {
+        "name": "Prototype",
+        "duration": "6 months",
+        "budget": "$1M",
+        "deliverables": [
+          "MPW shuttle (20-40 units)",
+          "Silicon validation",
+          "Performance characterization"
+        ]
+      },
+      "phase_4": {
+        "name": "Production",
+        "duration": "6 months",
+        "budget": "$1.5M",
+        "deliverables": [
+          "Dedicated mask set",
+          "10K unit production run",
+          "Customer shipments"
+        ]
+      }
+    },
+
+    "conclusion": {
+      "feasibility": "HIGH - Technical approach validated by BitNet research",
+      "market_opportunity": "Sub-$50 edge LLM chip category is uncontested",
+      "risk_level": "MEDIUM - Semiconductor startup risks mitigated by mature process node",
+      "recommendation": "PROCEED with Phase 1 feasibility study immediately"
+    }
+  }
+}

@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.forbes.com/sites/karlfreund/2026/02/19/taalas-launches-hardcore-chip-with-insane-ai-inference-performance",
+    "name": "Taalas Launches Hardcore Chip With 'Insane' AI Inference  - Forbes",
+    "snippet": "Taalas has launched an AI accelerator that puts the entire AI model into silicon, delivering 1-2 orders of magnitude greater performance. Missing: mask ROM",
+    "host_name": "www.forbes.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/posts/arjv_the-path-to-ubiquitous-ai-activity-7431505568327966721-1BaK",
+    "name": "Taalas Chip Revolutionizes AI Inference with 10x Speed, 20x Lower",
+    "snippet": "The chip hardcodes the model (you can't just flash new weights onto it). They say there's 2 month lead time to go from model --> silicon, and ...",
+    "host_name": "www.linkedin.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.datacenterdynamics.com/en/news/ai-chip-startup-taalas-raises-169m-unveils-hc1-processor-optimized-for-llama-31-8b",
+    "name": "AI chip startup Taalas raises $169m, unveils HC1 processor",
+    "snippet": "AI chip startup Taalas has raised $169 million to support the development of chips that have been optimized for specific AI models.",
+    "host_name": "www.datacenterdynamics.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://taalas.com/the-path-to-ubiquitous-ai",
+    "name": "The path to ubiquitous AI - Taalas",
+    "snippet": "... LLM inference runs at sub-millisecond speed and near-zero cost. We believe that our service enables many classes of applications that were ... Missing: mask ROM 2025",
+    "host_name": "taalas.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://news.ycombinator.com/item%3Fid%3D47103661",
+    "name": "How Taalas “prints” LLM onto a chip? - Hacker News",
+    "snippet": "The A18 iPhone chip has 15b transistors for the GPU and CPU; the Taalas ASIC has 53b transistors dedicated to inference alone. If it's anything ...",
+    "host_name": "news.ycombinator.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reuters.com/world/asia-pacific/chip-startup-taalas-raises-169-million-help-build-ai-chips-take-nvidia-2026-02-19",
+    "name": "Chip startup Taalas raises $169 million to help build AI  - Reuters",
+    "snippet": "Taalas' approach to chip design involves printing portions of an AI model onto a piece of silicon, effectively producing a custom chip suited ... Missing: mask ROM LLM 2025",
+    "host_name": "www.reuters.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch%3Fv%3DWjxOffC2kyM",
+    "name": "17000 Tokens per second - Taalas \"Embodied\" AI Chip! - YouTube",
+    "snippet": "Taalas developed a platform for transforming any AI model into custom silicon. From the moment a previously unseen model is received, ... Missing: mask ROM 2025 2026",
+    "host_name": "www.youtube.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.turingpost.com/p/taalas",
+    "name": "MatX, Taalas, and the Cracks in the GPU Era - AI 101 - Turing Post",
+    "snippet": "Last week, Taalas raised $169 million and is demoing a product that takes the most extreme inference bet in the market: instead of running a ... Missing: mask ROM",
+    "host_name": "www.turingpost.com",
+    "rank": 7,
+    "date": "Feb 27, 2026",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.nextplatform.com/compute/2026/02/19/taalas-etches-ai-models-onto-transistors-to-rocket-boost-inference/4092140",
+    "name": "Taalas Etches AI Models Onto Transistors To Rocket Boost Inference",
+    "snippet": "“We have got this scheme for the mask ROM recall fabric – the hard-wired part – where we can store four bits away and do the multiply related to ... Missing: LLM 2025",
+    "host_name": "www.nextplatform.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/posts/ashkrit_mechanical-sympathy-20-from-software-tuning-activity-7432595298532700160-rrAG",
+    "name": "Taalas' Model-as-Silicon Breakthrough: Llama 3.1-8B Chip - LinkedIn",
+    "snippet": "Instead of running models on general-purpose GPUs, Taalas \"etches\" the model weights directly into the transistors of the chip — an architecture ...",
+    "host_name": "www.linkedin.com",
+    "rank": 9,
+    "date": "Feb 25, 2026",
+    "favicon": ""
+  }
+]

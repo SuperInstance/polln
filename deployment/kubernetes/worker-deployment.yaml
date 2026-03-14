@@ -1,0 +1,109 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: superinstance-worker-gpu
+  namespace: superinstance
+  labels:
+    app: superinstance-worker
+    component: worker
+    type: gpu
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: superinstance-worker
+      type: gpu
+  template:
+    metadata:
+      labels:
+        app: superinstance-worker
+        component: worker
+        type: gpu
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8001"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: superinstance-worker
+      nodeSelector:
+        gpu: "true"
+      containers:
+      - name: worker
+        image: superinstance/worker:latest
+        imagePullPolicy: Always
+        ports:
+        - name: metrics
+          containerPort: 8001
+          protocol: TCP
+        env:
+        - name: WORKER_TYPE
+          value: "gpu"
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: superinstance-secrets
+              key: database-url
+        - name: REDIS_URL
+          valueFrom:
+            configMapKeyRef:
+              name: superinstance-config
+              key: REDIS_URL
+        - name: WORKER_CONCURRENCY
+          valueFrom:
+            configMapKeyRef:
+              name: superinstance-config
+              key: WORKER_CONCURRENCY
+        - name: CUDA_VISIBLE_DEVICES
+          valueFrom:
+            configMapKeyRef:
+              name: superinstance-config
+              key: CUDA_VISIBLE_DEVICES
+        resources:
+          limits:
+            nvidia.com/gpu: 1
+            memory: "8Gi"
+            cpu: "4000m"
+          requests:
+            memory: "4Gi"
+            cpu: "2000m"
+        volumeMounts:
+        - name: worker-data
+          mountPath: /app/data
+        - name: worker-cache
+          mountPath: /app/cache
+        - name: cuda-libraries
+          mountPath: /usr/local/cuda
+          readOnly: true
+      volumes:
+      - name: worker-data
+        persistentVolumeClaim:
+          claimName: worker-data-pvc
+      - name: worker-cache
+        persistentVolumeClaim:
+          claimName: worker-cache-pvc
+      - name: cuda-libraries
+        hostPath:
+          path: /usr/local/cuda
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: superinstance-worker
+  namespace: superinstance
+  labels:
+    app: superinstance-worker
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8001
+    targetPort: 8001
+    protocol: TCP
+    name: metrics
+  selector:
+    app: superinstance-worker
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: superinstance-worker
+  namespace: superinstance

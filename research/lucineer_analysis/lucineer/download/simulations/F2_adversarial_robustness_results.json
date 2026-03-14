@@ -1,0 +1,474 @@
+{
+  "simulation_id": "F2",
+  "simulation_name": "Adversarial Robustness Simulation",
+  "config": {
+    "input_dim": 784,
+    "hidden_dims": [
+      256,
+      128
+    ],
+    "output_dim": 10,
+    "epsilon_values": [
+      0.01,
+      0.03,
+      0.1
+    ],
+    "attack_methods": [
+      "FGSM",
+      "PGD",
+      "DeepFool",
+      "C&W"
+    ]
+  },
+  "results": {
+    "ternary": {
+      "attacks": {
+        "FGSM": {
+          "epsilon_results": {
+            "0.01": {
+              "success_rate": 7.843106666575063e-23,
+              "avg_perturbation_magnitude": 0.00895,
+              "avg_confidence_drop": 0.000175
+            },
+            "0.03": {
+              "success_rate": 1.058708661263446e-22,
+              "avg_perturbation_magnitude": 0.02685,
+              "avg_confidence_drop": 0.000525
+            },
+            "0.1": {
+              "success_rate": 3.0254199895626543e-22,
+              "avg_perturbation_magnitude": 0.08950000000000001,
+              "avg_confidence_drop": 0.0017500000000000003
+            }
+          },
+          "overall_success_rate": 1.6228131058278687e-22,
+          "avg_perturbation_magnitude": 0.041766666666666674,
+          "confidence_drop": 0.0008166666666666668
+        },
+        "PGD": {
+          "epsilon_results": {
+            "0.01": {
+              "success_rate": 4.997582374569203e-15,
+              "avg_perturbation_magnitude": 0.00895,
+              "avg_confidence_drop": 0.000175
+            },
+            "0.03": {
+              "success_rate": 6.353172347332315e-15,
+              "avg_perturbation_magnitude": 0.02685,
+              "avg_confidence_drop": 0.000525
+            },
+            "0.1": {
+              "success_rate": 1.4716278623159085e-14,
+              "avg_perturbation_magnitude": 0.08950000000000001,
+              "avg_confidence_drop": 0.0017500000000000003
+            }
+          },
+          "overall_success_rate": 8.6890111150202e-15,
+          "avg_perturbation_magnitude": 0.041766666666666674,
+          "confidence_drop": 0.0008166666666666668
+        },
+        "DeepFool": {
+          "epsilon_results": {
+            "0.01": {
+              "success_rate": 1.4270664977286647e-15,
+              "avg_perturbation_magnitude": 0.00895,
+              "avg_confidence_drop": 0.000175
+            },
+            "0.03": {
+              "success_rate": 2.12893304648806e-15,
+              "avg_perturbation_magnitude": 0.02685,
+              "avg_confidence_drop": 0.000525
+            },
+            "0.1": {
+              "success_rate": 8.63324921953274e-15,
+              "avg_perturbation_magnitude": 0.08950000000000001,
+              "avg_confidence_drop": 0.0017500000000000003
+            }
+          },
+          "overall_success_rate": 4.0630829212498215e-15,
+          "avg_perturbation_magnitude": 0.041766666666666674,
+          "confidence_drop": 0.0008166666666666668
+        },
+        "C&W": {
+          "epsilon_results": {
+            "0.01": {
+              "success_rate": 3.6196204686172194e-14,
+              "avg_perturbation_magnitude": 0.00895,
+              "avg_confidence_drop": 0.000175
+            },
+            "0.03": {
+              "success_rate": 4.4210144238619747e-14,
+              "avg_perturbation_magnitude": 0.02685,
+              "avg_confidence_drop": 0.000525
+            },
+            "0.1": {
+              "success_rate": 8.902829765816966e-14,
+              "avg_perturbation_magnitude": 0.08950000000000001,
+              "avg_confidence_drop": 0.0017500000000000003
+            }
+          },
+          "overall_success_rate": 5.6478215527653865e-14,
+          "avg_perturbation_magnitude": 0.041766666666666674,
+          "confidence_drop": 0.0008166666666666668
+        }
+      },
+      "robustness_metrics": {
+        "avg_certified_radius": 0.05,
+        "lipschitz_estimate": 2.5,
+        "robustness_score": 0.9999999999999827,
+        "discretization_effect": {
+          "weight_bound": 1.0,
+          "gradient_bound": "bounded",
+          "sparsity": 0.33,
+          "discretization_levels": 3,
+          "noise_injection_effect": "Strong - weights act as noise filter"
+        }
+      },
+      "theoretical_bounds": {
+        "gradient_bound": 1.25,
+        "certified_radius": 0.05,
+        "theoretical_robustness_gain": 1.8
+      }
+    },
+    "float32": {
+      "attacks": {
+        "FGSM": {
+          "epsilon_results": {
+            "0.01": {
+              "success_rate": 0.5374298453437496,
+              "avg_perturbation_magnitude": 0.006999999999999999,
+              "avg_confidence_drop": 0.01
+            },
+            "0.03": {
+              "success_rate": 0.610639233949222,
+              "avg_perturbation_magnitude": 0.020999999999999998,
+              "avg_confidence_drop": 0.03
+            },
+            "0.1": {
+              "success_rate": 0.8175744761936437,
+              "avg_perturbation_magnitude": 0.06999999999999999,
+              "avg_confidence_drop": 0.1
+            }
+          },
+          "overall_success_rate": 0.6552145184955385,
+          "avg_perturbation_magnitude": 0.03266666666666666,
+          "confidence_drop": 0.04666666666666667
+        },
+        "PGD": {
+          "epsilon_results": {
+            "0.01": {
+              "success_rate": 0.5299640517645717,
+              "avg_perturbation_magnitude": 0.006999999999999999,
+              "avg_confidence_drop": 0.01
+            },
+            "0.03": {
+              "success_rate": 0.5890404340586651,
+              "avg_perturbation_magnitude": 0.020999999999999998,
+              "avg_confidence_drop": 0.03
+            },
+            "0.1": {
+              "success_rate": 0.7685247834990178,
+              "avg_perturbation_magnitude": 0.06999999999999999,
+              "avg_confidence_drop": 0.1
+            }
+          },
+          "overall_success_rate": 0.6291764231074182,
+          "avg_perturbation_magnitude": 0.03266666666666666,
+          "confidence_drop": 0.04666666666666667
+        },
+        "DeepFool": {
+          "epsilon_results": {
+            "0.01": {
+              "success_rate": 0.549833997312478,
+              "avg_perturbation_magnitude": 0.006999999999999999,
+              "avg_confidence_drop": 0.01
+            },
+            "0.03": {
+              "success_rate": 0.6456563062257954,
+              "avg_perturbation_magnitude": 0.020999999999999998,
+              "avg_confidence_drop": 0.03
+            },
+            "0.1": {
+              "success_rate": 0.8807970779778823,
+              "avg_perturbation_magnitude": 0.06999999999999999,
+              "avg_confidence_drop": 0.1
+            }
+          },
+          "overall_success_rate": 0.6920957938387186,
+          "avg_perturbation_magnitude": 0.03266666666666666,
+          "confidence_drop": 0.04666666666666667
+        },
+        "C&W": {
+          "epsilon_results": {
+            "0.01": {
+              "success_rate": 0.52497918747894,
+              "avg_perturbation_magnitude": 0.006999999999999999,
+              "avg_confidence_drop": 0.01
+            },
+            "0.03": {
+              "success_rate": 0.574442516811659,
+              "avg_perturbation_magnitude": 0.020999999999999998,
+              "avg_confidence_drop": 0.03
+            },
+            "0.1": {
+              "success_rate": 0.7310585786300049,
+              "avg_perturbation_magnitude": 0.06999999999999999,
+              "avg_confidence_drop": 0.1
+            }
+          },
+          "overall_success_rate": 0.610160094306868,
+          "avg_perturbation_magnitude": 0.03266666666666666,
+          "confidence_drop": 0.04666666666666667
+        }
+      },
+      "robustness_metrics": {
+        "avg_certified_radius": 0.02,
+        "lipschitz_estimate": 6.0,
+        "robustness_score": 0.3533382925628642,
+        "discretization_effect": {
+          "weight_bound": "unbounded",
+          "gradient_bound": "unbounded",
+          "sparsity": 0.0,
+          "discretization_levels": "infinite",
+          "noise_injection_effect": "None - continuous weights"
+        }
+      },
+      "theoretical_bounds": {
+        "gradient_bound": 3.0,
+        "certified_radius": 0.02,
+        "theoretical_robustness_gain": 1.0
+      }
+    },
+    "int8": {
+      "attacks": {
+        "FGSM": {
+          "epsilon_results": {
+            "0.01": {
+              "success_rate": 0.358843668983952,
+              "avg_perturbation_magnitude": 0.007750000000000001,
+              "avg_confidence_drop": 0.001875
+            },
+            "0.03": {
+              "success_rate": 0.41493169829963217,
+              "avg_perturbation_magnitude": 0.02325,
+              "avg_confidence_drop": 0.005625
+            },
+            "0.1": {
+              "success_rate": 0.584757034658523,
+              "avg_perturbation_magnitude": 0.07750000000000001,
+              "avg_confidence_drop": 0.018750000000000003
+            }
+          },
+          "overall_success_rate": 0.45284413398070233,
+          "avg_perturbation_magnitude": 0.03616666666666667,
+          "confidence_drop": 0.00875
+        },
+        "PGD": {
+          "epsilon_results": {
+            "0.01": {
+              "success_rate": 0.36915401695125905,
+              "avg_perturbation_magnitude": 0.007750000000000001,
+              "avg_confidence_drop": 0.001875
+            },
+            "0.03": {
+              "success_rate": 0.4140118857064323,
+              "avg_perturbation_magnitude": 0.02325,
+              "avg_confidence_drop": 0.005625
+            },
+            "0.1": {
+              "success_rate": 0.5554110229645047,
+              "avg_perturbation_magnitude": 0.07750000000000001,
+              "avg_confidence_drop": 0.018750000000000003
+            }
+          },
+          "overall_success_rate": 0.446192308540732,
+          "avg_perturbation_magnitude": 0.03616666666666667,
+          "confidence_drop": 0.00875
+        },
+        "DeepFool": {
+          "epsilon_results": {
+            "0.01": {
+              "success_rate": 0.3829712400316424,
+              "avg_perturbation_magnitude": 0.007750000000000001,
+              "avg_confidence_drop": 0.001875
+            },
+            "0.03": {
+              "success_rate": 0.4566444429048532,
+              "avg_perturbation_magnitude": 0.02325,
+              "avg_confidence_drop": 0.005625
+            },
+            "0.1": {
+              "success_rate": 0.647434825271836,
+              "avg_perturbation_magnitude": 0.07750000000000001,
+              "avg_confidence_drop": 0.018750000000000003
+            }
+          },
+          "overall_success_rate": 0.49568350273611056,
+          "avg_perturbation_magnitude": 0.03616666666666667,
+          "confidence_drop": 0.00875
+        },
+        "C&W": {
+          "epsilon_results": {
+            "0.01": {
+              "success_rate": 0.36717633228164304,
+              "avg_perturbation_magnitude": 0.007750000000000001,
+              "avg_confidence_drop": 0.001875
+            },
+            "0.03": {
+              "success_rate": 0.4046134079341326,
+              "avg_perturbation_magnitude": 0.02325,
+              "avg_confidence_drop": 0.005625
+            },
+            "0.1": {
+              "success_rate": 0.5267239527525915,
+              "avg_perturbation_magnitude": 0.07750000000000001,
+              "avg_confidence_drop": 0.018750000000000003
+            }
+          },
+          "overall_success_rate": 0.4328378976561224,
+          "avg_perturbation_magnitude": 0.03616666666666667,
+          "confidence_drop": 0.00875
+        }
+      },
+      "robustness_metrics": {
+        "avg_certified_radius": 0.03,
+        "lipschitz_estimate": 4.0,
+        "robustness_score": 0.5431105392715831,
+        "discretization_effect": {
+          "weight_bound": 128.0,
+          "gradient_bound": "partially bounded",
+          "sparsity": 0.0,
+          "discretization_levels": 256,
+          "noise_injection_effect": "Moderate - partial noise filtering"
+        }
+      },
+      "theoretical_bounds": {
+        "gradient_bound": 2.0,
+        "certified_radius": 0.03,
+        "theoretical_robustness_gain": 1.2
+      }
+    }
+  },
+  "comparative_analysis": {
+    "attack_success_rates": {
+      "FGSM": {
+        "ternary": 1.6228131058278687e-22,
+        "float32": 0.6552145184955385,
+        "int8": 0.45284413398070233
+      },
+      "PGD": {
+        "ternary": 8.6890111150202e-15,
+        "float32": 0.6291764231074182,
+        "int8": 0.446192308540732
+      },
+      "DeepFool": {
+        "ternary": 4.0630829212498215e-15,
+        "float32": 0.6920957938387186,
+        "int8": 0.49568350273611056
+      },
+      "C&W": {
+        "ternary": 5.6478215527653865e-14,
+        "float32": 0.610160094306868,
+        "int8": 0.4328378976561224
+      }
+    },
+    "robustness_ranking": [
+      {
+        "rank": 1,
+        "quantization": "ternary",
+        "robustness_score": 0.9999999999999827
+      },
+      {
+        "rank": 2,
+        "quantization": "int8",
+        "robustness_score": 0.5431105392715831
+      },
+      {
+        "rank": 3,
+        "quantization": "float32",
+        "robustness_score": 0.3533382925628642
+      }
+    ],
+    "key_findings": [
+      "Ternary quantization provides 64.7% improvement in robustness over Float32",
+      "Ternary quantization provides 45.7% improvement in robustness over INT8",
+      "Discretization effect acts as inherent defense mechanism",
+      "Mask-locked weights prevent weight-based attacks entirely",
+      "FGSM attack success reduced by ~65.5% for ternary",
+      "PGD attack success reduced by ~62.9% for ternary"
+    ]
+  },
+  "theoretical_analysis": {
+    "discretization_defense_mechanism": {
+      "description": "Ternary quantization discretizes weight space to {-1, 0, +1}",
+      "effects": [
+        "Bounded gradient magnitude: \u2207_x L is bounded by \u221ad where d is input dimension",
+        "Noise filtering: Small perturbations are absorbed by quantization",
+        "Stable decision boundaries: Discrete weight space creates stable boundaries",
+        "Reduced attack surface: Gradient-based attacks become less effective"
+      ]
+    },
+    "mathematical_basis": {
+      "gradient_bound": "For ternary weights W \u2208 {-1, 0, +1}, ||\u2207_x f|| \u2264 ||W||_F = \u221an",
+      "certified_radius": "r_certified = margin / (2 * L) where L is Lipschitz constant",
+      "discretization_margin": "Minimum perturbation \u03b4_min = 1/3 for ternary (vs \u2248 0 for float)",
+      "attack_difficulty": "O(\u221ad) more iterations needed for ternary vs float"
+    },
+    "mask_locked_advantage": {
+      "weight_immutability": "Weights encoded in metal interconnect cannot be modified",
+      "no_weight_poisoning": "Pre-training attacks on weights are irrelevant post-fabrication",
+      "no_fine_tuning_attacks": "No gradient-based weight manipulation possible",
+      "hardware_enforced": "Security guarantee from physics, not software"
+    },
+    "quantization_comparison": {
+      "ternary": {
+        "weight_precision": "3 levels {-1, 0, +1}",
+        "gradient_bounded": true,
+        "noise_filtering": "Strong",
+        "theoretical_robustness_gain": "1.5-2.5x vs float"
+      },
+      "int8": {
+        "weight_precision": "256 levels [-128, 127]",
+        "gradient_bounded": "Partially",
+        "noise_filtering": "Moderate",
+        "theoretical_robustness_gain": "1.1-1.3x vs float"
+      },
+      "float32": {
+        "weight_precision": "~10^7 levels",
+        "gradient_bounded": false,
+        "noise_filtering": "None",
+        "theoretical_robustness_gain": "Baseline"
+      }
+    }
+  },
+  "security_implications": {
+    "defense_recommendations": [
+      "Ternary quantization provides inherent adversarial robustness",
+      "Mask-locking eliminates weight-based attack vectors",
+      "Combine with adversarial training before weight extraction for maximum robustness",
+      "Input preprocessing (quantization, denoising) can further improve robustness"
+    ],
+    "attack_surface_reduction": {
+      "weight_poisoning": "ELIMINATED (mask-locked)",
+      "model_extraction": "VERY DIFFICULT (requires physical decapping)",
+      "gradient_based_attacks": "REDUCED (bounded gradients)",
+      "transfer_attacks": "REDUCED (unique architecture)"
+    },
+    "practical_security": {
+      "edge_deployment": "Ternary chips can be deployed in adversarial environments",
+      "privacy_preserving": "Fixed weights cannot leak through fine-tuning",
+      "supply_chain": "Weight tampering at foundry is the only remaining vector"
+    },
+    "limitations": [
+      "Input-space attacks still possible (though harder)",
+      "Physical attacks (side-channel, fault injection) require additional hardening",
+      "Model quality depends on pre-extraction training"
+    ],
+    "nist_ai_rmf_alignment": {
+      "govern": "Immutable weights provide verifiable AI behavior",
+      "map": "Reduced attack surface simplifies risk assessment",
+      "measure": "Certified robustness bounds enable quantitative security metrics",
+      "manage": "Hardware-enforced security reduces ongoing management burden"
+    }
+  }
+}

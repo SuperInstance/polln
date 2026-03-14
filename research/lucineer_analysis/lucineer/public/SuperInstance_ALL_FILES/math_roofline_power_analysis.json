@@ -1,0 +1,1124 @@
+{
+  "ROOFLINE_POWER_THERMAL_ANALYSIS": {
+    "metadata": {
+      "document_version": "v1.0",
+      "analysis_date": "2025-01-20",
+      "target_model": "BitNet b1.58-2B-4T",
+      "target_architecture": "Mask-Locked Inference Chip",
+      "methodology": "First-principles mathematical derivation",
+      "critical_finding": "Mask-locked architecture fundamentally transforms Roofline model from memory-bound to compute-bound"
+    },
+
+    "PART_1_ROOFLINE_MODEL_DERIVATION": {
+      "section_1_1_standard_roofline": {
+        "title": "Standard Roofline Model",
+        "theoretical_foundation": {
+          "roofline_equation": {
+            "attainable_performance": "P = min(Peak_FLOPS, BW × AI)",
+            "where": {
+              "Peak_FLOPS": "Maximum compute throughput in FLOPs/second",
+              "BW": "Memory bandwidth in bytes/second",
+              "AI": "Arithmetic Intensity = FLOPs / Bytes_transferred"
+            }
+          },
+          "arithmetic_intensity_derivation": {
+            "definition": "AI = Total_FLOPs / Total_Bytes_Accessed",
+            "components": {
+              "bytes_accessed": "W_weights + W_activations + W_KV_cache",
+              "for_standard_inference": "AI = (2 × n_params × seq_len) / (n_params × bytes_per_weight + seq_len × activation_bytes)"
+            },
+            "interpretation": {
+              "low_AI": "Memory-bound: Performance limited by memory bandwidth",
+              "high_AI": "Compute-bound: Performance limited by compute throughput",
+              "crossover_point": "AI_crossover = Peak_FLOPS / BW"
+            }
+          }
+        },
+        "platform_comparison": {
+          "gpu_a100": {
+            "peak_fp16_tflops": 312,
+            "peak_int8_top": 624,
+            "memory_bandwidth_tb_s": 2.039,
+            "crossover_ai": {
+              "fp16": "312 / 2.039 = 153.1 FLOPs/byte",
+              "int8": "624 / 2.039 = 306.2 Ops/byte"
+            },
+            "typical_ai_for_llm": {
+              "prefill_phase": "10-50 FLOPs/byte",
+              "decode_phase": "1-10 FLOPs/byte",
+              "classification": "MEMORY-BOUND for LLM inference"
+            },
+            "roofline_derivation": {
+              "memory_bound_region": "P = BW × AI for AI < AI_crossover",
+              "compute_bound_region": "P = Peak_FLOPS for AI ≥ AI_crossover",
+              "llm_position": "In memory-bound region due to weight fetching"
+            }
+          },
+          "tpu_v4": {
+            "peak_bf16_tflops": 275,
+            "memory_bandwidth_tb_s": 1.2,
+            "crossover_ai": "275 / 1.2 = 229.2 FLOPs/byte",
+            "weight_fetch_bottleneck": "Similar to GPU - memory bound for LLM inference"
+          },
+          "jetson_orin_nano": {
+            "peak_int8_top": 67,
+            "memory_bandwidth_gb_s": 102,
+            "crossover_ai": "67 / 102 = 0.66 Ops/byte",
+            "typical_llm_ai": "1-10 Ops/byte",
+            "position": "COMPUTE-BOUND for smaller models, memory-bound for large LLMs",
+            "power_tdp_w": 25,
+            "efficiency_top_w": 2.68
+          }
+        }
+      },
+
+      "section_1_2_modified_roofline_mask_locked": {
+        "title": "Modified Roofline for Mask-Locked Architecture",
+        "fundamental_transformation": {
+          "key_insight": "Weight fetch bandwidth is ELIMINATED in mask-locked architecture",
+          "bytes_accessed_new": "W_activations + W_KV_cache (weights in metal)",
+          "ai_formula_new": {
+            "standard": "AI_standard = FLOPs / (Weight_bytes + Activation_bytes + KV_bytes)",
+            "mask_locked": "AI_mask_locked = FLOPs / (Activation_bytes + KV_bytes)",
+            "improvement_factor": "AI_mask_locked / AI_standard = (Weight_bytes + Other) / Other ≈ 10-100× higher"
+          }
+        },
+        "quantitative_derivation": {
+          "bitnet_2b_parameters": {
+            "n_params": 2000000000,
+            "weight_precision_bits": 1.58,
+            "activation_precision_bytes": 1,
+            "hidden_dim": 2048,
+            "n_layers": 24,
+            "n_kv_heads": 8,
+            "d_head": 64
+          },
+          "per_token_flops": {
+            "attention_per_layer": "4 × hidden_dim² (Q,K,V,O projections)",
+            "ffn_per_layer": "2 × hidden_dim × intermediate_dim",
+            "total_approximation": {
+              "attention": "4 × 2048² × 24 = 402,653,184",
+              "ffn": "2 × 2048 × 8192 × 24 = 805,306,368",
+              "total_with_sparsity": "1,207,959,552 × 0.65 (ternary zero-skip) ≈ 785 GFLOPs"
+            },
+            "actual_calculation": {
+              "total_macs": "2 × n_params ≈ 4 GMACs",
+              "with_ternary_skip": "4 × 0.65 = 2.6 Giga-operations",
+              "flops_equivalent": "~2.6 GFLOPs per token"
+            }
+          },
+          "bytes_accessed_per_token": {
+            "standard_fp16": {
+              "weight_fetch": "2B × 2 bytes = 4 GB",
+              "activation_io": "2048 × 24 layers × 2 bytes × 2 (read+write) ≈ 196 KB",
+              "kv_cache_2048_ctx": "24 × 8 × 64 × 2048 × 2 × 2 = 96 MB",
+              "total": "~4.1 GB",
+              "ai": "2.6 GFLOPs / 4.1 GB = 0.63 FLOPs/byte",
+              "classification": "SEVERELY MEMORY-BOUND"
+            },
+            "mask_locked_ternary": {
+              "weight_fetch": "0 bytes (weights in metal)",
+              "activation_io": "2048 × 24 × 1 × 2 ≈ 98 KB (INT8)",
+              "kv_cache_2048_ctx_int8": "24 × 8 × 64 × 2048 × 1 × 2 = 48 MB",
+              "total": "~48.1 MB",
+              "ai": "2.6 GFLOPs / 48.1 MB = 54.1 FLOPs/byte",
+              "classification": "COMPUTE-BOUND or NEAR BALANCED",
+              "improvement": "54.1 / 0.63 = 86× higher AI"
+            }
+          }
+        },
+        "ai_vs_context_length": {
+          "derivation": {
+            "formula": "AI(ctx) = FLOPs_per_token / (Activation_bytes + KV_bytes(ctx))",
+            "kv_bytes_formula": "2 × n_layers × n_kv_heads × d_head × ctx × bytes_per_element",
+            "for_bitnet_int8": "KV_bytes = 2 × 24 × 8 × 64 × ctx × 1 = 24,576 × ctx bytes"
+          },
+          "calculations": {
+            "ctx_512": {
+              "kv_bytes": 12582912,
+              "total_bytes": 12683008,
+              "ai": "2.6G / 12.7M = 205 FLOPs/byte",
+              "classification": "COMPUTE-BOUND"
+            },
+            "ctx_1024": {
+              "kv_bytes": 25165824,
+              "total_bytes": 25265920,
+              "ai": "2.6G / 25.3M = 103 FLOPs/byte",
+              "classification": "COMPUTE-BOUND"
+            },
+            "ctx_2048": {
+              "kv_bytes": 50331648,
+              "total_bytes": 50431744,
+              "ai": "2.6G / 50.4M = 51.6 FLOPs/byte",
+              "classification": "NEAR BALANCED"
+            },
+            "ctx_4096": {
+              "kv_bytes": 100663296,
+              "total_bytes": 100763392,
+              "ai": "2.6G / 100.8M = 25.8 FLOPs/byte",
+              "classification": "MEMORY-BOUND"
+            },
+            "ctx_8192": {
+              "kv_bytes": 201326592,
+              "total_bytes": 201436672,
+              "ai": "2.6G / 201.4M = 12.9 FLOPs/byte",
+              "classification": "MEMORY-BOUND"
+            }
+          }
+        },
+        "crossover_context_length": {
+          "derivation": {
+            "condition": "AI = AI_crossover",
+            "solve_for_ctx": "ctx = FLOPs / (AI_crossover × KV_bytes_per_token - Activation_bytes)",
+            "simplified": "ctx ≈ FLOPs / (AI_crossover × 24,576)"
+          },
+          "for_various_bandwidths": {
+            "sram_1_tb_s": {
+              "crossover_ai": "100 GOPS / 1000 GB/s = 0.1 FLOPs/byte",
+              "max_ctx": "Always compute-bound for reasonable contexts"
+            },
+            "lpddr4_17_gb_s": {
+              "crossover_ai": "100 GOPS / 17 GB/s = 5.88 FLOPs/byte",
+              "max_ctx_compute_bound": "2.6G / (5.88 × 24,576) ≈ 18,000 tokens"
+            },
+            "lpddr4_8_gb_s": {
+              "crossover_ai": "100 GOPS / 8 GB/s = 12.5 FLOPs/byte",
+              "max_ctx_compute_bound": "2.6G / (12.5 × 24,576) ≈ 8,465 tokens"
+            }
+          }
+        }
+      },
+
+      "section_1_3_token_generation_roofline": {
+        "title": "Token Generation Roofline Model",
+        "autoregressive_decoding_analysis": {
+          "per_token_operations": {
+            "step_1": "Generate token t: Process through all 24 layers",
+            "step_2": "Update KV cache: Append new K,V vectors",
+            "step_3": "Sample next token from probability distribution",
+            "step_4": "Repeat for each generated token"
+          },
+          "bandwidth_requirements": {
+            "kv_cache_read": "Must read ENTIRE KV cache per token",
+            "kv_cache_write": "Write new K,V entry (constant size)",
+            "weight_access": "NONE for mask-locked",
+            "dominant_factor": "KV cache bandwidth for context > crossover"
+          }
+        },
+        "maximum_theoretical_tokens_per_second": {
+          "compute_limited": {
+            "formula": "T_compute = Peak_OPS / FLOPs_per_token",
+            "for_100_gops": "100 × 10^9 / 2.6 × 10^9 = 38.5 tokens/sec",
+            "for_250_gops": "250 × 10^9 / 2.6 × 10^9 = 96.2 tokens/sec"
+          },
+          "memory_limited": {
+            "formula": "T_memory = BW / Bytes_per_token",
+            "for_ctx_2048_lpddr4_17gb_s": "17 × 10^9 / 50.4 × 10^6 = 337 tokens/sec",
+            "for_ctx_4096_lpddr4_17gb_s": "17 × 10^9 / 100.8 × 10^6 = 169 tokens/sec"
+          },
+          "actual_limited": {
+            "formula": "T_actual = min(T_compute, T_memory)",
+            "at_ctx_2048_100gops": "min(38.5, 337) = 38.5 tokens/sec (compute-bound)",
+            "at_ctx_4096_100gops": "min(38.5, 169) = 38.5 tokens/sec (compute-bound)",
+            "at_ctx_8192_100gops": "min(38.5, 84.5) = 38.5 tokens/sec (compute-bound)"
+          }
+        },
+        "bounding_factor_analysis": {
+          "condition_computation_bound": "T_compute < T_memory",
+          "condition_memory_bound": "T_memory < T_compute",
+          "crossover_derivation": {
+            "equation": "Peak_OPS / FLOPs_per_token = BW / KV_bytes_per_token",
+            "solve_for_ctx": "ctx = (BW × FLOPs_per_token) / (Peak_OPS × KV_bytes_per_token_factor)",
+            "for_100gops_17gb_s": "ctx = (17G × 2.6G) / (100G × 24,576) = 18,022 tokens"
+          },
+          "conclusion": {
+            "for_target_25_tok_s": "Compute-bound for all practical context lengths (up to ~18K)",
+            "memory_optimization": "Focus on compute efficiency, not memory bandwidth",
+            "kv_cache_optimization": "Still valuable for memory capacity (not bandwidth)"
+          }
+        },
+        "roofline_plot_data": {
+          "x_axis": "Arithmetic Intensity (FLOPs/byte)",
+          "y_axis": "Performance (GFLOPs/sec) or Tokens/sec",
+          "roofline_points": [
+            {"x": 0.63, "y": 1.2, "label": "Standard FP16 GPU (memory-bound)"},
+            {"x": 12.9, "y": 38.5, "label": "Mask-locked 8K ctx (memory-bound)"},
+            {"x": 25.8, "y": 38.5, "label": "Mask-locked 4K ctx (compute-bound)"},
+            {"x": 51.6, "y": 38.5, "label": "Mask-locked 2K ctx (compute-bound)"},
+            {"x": 103, "y": 38.5, "label": "Mask-locked 1K ctx (compute-bound)"},
+            {"x": 205, "y": 38.5, "label": "Mask-locked 512 ctx (compute-bound)"}
+          ],
+          "ridge_point": {
+            "x_coordinate": 5.88,
+            "y_coordinate": 100,
+            "label": "Crossover at LPDDR4 bandwidth (100 GOPS, 17 GB/s)"
+          }
+        }
+      }
+    },
+
+    "PART_2_POWER_MODELING": {
+      "section_2_1_dynamic_power_equation": {
+        "title": "Dynamic Power Equation Derivation",
+        "fundamental_equation": {
+          "dynamic_power": {
+            "formula": "P_dynamic = α × C × V² × f",
+            "where": {
+              "α": "Activity factor (0-1, fraction of gates switching)",
+              "C": "Load capacitance in Farads",
+              "V": "Supply voltage in Volts",
+              "f": "Switching frequency in Hz"
+            },
+            "units": "Watts"
+          },
+          "energy_per_operation": {
+            "formula": "E_op = α × C × V²",
+            "independent_of_frequency": true,
+            "units": "Joules per operation"
+          }
+        },
+        "ternary_vs_fp16_mac_power": {
+          "fp16_multiplier": {
+            "gate_count": 360,
+            "equivalent_capacitance_pf": {
+              "derivation": "C = gate_count × C_gate",
+              "typical_c_gate_ff": 0.5,
+              "total_c_pf": 180
+            },
+            "activity_factor": 0.8,
+            "voltage_v": 1.0,
+            "energy_per_op_pj": {
+              "calculation": "0.8 × 180pF × 1.0² = 144 pJ",
+              "range": "100-200 pJ for FP16 multiply"
+            },
+            "adder_contribution_pj": 50,
+            "total_mac_energy_pj": {
+              "multiply": 144,
+              "add": 50,
+              "total": 194,
+              "range": "150-250 pJ"
+            }
+          },
+          "ternary_adder_subtractor": {
+            "gate_count": 103,
+            "equivalent_capacitance_pf": {
+              "derivation": "103 × 0.5 fF = 51.5 pF"
+            },
+            "activity_factor": 0.65,
+            "voltage_v": 1.0,
+            "energy_per_op_pj": {
+              "calculation": "0.65 × 51.5pF × 1.0² = 33.5 pJ",
+              "with_zero_skip": "33.5 × 0.65 = 21.8 pJ (35% zeros skipped)"
+            },
+            "comparison": {
+              "vs_fp16": "194 / 21.8 = 8.9× less energy",
+              "vs_int8": "~150 / 21.8 = 6.9× less energy"
+            }
+          },
+          "power_per_operation_table": {
+            "fp16_mac": {"energy_pj": 194, "power_100mhz_mw": 19.4, "power_250mhz_mw": 48.5},
+            "int8_mac": {"energy_pj": 150, "power_100mhz_mw": 15.0, "power_250mhz_mw": 37.5},
+            "ternary_mac": {"energy_pj": 22, "power_100mhz_mw": 2.2, "power_250mhz_mw": 5.5},
+            "ratio_ternary_fp16": "8.8× more efficient"
+          }
+        },
+        "mask_locked_weight_access_power": {
+          "metal_line_access": {
+            "capacitance_per_mm_ff": 10,
+            "typical_wire_length_mm": 1,
+            "total_c_ff": 10,
+            "energy_per_access_pj": {
+              "calculation": "C × V² = 10fF × 1V² = 0.01 pJ",
+              "range": "0.01-0.1 pJ per weight access"
+            },
+            "comparison": {
+              "vs_sram_read": "10 pJ / 0.01 pJ = 1000× lower",
+              "vs_dram_read": "100 pJ / 0.01 pJ = 10,000× lower"
+            }
+          }
+        }
+      },
+
+      "section_2_2_memory_power_analysis": {
+        "title": "Memory Power Analysis",
+        "memory_energy_per_bit": {
+          "metal_line_weight_access": {
+            "energy_per_bit_pj": "0.001-0.01",
+            "notes": "Zero for mask-locked weights (no active storage)"
+          },
+          "sram_read": {
+            "energy_per_bit_pj": "0.5-1.0",
+            "energy_per_byte_pj": "4-8",
+            "derivation": "Bitline swing + sense amplifier + wordline driver"
+          },
+          "sram_write": {
+            "energy_per_bit_pj": "0.5-1.5",
+            "energy_per_byte_pj": "4-12"
+          },
+          "sram_leakage": {
+            "power_per_mb_mw": "1.5-3.0",
+            "at_28nm": "2.0 mW/MB typical"
+          },
+          "lpddr4_read": {
+            "energy_per_bit_pj": "10-25",
+            "energy_per_byte_pj": "80-200",
+            "derivation": "Row activation + column access + I/O driver"
+          },
+          "lpddr4_write": {
+            "energy_per_bit_pj": "10-20",
+            "energy_per_byte_pj": "80-160"
+          },
+          "lpddr4_idle": {
+            "power_per_gb_mw": "50-100",
+            "typical": "75 mW/GB"
+          }
+        },
+        "total_power_breakdown_per_token": {
+          "context_2048_int8": {
+            "kv_cache_bytes": 50331648,
+            "activation_bytes": 100000,
+            "compute_operations": 2600000000,
+            "power_components": {
+              "kv_cache_read_sram": {
+                "energy_pj": "50.3 MB × 4 pJ/B = 201,200 pJ",
+                "if_all_sram_uj": 0.201
+              },
+              "kv_cache_read_lpddr4": {
+                "energy_pj": "50.3 MB × 100 pJ/B = 5,033,000 pJ",
+                "energy_uj": 5.033
+              },
+              "activation_io_sram": {
+                "energy_uj": "0.1 MB × 8 pJ/B = 0.0008 μJ",
+                "negligible": true
+              },
+              "compute_ternary": {
+                "energy_per_op_pj": 22,
+                "total_energy_pj": "2.6G × 22 pJ = 57,200,000 pJ",
+                "energy_uj": 57.2
+              }
+            },
+            "total_energy_per_token_uj": {
+              "all_lpddr4": "5.033 + 57.2 = 62.2 μJ",
+              "hybrid_sram_10pct": "0.5 + 57.2 = 57.7 μJ",
+              "all_sram": "0.2 + 57.2 = 57.4 μJ"
+            }
+          }
+        },
+        "power_at_target_throughput": {
+          "at_25_tokens_per_second": {
+            "all_lpddr4": {
+              "power_mw": "62.2 μJ × 25 = 1,555 mW = 1.56 W",
+              "breakdown": {
+                "memory": "0.13 W",
+                "compute": "1.43 W"
+              }
+            },
+            "hybrid_sram_10pct": {
+              "power_mw": "57.7 μJ × 25 = 1,443 mW = 1.44 W",
+              "breakdown": {
+                "memory": "0.01 W",
+                "compute": "1.43 W"
+              }
+            },
+            "compute_dominant": true
+          }
+        }
+      },
+
+      "section_2_3_tdp_derivation": {
+        "title": "TDP Derivation for 3W USB Power Target",
+        "power_budget_allocation": {
+          "total_usb_power_w": 3.0,
+          "usb_overhead": {
+            "voltage_conversion_loss_pct": 5,
+            "available_power_w": 2.85
+          },
+          "budget_allocation": {
+            "compute_array": {"target_w": 1.5, "margin_pct": 20, "max_w": 1.8},
+            "memory_subsystem": {"target_w": 0.3, "margin_pct": 30, "max_w": 0.4},
+            "control_logic": {"target_w": 0.2, "margin_pct": 25, "max_w": 0.25},
+            "io_interfaces": {"target_w": 0.1, "margin_pct": 50, "max_w": 0.15},
+            "clock_distribution": {"target_w": 0.1, "margin_pct": 30, "max_w": 0.13},
+            "margin_total": {"target_w": 0.12, "max_w": 0.17}
+          },
+          "total_allocated_w": 2.85
+        },
+        "compute_power_model": {
+          "mac_array": {
+            "number_of_macs": 1000000,
+            "energy_per_mac_pj": 22,
+            "at_100_mhz": {
+              "ops_per_sec": 100000000,
+              "power_w": "1M × 22 pJ × 100 MHz = 2.2 W"
+            },
+            "at_50_mhz": {
+              "ops_per_sec": 50000000,
+              "power_w": "1M × 22 pJ × 50 MHz = 1.1 W"
+            },
+            "optimal_for_3w": {
+              "max_frequency_mhz": 68,
+              "power_w": 1.5,
+              "sustainable_toks_s": "68M × 1M / 2.6G = 26.2 tokens/sec"
+            }
+          },
+          "with_voltage_scaling": {
+            "voltage_range": {"min_v": 0.7, "nominal_v": 1.0, "max_v": 1.1},
+            "power_scaling": "P ∝ V² × f",
+            "at_0_8v_50mhz": {
+              "power_reduction": "(0.8/1.0)² × (50/100) = 0.64 × 0.5 = 0.32",
+              "power_w": "2.2 × 0.32 = 0.7 W",
+              "tokens_per_sec": 13.1
+            }
+          }
+        },
+        "kv_cache_power": {
+          "sram_for_hot_cache": {
+            "size_mb": 8,
+            "leakage_power_mw": "8 × 2.0 = 16 mW",
+            "access_power_at_25tok_s_mw": "~1 mW",
+            "total_mw": 17
+          },
+          "lpddr4_for_cold_cache": {
+            "size_gb": 0.25,
+            "idle_power_mw": "0.25 × 75 = 18.75 mW",
+            "active_power_at_25tok_s_mw": "~100 mW",
+            "total_mw": 119
+          },
+          "total_kv_cache_power_mw": 136
+        },
+        "control_logic_power": {
+          "components": {
+            "sequencer_fsm": {"gates": 5000, "power_mw": 5},
+            "layer_controller": {"gates": 10000, "power_mw": 10},
+            "memory_controller": {"gates": 20000, "power_mw": 20},
+            "token_sampler": {"gates": 5000, "power_mw": 5}
+          },
+          "total_control_power_mw": 40
+        },
+        "total_tdp_breakdown": {
+          "component_summary": {
+            "compute_array": "1,500 mW",
+            "kv_cache_memory": "136 mW",
+            "control_logic": "40 mW",
+            "clock_tree": "100 mW",
+            "io_pad_ring": "50 mW",
+            "leakage_other": "100 mW"
+          },
+          "total_typical_mw": 1926,
+          "total_peak_mw": 2500,
+          "headroom_to_3w_mw": 500,
+          "conclusion": "3W TDP achievable with conservative design"
+        },
+        "maximum_sustainable_tok_s": {
+          "power_limited": {
+            "available_compute_power_w": 1.5,
+            "ops_per_joule": "1 / 22pJ = 45.5 Giga-ops/J",
+            "sustainable_ops_per_sec": "1.5 W × 45.5G = 68.3 Giga-ops/sec",
+            "tokens_per_sec": "68.3G / 2.6G = 26.3 tok/s"
+          },
+          "with_optimization": {
+            "reduced_voltage_v": 0.9,
+            "energy_per_op_pj": 18,
+            "sustainable_ops_per_sec": "1.5 / 18p = 83.3G",
+            "tokens_per_sec": "83.3G / 2.6G = 32 tok/s"
+          }
+        }
+      }
+    },
+
+    "PART_3_THERMAL_MODELING": {
+      "section_3_1_thermal_resistance_network": {
+        "title": "Thermal Resistance Network Derivation",
+        "thermal_resistance_equation": {
+          "fundamental": {
+            "formula": "R_θ = (T_j - T_a) / P",
+            "where": {
+              "R_θ": "Thermal resistance in °C/W",
+              "T_j": "Junction temperature in °C",
+              "T_a": "Ambient temperature in °C",
+              "P": "Power dissipation in Watts"
+            }
+          },
+          "network_model": {
+            "total_resistance": "R_θ_ja = R_θ_jc + R_θ_cs + R_θ_sa",
+            "components": {
+              "R_θ_jc": "Junction-to-case thermal resistance",
+              "R_θ_cs": "Case-to-heatsink thermal resistance",
+              "R_θ_sa": "Heatsink-to-ambient thermal resistance"
+            }
+          }
+        },
+        "pi_hat_form_factor_analysis": {
+          "dimensions": {
+            "length_mm": 65,
+            "width_mm": 56,
+            "max_height_mm": 12,
+            "pcb_area_mm2": 3640,
+            "max_die_size_mm2": 100
+          },
+          "natural_convection": {
+            "R_θ_ja_no_heatsink": {
+              "typical_range": "40-80 °C/W",
+              "for_100mm2_die": "~60 °C/W"
+            },
+            "junction_temperature": {
+              "at_2w": "T_j = T_a + P × R_θ = 25 + 2.0 × 60 = 145 °C",
+              "at_1_5w": "T_j = 25 + 1.5 × 60 = 115 °C",
+              "max_junction_temp": 125,
+              "conclusion": "Heatsink REQUIRED for 2W operation"
+            }
+          },
+          "with_small_heatsink": {
+            "heatsink_size": "30mm × 30mm × 10mm",
+            "R_θ_sa": "15-25 °C/W",
+            "R_θ_jc": "5-10 °C/W",
+            "R_θ_cs": "2-5 °C/W (with thermal pad)",
+            "total_R_θ": "22-40 °C/W",
+            "junction_temperature": {
+              "at_2w": "T_j = 25 + 2.0 × 30 = 85 °C",
+              "at_2_5w": "T_j = 25 + 2.5 × 30 = 100 °C",
+              "conclusion": "COMFORTABLE with small heatsink"
+            }
+          }
+        },
+        "thermal_simulation_data": {
+          "typical_pi_hat": {
+            "pcb_layers": 4,
+            "copper_thickness_oz": 1,
+            "thermal_vias_per_mm2": 1,
+            "R_θ_jc": 8,
+            "R_θ_cb": 5,
+            "R_θ_ba_natural": 50,
+            "R_θ_ba_forced_air_1m_s": 15
+          },
+          "junction_temperature_table": {
+            "headers": ["Power (W)", "No Heatsink (°C)", "Small Heatsink (°C)", "Forced Air (°C)"],
+            "rows": [
+              [1.0, 85, 55, 43],
+              [1.5, 115, 70, 52],
+              [2.0, 145, 85, 62],
+              [2.5, 175, 100, 72],
+              [3.0, 205, 115, 82]
+            ]
+          }
+        }
+      },
+
+      "section_3_2_thermal_throttling_analysis": {
+        "title": "Thermal Throttling Analysis",
+        "temperature_time_equation": {
+          "thermal_model": {
+            "equation": "C_θ × dT/dt = P - (T - T_a) / R_θ",
+            "where": {
+              "C_θ": "Thermal capacitance in J/°C",
+              "T": "Temperature in °C",
+              "P": "Power in W",
+              "R_θ": "Thermal resistance in °C/W"
+            }
+          },
+          "solution": {
+            "general": "T(t) = T_a + P × R_θ × (1 - exp(-t/τ))",
+            "time_constant": "τ = R_θ × C_θ",
+            "steady_state": "T_ss = T_a + P × R_θ"
+          }
+        },
+        "thermal_capacitance_calculation": {
+          "silicon": {
+            "specific_heat_J_gK": 0.7,
+            "density_g_cm3": 2.33,
+            "die_100mm2_0_5mm": {
+              "volume_mm3": 50,
+              "mass_g": "50 × 2.33 × 10^-3 = 0.117 g",
+              "C_θ_J_K": "0.117 × 0.7 = 0.082 J/K"
+            }
+          },
+          "pcb_plus_package": {
+            "estimated_C_θ_J_K": 0.5,
+            "total_C_θ_J_K": 0.582
+          },
+          "time_constant": {
+            "no_heatsink": "τ = 60 × 0.582 = 35 s",
+            "with_heatsink": "τ = 30 × 0.582 = 17.5 s"
+          }
+        },
+        "time_to_thermal_saturation": {
+          "temperature_targets": {
+            "t_63": "T(τ) = T_a + 0.63 × (T_ss - T_a)",
+            "t_90": "T(2.3τ) = T_a + 0.90 × (T_ss - T_a)",
+            "t_95": "T(3τ) = T_a + 0.95 × (T_ss - T_a)"
+          },
+          "at_2w_power": {
+            "no_heatsink": {
+              "t_ss": 145,
+              "time_to_125c_s": "~28 seconds",
+              "usable_burst_time_s": 28
+            },
+            "with_heatsink": {
+              "t_ss": 85,
+              "never_reaches_125c": true,
+              "continuous_operation": "UNLIMITED"
+            }
+          }
+        },
+        "duty_cycle_analysis": {
+          "for_continuous_operation_no_heatsink": {
+            "thermal_limit": "T_j < 125°C",
+            "max_continuous_power": "(125 - 25) / 60 = 1.67 W",
+            "at_2w_burst": {
+              "on_time_s": 28,
+              "cooling_needed": "Reduce T from 125 to ~50°C",
+              "off_time_s": "~60 s",
+              "duty_cycle_pct": "28 / (28 + 60) = 32%"
+            }
+          },
+          "sustainable_vs_burst_performance": {
+            "burst_2w_30s": "30 tok/s for 30 seconds",
+            "sustainable_1_5w": "22.5 tok/s continuous",
+            "continuous_with_heatsink": "30 tok/s unlimited"
+          }
+        },
+        "thermal_throttling_strategy": {
+          "proactive_throttling": {
+            "trigger_temp_c": 100,
+            "throttle_action": "Reduce frequency and voltage",
+            "throttle_steps": [
+              {"temp_range_c": "100-110", "freq_reduction_pct": 20, "v_reduction_pct": 5},
+              {"temp_range_c": "110-120", "freq_reduction_pct": 40, "v_reduction_pct": 10},
+              {"temp_range_c": ">120", "freq_reduction_pct": 60, "v_reduction_pct": 15}
+            ]
+          },
+          "power_reduction_at_throttle": {
+            "step_1": "P × (0.95)² × 0.8 = 0.72 P",
+            "step_2": "P × (0.90)² × 0.6 = 0.49 P",
+            "step_3": "P × (0.85)² × 0.4 = 0.29 P"
+          }
+        }
+      }
+    },
+
+    "PART_4_EFFICIENCY_METRICS": {
+      "section_4_1_tops_watt_analysis": {
+        "title": "TOPS/Watt Analysis",
+        "tops_definition": {
+          "standard": "1 TOPS = 10^12 operations per second",
+          "for_ternary": "1 ternary op = 1 conditional add/sub = equivalent to 0.5 FLOPs"
+        },
+        "mask_locked_ternary_efficiency": {
+          "peak_ternary_ops": {
+            "at_100_mhz_1m_macs": "1M × 100M = 100 Giga-ops = 0.1 TOPS"
+          },
+          "power_at_100mhz": {
+            "compute_power_w": 2.2,
+            "total_power_w": 2.8,
+            "efficiency_tops_w": "0.1 / 2.8 = 0.036 TOPS/W"
+          },
+          "normalized_to_int8_equivalent": {
+            "ternary_ops_to_int8_ops_factor": 2,
+            "equivalent_int8_tops": 0.2,
+            "efficiency_tops_w": "0.2 / 2.8 = 0.071 TOPS/W"
+          },
+          "normalized_to_fp16_equivalent": {
+            "ternary_ops_to_fp16_flops_factor": 4,
+            "equivalent_fp16_tflops": 0.4,
+            "efficiency_tflops_w": "0.4 / 2.8 = 0.143 TFLOPS/W"
+          }
+        },
+        "competitive_comparison": {
+          "jetson_orin_nano": {
+            "peak_int8_tops": 67,
+            "tdp_w": 25,
+            "efficiency_tops_w": 2.68
+          },
+          "hailo_8": {
+            "peak_tops": 26,
+            "tdp_w": 2.5,
+            "efficiency_tops_w": 10.4
+          },
+          "google_coral_edge_tpu": {
+            "peak_tops": 4,
+            "tdp_w": 2.0,
+            "efficiency_tops_w": 2.0
+          },
+          "mask_locked_ternary_normalized": {
+            "efficiency_tops_w": 0.071,
+            "advantage": "Not competitive on TOPS/W for general AI"
+          },
+          "context_adjusted": {
+            "note": "TOPS/W is misleading for LLM inference - see tokens/joule"
+          }
+        },
+        "why_tops_w_is_misleading": {
+          "issues": [
+            "TOPS measures peak theoretical compute, not actual workload performance",
+            "Memory bandwidth bottleneck ignored",
+            "LLM inference is memory-bound on GPUs",
+            "Mask-locked changes the bottleneck entirely",
+            "Better metric: tokens per second per watt"
+          ]
+        }
+      },
+
+      "section_4_2_tokens_per_joule_analysis": {
+        "title": "Tokens/Joule Analysis",
+        "derivation": {
+          "formula": "Tokens/Joule = tokens_per_second / power_watts",
+          "equivalently": "Tokens/Joule = 1 / (energy_per_token_in_joules)"
+        },
+        "mask_locked_ternary": {
+          "at_25_tok_s": {
+            "power_w": 1.44,
+            "tokens_per_joule": "25 / 1.44 = 17.4 tokens/J",
+            "energy_per_token_mj": "1.44 / 25 = 57.6 mJ/token"
+          },
+          "at_30_tok_s_optimized": {
+            "power_w": 2.0,
+            "tokens_per_joule": "30 / 2.0 = 15 tokens/J",
+            "energy_per_token_mj": "66.7 mJ/token"
+          }
+        },
+        "competitive_comparison_tokens_j": {
+          "a100_gpu_bitnet_2b": {
+            "tokens_per_sec": "~100",
+            "power_w": 300,
+            "tokens_per_joule": 0.33,
+            "energy_per_token_j": 3.0
+          },
+          "jetson_orin_nano": {
+            "tokens_per_sec": "~10-15",
+            "power_w": 15,
+            "tokens_per_joule": "0.67-1.0",
+            "energy_per_token_j": "1.0-1.5"
+          },
+          "tellme_fpga": {
+            "tokens_per_sec": 25,
+            "power_w": 5,
+            "tokens_per_joule": 5,
+            "energy_per_token_j": 0.2
+          },
+          "mask_locked_ternary": {
+            "tokens_per_joule": 17.4,
+            "improvement_vs_a100": "17.4 / 0.33 = 52× better",
+            "improvement_vs_jetson": "17.4 / 0.85 = 20× better",
+            "improvement_vs_tellme": "17.4 / 5 = 3.5× better"
+          }
+        },
+        "cloud_vs_edge_analysis": {
+          "cloud_inference_a100": {
+            "energy_per_token_j": 3.0,
+            "datacenter_overhead_factor": 1.5,
+            "pue_factor": 1.2,
+            "total_energy_per_token_j": "3.0 × 1.5 × 1.2 = 5.4 J"
+          },
+          "edge_mask_locked": {
+            "energy_per_token_j": 0.0576,
+            "improvement": "5.4 / 0.0576 = 94× more efficient"
+          },
+          "break_even_analysis": {
+            "energy_to_transfer_token_to_cloud": {
+              "wifi_per_mb_j": 0.5,
+              "token_size_kb": 1,
+              "upload_energy_mj": "0.5 × 1 / 1024 = 0.49 mJ"
+            },
+            "comparison": {
+              "edge_generation": "57.6 mJ",
+              "cloud_upload_plus_cloud_inference": "0.49 + 5400 = 5400 mJ",
+              "conclusion": "Edge inference is 94× more energy efficient even with network overhead"
+            }
+          }
+        },
+        "energy_efficiency_summary": {
+          "mask_locked_advantages": [
+            "No weight fetch energy (weights in metal)",
+            "Ternary MAC is 8.8× more efficient than FP16 MAC",
+            "Compute-bound operation means full utilization",
+            "Low power enables passive cooling"
+          ],
+          "tokens_per_joule_comparison": {
+            "cloud_gpu": 0.33,
+            "edge_gpu_jetson": 0.85,
+            "fpga_tellme": 5.0,
+            "mask_locked_ternary": 17.4
+          }
+        }
+      }
+    },
+
+    "PART_5_NOVEL_OPTIMIZATION_STRATEGIES": {
+      "section_5_1_power_gating_mathematics": {
+        "title": "Power Gating Optimization",
+        "energy_savings_derivation": {
+          "power_gating_equation": {
+            "power_saved": "P_leakage × t_off",
+            "power_cost": "E_switch + I_leak × t_min_off",
+            "net_savings": "P_leakage × t_off - E_switch"
+          },
+          "break_even_analysis": {
+            "condition": "E_switch = P_leakage × t_break_even",
+            "solve_for_t": "t_break_even = E_switch / P_leakage",
+            "typical_values": {
+              "E_switch_nj": 10,
+              "P_leakage_mw_per_unit": 0.1,
+              "t_break_even_us": "10 nJ / 0.1 mW = 100 μs"
+            }
+          }
+        },
+        "layer_level_power_gating": {
+          "opportunity": {
+            "layers_process_sequentially": true,
+            "only_one_layer_active_at_time": true,
+            "other_layers_can_be_power_gated": true
+          },
+          "analysis": {
+            "n_layers": 24,
+            "active_layer_power_mw": 1500,
+            "inactive_layer_leakage_mw": "23 × 15 = 345 mW",
+            "if_power_gated": {
+              "switching_energy_per_layer_nj": 100,
+              "switching_overhead_mw": "24 × 100 nJ × 30 t/s = 0.072 mW",
+              "power_saved_mw": 345,
+              "net_savings_pct": "345 / (1500 + 345) = 18.7%"
+            }
+          },
+          "practical_implementation": {
+            "power_gating_granularity": "Per-layer power domains",
+            "switching_time_overhead_us": 10,
+            "impact_on_latency": "Negligible (10 μs vs 40 ms per token)"
+          }
+        },
+        "mac_array_power_gating": {
+          "scenario": {
+            "total_macs": 1000000,
+            "active_macs_per_layer": "Varies by layer size"
+          },
+          "analysis": {
+            "small_layer": {
+              "active_macs": 100000,
+              "gated_macs": 900000,
+              "leakage_saved_mw": "900K × 1 μW = 900 mW",
+              "switching_cost_nj": 1000,
+              "net_savings_mw": 897
+            }
+          },
+          "challenge": {
+            "dynamic_layer_sizes": "Need programmable power gating",
+            "complexity": "Power grid design becomes complex"
+          }
+        }
+      },
+
+      "section_5_2_voltage_frequency_scaling": {
+        "title": "Voltage-Frequency Scaling Optimization",
+        "power_frequency_relationship": {
+          "dynamic_power": "P_dyn ∝ V² × f",
+          "leakage_power": "P_leak ∝ V (approximately)",
+          "total_power": "P_total = α × C × V² × f + P_leak(V)"
+        },
+        "optimal_frequency_derivation": {
+          "objective": "Minimize power while meeting performance target",
+          "constraint": "f × efficiency ≥ tokens_per_sec_target",
+          "for_target_25_tok_s": {
+            "ops_needed_per_sec": "25 × 2.6G = 65 Giga-ops/sec",
+            "with_1m_macs": "f_min = 65 MHz"
+          },
+          "voltage_frequency_pairs": {
+            "at_65mhz": {
+              "min_voltage_v": 0.75,
+              "dynamic_power_w": "1M × 22pJ × 65M × (0.75/1.0)² = 0.72 W",
+              "total_power_w": 0.9
+            },
+            "at_100mhz": {
+              "voltage_v": 0.85,
+              "dynamic_power_w": "1M × 22pJ × 100M × (0.85/1.0)² = 1.59 W",
+              "total_power_w": 1.8
+            }
+          }
+        },
+        "dynamic_frequency_scaling_opportunity": {
+          "workload_analysis": {
+            "user_typing": "Low token rate, can reduce frequency",
+            "burst_generation": "High token rate, max frequency",
+            "idle_between_requests": "Can power gate"
+          },
+          "adaptive_policy": {
+            "idle": {"freq_mhz": 0, "power_mode": "power_gated"},
+            "low_demand": {"freq_mhz": 50, "voltage_v": 0.7, "tok_s": 19},
+            "medium_demand": {"freq_mhz": 75, "voltage_v": 0.8, "tok_s": 29},
+            "high_demand": {"freq_mhz": 100, "voltage_v": 0.9, "tok_s": 38}
+          },
+          "energy_savings": {
+            "average_demand_factor": 0.6,
+            "energy_saved_pct": "~30-40% vs always-max frequency"
+          }
+        },
+        "optimal_operating_point": {
+          "for_3w_tdp": {
+            "max_frequency_mhz": 68,
+            "voltage_v": 0.9,
+            "tokens_per_sec": 26,
+            "power_w": 2.8,
+            "thermal_margin_w": 0.2
+          },
+          "for_max_efficiency": {
+            "frequency_mhz": 50,
+            "voltage_v": 0.75,
+            "tokens_per_sec": 19,
+            "power_w": 0.9,
+            "tokens_per_joule": 21.1
+          }
+        }
+      },
+
+      "section_5_3_combined_optimization": {
+        "title": "Combined Optimization Strategy",
+        "optimal_design_point": {
+          "compute": {
+            "mac_units": 1000000,
+            "clock_mhz": 70,
+            "voltage_v": 0.85,
+            "power_w": 1.5
+          },
+          "memory": {
+            "kv_cache": "INT4 quantized",
+            "hot_cache_sram_mb": 4,
+            "cold_cache_lpddr4_mb": 64,
+            "power_w": 0.15
+          },
+          "power_management": {
+            "layer_power_gating": true,
+            "dvfs": true,
+            "idle_power_gating": true
+          },
+          "performance": {
+            "tokens_per_sec": 27,
+            "power_w": 1.9,
+            "tokens_per_joule": 14.2,
+            "thermal_solution": "Small heatsink required"
+          }
+        }
+      }
+    },
+
+    "PART_6_SUMMARY_AND_CONCLUSIONS": {
+      "key_findings": {
+        "roofline_transformation": {
+          "finding": "Mask-locked architecture transforms LLM inference from memory-bound to compute-bound",
+          "ai_improvement": "86× higher arithmetic intensity (0.63 → 54 FLOPs/byte)",
+          "implication": "Focus optimization on compute efficiency, not memory bandwidth"
+        },
+        "power_efficiency": {
+          "finding": "Ternary MAC is 8.8× more energy efficient than FP16 MAC",
+          "tokens_per_joule": "17.4 tokens/J vs 0.33 for cloud GPU",
+          "improvement_vs_cloud": "52× more energy efficient"
+        },
+        "thermal_feasibility": {
+          "finding": "3W TDP achievable with small heatsink",
+          "junction_temp_at_2w": "85°C with small heatsink (safe)",
+          "burst_vs_continuous": "Continuous operation possible with heatsink"
+        },
+        "optimization_recommendations": {
+          "priority_1": "Layer-level power gating for 18% power savings",
+          "priority_2": "INT4 KV cache quantization for 4× memory reduction",
+          "priority_3": "Dynamic voltage-frequency scaling for 30-40% energy savings",
+          "priority_4": "Small heatsink (30×30×10mm) for thermal headroom"
+        }
+      },
+
+      "comparison_table": {
+        "headers": ["Metric", "Cloud A100", "Jetson Orin", "Mask-Locked"],
+        "rows": [
+          ["Arithmetic Intensity", "0.63 FLOPs/B", "1-10 FLOPs/B", "54 FLOPs/B"],
+          ["Bottleneck", "Memory", "Memory/Compute", "Compute"],
+          ["Energy/Token", "3.0 J", "1.2 J", "57 mJ"],
+          ["Tokens/Joule", "0.33", "0.85", "17.4"],
+          ["Power (typical)", "300 W", "15 W", "1.9 W"],
+          ["Tokens/sec", "100", "10-15", "27"],
+          ["Cooling", "Active", "Passive + Fan", "Passive (heatsink)"],
+          ["Context Length", "Unlimited", "Limited by RAM", "Limited by KV cache"]
+        ]
+      },
+
+      "design_recommendations": {
+        "silicon": {
+          "process_node": "28nm (cost-effective)",
+          "mac_array_size": "1M ternary MACs",
+          "sram_for_kv": "4-8 MB on-chip"
+        },
+        "packaging": {
+          "form_factor": "Pi HAT compatible",
+          "heatsink": "30×30×10mm aluminum",
+          "thermal_interface": "Thermal pad or paste"
+        },
+        "memory": {
+          "external": "LPDDR4-4266 256MB",
+          "bandwidth": "17 GB/s sufficient"
+        },
+        "power": {
+          "target_tdp": "2.5W continuous, 3W peak",
+          "usb_power": "5V @ 600mA"
+        }
+      }
+    },
+
+    "APPENDIX_MATHEMATICAL_DERIVATIONS": {
+      "a1_roofline_crossover_derivation": {
+        "problem": "Find the context length where memory becomes the bottleneck",
+        "solution": [
+          "T_compute = Peak_OPS / FLOPs_per_token",
+          "T_memory = BW / KV_bytes_per_token",
+          "At crossover: T_compute = T_memory",
+          "Peak_OPS / FLOPs_per_token = BW / (kv_factor × ctx)",
+          "ctx = (BW × FLOPs_per_token) / (Peak_OPS × kv_factor)",
+          "For 100 GOPS, 17 GB/s, kv_factor = 24,576 bytes/token:",
+          "ctx = (17×10^9 × 2.6×10^9) / (100×10^9 × 24,576) = 18,022 tokens"
+        ]
+      },
+      "a2_thermal_time_constant_derivation": {
+        "problem": "Derive the thermal time constant for the chip",
+        "solution": [
+          "Thermal mass = mass × specific_heat",
+          "Silicon die: 0.117g × 0.7 J/gK = 0.082 J/K",
+          "Package + PCB contribution: ~0.5 J/K (estimated)",
+          "Total thermal capacitance C_θ = 0.582 J/K",
+          "With heatsink R_θ = 30°C/W",
+          "Time constant τ = R_θ × C_θ = 30 × 0.582 = 17.5 seconds"
+        ]
+      },
+      "a3_energy_per_token_derivation": {
+        "problem": "Calculate total energy per generated token",
+        "solution": [
+          "Compute energy: 2.6G ops × 22 pJ/op = 57.2 μJ",
+          "KV cache read (LPDDR4): 50.3 MB × 100 pJ/B = 5.0 μJ",
+          "Activation I/O: negligible",
+          "Control overhead: ~5% of compute = 2.9 μJ",
+          "Total: 57.2 + 5.0 + 2.9 = 65.1 μJ per token",
+          "With hybrid SRAM: 57.2 + 0.5 + 2.9 = 60.6 μJ per token"
+        ]
+      }
+    },
+
+    "references": [
+      {
+        "title": "Roofline: An Insightful Visual Performance Model for Multicore Architectures",
+        "authors": "Williams, Waterman, Patterson",
+        "year": 2009,
+        "key_contribution": "Original Roofline model formulation"
+      },
+      {
+        "title": "BitNet b1.58 2B4T Technical Report",
+        "authors": "Microsoft Research",
+        "year": 2025,
+        "key_contribution": "Native 1-bit LLM architecture"
+      },
+      {
+        "title": "KIVI: A Tuning-Free Asymmetric 2bit Quantization for KV Cache",
+        "year": 2024,
+        "key_contribution": "KV cache quantization methods"
+      },
+      {
+        "title": "StreamingLLM: Efficient Streaming Language Models with Attention Sinks",
+        "year": 2023,
+        "key_contribution": "Fixed-memory infinite context"
+      }
+    ]
+  }
+}

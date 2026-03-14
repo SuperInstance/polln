@@ -1,0 +1,51 @@
+{
+  "energy_analysis": {
+    "mean_pJ": 0.0,
+    "std_pJ": 0.0,
+    "min_pJ": 0.0,
+    "max_pJ": 0.0,
+    "total_pJ": 0.0,
+    "below_target_percent": 100.0,
+    "energy_breakdown": {
+      "memristor_write_pJ": 0.9,
+      "timing_circuit_pJ": 0.05,
+      "control_logic_pJ": 0.05
+    }
+  },
+  "convergence_analysis": {
+    "final_activity": 0.3059375,
+    "activity_std": 0.09146112135082315,
+    "target_activity": 0.1,
+    "converged": false,
+    "theta_evolution": {
+      "initial": 0.4999500011815225,
+      "final": 0.4528663915724741,
+      "change": -0.047083609609048394
+    },
+    "scaling_evolution": {
+      "mean": 0.6037627495420468,
+      "range": [
+        0.5563866476701103,
+        0.9539359889970593
+      ]
+    }
+  },
+  "learning_window": {
+    "total_events": 902,
+    "ltp_events": 429,
+    "ltd_events": 473,
+    "ltp_ltd_ratio": 0.9069767441860465,
+    "mean_delta_w": 1.8292681075053414e-05,
+    "std_delta_w": 0.004744345230527057
+  },
+  "summary": {
+    "total_steps": 1000,
+    "total_updates": 902,
+    "total_energy_pJ": 0.0,
+    "avg_energy_per_update_pJ": 0.0,
+    "target_energy_met": true,
+    "final_theta_m": 0.4528663915724741,
+    "final_activity": 0.15625,
+    "retention_years": 68.06233151899802
+  }
+}

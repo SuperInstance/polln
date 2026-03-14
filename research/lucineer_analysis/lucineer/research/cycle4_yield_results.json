@@ -1,0 +1,201 @@
+{
+  "simulation_parameters": {
+    "n_samples": 10000,
+    "seed": 42,
+    "process_node": "28nm",
+    "n_pes": 1024
+  },
+  "yield_analysis": {
+    "TT": {
+      "throughput_yield": 1.0,
+      "power_yield": 1.0,
+      "combined_yield": 1.0,
+      "throughput_mean": 39460188.4912828,
+      "throughput_std": 4622832.698776014,
+      "throughput_min": 26176169.462460577,
+      "throughput_max": 62890612.025984496,
+      "power_mean": 0.017896033285299224,
+      "power_std": 0.0010496572631805005,
+      "power_min": 0.013789379440755882,
+      "power_max": 0.021566583467562003
+    },
+    "FF": {
+      "throughput_yield": 1.0,
+      "power_yield": 1.0,
+      "combined_yield": 1.0,
+      "throughput_mean": 44176676.96520747,
+      "throughput_std": 4964575.685508,
+      "throughput_min": 29106722.87819884,
+      "throughput_max": 67884983.61686973,
+      "power_mean": 0.01983224303343748,
+      "power_std": 0.0010751343562340246,
+      "power_min": 0.015923626921182474,
+      "power_max": 0.0240777698879076
+    },
+    "SS": {
+      "throughput_yield": 1.0,
+      "power_yield": 1.0,
+      "combined_yield": 1.0,
+      "throughput_mean": 34944565.827562556,
+      "throughput_std": 4232207.403758717,
+      "throughput_min": 20667133.708662733,
+      "throughput_max": 53343888.15333862,
+      "power_mean": 0.016019720649293055,
+      "power_std": 0.0010236617713402123,
+      "power_min": 0.012657125539948879,
+      "power_max": 0.01982651964901306
+    },
+    "FS": {
+      "throughput_yield": 1.0,
+      "power_yield": 1.0,
+      "combined_yield": 1.0,
+      "throughput_mean": 41816753.41355128,
+      "throughput_std": 4793320.1845283955,
+      "throughput_min": 27196282.132969752,
+      "throughput_max": 64716727.004345745,
+      "power_mean": 0.018867848971118532,
+      "power_std": 0.0010594154464433636,
+      "power_min": 0.015071103183372146,
+      "power_max": 0.022943297029972012
+    },
+    "SF": {
+      "throughput_yield": 1.0,
+      "power_yield": 1.0,
+      "combined_yield": 1.0,
+      "throughput_mean": 37232907.59822999,
+      "throughput_std": 4450122.159666324,
+      "throughput_min": 23721768.291467592,
+      "throughput_max": 57349431.19779299,
+      "power_mean": 0.01696097329991847,
+      "power_std": 0.001043651141909834,
+      "power_min": 0.01284961417922134,
+      "power_max": 0.021191735621420276
+    }
+  },
+  "sensitivity_analysis": {
+    "sensitivities": {
+      "vth_variation": 0.3735548339649958,
+      "L_variation": 0.5657222080414144,
+      "metal_width_variation": 0.046317469068170136,
+      "via_resistance_variation": 0.07683324294357285,
+      "T_ox_variation": 0.010035050833206216
+    },
+    "ranked_sensitivities": [
+      [
+        "L_variation",
+        0.5657222080414144
+      ],
+      [
+        "vth_variation",
+        0.3735548339649958
+      ],
+      [
+        "via_resistance_variation",
+        0.07683324294357285
+      ],
+      [
+        "metal_width_variation",
+        0.046317469068170136
+      ],
+      [
+        "T_ox_variation",
+        0.010035050833206216
+      ]
+    ],
+    "dominant_variation": "L_variation",
+    "base_variance": 22721318610088.42
+  },
+  "worst_case_analysis": {
+    "TT": {
+      "throughput": 26176169.462460577,
+      "power": 0.021566583467562003,
+      "vth_max": 0.44998351623192245
+    },
+    "FF": {
+      "throughput": 29106722.87819884,
+      "power": 0.0240777698879076,
+      "vth_max": 0.39671376293348903
+    },
+    "SS": {
+      "throughput": 20667133.708662733,
+      "power": 0.01982651964901306,
+      "vth_max": 0.4787519847620245
+    },
+    "FS": {
+      "throughput": 27196282.132969752,
+      "power": 0.022943297029972012,
+      "vth_max": 0.41819453655238703
+    },
+    "SF": {
+      "throughput": 23721768.291467592,
+      "power": 0.021191735621420276,
+      "vth_max": 0.4735630732792453
+    }
+  },
+  "distributions": {
+    "TT": {
+      "throughput": {
+        "mean": 39460188.4912828,
+        "std": 4622832.698776014,
+        "distribution": "normal"
+      },
+      "power": {
+        "mean": 0.017896033285299224,
+        "std": 0.0010496572631805005,
+        "distribution": "normal"
+      }
+    },
+    "FF": {
+      "throughput": {
+        "mean": 44176676.96520747,
+        "std": 4964575.685508,
+        "distribution": "normal"
+      },
+      "power": {
+        "mean": 0.01983224303343748,
+        "std": 0.0010751343562340246,
+        "distribution": "normal"
+      }
+    },
+    "SS": {
+      "throughput": {
+        "mean": 34944565.827562556,
+        "std": 4232207.403758717,
+        "distribution": "normal"
+      },
+      "power": {
+        "mean": 0.016019720649293055,
+        "std": 0.0010236617713402123,
+        "distribution": "normal"
+      }
+    },
+    "FS": {
+      "throughput": {
+        "mean": 41816753.41355128,
+        "std": 4793320.1845283955,
+        "distribution": "normal"
+      },
+      "power": {
+        "mean": 0.018867848971118532,
+        "std": 0.0010594154464433636,
+        "distribution": "normal"
+      }
+    },
+    "SF": {
+      "throughput": {
+        "mean": 37232907.59822999,
+        "std": 4450122.159666324,
+        "distribution": "normal"
+      },
+      "power": {
+        "mean": 0.01696097329991847,
+        "std": 0.001043651141909834,
+        "distribution": "normal"
+      }
+    }
+  },
+  "specifications": {
+    "throughput_min": 100,
+    "power_max": 5.0
+  }
+}

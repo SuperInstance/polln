@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://github.com/pollinations/pollinations",
+    "name": "pollinations/pollinations: Your Friendly Open-Source Gen-AI",
+    "snippet": "Your Friendly Open-Source Gen-AI Platform. Contribute to pollinations/pollinations development by creating an account on GitHub .",
+    "host_name": "github.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://gist.github.com/shikhar-scs/c23472ef062218be3c9a7774fc4cf48e",
+    "name": "typescript.js",
+    "snippet": "GitHub Gist: instantly share code, notes, and snippets.",
+    "host_name": "gist.github.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/webbtheosim/poly-topoGNN-vae",
+    "name": "webbtheosim/poly-topoGNN-vae",
+    "snippet": "The repository is structured with Python files and Jupyter notebooks. All figures in the paper can be reproduced by running the figure_data.ipynb and ...",
+    "host_name": "github.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/DrKLO/Telegram/blob/master/TMessagesProj/src/main/java/org/telegram/messenger/FileLoader.java",
+    "name": "Telegram/TMessagesProj/src/main/java/org",
+    "snippet": "* This is the source code of Telegram for Android v. 5.x.x.. * It is licensed under GNU GPL v. 2 or later.",
+    "host_name": "github.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://gist.github.com/Kamalabot/e61b849cc5297aeabd51eeafdcd717e6",
+    "name": "The gist will be the source for multiple data sets · GitHub",
+    "snippet": "There are websites that host the models of neural networks that has been already trained with huge datasets.There are Git repos that host these models too.",
+    "host_name": "gist.github.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://raw.githubusercontent.com/python/cpython/main/Misc/HISTORY",
+    "name": "https://raw.githubusercontent.com/python/cpython/m",
+    "snippet": "... instance of the type used in creation of the super instance . - Previously, hash() of an instance of a subclass of a mutable type (list or dictionary) would ...",
+    "host_name": "raw.githubusercontent.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/sjl421/awesome-stars-1",
+    "name": "sjl421/awesome-stars-1: Awesome List of my own!",
+    "snippet": "Awesome List of my own! Contribute to sjl421/awesome-stars-1 development by creating an account on GitHub .",
+    "host_name": "github.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://downloads.mysql.com/docs/mysql-monitor-4.0-en.pdf",
+    "name": "MySQL Enterprise Monitor 4.0.13 Manual",
+    "snippet": "Aug 15, 2013 — ... column for that instance. Deleting Instances. To delete an instance, or multiple instances, select the instance(s) and click Delete Instances ... 352 pages",
+    "host_name": "downloads.mysql.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://people.cs.umass.edu/~sheldon/papers/election-icdm2017.pdf",
+    "name": "A Probabilistic Approach for Learning with Label",
+    "snippet": "Cited by 42 — The Inverse Calibration method of [21] treats the mean of each bag as a “ super-instance ” (similar to the kernel mean embedding used in the distribution ...",
+    "host_name": "people.cs.umass.edu",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/wells-wood-research/pollen",
+    "name": "wells-wood-research/pollen",
+    "snippet": "This repository contains scripts and IPython Notebooks used in the development of PyPollen. Files are intended for use by future developers.",
+    "host_name": "github.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

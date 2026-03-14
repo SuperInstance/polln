@@ -1,0 +1,29 @@
+{
+  "claim_1_tiered": {
+    "description": "95%+ fast path, 90%+ latency reduction",
+    "fast_path_ratio": 0.9353,
+    "latency_reduction": 0.924731638418079,
+    "validated": false
+  },
+  "claim_2_detection": {
+    "description": "99%+ conflict detection",
+    "detection_rate": 0.0,
+    "conflicts_detected": 0,
+    "validated": false
+  },
+  "claim_3_adaptive": {
+    "description": "95%+ prediction accuracy",
+    "prediction_accuracy": 0.9382,
+    "validated": false
+  },
+  "summary": {
+    "latency_reduction": 0.924731638418079,
+    "fast_path_ratio": 0.9353,
+    "prediction_accuracy": 0.9382,
+    "optimal_config": {
+      "num_replicas": 16,
+      "criticality_threshold": 0.8,
+      "conflict_threshold": 0.3
+    }
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "fpga": {
+    "name": "AMD Kria KV260 (XCK26)",
+    "clock_mhz": 250.0
+  },
+  "model": {
+    "name": "BitNet b1.58-2B (FPGA optimized)",
+    "params_b": 2.0
+  },
+  "resources": {
+    "total_resources": {
+      "luts": 988040,
+      "ff": 527288,
+      "dsp": 0,
+      "bram": 20,
+      "uram": 30
+    },
+    "utilization": {
+      "luts_pct": 734.0564635958395,
+      "ff_pct": 195.87221396731056,
+      "dsp_pct": 0.0,
+      "bram_pct": 13.88888888888889,
+      "uram_pct": 46.875
+    },
+    "fits_on_fpga": false
+  },
+  "throughput": {
+    "cycles_per_token": 7667712,
+    "latency_us": 30670.848,
+    "decode_throughput_tps": 22.822975093482903,
+    "prefill_throughput_tps": 81.51062533386751,
+    "batch_size": 1,
+    "array_size": 256
+  },
+  "power": {
+    "total_power_W": 4.3,
+    "power_breakdown": {
+      "base_fpga_W": 2.0,
+      "logic_W": 1.5,
+      "io_W": 0.5,
+      "memory_W": 0.3
+    },
+    "energy_per_token_uJ": 188406.63771428572,
+    "energy_efficiency_tkJ": 5307.6686263913725
+  },
+  "comparison": {
+    "tellme_reference": {
+      "platform": "AMD Kria KV260",
+      "model": "BitNet 0.73B",
+      "throughput_decode_tps": 25,
+      "throughput_prefill_tps": 85,
+      "power_w": 4.8,
+      "energy_efficiency_tkj": 5.2,
+      "luts": 98000,
+      "dsp": 610,
+      "uram": 60,
+      "clock_mhz": 250
+    },
+    "ternaryair_predicted": {
+      "throughput_decode_tps": 8.33038590912126,
+      "power_w": 4.3,
+      "energy_efficiency_tkJ": 5307.6686263913725
+    },
+    "improvement": {
+      "throughput": -0.6667845636351496,
+      "power": -0.10416666666666663,
+      "efficiency": 1019.7055050752639
+    }
+  }
+}

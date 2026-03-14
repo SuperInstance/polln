@@ -1,0 +1,339 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================
+   LUCINEER DESIGN SYSTEM v3.0
+   "Become a Lucineer"
+   ========================================== */
+
+/* Dark Theme Colors */
+:root {
+  /* Brand Greens - Growth, Learning, Go */
+  --green-400: #4ade80;
+  --green-500: #22c55e;
+  --green-600: #16a34a;
+  
+  /* Dark Theme */
+  --dark-50: #f7f7f8;
+  --dark-100: #ececf1;
+  --dark-200: #d9d9e3;
+  --dark-300: #c5c5d2;
+  --dark-400: #acacbe;
+  --dark-500: #8e8ea0;
+  --dark-600: #565869;
+  --dark-700: #40414f;
+  --dark-800: #343541;
+  --dark-900: #202123;
+  --dark-950: #0d0d0f;
+  
+  /* Fonts */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --font-mono: "SF Mono", "Fira Code", "JetBrains Mono", Consolas, monospace;
+}
+
+/* Base Styles */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-dark-900 text-white;
+    font-family: var(--font-sans);
+  }
+  
+  /* Selection */
+  ::selection {
+    background: rgba(34, 197, 94, 0.3);
+    color: white;
+  }
+  
+  /* Focus States */
+  :focus-visible {
+    outline: 2px solid var(--green-400);
+    outline-offset: 2px;
+  }
+  
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: var(--dark-900);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: var(--dark-600);
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--dark-500);
+  }
+}
+
+/* Animation Background */
+@layer components {
+  .animated-bg {
+    background: 
+      radial-gradient(ellipse at 20% 0%, rgba(34, 197, 94, 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 100%, rgba(59, 130, 246, 0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(139, 92, 246, 0.04) 0%, transparent 50%),
+      var(--dark-900);
+  }
+  
+  /* Gradient Text */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #22c55e 0%, #3b82f6 50%, #8b5cf6 100%);
+  }
+  
+  .gradient-text-animated {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #22c55e 0%, #3b82f6 50%, #8b5cf6 100%);
+    background-size: 200% 200%;
+    animation: gradientShift 8s ease infinite;
+  }
+  
+  /* Grid Pattern */
+  .grid-pattern {
+    background-image: 
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+  
+  /* Hero Orbs */
+  .hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.3;
+    pointer-events: none;
+  }
+  
+  .hero-orb-green {
+    background: radial-gradient(circle, rgba(34, 197, 94, 0.4) 0%, transparent 70%);
+  }
+  
+  .hero-orb-blue {
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%);
+  }
+  
+  .hero-orb-purple {
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, transparent 70%);
+  }
+  
+  /* Particle Field */
+  .particle-field {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  
+  .particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(34, 197, 94, 0.3);
+    border-radius: 50%;
+    animation: float 20s linear infinite;
+  }
+  
+  /* Pulse Glow */
+  .pulse-glow {
+    animation: pulseGlow 2s ease-in-out infinite;
+  }
+  
+  /* Skip Link */
+  .skip-link {
+    position: absolute;
+    top: -100px;
+    left: 0;
+    padding: 8px 16px;
+    background: var(--green-500);
+    color: white;
+    z-index: 100;
+    border-radius: 0 0 4px 0;
+  }
+  
+  .skip-link:focus {
+    top: 0;
+  }
+  
+  /* Card Hover Effects */
+  .card-hover {
+    @apply transition-all duration-300;
+  }
+  
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px -12px rgba(34, 197, 94, 0.2);
+  }
+  
+  /* Button Glow */
+  .btn-glow {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .btn-glow::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .btn-glow:hover::before {
+    opacity: 1;
+  }
+}
+
+/* Animations */
+@keyframes float {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(34, 197, 94, 0.4);
+  }
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.animate-slide-down {
+  animation: slideDown 0.3s ease-out;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 3s ease-in-out infinite;
+}
+
+/* Utility Classes */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  /* Age Group Colors */
+  .age-young {
+    --accent: #3b82f6;
+  }
+  
+  .age-middle {
+    --accent: #8b5cf6;
+  }
+  
+  .age-high {
+    --accent: #f59e0b;
+  }
+  
+  .age-pro {
+    --accent: #22c55e;
+  }
+  
+  /* Status Colors */
+  .status-idle {
+    color: #64748b;
+  }
+  
+  .status-active {
+    color: #3b82f6;
+  }
+  
+  .status-success {
+    color: #22c55e;
+  }
+  
+  .status-error {
+    color: #ef4444;
+  }
+}
+
+/* Dark mode custom colors */
+.dark {
+  color-scheme: dark;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability",
+    "name": "Announcing the Agent2Agent Protocol (A2A) - Google for Developers Blog",
+    "snippet": "A2A is an open protocol that complements Anthropic's Model Context Protocol (MCP), which provides helpful tools and context to agents.",
+    "host_name": "developers.googleblog.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.gravitee.io/blog/googles-agent-to-agent-a2a-and-anthropics-model-context-protocol-mcp",
+    "name": "Google's Agent-to-Agent (A2A) and Anthropic's Model Context Protocol",
+    "snippet": "Google's A2A and Anthropic's MCP are open protocols enabling AI agents to collaborate and use tools, shaping a decentralized, interoperable AI future.",
+    "host_name": "www.gravitee.io",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://agentcommunicationprotocol.dev/about/mcp-and-a2a",
+    "name": "MCP and A2A - Agent Communication Protocol",
+    "snippet": "The Agent Communication Protocol (ACP) launched by IBM in March 2025 and Agent2Agent Protocol (A2A), launched by Google in April 2025, both aim to create a ...",
+    "host_name": "agentcommunicationprotocol.dev",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://auth0.com/blog/mcp-vs-a2a",
+    "name": "MCP vs A2A: A Guide to AI Agent Communication Protocols - Auth0",
+    "snippet": "We compare two key agent communication protocols: Model Context Protocol (MCP) and Agent-to-Agent (A2A), explaining how they work and when to ...",
+    "host_name": "auth0.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=vVMlEBMIdKo",
+    "name": "MCP vs A2A | Google's Answer to Anthropic's Protocol - YouTube",
+    "snippet": "Then Google announced Agent-to-Agent (A2A) in 2025, focused on something MCP ... A2A vs MCP: AI Agent Communication Explained. IBM ...",
+    "host_name": "www.youtube.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://jiisonline.org/files/DLA/20250930204204_08.pdf?PHPSESSID=7f4625826f4b54abffb1f306ed5ace39",
+    "name": "[PDF] A Practical MCP×A2A Integration Framework for Interoperability in",
+    "snippet": "To address these challenges, this paper proposes a practical framework that integrates Google's Agent-to-Agent (A2A) protocol with Anthropic's ...",
+    "host_name": "jiisonline.org",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://aclanthology.org/2025.emnlp-demos.5",
+    "name": "A Multi-Agent Conversational Framework Using A2A and MCP",
+    "snippet": "We present a pilot study of AgentMaster, a novel modular multi-protocol MAS framework with self-implemented A2A and MCP, enabling dynamic coordination, flexible ...",
+    "host_name": "aclanthology.org",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/@anil.jain.baba/agentic-mcp-and-a2a-architecture-a-comprehensive-guide-0ddf4359e152",
+    "name": "Agentic MCP and A2A Architecture: A Comprehensive Guide | by Anil Jain",
+    "snippet": "The Agent-to-Agent (A2A) protocol, introduced by Google, is an open standard designed to enable AI agents to communicate, share information, and ...",
+    "host_name": "medium.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.kai-waehner.de/blog/2025/05/26/agentic-ai-with-the-agent2agent-protocol-a2a-and-mcp-using-apache-kafka-as-event-broker",
+    "name": "Agentic AI with the Agent2Agent Protocol (A2A) and MCP using",
+    "snippet": "This blog explores how the combination of Apache Kafka, Model Context Protocol (MCP), and Google's Agent2Agent (A2A) protocol forms the foundation for Agentic ...",
+    "host_name": "www.kai-waehner.de",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://heidloff.net/article/mcp-acp-a2a-agent-protocols",
+    "name": "Comparison of Agent Protocols MCP, ACP and A2A | Niklas Heidloff",
+    "snippet": "Model Context Protocol (MCP) defines how to invoke tools. Protocols like Agent Communication Protocol (ACP) define how to invoke agents.",
+    "host_name": "heidloff.net",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

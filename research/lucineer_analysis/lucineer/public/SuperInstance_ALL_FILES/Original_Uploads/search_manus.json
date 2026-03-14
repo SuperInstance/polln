@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://manus.im",
+    "name": "Manus: Hands On AI",
+    "snippet": "Manus is the action engine that goes beyond answers to execute tasks, automate workflows, and extend your human reach. Missing: orchestration 2024",
+    "host_name": "manus.im",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://arxiv.org/html/2505.02024v1",
+    "name": "The Rise of Manus AI as a Fully Autonomous Digital Agent - arXiv",
+    "snippet": "Manus AI is a general-purpose AI agent introduced in early 2025 as a breakthrough in autonomous artificial intelligence.",
+    "host_name": "arxiv.org",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.researchgate.net/publication/391461097_From_Mind_to_Machine_The_Rise_of_Manus_AI_as_a_Fully_Autonomous_Digital_Agent",
+    "name": "(PDF) From Mind to Machine: The Rise of Manus AI as a Fully",
+    "snippet": "Manus AI is a general-purpose AI agent introduced in early 2025, marking a significant advancement in autonomous artificial intelligence.",
+    "host_name": "www.researchgate.net",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/@adnanmasood/the-agentic-imperative-series-part-5-manus-autogen-scaling-autonomy-in-agentic-frameworks-41724fe77a77",
+    "name": "The Agentic Imperative Series Part 4 — Manus & AutoGen - Medium",
+    "snippet": "Multi-Agent Design: Internally, Manus is structured as a multi-agent system, with specialized sub-agents/components handling different aspects ...",
+    "host_name": "medium.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://tallyfy.com/products/pro/integrations/computer-ai-agents/vendors/manus",
+    "name": "Manus AI agents · Tallyfy Pro",
+    "snippet": "Manus AI is a fully autonomous AI agent developed by Chinese startup Monica that uses multi-agent architecture and foundation models like ...",
+    "host_name": "tallyfy.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://manus.im/blog/manus-1.5-release",
+    "name": "Introducing Manus 1.5",
+    "snippet": "We're introducing Manus 1.5, our most capable agent system to date. Manus 1.5 delivers significant improvements in speed, reliability, ... Missing: orchestration multi- 2024 2025",
+    "host_name": "manus.im",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://e2b.dev/blog/how-manus-uses-e2b-to-provide-agents-with-virtual-computers",
+    "name": "How Manus Uses E2B to Provide Agents With Virtual Computers",
+    "snippet": "Behind the viral launch is a technically sophisticated multi-agent system that actually manages to execute real-world workflows end to end.",
+    "host_name": "e2b.dev",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://manus.im/blog/manus-skills",
+    "name": "Manus AI Embraces Open Standards: Integrating Agent Skills to Usher in",
+    "snippet": "Manus Skills let you capture expertise, share it with your team, and extend your AI infinitely. Build once, use forever. Missing: orchestration 2024 2025",
+    "host_name": "manus.im",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/posts/yousif-hussain_ai-agent-trends-have-drastically-changed-activity-7346506658325430273-qQTk",
+    "name": "AI Agent trends have drastically changed from 2024 to 2025 - LinkedIn",
+    "snippet": "The Agentic AI field is constantly moving forward with new innovations and products. Here's a few notable trends that are driving the market in 2025.",
+    "host_name": "www.linkedin.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://dev.to/jamesli/openmanus-architecture-deep-dive-enterprise-ai-agent-development-with-real-world-case-studies-5hi4",
+    "name": "Enterprise AI Agent Development with Real-World Case Studies",
+    "snippet": "This article will dissect OpenManus from multiple dimensions—architectural design, execution flow, code implementation—revealing its design ...",
+    "host_name": "dev.to",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

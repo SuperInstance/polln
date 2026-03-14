@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.reuters.com/world/asia-pacific/chip-startup-taalas-raises-169-million-help-build-ai-chips-take-nvidia-2026-02-19",
+    "name": "Chip startup Taalas raises $169 million to help build AI  - Reuters",
+    "snippet": "Toronto-based chip startup Taalas said on Thursday it had raised $169 million and has developed a chip capable of running artificial ... Missing: hardwired ROM 2025",
+    "host_name": "www.reuters.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.forbes.com/sites/karlfreund/2026/02/19/taalas-launches-hardcore-chip-with-insane-ai-inference-performance",
+    "name": "Taalas Launches Hardcore Chip With 'Insane' AI Inference Performance",
+    "snippet": "Taalas has launched an AI accelerator that puts the entire AI model into silicon, delivering 1-2 orders of magnitude greater performance. Missing: ROM | Show results with: ROM",
+    "host_name": "www.forbes.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.datacenterdynamics.com/en/news/ai-chip-startup-taalas-raises-169m-unveils-hc1-processor-optimized-for-llama-31-8b",
+    "name": "AI chip startup Taalas raises $169m, unveils HC1 processor optimized",
+    "snippet": "AI chip startup Taalas has raised $169 million to support the development of chips that have been optimized for specific AI models.",
+    "host_name": "www.datacenterdynamics.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://mlq.ai/news/taalas-secures-169m-funding-to-develop-ai-chips-challenging-nvidia",
+    "name": "Taalas Raises $169M to Develop AI Chips Challenging Nvidia",
+    "snippet": "Toronto-based startup Taalas secured $169 million in funding to develop specialized AI processors that integrate model components directly into ... Missing: ROM | Show results with: ROM",
+    "host_name": "mlq.ai",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.electronicsweekly.com/news/business/taalas-raises-169m-to-tailor-chips-for-ai-models-2026-02",
+    "name": "Taalas raises $219m to tailor chips for AI models - Electronics Weekly",
+    "snippet": "Taalas of Toronto, a two year-old startup, has raised $219 million to make customised chips to run any AI model.",
+    "host_name": "www.electronicsweekly.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.techinasia.com/news/ai-chip-startup-taalas-raises-169m-rival-nvidia",
+    "name": "US AI chip startup Taalas raises $169m to rival Nvidia - Tech in Asia",
+    "snippet": "Toronto-based chip startup Taalas has raised US$169 million to develop AI chips designed for specific models, bringing its total funding to ... Missing: 2025 | Show results with: 2025",
+    "host_name": "www.techinasia.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.heise.de/en/news/AI-inference-cast-in-silicon-Taalas-announces-HC1-chip-11185112.html",
+    "name": "AI inference cast in silicon: Taalas announces HC1 chip | heise online",
+    "snippet": "The startup Taalas wants to deliver a hardwired Llama 3.1 8B with almost 17000 tokens/s with the HC1 – almost 10 times faster than previous ...",
+    "host_name": "www.heise.de",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/posts/ngdigitalmarketingboutique_the-ai-chip-wars-just-got-a-lot-more-interesting-activity-7430552913053200384-tO8L",
+    "name": "Taalas Raises $169M to Disrupt AI Chip Industry with Custom Silicon",
+    "snippet": "The AI chip wars just got a lot more interesting. A Toronto startup called Taalas just raised $169 million to take on Nvidia—and their ...",
+    "host_name": "www.linkedin.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.digitimes.com/news/a20260224VL212/nvidia-silicon-llama-ai-chip-startup.html",
+    "name": "Next in line to challenge Nvidia: Taalas hardwires Llama into silicon",
+    "snippet": "Toronto-based AI chip startup Taalas says it can hardwire a large language model directly into silicon to accelerate inference beyond what ... Missing: 2025 | Show results with: 2025",
+    "host_name": "www.digitimes.com",
+    "rank": 8,
+    "date": "Feb 24, 2026",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/@mokrasar/the-last-chip-how-hardwired-ai-will-destroy-nvidias-empire-and-change-the-world-8da20571e706",
+    "name": "The Last Chip: How “Hardwired” AI Will Destroy Nvidia's Empire and",
+    "snippet": "Taalas promises: by winter 2026 — a frontier model on HC2, and beyond — “The Model is The Computer.” Any LLM becomes pure silicon through their ... Missing: ROM | Show results with: ROM",
+    "host_name": "medium.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

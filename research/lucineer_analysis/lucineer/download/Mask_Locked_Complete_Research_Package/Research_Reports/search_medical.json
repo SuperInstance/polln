@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.sciencedirect.com/science/article/pii/S001048252300313X",
+    "name": "Privacy-preserving artificial intelligence in healthcare: Techniques and applications",
+    "snippet": "This study summarizes the state-of-the-art approaches for preserving privacy in AI-based healthcare applications.",
+    "host_name": "www.sciencedirect.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12443094",
+    "name": "Federated learning: a privacy-preserving approach to data-centric regulatory cooperation",
+    "snippet": "Federated learning supports compliance with strict data protection and confidentiality regulations such as the General Data Protection ...",
+    "host_name": "pmc.ncbi.nlm.nih.gov",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://censinet.com/perspectives/balancing-privacy-and-utility-in-healthcare-ai-data",
+    "name": "Balancing Privacy and Utility in Healthcare AI Data | Censinet, Inc.",
+    "snippet": "Explore how healthcare AI can effectively utilize patient data while navigating privacy challenges and compliance with regulations like HIPAA.",
+    "host_name": "censinet.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.preprints.org/manuscript/202601.0250",
+    "name": "ppAIsec: Privacy-Preserving Artificial Intelligence Models in Healthcare Security—A Synthesis of AI Frameworks - Preprints.org",
+    "snippet": "Authors preserved patient's privacy while using the data to train local disease diagnosis models. ... Privacy-Preserving Data Pipelines for AI ...",
+    "host_name": "www.preprints.org",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.owkin.com/blogs-case-studies/privacy-preserving-machine-learning-to-protect-health-data",
+    "name": "Privacy-preserving machine learning to protect health data - Owkin",
+    "snippet": "Discover federated learning's impact on health data privacy and confidentiality.",
+    "host_name": "www.owkin.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://purelogics.com/federated-learning-privacy-preserving-machine-learning",
+    "name": "Federated Learning: Privacy-Preserving Machine Learning - PureLogics",
+    "snippet": "Enhanced Privacy – Data stays on local devices, reducing exposure risks and ensuring compliance with GDPR and HIPAA regulations. Reduced Latency ...",
+    "host_name": "purelogics.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.igi-global.com/viewtitle.aspx?TitleId=377165&isxn=9798337312057",
+    "name": "Privacy- Preserving AI for Medical Applications: - IGI Global",
+    "snippet": "Advanced en- cryption, federated learning, and privacy- preserving AI can significantly enhance data security on wearable devices. Despite challenges such ...",
+    "host_name": "www.igi-global.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://dukespace.lib.duke.edu/items/7b950bcd-66c4-4c3b-96bd-edd21fa7f188",
+    "name": "Towards Personalized, Privacy-preserving, and Explainable AI for Healthcare - DukeSpace",
+    "snippet": "Furthermore, sending data directly from local edge devices to the cloud can result in significant private information leakage. To address such privacy ...",
+    "host_name": "dukespace.lib.duke.edu",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.mdpi.com/2076-3417/10/18/6396",
+    "name": "Effective Privacy-Preserving Collection of Health Data from a User's Wearable Device",
+    "snippet": "We propose a method to aggregate health data obtained from users' wearable devices in a privacy-preserving manner.",
+    "host_name": "www.mdpi.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.cambridge.org/core/books/cambridge-handbook-of-the-law-ethics-and-policy-of-artificial-intelligence/ai-and-healthcare-data/DF81BC6E608E8B3D589F42960E5F8D1E",
+    "name": "AI and Healthcare Data (Chapter 15) - The Cambridge Handbook of the Law, Ethics and Policy of Artificial Intelligence",
+    "snippet": "This chapter considers the use of AI for healthcare from the perspective of healthcare data. It discusses the role of data custodians.",
+    "host_name": "www.cambridge.org",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

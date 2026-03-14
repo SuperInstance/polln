@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://arxiv.org/html/2602.23036v1",
+    "name": "LLMServingSim 2.0: A Unified Simulator for Heterogeneous and Disaggregated LLM Serving Infrastructure *These authors contributed equally to this work. - arXiv.org",
+    "snippet": "LLMServingSim 2.0 incorporates power modeling into the simulation framework, enabling joint evaluation of performance and energy-related trade- ...",
+    "host_name": "arxiv.org",
+    "rank": 0,
+    "date": "Feb 27, 2026",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/microsoft/vidur",
+    "name": "microsoft/vidur: A large-scale simulation framework for LLM inference - GitHub",
+    "snippet": "Vidur is a high-fidelity and extensible LLM inference system simulator. It can help you with study the system performance of models under different workloads ...",
+    "host_name": "github.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://mingyu-liang.github.io/files/mlsys25-lumos.pdf",
+    "name": "[PDF] Lumos: Efficient Performance Modeling and Estimation for Large-scale LLM Training - Mingyu Liang",
+    "snippet": "By estimating performance through simulation rather than experimenting on real hardware, Lumos can significantly reduce cost and accelerate the optimization ...",
+    "host_name": "mingyu-liang.github.io",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://developer.nvidia.com/blog/mastering-llm-techniques-inference-optimization",
+    "name": "Mastering LLM Techniques: Inference Optimization | NVIDIA Technical Blog",
+    "snippet": "Stacking transformer layers to create large models results in better accuracies, few-shot learning capabilities, and even near-human ...",
+    "host_name": "developer.nvidia.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://dl.acm.org/doi/10.1145/3716368.3735292",
+    "name": "The State of Simulation Frameworks for Evaluating Emerging LLM Accelerators - ACM",
+    "snippet": "This paper proposes the design of a simulation framework that retains the PyTorch front-end while introducing an intermediate profiling layer.",
+    "host_name": "dl.acm.org",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.emergentmind.com/topics/llm-based-simulation-methods",
+    "name": "LLM-based Simulation Methods - Emergent Mind",
+    "snippet": "LLM-based simulation methods are computational frameworks that use large language models to mimic complex agents, environments, ...",
+    "host_name": "www.emergentmind.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://people.csail.mit.edu/suvinay/pubs/2025.hermes.arxiv.pdf",
+    "name": "[PDF] Understanding and Optimizing Multi-Stage AI Inference Pipelines - People",
+    "snippet": "Modern LLM inference pipelines demand simulators that can model complex, heterogeneous workflows—something existing tools fail to provide. We ...",
+    "host_name": "people.csail.mit.edu",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.bsg.ai/papers/Peng_ReaLLM_ASAP_2025.pdf",
+    "name": "[PDF] ReaLLM: A Trace-Driven Framework for Rapid Simulation of Large-Scale LLM Inference - Bespoke Silicon Group",
+    "snippet": "LLM inference introduces complex interactions between hardware and system execution, making accurate system-level performance modeling challenging. Existing LLM ...",
+    "host_name": "www.bsg.ai",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

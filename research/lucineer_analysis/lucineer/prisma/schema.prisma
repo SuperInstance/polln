@@ -1,0 +1,659 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================
+// CORE USER SYSTEM
+// ============================================================
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  username      String?   @unique
+  avatar        String?
+  userMode      String    @default("middle") // young, middle, high, college, developer, teacher, enterprise, researcher, gamer
+  
+  // Gamification
+  xp            Int       @default(0)
+  level         Int       @default(1)
+  prestige      Int       @default(0)
+  streak        Int       @default(0)
+  lastActiveAt  DateTime?
+  
+  // Relations
+  stickers      UserSticker[]
+  badges        UserBadge[]
+  achievements  UserAchievement[]
+  quests        UserQuest[]
+  idioms        UserIdiom[]
+  gameRounds    GameRound[]
+  projects      Project[]
+  experiments   Experiment[]
+  classes       ClassMembership[]
+  teams         TeamMembership[]
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+// ============================================================
+// ROUND 1: YOUNG LEARNERS (5-10)
+// ============================================================
+
+model UserSticker {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  
+  stickerId   String
+  emoji       String
+  name        String
+  category    String
+  earnedAt    DateTime @default(now())
+}
+
+model ChildProfile {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  character       String   @default("robot") // robot, bunny, dragon, unicorn, panda
+  difficulty      String   @default("easy")
+  favoriteCategory String  @default("animals")
+  soundEnabled    Boolean  @default(true)
+  parentEmail     String?
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+// ============================================================
+// ROUND 2: MIDDLE SCHOOL (11-14) - COMPETITIVE
+// ============================================================
+
+model UserBadge {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  
+  badgeId     String
+  name        String
+  icon        String
+  description String
+  rarity      String   // common, rare, epic, legendary
+  earnedAt    DateTime @default(now())
+}
+
+model Friendship {
+  id          String   @id @default(cuid())
+  userId      String
+  friendId    String
+  status      String   @default("pending") // pending, accepted, blocked
+  
+  createdAt   DateTime @default(now())
+}
+
+model UserQuest {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  
+  questId     String
+  title       String
+  description String
+  progress    Int      @default(0)
+  target      Int
+  reward      Int
+  expiresAt   DateTime
+  completedAt DateTime?
+  
+  createdAt   DateTime @default(now())
+}
+
+model Team {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  avatar      String?
+  xp          Int      @default(0)
+  leaderId    String
+  
+  members     TeamMembership[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model TeamMembership {
+  id          String   @id @default(cuid())
+  teamId      String
+  team        Team     @relation(fields: [teamId], references: [id])
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  role        String   @default("member") // leader, officer, member
+  
+  joinedAt    DateTime @default(now())
+}
+
+// ============================================================
+// ROUND 3: HIGH SCHOOL (15-18) - TECHNICAL
+// ============================================================
+
+model UserAchievement {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  
+  achievementId String
+  name        String
+  description String
+  icon        String
+  progress    Int      @default(0)
+  total       Int
+  unlockedAt  DateTime?
+  rarity      Float    // percentage of users who have it
+  
+  createdAt   DateTime @default(now())
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  
+  name        String
+  description String?
+  code        String?
+  language    String?
+  isPublic    Boolean  @default(false)
+  stars       Int      @default(0)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Certification {
+  id          String   @id @default(cuid())
+  userId      String
+  
+  name        String
+  issuer      String
+  badge       String?
+  earnedAt    DateTime @default(now())
+  expiresAt   DateTime?
+}
+
+model SkillNode {
+  id            String   @id @default(cuid())
+  userId        String
+  
+  name          String
+  description   String
+  unlocked      Boolean  @default(false)
+  prerequisiteIds String? // JSON array of skill IDs
+  xpCost        Int
+  icon          String?
+  
+  unlockedAt    DateTime?
+}
+
+// ============================================================
+// ROUND 4: COLLEGE - RESEARCH
+// ============================================================
+
+model Experiment {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  
+  title         String
+  hypothesis    String?
+  methodology   String?
+  results       String?  // JSON
+  status        String   @default("draft") // draft, running, completed, published
+  
+  collaborators String?  // JSON array of user IDs
+  
+  startedAt     DateTime?
+  completedAt   DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Notebook {
+  id          String   @id @default(cuid())
+  userId      String
+  
+  name        String
+  cells       String   // JSON array of {type, content}
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Dataset {
+  id            String   @id @default(cuid())
+  userId        String
+  
+  name          String
+  description   String?
+  format        String   // csv, json, parquet
+  size          Int      // in bytes
+  downloadUrl   String?
+  isPublic      Boolean  @default(false)
+  
+  createdAt     DateTime @default(now())
+}
+
+model Publication {
+  id          String   @id @default(cuid())
+  userId      String
+  
+  title       String
+  authors     String   // JSON array
+  abstract    String?
+  journal     String?
+  doi         String?  @unique
+  status      String   @default("draft") // draft, submitted, reviewing, accepted, published
+  
+  publishedAt DateTime?
+  createdAt   DateTime @default(now())
+}
+
+// ============================================================
+// ROUND 5: DEVELOPERS - API
+// ============================================================
+
+model ApiKey {
+  id            String   @id @default(cuid())
+  userId        String
+  
+  name          String
+  key           String   @unique
+  permissions   String?  // JSON array
+  lastUsedAt    DateTime?
+  expiresAt     DateTime?
+  active        Boolean  @default(true)
+  
+  createdAt     DateTime @default(now())
+}
+
+model Webhook {
+  id          String   @id @default(cuid())
+  userId      String
+  
+  url         String
+  events      String   // JSON array of event types
+  secret      String
+  active      Boolean  @default(true)
+  
+  createdAt   DateTime @default(now())
+}
+
+model Integration {
+  id          String   @id @default(cuid())
+  userId      String
+  
+  platform    String   // github, slack, discord, notion, zapier
+  config      String?  // JSON
+  status      String   @default("disconnected") // connected, disconnected, error
+  
+  connectedAt DateTime?
+  createdAt   DateTime @default(now())
+}
+
+// ============================================================
+// ROUND 6: DATA SCIENTISTS - ML
+// ============================================================
+
+model MLModel {
+  id          String   @id @default(cuid())
+  userId      String
+  
+  name        String
+  type        String   // classification, regression, clustering, generation
+  version     String   @default("1.0.0")
+  accuracy    Float?
+  parameters  String?  // JSON
+  deployedAt  DateTime?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model MLExperiment {
+  id          String   @id @default(cuid())
+  modelId     String
+  
+  parameters  String?  // JSON
+  metrics     String?  // JSON
+  status      String   @default("running") // running, completed, failed
+  runtime     Int?     // seconds
+  
+  startedAt   DateTime @default(now())
+  completedAt DateTime?
+}
+
+model Pipeline {
+  id          String   @id @default(cuid())
+  userId      String
+  
+  name        String
+  steps       String   // JSON array
+  schedule    String?  // cron expression
+  lastRunAt   DateTime?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ============================================================
+// ROUND 7: TEACHERS - CLASSROOM
+// ============================================================
+
+model Class {
+  id          String   @id @default(cuid())
+  teacherId   String
+  
+  name        String
+  grade       String?
+  subject     String?
+  schedule    String?
+  code        String   @unique // student join code
+  
+  members     ClassMembership[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ClassMembership {
+  id          String   @id @default(cuid())
+  classId     String
+  class       Class    @relation(fields: [classId], references: [id])
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  role        String   @default("student") // teacher, student, assistant
+  
+  joinedAt    DateTime @default(now())
+}
+
+model Assignment {
+  id          String   @id @default(cuid())
+  classId     String
+  
+  title       String
+  description String?
+  dueDate     DateTime?
+  points      Int      @default(100)
+  
+  createdAt   DateTime @default(now())
+}
+
+model Submission {
+  id          String   @id @default(cuid())
+  assignmentId String
+  studentId   String
+  
+  content     String?
+  grade       Float?
+  feedback    String?
+  submittedAt DateTime @default(now())
+  gradedAt    DateTime?
+}
+
+model Rubric {
+  id          String   @id @default(cuid())
+  teacherId   String
+  
+  name        String
+  criteria    String   // JSON array
+  
+  createdAt   DateTime @default(now())
+}
+
+// ============================================================
+// ROUND 8: ENTERPRISE
+// ============================================================
+
+model Organization {
+  id          String   @id @default(cuid())
+  name        String
+  logo        String?
+  
+  // Theme
+  primaryColor   String? @default("#8B5CF6")
+  secondaryColor String? @default("#EC4899")
+  accentColor    String? @default("#10B981")
+  
+  // SSO
+  ssoProvider String?
+  ssoEnabled  Boolean  @default(false)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model OrgMembership {
+  id              String   @id @default(cuid())
+  orgId           String
+  userId          String
+  role            String   @default("member") // owner, admin, member
+  department      String?
+  
+  joinedAt        DateTime @default(now())
+}
+
+model CustomAgent {
+  id            String   @id @default(cuid())
+  orgId         String
+  
+  name          String
+  personality   String?
+  constraints   String?  // JSON array
+  knowledgeBase String?  // JSON array
+  voice         String?
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model ComplianceRecord {
+  id          String   @id @default(cuid())
+  orgId       String
+  
+  type        String   // GDPR, SOC2, HIPAA, ISO27001
+  status      String   // compliant, pending, non-compliant
+  lastAudit   DateTime?
+  nextAudit   DateTime?
+  
+  updatedAt   DateTime @updatedAt
+}
+
+// ============================================================
+// ROUND 9: RESEARCHERS
+// ============================================================
+
+model Study {
+  id            String   @id @default(cuid())
+  researcherId  String
+  
+  title         String
+  irbApproved   Boolean  @default(false)
+  protocol      String?
+  
+  startDate     DateTime?
+  endDate       DateTime?
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Participant {
+  id            String   @id @default(cuid())
+  studyId       String
+  
+  anonymizedId  String   @unique
+  demographics  String?  // JSON
+  consentGiven  Boolean  @default(false)
+  
+  createdAt     DateTime @default(now())
+}
+
+model ConsentForm {
+  id          String   @id @default(cuid())
+  studyId     String
+  
+  title       String
+  content     String
+  version     String
+  
+  approvedAt  DateTime?
+  createdAt   DateTime @default(now())
+}
+
+model Grant {
+  id          String   @id @default(cuid())
+  researcherId String
+  
+  name        String
+  funder      String
+  amount      Float
+  startDate   DateTime
+  endDate     DateTime
+  
+  milestones  String?  // JSON array
+  
+  createdAt   DateTime @default(now())
+}
+
+// ============================================================
+// ROUND 10: GAMERS
+// ============================================================
+
+model GamerProfile {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  
+  title           String?
+  favoriteMode    String?
+  playtime        Int      @default(0) // seconds
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model SeasonPass {
+  id          String   @id @default(cuid())
+  userId      String
+  
+  season      Int
+  tier        Int      @default(1)
+  xp          Int      @default(0)
+  
+  endDate     DateTime
+  
+  createdAt   DateTime @default(now())
+}
+
+model Collectible {
+  id          String   @id @default(cuid())
+  userId      String
+  
+  name        String
+  type        String   // skin, emote, card, pet, title
+  rarity      String   // common, uncommon, rare, epic, legendary, mythic
+  acquiredAt  DateTime @default(now())
+}
+
+model MiniGameScore {
+  id          String   @id @default(cuid())
+  userId      String
+  miniGameId  String
+  
+  highScore   Int
+  timesPlayed Int      @default(1)
+  lastPlayed  DateTime @default(now())
+}
+
+model StoryProgress {
+  id              String   @id @default(cuid())
+  userId          String
+  
+  currentChapter  Int      @default(1)
+  currentScene    Int      @default(1)
+  unlockedChapters String? // JSON array
+  choices         String?  // JSON object
+  
+  updatedAt       DateTime @updatedAt
+}
+
+// ============================================================
+// CORE GAME DATA
+// ============================================================
+
+model GameRound {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  
+  target        String
+  constraints   String?  // JSON array
+  tokenCost     Int      @default(0)
+  winner        String?
+  status        String   @default("complete")
+  
+  messages      String?  // JSON array
+  
+  playedAt      DateTime @default(now())
+}
+
+model UserIdiom {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  
+  shorthand     String
+  meaning       String
+  originAgents  String   // JSON array
+  usageCount    Int      @default(1)
+  tokenSavings  Int      @default(0)
+  seed          String?  @unique
+  lockedToSeed  Boolean  @default(false)
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Constraint {
+  id          String   @id @default(cuid())
+  
+  type        String
+  value       String
+  penalty     Float
+  difficulty  String   @default("medium") // easy, medium, hard
+  active      Boolean  @default(false)
+  
+  createdAt   DateTime @default(now())
+}
+
+model Word {
+  id          String   @id @default(cuid())
+  
+  word        String
+  category    String
+  difficulty  String   @default("medium")
+  ageGroup    String   @default("middle") // young, middle, high, college
+  
+  createdAt   DateTime @default(now())
+}

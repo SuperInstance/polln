@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.taterli.com/wp-content/uploads/2017/05/Physical-Layer-Simplified-SpecificationV6.0.pdf",
+    "name": "[PDF] SD Specifications Part 1 Physical Layer Simplified Specification",
+    "snippet": "Current Limit is selected by CMD6 Function Group 4. CMD0. Once signal voltage is switched to 1.8V, the card continues 1.8V signaling regardless of CMD0.",
+    "host_name": "www.taterli.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.ercankoclar.com/wp-content/uploads/2017/11/SD-InputOutput-SDIO-Card-Specification.pdf",
+    "name": "[PDF] SD Input/Output (SDIO) Card Specification",
+    "snippet": "In this state, the SDIO card will be idle and draw a small amount of power (15 mA averaged over 1 second).",
+    "host_name": "www.ercankoclar.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://academy.cba.mit.edu/classes/networking_communications/SD/SD.pdf",
+    "name": "[PDF] SD Specifications Part 1 Physical Layer Simplified Specification - CBA",
+    "snippet": "511:496 Maximum Current/Power Consumption. This field indicates total current/power consumption of the card including enabled functions ...",
+    "host_name": "academy.cba.mit.edu",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "http://www.applelogic.org/files/SDIO.pdf",
+    "name": "[PDF] SD Specifications Part E1 SDIO Simplified Specification - AppleLogic",
+    "snippet": "The following power data represents the maximum that a SDIO card may draw. It is important for designers to note that a low power host may ...",
+    "host_name": "www.applelogic.org",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.cs.utexas.edu/~simon/395t_os/resources/Part_1_Physical_Layer_Simplified_Specification_Ver_3.01_Final_100518.pdf",
+    "name": "[PDF] SD Specifications Part 1 Physical Layer Simplified Specification",
+    "snippet": "consumption is defined by ACMD41 (SD memory card) or CMD5 (SD I/O card). Maximum current consumption indicates the total card current (memory ...",
+    "host_name": "www.cs.utexas.edu",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://docs.rs-online.com/78e0/0900766b816bb73a.pdf",
+    "name": "[PDF] Industrial microSD Datasheet - RS Online",
+    "snippet": "This information table below provides current consumption of microSD Card. ... • To assure a reliable SD Card hard reset of Power On and Power ...",
+    "host_name": "docs.rs-online.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://goughlui.com/2021/02/27/experiment-microsd-card-power-consumption-spi-performance",
+    "name": "Experiment: microSD Card Power Consumption & SPI Performance",
+    "snippet": "For the Sandisk, the peak current was about 150mA, while the average was about 80mA at most. The read was consistently high while writes were a ... Missing: SDIO | Show results with: SDIO",
+    "host_name": "goughlui.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.ic0nstrux.com/download/documents/storage/sd-mmc/Simplified_SDIO_Card_Spec.pdf",
+    "name": "[PDF] SD Specifications Part E1 SDIO Simplified Specification - iC0nstruX",
+    "snippet": "SMPC can be set to 0 if the card maximum current is less than 200mA and Power ... The following power data represents the maximum that a SDIO card.",
+    "host_name": "www.ic0nstrux.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://electronics.stackexchange.com/questions/388238/advice-about-microsd-current-consumption",
+    "name": "Advice about microsd current consumption [closed]",
+    "snippet": "From my experience, typical SD card current consumption is ~30mA in SPI mode and ~100mA in 4-bit SD mode. My advice would be to include the ... What determines the actual power consumption of writing to a microSD ... How much current does a microSD card use? More results from electronics.stackexchange.com Missing: SDIO | Show results with: SDIO",
+    "host_name": "electronics.stackexchange.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://en.wikipedia.org/wiki/SD_card",
+    "name": "SD card - Wikipedia",
+    "snippet": "It expands the maximum capacity to 128 TB, compared to the 2 TB limit of SDXC. Like SDXC cards, SDUC cards use the exFAT file system by default.",
+    "host_name": "en.wikipedia.org",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

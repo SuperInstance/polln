@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.skywatertechnology.com/technology-and-design-enablement/mpw-programs",
+    "name": "Multi Project Wafer (MPW) Services & Programs | SkyWater",
+    "snippet": "MPW FastShuttle program offers rapid chip prototyping of pre-production concepts at a low cost. Missing: affordable ASIC TinyTapeout",
+    "host_name": "www.skywatertechnology.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://en.wikipedia.org/wiki/Multi-project_wafer_service",
+    "name": "Multi-project wafer service - Wikipedia",
+    "snippet": "With the MPW arrangement, different chip designs are aggregated on a wafer, with perhaps a different number of designs/projects per wafer. This is made possible ... Missing: affordable | Show results with: affordable",
+    "host_name": "en.wikipedia.org",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.eenewseurope.com/en/tiny-tapeout-hit-as-efabless-closes",
+    "name": "Tiny Tapeout hit as eFabless closes  - eeNews Europe",
+    "snippet": "The company supported the Tiny Tapeout project that allows chip makers to use a multi-project wafer service for a few dollars. The current ...",
+    "host_name": "www.eenewseurope.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.hackster.io/news/open-source-silicon-project-tiny-tapeout-hits-trouble-as-efabless-shuts-its-doors-9ac7fab1649d",
+    "name": "Open Source Silicon Project Tiny Tapeout Hits Trouble as Efabless",
+    "snippet": "The closure shuts down Efabless' chipIgnite platform, which sought to lower the cost of custom silicon chip production with a multi-project wafer (MPW) approach ...",
+    "host_name": "www.hackster.io",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://towersemi.com/manufacturing/mpw-shuttle-program",
+    "name": "Multi-Project Wafer (MPW) Shuttle Program - Tower Semiconductor",
+    "snippet": "Tower Semiconductor offers a low cost and quick prototyping MPW shuttle program providing essential elements for successful silicon production. Missing: affordable ASIC TinyTapeout",
+    "host_name": "towersemi.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://swisschips.ethz.ch/news-and-events/swisschips-news/2025/12/announcing-the-next-swisschips-supported-tinytapeout-shuttle-submit-your-design-today.html",
+    "name": "Announcing the Next SwissChips-Supported TinyTapeout Shuttle",
+    "snippet": "In practice, shuttle runs can make prototyping 10–50 times cheaper, making them ideal for test chips and prototype designs. What makes Tiny ... Missing: Efabless | Show results with: Efabless",
+    "host_name": "swisschips.ethz.ch",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://tinytapeout.com/runs/tt01",
+    "name": "Tiny Tapeout 1",
+    "snippet": "Just made a 4-bit barrel shifter by using this http://tinytapeout.com toolkit. It's quick and fun to use. The GDS even generated within minutes. Missing: multi- wafer affordable prototype",
+    "host_name": "tinytapeout.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://news.ycombinator.com/item?id=43222168",
+    "name": "Efabless – Shutdown Notice - Hacker News",
+    "snippet": "KenoFischer says no, Tiny Tapeout was using eFabless as their service provider and is looking into alternatives. Something's fishy.",
+    "host_name": "news.ycombinator.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://gf.com/manufacturing-services/multi-project-wafer-program",
+    "name": "GlobalShuttle multi-project wafer program - GlobalFoundries",
+    "snippet": "GF's multi-project wafer (MPW) program aggregates multiple projects onto a single wafer, enabling customers to bring their differentiated chip designs to ... Missing: affordable ASIC TinyTapeout Efabless",
+    "host_name": "gf.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://anysilicon.com/first-google-sponsored-mpw-shuttle-launched-at-skywater-with-40-open-source-community-submitted-designs",
+    "name": "First Google-Sponsored MPW Shuttle Launched at SkyWater with 40",
+    "snippet": "Designers will be able to utilize the Efabless platform to prototype these designs, derivatives of these designs, and new designs that combine the open source ... Missing: affordable TinyTapeout",
+    "host_name": "anysilicon.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

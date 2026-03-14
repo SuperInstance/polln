@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.raspberrypi.org/teach/ai-education",
+    "name": "AI education",
+    "snippet": "Our free resources for AI education for teachers and young people in schools, clubs, and at home. Plus research and thought leadership.",
+    "host_name": "www.raspberrypi.org",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://hailo.ai/blog/hailo-hackathon-2024-2025-pushing-the-limits-of-ai-innovation-on-raspberry-pi",
+    "name": "Hailo Hackathon 2025: Edge AI Innovative Ideas on",
+    "snippet": "The Hailo Hackathon 2024 - 2025 demonstrated that powerful AI applications can be developed in just 24 hours with the right tools. The Hailo AI ... Read more",
+    "host_name": "hailo.ai",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.raspberrypi.org/blog/what-shaped-computing-education-in-2025-and-what-comes-next",
+    "name": "What shaped computing education in 2025",
+    "snippet": "7 Jan 2026 — A special Hello World podcast reflects on key developments in computing education during 2025 and considers trends shaping 2026.",
+    "host_name": "www.raspberrypi.org",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.raspberrypi.org",
+    "name": "Teach, learn, and make with the Raspberry Pi Foundation",
+    "snippet": "We are a charity with the mission to enable young people to realise their full potential through the power of computing and digital technologies.",
+    "host_name": "www.raspberrypi.org",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://forums.raspberrypi.com/viewtopic.php?t=377004",
+    "name": "Course on AI Kit + Raspberry Pi",
+    "snippet": "23 Sept 2024 — 1. Introduction to AI and Machine Learning - Machine Learning vs Deep Learning - Common AI applications (image recognition, speech processing, ... Read more\nSep 23, 2024 — 1. Introduction to AI and Machine Learning - Machine Learning vs Deep Learning - Common AI applications (image recognition, speech processing, ... Read more",
+    "host_name": "forums.raspberrypi.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.raspberrypi.org/blog/experience-ai-recognition-unesco",
+    "name": "Experience AI receives global recognition from UNESCO",
+    "snippet": "20 Oct 2025 — It was developed by the Raspberry Pi Foundation in partnership with Google DeepMind and includes lessons, classroom resources, and hands-on ... Read more",
+    "host_name": "www.raspberrypi.org",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.raspberrypi.org/blog/insights-from-a-teacher-trainer-experience-ai",
+    "name": "Schools are ready to engage in AI — what they need is",
+    "snippet": "15 May 2025 — Parent Zone has partnered with the Raspberry Pi Foundation to provide free training to UK educators, equipping them with the skills they need to effectively ... Read more",
+    "host_name": "www.raspberrypi.org",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.raspberrypi.com/news/raspberry-pi-ai-hat",
+    "name": "Introducing the Raspberry Pi AI HAT+ with up to 26 TOPS",
+    "snippet": "24 Oct 2024 — The AI HAT+ features the same best-in-class Hailo AI accelerator technology as our AI Kit, but now with a choice of two performance options. Read more\nOct 24, 2024 — The AI HAT+ features the same best-in-class Hailo AI accelerator technology as our AI Kit, but now with a choice of two performance options. Read more",
+    "host_name": "www.raspberrypi.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.raspberrypi.org/blog/empowering-indias-digital-future-our-computing-curriculums-impact",
+    "name": "Empowering India's digital future: Our computing",
+    "snippet": "The Raspberry Pi Foundation has been working in India since 2018 to enable young people to realise their potential through the power of computing and digital ... Read more",
+    "host_name": "www.raspberrypi.org",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.raspberrypi.com/news/raspberry-pi-ai-kit-available-now-at-70",
+    "name": "Raspberry Pi AI Kit available now at $70",
+    "snippet": "Jun 4, 2024 — Developed in collaboration with Hailo , the AI Kit offers an accessible way to integrate local, high-performance, power-efficient inferencing ... Read more",
+    "host_name": "www.raspberrypi.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

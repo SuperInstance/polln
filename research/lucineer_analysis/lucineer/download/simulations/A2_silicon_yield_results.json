@@ -1,0 +1,220 @@
+{
+  "metadata": {
+    "simulation_id": "A2_silicon_yield",
+    "timestamp": "2026-03-08T09:36:58.098729",
+    "die_size_mm2": 25.0,
+    "process": "28nm HPM",
+    "defect_density_range": [
+      0.5,
+      1.0
+    ]
+  },
+  "wafer_info": {
+    "gross_dies": 2308,
+    "die_side_mm": 5.0,
+    "packing_efficiency": 0.85,
+    "wafer_area_mm2": 70685.83470577035,
+    "effective_wafer_area_mm2": 67886.67565142184
+  },
+  "yield_models": {
+    "poisson": 0.8290291181804004,
+    "murphy": 0.8314607624582117,
+    "seeds": 0.7091412742382271,
+    "negative_binomial_alpha2": 0.8359183673469388,
+    "negative_binomial_alpha4": 0.8325698605055272,
+    "defect_density_used": 0.75
+  },
+  "corner_analysis": {
+    "SS": {
+      "yield": 0.8065169395844652,
+      "speed_factor": 0.85,
+      "voltage_offset": -0.1,
+      "temperature": 125,
+      "distribution_weight": 0.05
+    },
+    "TT": {
+      "yield": 0.8314607624582117,
+      "speed_factor": 1.0,
+      "voltage_offset": 0.0,
+      "temperature": 25,
+      "distribution_weight": 0.9
+    },
+    "FF": {
+      "yield": 0.8189888510213384,
+      "speed_factor": 1.15,
+      "voltage_offset": 0.1,
+      "temperature": -40,
+      "distribution_weight": 0.05
+    },
+    "overall_parametric_yield": 0.8295899757426807,
+    "worst_case_parametric_yield": 0.8065169395844652,
+    "yield_spread": 0.024943822873746413
+  },
+  "test_coverage": {
+    "estimated_transistors": 15000000,
+    "fault_sites": 22500000,
+    "stuck_at_coverage": 0.99,
+    "transition_coverage": 0.97,
+    "path_delay_coverage": 0.94,
+    "functional_coverage": 0.98,
+    "overall_coverage": 0.9729999999999999,
+    "test_time_seconds": 33.75,
+    "test_cost_per_die": 0.675,
+    "coverage_target_met": true,
+    "mask_locked_advantages": {
+      "no_weight_sram": "No weight memory testing needed",
+      "deterministic_paths": "All weight paths are fixed and testable",
+      "simplified_rau": "Rotation simpler than multiplication",
+      "no_firmware": "No firmware-related fault modes"
+    }
+  },
+  "cost_model": {
+    "1000": {
+      "wafers_needed": 1,
+      "total_wafer_cost": 2800.0,
+      "total_test_cost": 500.0,
+      "total_assembly_cost": 750.0,
+      "total_cost": 4050.0,
+      "cost_per_die_raw": 4.05,
+      "volume_discount": 1.0,
+      "cost_per_die_discounted": 4.05,
+      "good_dies_produced": 1549
+    },
+    "5000": {
+      "wafers_needed": 4,
+      "total_wafer_cost": 11200.0,
+      "total_test_cost": 2500.0,
+      "total_assembly_cost": 3750.0,
+      "total_cost": 17450.0,
+      "cost_per_die_raw": 3.49,
+      "volume_discount": 1.0,
+      "cost_per_die_discounted": 3.49,
+      "good_dies_produced": 6196
+    },
+    "10000": {
+      "wafers_needed": 7,
+      "total_wafer_cost": 19600.0,
+      "total_test_cost": 5000.0,
+      "total_assembly_cost": 7500.0,
+      "total_cost": 32100.0,
+      "cost_per_die_raw": 3.21,
+      "volume_discount": 0.95,
+      "cost_per_die_discounted": 3.0494999999999997,
+      "good_dies_produced": 10843
+    },
+    "50000": {
+      "wafers_needed": 33,
+      "total_wafer_cost": 92400.0,
+      "total_test_cost": 25000.0,
+      "total_assembly_cost": 37500.0,
+      "total_cost": 154900.0,
+      "cost_per_die_raw": 3.098,
+      "volume_discount": 0.9,
+      "cost_per_die_discounted": 2.7882,
+      "good_dies_produced": 51117
+    },
+    "100000": {
+      "wafers_needed": 65,
+      "total_wafer_cost": 182000.0,
+      "total_test_cost": 50000.0,
+      "total_assembly_cost": 75000.0,
+      "total_cost": 307000.0,
+      "cost_per_die_raw": 3.07,
+      "volume_discount": 0.85,
+      "cost_per_die_discounted": 2.6094999999999997,
+      "good_dies_produced": 100685
+    },
+    "yield_summary": {
+      "defect_yield": 0.8314607624582117,
+      "parametric_yield": 0.8295899757426807,
+      "combined_yield": 0.6897715137586986,
+      "test_coverage": 0.9729999999999999,
+      "good_dies_per_wafer": 1549
+    },
+    "volumes": [
+      1000,
+      5000,
+      10000,
+      50000,
+      100000
+    ],
+    "wafer_cost": 2800
+  },
+  "monte_carlo": {
+    "n_iterations": 10000,
+    "murphy": {
+      "mean": 0.8319969597039187,
+      "std": 0.029105109245079037,
+      "min": 0.7828781023975792,
+      "max": 0.8836263712145604,
+      "p10": 0.7923612182854725,
+      "p50": 0.8314987963354363,
+      "p90": 0.8727552742830488
+    },
+    "negative_binomial": {
+      "mean": 0.8369509607346345,
+      "std": 0.027774803488083383,
+      "min": 0.7821996584279258,
+      "max": 0.8922972505937031,
+      "p10": 0.7992419474099655,
+      "p50": 0.836808724871184,
+      "p90": 0.8754347235636377
+    },
+    "combined": {
+      "mean": 0.7902976319246964,
+      "std": 0.03656634735457291,
+      "min": 0.6756469798053149,
+      "max": 0.8836263712145604,
+      "p10": 0.7424679799361635,
+      "p50": 0.7896452818463993,
+      "p90": 0.8390474521818039
+    },
+    "probability_above_70pct": 0.998,
+    "probability_above_75pct": 0.8545,
+    "probability_above_80pct": 0.3934
+  },
+  "yield_summary": {
+    "defect_yield": 0.8314607624582117,
+    "parametric_yield": 0.8295899757426807,
+    "combined_defect_parametric": 0.6897715137586986,
+    "test_coverage": 0.9729999999999999,
+    "test_escape_rate": 0.027000000000000135,
+    "yield_after_test": 0.6711476828872136,
+    "final_yield": 0.6897715137586986,
+    "yield_interpretation": {
+      "defect_yield": "Fraction of dies without random defects",
+      "parametric_yield": "Weighted yield across process corners",
+      "test_coverage": "Fraction of defects caught by test",
+      "final_yield": "True known-good die yield"
+    }
+  },
+  "success_criteria": {
+    "yield_target": 0.7,
+    "yield_achieved": 0.6897715137586986,
+    "yield_met": "False",
+    "cost_target": 15.0,
+    "cost_achieved": 3.0494999999999997,
+    "cost_met": true,
+    "coverage_target": 0.95,
+    "coverage_achieved": 0.9729999999999999,
+    "coverage_met": true,
+    "all_criteria_met": "False"
+  },
+  "recommendations": [
+    "\u2717 Yield below 70% target - consider design optimization",
+    "\u2713 Cost target met at 10K volume",
+    "\u2713 Test coverage exceeds 95% target",
+    "Use Negative Binomial model (\u03b1=2) for pessimistic yield estimates: 83.6%",
+    "Monte Carlo shows 100% probability of >70% yield",
+    "Conservative design rules help maintain yield across corners",
+    "Mask-locked architecture simplifies testing (no weight loading logic)"
+  ],
+  "charts": [
+    "/home/z/my-project/download/simulations/A2_yield_vs_defect_density.png",
+    "/home/z/my-project/download/simulations/A2_cost_vs_volume.png",
+    "/home/z/my-project/download/simulations/A2_corner_yield.png",
+    "/home/z/my-project/download/simulations/A2_monte_carlo_distribution.png",
+    "/home/z/my-project/download/simulations/A2_test_coverage.png",
+    "/home/z/my-project/download/simulations/A2_summary_dashboard.png"
+  ]
+}

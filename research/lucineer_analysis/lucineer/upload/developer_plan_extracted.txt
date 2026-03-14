@@ -1,0 +1,430 @@
+MASK-LOCKED INFERENCE CHIP
+Complete Developer Plan
+Serverless Silicon for Edge AI
+A Hardware-First Approach to Privacy-Preserving,
+Subscription-Free Local LLM Inference
+CONFIDENTIAL — FOR INTERNAL USE ONLY
+Version 1.0 — January 2025
+---PAGE BREAK---
+Mask-Locked Inference Chip — Developer Plan
+1. Executive Summary
+This document outlines the complete development plan for creating a mask-locked inference chip—a
+new category of semiconductor product that physically embeds neural network weights into silicon.
+Unlike existing AI chips that load models into memory, our approach bakes model parameters directly
+into the hardware fabric, achieving unprecedented efficiency for edge AI deployment. The core
+insight driving this initiative is that general-purpose AI hardware (GPUs, NPUs, even specialized
+inference chips like Groq's LPU) carries significant overhead from flexibility that many edge
+applications simply do not need. By sacrificing the ability to run arbitrary models, we gain order-of-
+magnitude improvements in power efficiency, cost, and simplicity—making local AI inference
+practical for billions of devices that cannot currently support it.
+1.1 The Core Proposition
+Consider the NVIDIA Jetson Orin Nano 8GB, currently the gold standard for edge AI development.
+At approximately $250, it delivers roughly 20-30 tokens per second on a 7B-parameter model after
+significant software optimization, consuming 10-15 watts in the process. The user must install
+JetPack, configure CUDA drivers, manage memory allocation, and accept that half the hardware cost
+goes toward flexibility they will never use. Our proposition is simple: for the same $250, could we
+deliver a device that runs the same model at 3-5x the throughput, using one-third the power, with zero
+software setup? Not a computer running software—just pure inference hardware that plugs in and
+works.
+1.2 Market Timing
+Three converging trends make this the right moment for mask-locked inference chips. First, small
+language models (SLMs) in the 1B-7B parameter range have achieved sufficient capability for most
+edge use cases—the models are 'good enough' that freezing them in silicon is no longer a
+compromise. Second, privacy regulations worldwide are pushing computation away from clouds and
+toward local devices, creating demand for air-gapped inference. Third, the edge AI chip market is
+projected to grow from $3.67 billion in 2025 to $11.54 billion by 2030, but current solutions force
+developers to choose between expensive general-purpose hardware or severely limited
+microcontrollers. We are creating the middle ground.
+2. Competitive Landscape Analysis
+Understanding what others are building is essential for positioning our differentiation. The AI chip
+landscape has several distinct approaches, each with inherent tradeoffs that create the market void we
+intend to fill.
+2.1 General-Purpose Inference Chips
+NVIDIA Jetson series (Orin Nano, Orin NX, AGX Orin) represents the current standard for edge AI
+development. These devices combine GPU cores, CPU cores, and unified memory to run any model
+the user loads. The flexibility comes at a steep cost: a Jetson Orin Nano at $250 spends perhaps 30-
+40% of its silicon area on features a typical inference workload never uses. Power consumption
+ranges from 7W to 40W depending on configuration, with significant overhead from the Linux OS,
+CUDA runtime, and Python interpreter stack. Setup time for a production inference pipeline can range
+from days to weeks. This is the baseline we must beat on price-performance while offering
+dramatically simpler deployment.
+Page 2 of 10
+---PAGE BREAK---
+Mask-Locked Inference Chip — Developer Plan
+2.2 Inference-Optimized Processors
+Groq's Language Processing Unit (LPU) takes a different approach. Built on a 14nm process, the LPU
+achieves impressive throughput by using hundreds of megabytes of on-chip SRAM for weight storage
+and deterministic, software-defined scheduling. A Groq LPU can deliver Llama-2 70B at 300 tokens
+per second—ten times faster than NVIDIA H100 clusters. However, Groq's architecture still loads
+models from external memory. The weights reside in SRAM rather than DRAM, which eliminates
+memory bandwidth bottlenecks, but they are not hardwired into the silicon. Each chip can run any
+compatible model, which means the flexibility overhead remains. Groq is targeting data center
+inference, not edge devices, and their pricing reflects this positioning.
+2.3 Architecture-Specific ASICs
+Etched's Sohu chip represents the closest existing concept to our vision. Announced in June 2024 with
+a $120 million Series A, Sohu is an Application-Specific Integrated Circuit designed specifically for
+transformer models. Manufactured on TSMC's 4nm process, Etched claims 20x speedup over
+NVIDIA H100 for transformer inference. The critical difference from our approach: Sohu is
+optimized for the transformer architecture but still loads model weights from memory. It can run any
+transformer model, making it fundamentally more flexible—and more expensive—than what we are
+building. Etched targets cloud/datacenter inference where customers want to run the latest open-
+source models on optimized hardware. Our market is the opposite: edge devices where customers
+want one specific model, frozen, running forever without updates.
+2.4 Low-Power Edge NPUs
+Companies like Kneron, Hailo, and Syntiant produce neural processing units designed for edge
+inference with extremely low power consumption. Kneron's KL530 achieves 1 TOPS at INT4
+precision with under 1W power draw. Hailo's H8 processor delivers 26 TOPS at 2.5W. Syntiant's
+NDP102 targets always-on voice applications at milliwatt power levels. These chips excel at
+computer vision and keyword spotting but lack the memory capacity and computational throughput
+for meaningful language model inference. They represent the current state of edge AI—powerful
+enough for CNNs and tiny transformers, but fundamentally unsuited for the 1B+ parameter models
+that make local LLM inference useful.
+2.5 The Competitive Gap
+The market lacks a product that combines meaningful LLM capability with edge-appropriate power
+consumption and zero software complexity. General-purpose chips are too expensive and power-
+hungry. Inference-optimized chips target data centers, not edge devices. Low-power NPUs cannot run
+models large enough to be useful. And no one is hardwiring model weights into silicon, which is the
+step change in efficiency we intend to exploit.
+3. Technical Architecture
+3.1 The Mask-Locked Concept
+Traditional chips store neural network weights in memory—either DRAM for large models or SRAM
+for smaller ones. During inference, weights are fetched from memory to compute units, creating a
+fundamental bottleneck: memory bandwidth limits throughput, and memory access consumes power.
+A mask-locked chip eliminates this bottleneck by encoding weights directly into the silicon's metal
+interconnect layers. The weights become permanent physical structures, like the logic gates
+themselves, rather than data stored in memory cells. This approach, recently validated by academic
+research on 'Hardwired-Neurons Language Processing Units' (HNLPU), can achieve 41-80x
+improvement in cost-effectiveness and 357x reduction in carbon footprint compared to H100 clusters
+for inference workloads.
+Page 3 of 10
+---PAGE BREAK---
+Mask-Locked Inference Chip — Developer Plan
+Key Technical Insight
+When a weight is stored in memory, reading it for computation requires: (1) activating a memory row,
+(2) sensing the stored charge, (3) driving the data across the memory bus, and (4) routing it to the
+compute unit. Each step consumes energy and introduces latency. When the weight is hardwired into
+metal, it is always 'present' at the compute unit—zero access latency, zero access energy, infinite
+bandwidth. The tradeoff is that changing weights requires fabricating a new chip. For edge inference
+with stable models, this tradeoff is enormously favorable.
+3.2 Architectural Components
+1. Hardwired Weight Matrix: The transformer's attention and feed-forward weights encoded
+directly in metal routing. For a 3B parameter model at INT4 precision (2 bits per weight), this
+requires approximately 6 billion bits of 'storage' distributed across the compute fabric. Unlike
+memory, this storage has no area overhead beyond the metal routing that must exist anyway.
+2. Matrix Multiply Units: systolic arrays optimized for the specific dimensions of the target
+model's weight matrices. Because dimensions are fixed, we can size arrays precisely without
+the flexibility overhead of programmable architectures.
+3. Activation SRAM: A small amount of on-chip SRAM (megabytes, not gigabytes) for storing
+intermediate activations, KV cache, and input/output buffers. This is the only mutable state in
+the system.
+4. Control Logic: A minimal finite state machine to sequence operations. No CPU, no operating
+system, no software stack. The control logic is hardwired to execute one specific inference
+pattern.
+5. I/O Interface: Simple USB, PCIe, or M.2 interface for input (prompt tokens) and output
+(generated tokens). The chip appears as a simple peripheral—send text in, get text out.
+3.3 Process Node Selection
+The choice of semiconductor manufacturing process is critical for cost and capability. Leading-edge
+nodes (TSMC 4nm, 3nm) offer the highest transistor density but carry enormous non-recurring
+engineering (NRE) costs—mask sets alone can exceed $10 million. For mask-locked chips targeting
+price-sensitive edge markets, mature nodes offer a better cost proposition. A 28nm or 40nm process
+provides sufficient density for small language models while keeping NRE costs in the $2-4 million
+range. The slightly larger die size is acceptable because we are not competing on raw performance;
+we are competing on price-performance-per-watt for edge inference. The Google TPU was originally
+built on 28nm, demonstrating that inference accelerators do not require cutting-edge processes.
+3.4 Quantization Strategy
+To fit meaningful models in reasonable silicon area, aggressive quantization is essential. Research
+shows that 4-bit quantization (INT4) can achieve quality within 1-2% of FP16 for inference while
+reducing model size by 4x. More aggressive approaches like 2-bit or binary quantization are active
+research areas that could enable larger models in the same silicon area. Our architecture should
+support INT4 as a baseline with optional INT2 for specific layers. The fixed-function nature of the
+chip means we can apply layer-specific quantization strategies that would be impractical for general-
+purpose inference engines.
+4. Implementation Roadmap
+4.1 Phase 1: Feasibility & Simulation (Months 1-6)
+Before committing to silicon, we must validate the approach through rigorous simulation and
+modeling. This phase answers the fundamental question: can we achieve the claimed efficiency gains
+with real models and real workloads?
+Page 4 of 10
+---PAGE BREAK---
+Mask-Locked Inference Chip — Developer Plan
+1. Model Selection: Identify target models for first-generation chips. Candidates include
+Llama-3.2-3B, Phi-3-mini (3.8B), and Gemma-2-2B. Selection criteria: capability at small
+size, inference efficiency, licensing terms for commercial embedding.
+2. Quantization Study: Implement and evaluate INT4 and INT2 quantization for candidate
+models. Measure quality degradation on standard benchmarks (MMLU, HellaSwag,
+GSM8K). Target: <2% quality loss from FP16 baseline.
+3. Architecture Simulation: Build a cycle-accurate simulator for the mask-locked architecture.
+Model power consumption, throughput, and latency. Validate against FPGA prototype if
+resources permit.
+4. Area Estimation: Using synthesis tools and target PDK (process design kit), estimate die area
+for different model sizes. Determine which models fit in economically viable die sizes.
+5. Cost Modeling: Develop detailed cost models including NRE (masks, design, verification)
+and per-unit manufacturing cost. Establish pricing targets for different market segments.
+4.2 Phase 2: Design & Verification (Months 7-18)
+With feasibility established, this phase develops the complete RTL design and verification
+infrastructure. ASIC design is unforgiving—bugs discovered after tapeout cannot be patched in
+software.
+1. RTL Development: Write synthesizable Verilog/SystemVerilog or Chisel (Scala-based
+hardware construction language) for all architectural components. Chisel offers advantages
+for parameterized designs that we can leverage for different model sizes.
+2. Weight Integration: Develop tooling to convert trained model weights into Verilog constants
+or memory initialization files. This is the core innovation—automating the translation from
+PyTorch checkpoint to hardware description.
+3. Functional Verification: Build comprehensive testbenches covering all inference scenarios.
+Verify correctness against software reference implementation for thousands of test cases.
+4. Formal Verification: Apply formal methods to prove correctness of critical paths and control
+logic. Ensure no deadlock or livelock conditions exist in the state machine.
+5. FPGA Prototyping: Map the design to a high-end FPGA (Xilinx Versal or Intel Stratix) for
+real-world validation. This is the last chance to catch bugs before committing to silicon.
+4.3 Phase 3: Physical Design & Tapeout (Months 19-24)
+Physical design transforms the RTL into geometric layout ready for manufacturing. This phase
+requires specialized EDA tools and expertise.
+1. Synthesis: Convert RTL to gate-level netlist using target technology library. Optimize for
+timing, area, and power targets.
+2. Place & Route: Physical layout of gates and interconnects. This is where weight encoding
+becomes physical—the metal routing patterns that represent model parameters.
+3. Timing Closure: Ensure all paths meet timing constraints at target clock frequency across
+process, voltage, and temperature (PVT) corners.
+4. Design Rule Check (DRC) & Layout vs Schematic (LVS): Verify the design complies with
+all manufacturing rules and matches the intended circuit.
+5. Tapeout: Submit final GDSII files to foundry for mask fabrication. First silicon expected 2-4
+months after tapeout depending on foundry schedule.
+4.4 Phase 4: Validation & Production (Months 25-30)
+Receiving first silicon is a milestone, not a finish line. Extensive validation ensures the chip functions
+correctly and meets specifications.
+Page 5 of 10
+---PAGE BREAK---
+Mask-Locked Inference Chip — Developer Plan
+1. Bring-up: Initial power-on and basic functionality verification. Test I/O interfaces, clock
+distribution, and power management.
+2. Functional Validation: Run inference test suites comparing chip output to software reference.
+Verify accuracy across temperature and voltage ranges.
+3. Performance Characterization: Measure actual throughput, latency, and power consumption.
+Compare to simulated predictions.
+4. Reliability Testing: Accelerated life testing, thermal cycling, and ESD validation to ensure
+field reliability.
+5. Production Ramp: Work with assembly and test partners to establish production flow.
+Develop test programs for high-volume manufacturing.
+5. Team Requirements & Organization
+5.1 Core Team Structure
+Building a mask-locked inference chip requires a multidisciplinary team spanning AI/ML, digital
+design, physical implementation, and software. Unlike software startups where small teams can iterate
+rapidly, ASIC development requires specialized expertise that cannot be easily acquired or
+substituted.
+Role Count Key Responsibilities
+Overall system architecture, performance modeling,
+Architecture Lead 1
+technical decision-making
+Model selection, quantization, training/fine-tuning,
+ML Engineers 2
+accuracy validation
+Verilog/Chisel development, microarchitecture,
+RTL Designers 2-3
+simulation, verification
+Synthesis, place & route, timing closure, physical
+Physical Design Eng. 2
+verification
+Tooling for weight conversion, driver development,
+Software Engineer 1
+SDK/API design
+Testbench development, coverage analysis, formal
+Verification Eng. 1
+verification
+Schedule management, foundry coordination, vendor
+Program Manager 1
+relationships
+Table 1: Core Team Structure for Mask-Locked Inference Chip Development
+5.2 Critical Expertise Areas
+Certain expertise areas are non-negotiable for ASIC success. Without experienced guidance in these
+domains, the project carries unacceptable risk of costly mistakes.
+• Transformer Architecture Expertise: Deep understanding of attention mechanisms, layer
+normalization, and transformer variants. Required for making informed decisions about
+hardware-software tradeoffs.
+• ASIC Design Flow: Experience with complete design flow from RTL to GDSII using
+industry-standard tools (Cadence, Synopsys, or open-source alternatives like OpenROAD).
+• Memory Design: Understanding of SRAM design and memory compiler usage for activation
+storage. May need custom memory instances for optimal density.
+• Low-Power Design: Techniques for minimizing dynamic and static power consumption.
+Essential for edge applications with strict power budgets.
+Page 6 of 10
+---PAGE BREAK---
+Mask-Locked Inference Chip — Developer Plan
+• Foundry Interface: Experience working with foundries (TSMC, GlobalFoundries, etc.),
+understanding design rules, and navigating tapeout procedures.
+5.3 Outsourcing vs. In-House
+For a lean startup, certain functions should be outsourced while core competencies remain in-house.
+RTL design and architecture are core competencies—these define the product's unique value. Physical
+design can be partially outsourced to design service companies, though maintaining in-house
+capability is valuable for iteration speed. Packaging, testing, and production engineering are typically
+outsourced to specialized vendors. Verification should be primarily in-house but can be augmented
+with contractor support for testbench development.
+6. Business Model & Economics
+6.1 The Hardware-as-Intelligence Model
+Traditional AI businesses follow a subscription model: customers pay monthly for access to
+continuously improving models. Our model inverts this: customers pay once for a fixed-capability
+chip, and 'upgrades' mean buying new hardware. This is not a bug—it is the core value proposition.
+Planned obsolescence through model evolution creates a natural upgrade cycle that benefits both
+customer (access to better models) and business (recurring revenue through hardware generations).
+Consider the analogy to smartphone upgrades: people do not resent buying new phones every 2-3
+years because the new models offer genuinely better experiences. We are creating the same dynamic
+for AI inference hardware.
+6.2 Cost Structure Analysis
+Understanding the cost structure is essential for pricing and market positioning. The total cost of an
+ASIC project has two components: Non-Recurring Engineering (NRE) and per-unit manufacturing
+cost.
+Cost Component 28nm Node 40nm Node
+Mask Set (NRE) $2-3 million $1-1.5 million
+Design & Verification (NRE) $2-4 million $1.5-3 million
+Prototype (MPW shuttle) $100-300K $50-150K
+Die Cost (per unit @ 10K volume) $8-15 $6-10
+Packaging & Test (per unit) $3-5 $2-4
+Total Unit Cost @ 10K volume $11-20 $8-14
+Table 2: Estimated Development and Manufacturing Costs
+6.3 Pricing Strategy
+Our pricing targets the gap between microcontrollers ($1-10) and edge compute modules ($150-300).
+A mask-locked 3B-parameter inference chip should sell for $30-60 at retail, positioning it as an
+affordable upgrade for devices that need AI capability but cannot justify the cost and complexity of a
+Jetson-class module. At this price point and estimated unit cost, gross margins of 50-60% are
+achievable—healthy for hardware while remaining competitive. Volume discounts for OEM
+integration would push ASP (average selling price) lower but accelerate market adoption.
+6.4 Product Line Strategy
+A multi-product line captures different market segments while sharing design infrastructure:
+Page 7 of 10
+---PAGE BREAK---
+Mask-Locked Inference Chip — Developer Plan
+Product Model Size Target Perf. Power Target Price
+Nano 1B params 100 tok/s <1W $15
+Micro 3B params 80 tok/s 2-3W $35
+Standard 7B params 50 tok/s 4-6W $60
+Pro 13B params 30 tok/s 8-12W $120
+Table 3: Proposed Product Line with Target Specifications
+7. Risk Analysis & Mitigation
+7.1 Technical Risks
+Model Obsolescence (High Risk): The primary technical risk is that our frozen model becomes
+outdated before the chip reaches market. If a new model architecture or training breakthrough renders
+our target model obsolete, the chip loses value. Mitigation: Choose models with proven stability
+(Llama family, established architectures) rather than bleeding-edge models. Design architecture to
+support multiple model variants through configuration rather than hardwiring all details. Maintain
+flexibility in output layers and tokenization.
+Quantization Quality Loss (Medium Risk): Aggressive quantization required for efficient
+implementation may degrade model quality unacceptably. Mitigation: Extensive quantization research
+in Phase 1 before committing to silicon. Consider mixed-precision approaches where critical layers
+retain higher precision. Partner with quantization researchers and leverage latest techniques.
+First-Silicon Bugs (Medium Risk): Despite rigorous verification, ASICs often have bugs discovered
+only in silicon. Mitigation: Comprehensive FPGA prototyping before tapeout. Design in debug/trace
+infrastructure for post-silicon validation. Budget for potential respin in financial planning.
+7.2 Market Risks
+Competitive Response (High Risk): If the concept proves successful, well-funded competitors (Groq,
+Etched, Tenstorrent) could enter the mask-locked segment. Mitigation: First-mover advantage in
+establishing the category. Focus on edge markets that larger players may neglect. Build brand
+recognition as the 'edge inference specialist.'
+Model Licensing (Medium Risk): Some model providers may restrict embedding weights in
+hardware. Mitigation: Focus on models with permissive licenses (Llama, Mistral, Apache-2.0 licensed
+models). Develop relationships with model providers for explicit embedding permission.
+Customer Adoption (Medium Risk): Edge developers may resist 'frozen' capability chips, preferring
+flexibility even when unnecessary. Mitigation: Education and documentation showing the value
+proposition. Developer tools that abstract away the fixed nature. Clear upgrade path messaging.
+7.3 Execution Risks
+Team Assembly (High Risk): Finding experienced ASIC engineers in a competitive market is
+challenging. Mitigation: Consider acquiring or partnering with an existing chip design team. Offer
+compelling equity packages. Leverage semiconductor incubators (Silicon Catalyst) for access to
+experienced mentors.
+Funding Gaps (High Risk): ASIC development requires significant capital before revenue. Mitigation:
+Phased approach with clear milestones for each funding round. Government programs (CHIPS Act,
+SBIR/STTR) for early-stage funding. Strategic partnerships with companies that need edge AI
+capability.
+Page 8 of 10
+---PAGE BREAK---
+Mask-Locked Inference Chip — Developer Plan
+8. Key Strategic Decisions & Reasoning
+Throughout this document, certain decisions require explicit reasoning to guide future choices as
+circumstances evolve.
+8.1 Why Mask-Locked vs. FPGA or eFPGA?
+FPGAs offer reconfigurability that seems attractive—why not use programmable logic that can be
+updated when models improve? The answer lies in efficiency. FPGAs pay a 10-50x overhead in
+power and area compared to ASICs for the same function. An FPGA implementation of a 3B model
+would require a $500+ device consuming 20-30W, defeating our cost and power targets. eFPGA
+(embedded FPGA IP in an ASIC) provides partial reconfigurability but adds complexity and area
+overhead for limited benefit—our customers want simplicity, not configurability. Mask-locking is the
+right tradeoff for edge inference where the model is stable and efficiency is paramount.
+8.2 Why Target Edge Rather Than Data Center?
+Data center inference chips (Etched Sohu, Groq LPU) compete directly with NVIDIA in a market
+where performance-per-dollar dominates decision-making. NVIDIA's software ecosystem, developer
+familiarity, and continuous improvement make dislodging them extremely difficult. Edge inference is
+a different market with different constraints: power consumption, physical size, thermal budget, and
+software simplicity matter more than raw throughput. The edge market is underserved and fragmented
+—exactly the conditions where a focused startup can establish beachhead before larger players notice.
+Once we have proven the concept and built manufacturing expertise, expanding toward data center
+products becomes viable.
+8.3 Why Not Build a More Flexible Architecture?
+Flexibility seems like it would expand our market—why limit ourselves to one model? The reasoning
+is threefold. First, flexibility has concrete costs in die area, power, and complexity that compound to
+make the product uncompetitive. Second, our value proposition is simplicity: plug in, it works, no
+software stack to manage. Adding flexibility re-introduces the software complexity we aim to
+eliminate. Third, the 'planned obsolescence' model only works if each chip generation offers
+meaningfully better intelligence. A flexible chip undermines our own upgrade cycle. We are not
+building a chip that runs AI—we are building a chip that IS AI.
+8.4 Why Mature Process Nodes (28nm/40nm)?
+Leading-edge processes (4nm, 3nm) offer higher density and better performance-per-watt, but the
+economics do not work for our target price points. A 4nm mask set costs $15-20 million—
+unaffordable for a first-generation startup product. More importantly, our efficiency gains come from
+architectural innovation (mask-locking), not process technology. A mask-locked design on 40nm will
+dramatically outperform a conventional design on 4nm for inference workloads because we eliminate
+the memory bottleneck entirely. Mature nodes also have better availability, more design service
+options, and lower risk of supply constraints.
+9. Resources & Next Steps
+9.1 Immediate Actions (First 90 Days)
+1. Team Recruitment: Identify and recruit the Architecture Lead—the most critical hire who will
+guide technical decisions through the entire project. This person should have experience
+shipping ASICs, ideally for AI/ML applications.
+Page 9 of 10
+---PAGE BREAK---
+Mask-Locked Inference Chip — Developer Plan
+2. Incubator Application: Apply to Silicon Catalyst, the premier semiconductor startup
+incubator. Acceptance provides access to EDA tools (Cadence, Synopsys), foundry
+relationships, and experienced mentors.
+3. Model Evaluation: Begin systematic evaluation of candidate models for first-generation chip.
+Establish benchmarks and quality thresholds for quantization studies.
+4. Open-Source Toolchain Evaluation: Assess open-source EDA tools (OpenROAD, Yosys,
+Magic) for feasibility in early development stages. This can reduce initial costs while
+maintaining path to commercial tools.
+5. Funding Strategy: Develop pitch materials for seed funding and government grants (CHIPS
+Act, NSF SBIR). Early capital is essential for team building and Phase 1 execution.
+9.2 Key Resources & References
+• Academic Paper: 'Hardwired-Neurons Language Processing Units as General-Purpose
+Cognitive Substrates' (arXiv:2508.16151, August 2025) — Foundational research validating
+mask-locked approach
+• Silicon Catalyst (siliconcatalyst.com) — Semiconductor startup incubator with EDA tool
+access and mentor network
+• OpenROAD Project (openroad-flow-scripts.readthedocs.io) — Open-source ASIC design
+flow from RTL to GDSII
+• MOSIS/Europractice MPW Services — Multi-project wafer shuttles for affordable prototype
+fabrication
+• Chisel Hardware Construction Language (chisel-lang.org) — Scala-based HDL well-suited
+for parameterized generator design
+• Google Coral NPU IP (github.com/google-coral/coralnpu) — Open-source NPU IP for
+reference architecture study
+• IEEE/ACM paper: 'A survey of FPGA and ASIC designs for transformer inference
+acceleration' (2024) — Comprehensive overview of existing approaches
+9.3 Critical Questions to Resolve
+As development proceeds, these questions will guide strategic decisions:
+1. Model Licensing: Can we legally embed specific models (Llama, Phi, Gemma) in hardware?
+What agreements are required from model providers?
+2. Quantization Limits: What is the minimum precision that maintains acceptable quality for our
+target use cases? Can 2-bit quantization work?
+3. Interface Choice: USB, PCIe, M.2, or custom form factor? What do edge developers actually
+want to plug into their devices?
+4. Foundry Selection: TSMC, GlobalFoundries, Samsung, or others? Balance of cost,
+availability, design support, and IP ecosystem.
+5. First Market: Which edge segment offers the fastest path to revenue—DIY/maker, industrial
+IoT, automotive, or consumer electronics?
+10. Conclusion
+The mask-locked inference chip represents a new category of semiconductor product: intelligence as a
+physical component rather than a software service. By sacrificing flexibility for efficiency, we can
+deliver local AI inference at price points and power levels that enable entirely new categories of
+applications. The market timing is favorable, the technical approach is validated by recent research,
+and the competitive landscape has a clear gap we can fill. Success requires assembling a world-class
+team, executing flawlessly on ASIC development, and educating the market about a new way to think
+about AI deployment. This document provides the roadmap—the work begins now.
+Page 10 of 10
+---PAGE BREAK---

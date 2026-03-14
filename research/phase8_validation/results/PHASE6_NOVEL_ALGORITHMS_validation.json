@@ -1,0 +1,206 @@
+{
+  "discovery_id": "PHASE6_NOVEL_ALGORITHMS",
+  "discovery_description": "Novel algorithms discovered through automated exploration",
+  "overall_validated": false,
+  "statistical_power": 0.6,
+  "reproducibility_score": 0.9582584420604847,
+  "generation_time": 0.005144596099853516,
+  "recommendations": [
+    "2 claims failed validation - review methodology",
+    "Low statistical power (0.60) - increase sample size"
+  ],
+  "results": [
+    {
+      "claim_id": "ALG-001",
+      "validated": false,
+      "mean": 1.6869958255558115,
+      "std": 0.10201483964270767,
+      "confidence_interval": [
+        1.6667538681425684,
+        1.7072377829690546
+      ],
+      "tests": [
+        {
+          "name": "One-Sample t-Test",
+          "statistic": -1.2747336063786108,
+          "p_value": 0.20538730541757136,
+          "effect_size": null,
+          "passed": false
+        },
+        {
+          "name": "Wilcoxon Signed-Rank Test",
+          "statistic": 2130.0,
+          "p_value": 0.17441979998997525,
+          "effect_size": null,
+          "passed": false
+        },
+        {
+          "name": "Confidence Interval Test",
+          "statistic": 0.0,
+          "p_value": 0.05,
+          "effect_size": 0.0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "claim_id": "ALG-002",
+      "validated": true,
+      "mean": 0.7826799474332623,
+      "std": 0.050742554986234784,
+      "confidence_interval": [
+        0.772611523656213,
+        0.7927483712103116
+      ],
+      "tests": [
+        {
+          "name": "One-Sample t-Test",
+          "statistic": 0.5281459386483948,
+          "p_value": 0.5985799329256812,
+          "effect_size": null,
+          "passed": false
+        },
+        {
+          "name": "Wilcoxon Signed-Rank Test",
+          "statistic": 2246.0,
+          "p_value": 0.3374113464376355,
+          "effect_size": null,
+          "passed": false
+        },
+        {
+          "name": "Confidence Interval Test",
+          "statistic": 0.0,
+          "p_value": 0.05,
+          "effect_size": 0.0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "claim_id": "ALG-003",
+      "validated": true,
+      "mean": 0.8919096290817285,
+      "std": 0.02228103160848985,
+      "confidence_interval": [
+        0.8874885890200888,
+        0.8963306691433683
+      ],
+      "tests": [
+        {
+          "name": "One-Sample t-Test",
+          "statistic": 0.4082526777539041,
+          "p_value": 0.6839698245822533,
+          "effect_size": null,
+          "passed": false
+        },
+        {
+          "name": "Wilcoxon Signed-Rank Test",
+          "statistic": 2385.0,
+          "p_value": 0.6302567676905975,
+          "effect_size": null,
+          "passed": false
+        },
+        {
+          "name": "Confidence Interval Test",
+          "statistic": 0.0,
+          "p_value": 0.05,
+          "effect_size": 0.0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "claim_id": "ALG-004",
+      "validated": false,
+      "mean": 0.8667628551317597,
+      "std": 0.024802042096657897,
+      "confidence_interval": [
+        0.8618415918955448,
+        0.8716841183679745
+      ],
+      "tests": [
+        {
+          "name": "One-Sample t-Test",
+          "statistic": -0.09561505754894711,
+          "p_value": 0.9240195824353269,
+          "effect_size": null,
+          "passed": false
+        },
+        {
+          "name": "Wilcoxon Signed-Rank Test",
+          "statistic": 2522.0,
+          "p_value": 0.9917699870208231,
+          "effect_size": null,
+          "passed": false
+        },
+        {
+          "name": "Confidence Interval Test",
+          "statistic": 0.0,
+          "p_value": 0.05,
+          "effect_size": 0.0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "claim_id": "ALG-005",
+      "validated": true,
+      "mean": 0.8783867868935432,
+      "std": 0.026183697178708432,
+      "confidence_interval": [
+        0.8731913733138233,
+        0.8835822004732631
+      ],
+      "tests": [
+        {
+          "name": "One-Sample t-Test",
+          "statistic": 0.1477205036795689,
+          "p_value": 0.8828637899320603,
+          "effect_size": null,
+          "passed": false
+        },
+        {
+          "name": "Wilcoxon Signed-Rank Test",
+          "statistic": 2484.0,
+          "p_value": 0.8878926004885652,
+          "effect_size": null,
+          "passed": false
+        },
+        {
+          "name": "Confidence Interval Test",
+          "statistic": 0.0,
+          "p_value": 0.05,
+          "effect_size": 0.0,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "corrected_p_values": [
+      3.0808095812635705,
+      2.616296999849629,
+      0.75,
+      8.978698993885219,
+      5.061170196564532,
+      0.75,
+      10.2595473687338,
+      9.453851515358963,
+      0.75,
+      13.860293736529904,
+      14.876549805312345,
+      0.75,
+      13.242956848980905,
+      13.318389007328479,
+      0.75
+    ],
+    "config": {
+      "num_trials": 100,
+      "confidence_level": 0.95,
+      "effect_size_threshold": 0.8,
+      "multiple_comparison_correction": "bonferroni",
+      "random_seed": 42,
+      "max_duration_seconds": 300.0
+    }
+  }
+}

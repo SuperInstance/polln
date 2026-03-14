@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://oceantomo.com/insights/ai-as-intellectual-property-a-strategic-framework-for-the-legal-profession",
+    "name": "AI as Intellectual Property: A Strategic Framework for the",
+    "snippet": "Sep 17, 2025 — Licensing market development suggests increasing standardization of AI licensing arrangements and the emergence of patent pools for core AI ...",
+    "host_name": "oceantomo.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://patents.google.com/patent/US20180293463A1/en",
+    "name": "Artificial intelligence engine with enhanced computing",
+    "snippet": "The individual processes in the AI engine utilize a scaling hardware platform, such as Amazon Web Services (“AWS”) for an on-line installation (and similar set ...",
+    "host_name": "patents.google.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.gov.uk/government/publications/examining-patent-applications-relating-to-artificial-intelligence-ai-inventions/guidelines-for-examining-patent-applications-relating-to-artificial-intelligence-ai--2",
+    "name": "Guidelines for examining patent applications relating to",
+    "snippet": "Feb 11, 2026 — For example, an AI invention may be embedded in an electronic chip or in special-purpose or fixed function electronic circuitry. The law.",
+    "host_name": "www.gov.uk",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.federalregister.gov/documents/2025/01/15/2025-00636/framework-for-artificial-intelligence-diffusion",
+    "name": "Framework for Artificial Intelligence Diffusion",
+    "snippet": "Jan 15, 2025 — This rule requires a license to export, reexport, or transfer (in-country) advanced computing ICs or the model weights of the most advanced AI ...",
+    "host_name": "www.federalregister.gov",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://thompsonpatentlaw.com/artificial-intelligence-patents",
+    "name": "Artificial Intelligence Patents in 2026: What's Patentable?",
+    "snippet": "Feb 6, 2026 — This in-depth guide explains artificial intelligence patents , covering USPTO policy, Federal Circuit rulings, AI inventorship limits, ...",
+    "host_name": "thompsonpatentlaw.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://ipo.org/wp-content/uploads/2024/02/AI-Patenting-Handbook-Whitepaper-V2.0-final.pdf",
+    "name": "ai pATENTING HANDBOOK",
+    "snippet": "AI PATENTING HANDBOOK. Machine Learning (ML). Machine Learning is a branch of AI that studies and constructs mathematical models that automatically learn and ... 65 pages",
+    "host_name": "ipo.org",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.mdpi.com/2079-9292/13/12/2322",
+    "name": "Overview of AI-Models and Tools in Embedded IIoT",
+    "snippet": "2024 · Cited by 45 — This article presents a comprehensive review of state-of-the-art AI models applied in IIoT contexts, with a focus on their utilization for fault prediction.",
+    "host_name": "www.mdpi.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://intelacia.com/2026/01/27/nvidia-groq-deal-how-a-20b-ai-patent-strategy-is-redefining-inference-and-the-post-gpu-era",
+    "name": "NVIDIA Groq Deal: How a $20B AI Patent Strategy Is",
+    "snippet": "Jan 27, 2026 — An AI patent might protect deterministic scheduling techniques used in inference chips , preventing competitors from implementing similar ...",
+    "host_name": "intelacia.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.wipo.int/web-publications/patent-landscape-report-generative-artificial-intelligence-genai/assets/62504/Generative%20AI%20-%20PLR%20EN_WEB2.pdf",
+    "name": "Generative Artificial Intelligence. - Patent Landscape Report",
+    "snippet": "Patent filings related to GenAI are analyzed and assigned to different types of GenAI models (autoregressive models , diffusion models , generative adversarial ... 116 pages",
+    "host_name": "www.wipo.int",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.sciencedirect.com/science/article/abs/pii/S0141933122000308",
+    "name": "A low-power, high-accuracy with fully on-chip ternary",
+    "snippet": "2022 · Cited by 16 — We propose a hardware -friendly training approach for DSNN that allows the weights to be constrained to ternary format, hence reducing the memory footprints and ...",
+    "host_name": "www.sciencedirect.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

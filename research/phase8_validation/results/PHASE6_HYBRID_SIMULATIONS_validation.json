@@ -1,0 +1,206 @@
+{
+  "discovery_id": "PHASE6_HYBRID_SIMULATIONS",
+  "discovery_description": "Hybrid multi-paper simulations combining P12, P13, P19, P20, P27",
+  "overall_validated": false,
+  "statistical_power": 0.4,
+  "reproducibility_score": 0.9276587379694297,
+  "generation_time": 0.009542703628540039,
+  "recommendations": [
+    "3 claims failed validation - review methodology",
+    "Low statistical power (0.40) - increase sample size"
+  ],
+  "results": [
+    {
+      "claim_id": "HYBRID-001",
+      "validated": true,
+      "mean": 0.9480810983285433,
+      "std": 0.021652214599021988,
+      "confidence_interval": [
+        0.9437848292038666,
+        0.9523773674532199
+      ],
+      "tests": [
+        {
+          "name": "One-Sample t-Test",
+          "statistic": -6.890242844780683,
+          "p_value": 5.220393369848247e-10,
+          "effect_size": null,
+          "passed": true
+        },
+        {
+          "name": "Wilcoxon Signed-Rank Test",
+          "statistic": 784.0,
+          "p_value": 2.149011483752293e-09,
+          "effect_size": null,
+          "passed": true
+        },
+        {
+          "name": "Confidence Interval Test",
+          "statistic": 0.0,
+          "p_value": 0.01,
+          "effect_size": 0.0,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "claim_id": "HYBRID-002",
+      "validated": true,
+      "mean": 0.5706593730393573,
+      "std": 0.02848508294948277,
+      "confidence_interval": [
+        0.5650073145937864,
+        0.5763114314849282
+      ],
+      "tests": [
+        {
+          "name": "One-Sample t-Test",
+          "statistic": 0.23148011909487604,
+          "p_value": 0.8174195940083598,
+          "effect_size": null,
+          "passed": false
+        },
+        {
+          "name": "Wilcoxon Signed-Rank Test",
+          "statistic": 2430.0,
+          "p_value": 0.7439395352842529,
+          "effect_size": null,
+          "passed": false
+        },
+        {
+          "name": "Confidence Interval Test",
+          "statistic": 0.0,
+          "p_value": 0.05,
+          "effect_size": 0.0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "claim_id": "HYBRID-003",
+      "validated": false,
+      "mean": 0.7727116243624397,
+      "std": 0.0842742479492255,
+      "confidence_interval": [
+        0.7559897852261347,
+        0.7894334634987447
+      ],
+      "tests": [
+        {
+          "name": "One-Sample t-Test",
+          "statistic": -0.8648401872362639,
+          "p_value": 0.3892172855382622,
+          "effect_size": null,
+          "passed": false
+        },
+        {
+          "name": "Wilcoxon Signed-Rank Test",
+          "statistic": 2297.0,
+          "p_value": 0.43307645328435596,
+          "effect_size": null,
+          "passed": false
+        },
+        {
+          "name": "Confidence Interval Test",
+          "statistic": 0.0,
+          "p_value": 0.05,
+          "effect_size": 0.0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "claim_id": "HYBRID-004",
+      "validated": false,
+      "mean": 0.4169946778947777,
+      "std": 0.04098853919962428,
+      "confidence_interval": [
+        0.4088616624647118,
+        0.42512769332484357
+      ],
+      "tests": [
+        {
+          "name": "One-Sample t-Test",
+          "statistic": -0.7332103470644926,
+          "p_value": 0.4651628006083172,
+          "effect_size": null,
+          "passed": false
+        },
+        {
+          "name": "Wilcoxon Signed-Rank Test",
+          "statistic": 2326.0,
+          "p_value": 0.49383206015649095,
+          "effect_size": null,
+          "passed": false
+        },
+        {
+          "name": "Confidence Interval Test",
+          "statistic": 0.0,
+          "p_value": 0.05,
+          "effect_size": 0.0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "claim_id": "HYBRID-005",
+      "validated": false,
+      "mean": 1.8809508300044397,
+      "std": 0.15347463003226278,
+      "confidence_interval": [
+        1.8504981337495927,
+        1.9114035262592868
+      ],
+      "tests": [
+        {
+          "name": "One-Sample t-Test",
+          "statistic": -0.5896199256944213,
+          "p_value": 0.5567887405405412,
+          "effect_size": null,
+          "passed": false
+        },
+        {
+          "name": "Wilcoxon Signed-Rank Test",
+          "statistic": 2401.0,
+          "p_value": 0.6698511676891292,
+          "effect_size": null,
+          "passed": false
+        },
+        {
+          "name": "Confidence Interval Test",
+          "statistic": 0.0,
+          "p_value": 0.05,
+          "effect_size": 0.0,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "corrected_p_values": [
+      7.83059005477237e-09,
+      3.2235172256284395e-08,
+      0.15,
+      12.261293910125397,
+      11.159093029263794,
+      0.75,
+      5.838259283073933,
+      6.49614679926534,
+      0.75,
+      6.977442009124759,
+      7.4074809023473644,
+      0.75,
+      8.351831108108117,
+      10.047767515336938,
+      0.75
+    ],
+    "config": {
+      "num_trials": 100,
+      "confidence_level": 0.95,
+      "effect_size_threshold": 0.8,
+      "multiple_comparison_correction": "bonferroni",
+      "random_seed": 42,
+      "max_duration_seconds": 300.0
+    }
+  }
+}

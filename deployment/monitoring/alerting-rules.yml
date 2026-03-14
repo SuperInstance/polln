@@ -1,0 +1,169 @@
+groups:
+- name: api_alerts
+  interval: 30s
+  rules:
+  # High error rate
+  - alert: HighErrorRate
+    expr: rate(http_requests_total{status=~"5.."}[5m]) / rate(http_requests_total[5m]) > 0.05
+    for: 5m
+    labels:
+      severity: critical
+      component: api
+    annotations:
+      summary: "High error rate detected"
+      description: "Error rate is {{ $value | humanizePercentage }} for {{ $labels.instance }}"
+
+  # High latency
+  - alert: HighLatency
+    expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 1
+    for: 5m
+    labels:
+      severity: warning
+      component: api
+    annotations:
+      summary: "High latency detected"
+      description: "P95 latency is {{ $value }}s for {{ $labels.instance }}"
+
+  # Low request rate
+  - alert: LowRequestRate
+    expr: rate(http_requests_total[5m]) < 10
+    for: 10m
+    labels:
+      severity: info
+      component: api
+    annotations:
+      summary: "Low request rate detected"
+      description: "Request rate is {{ $value }} req/s for {{ $labels.instance }}"
+
+- name: worker_alerts
+  interval: 30s
+  rules:
+  # GPU not utilized
+  - alert: GPUUnderutilized
+    expr: nvidia_gpu_utilization < 50
+    for: 15m
+    labels:
+      severity: warning
+      component: worker
+    annotations:
+      summary: "GPU underutilized"
+      description: "GPU utilization is {{ $value }}% for {{ $labels.instance }}"
+
+  # High GPU memory
+  - alert: HighGPUMemory
+    expr: nvidia_gpu_memory_used_bytes / nvidia_gpu_memory_total_bytes > 0.9
+    for: 5m
+    labels:
+      severity: warning
+      component: worker
+    annotations:
+      summary: "High GPU memory usage"
+      description: "GPU memory usage is {{ $value | humanizePercentage }} for {{ $labels.instance }}"
+
+  # Worker queue full
+  - alert: WorkerQueueFull
+    expr: worker_queue_length > 1000
+    for: 5m
+    labels:
+      severity: critical
+      component: worker
+    annotations:
+      summary: "Worker queue is full"
+      description: "Queue length is {{ $value }} for {{ $labels.instance }}"
+
+- name: infrastructure_alerts
+  interval: 30s
+  rules:
+  # High CPU usage
+  - alert: HighCPUUsage
+    expr: rate(process_cpu_seconds_total[5m]) > 0.8
+    for: 5m
+    labels:
+      severity: warning
+      component: infrastructure
+    annotations:
+      summary: "High CPU usage"
+      description: "CPU usage is {{ $value | humanizePercentage }} for {{ $labels.instance }}"
+
+  # High memory usage
+  - alert: HighMemoryUsage
+    expr: process_resident_memory_bytes / node_memory_MemTotal_bytes > 0.9
+    for: 5m
+    labels:
+      severity: critical
+      component: infrastructure
+    annotations:
+      summary: "High memory usage"
+      description: "Memory usage is {{ $value | humanizePercentage }} for {{ $labels.instance }}"
+
+  # Disk space low
+  - alert: LowDiskSpace
+    expr: node_filesystem_avail_bytes / node_filesystem_size_bytes < 0.1
+    for: 5m
+    labels:
+      severity: critical
+      component: infrastructure
+    annotations:
+      summary: "Low disk space"
+      description: "Disk space is {{ $value | humanizePercentage }} for {{ $labels.instance }}"
+
+- name: database_alerts
+  interval: 30s
+  rules:
+  # PostgreSQL connection pool exhausted
+  - alert: PostgresConnectionPoolExhausted
+    expr: pg_stat_activity_count / pg_settings_max_connections > 0.9
+    for: 5m
+    labels:
+      severity: critical
+      component: database
+    annotations:
+      summary: "PostgreSQL connection pool nearly exhausted"
+      description: "Connection usage is {{ $value | humanizePercentage }}"
+
+  # Slow PostgreSQL queries
+  - alert: SlowPostgresQueries
+    expr: rate(pg_stat_statements_mean_exec_time_ms[5m]) > 1000
+    for: 5m
+    labels:
+      severity: warning
+      component: database
+    annotations:
+      summary: "Slow PostgreSQL queries detected"
+      description: "Average query time is {{ $value }}ms"
+
+  # Redis connection errors
+  - alert: RedisConnectionErrors
+    expr: rate(redis_connections_failed_total[5m]) > 10
+    for: 5m
+    labels:
+      severity: critical
+      component: database
+    annotations:
+      summary: "Redis connection errors detected"
+      description: "Connection error rate is {{ $value }}/s"
+
+- name: uptime_alerts
+  interval: 30s
+  rules:
+  # Service down
+  - alert: ServiceDown
+    expr: up == 0
+    for: 2m
+    labels:
+      severity: critical
+      component: uptime
+    annotations:
+      summary: "Service is down"
+      description: "{{ $labels.job }} on {{ $labels.instance }} is down"
+
+  # Pod not ready
+  - alert: PodNotReady
+    expr: kube_pod_status_phase{phase="Running"} == 0
+    for: 5m
+    labels:
+      severity: warning
+      component: kubernetes
+    annotations:
+      summary: "Pod is not ready"
+      description: "Pod {{ $labels.pod }} in namespace {{ $labels.namespace }} is not ready"

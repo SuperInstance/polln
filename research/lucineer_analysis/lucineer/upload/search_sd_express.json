@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://news.samsung.com/global/samsungs-new-microsd-cards-bring-high-performance-and-capacity-for-the-new-era-in-mobile-computing-and-on-device-ai",
+    "name": "Samsung's New microSD Cards Bring High Performance and Capacity for the New Era in Mobile Computing and On-Device AI",
+    "snippet": "The sequential read speed of Samsung's SD Express microSD card reaches up to 800MB/s — 1.4 times faster than SATA SSDs (up to 560 MB/s) and ...",
+    "host_name": "news.samsung.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.sandisk.com/topics/memory-cards/sandisk-memory-card-innovation",
+    "name": "Revolutionizing Storage: The Innovation Behind SanDisk Memory Cards",
+    "snippet": "Discover how SanDisk memory cards are leading the way in storage technology. From faster speeds to higher capacity, explore the innovations that make ...",
+    "host_name": "www.sandisk.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.sdcard.org/press/thoughtleadership/the-state-of-microsd-and-trends-to-watch-in-2024",
+    "name": "The State of microSD and Trends to Watch in 2024 - SD Association",
+    "snippet": "One standout feature of SD Express Speed Class is its ability to support multi-stream recording of up to eight streams simultaneously. This ...",
+    "host_name": "www.sdcard.org",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.nextorage.net/en/articles/240604",
+    "name": "Announcement of Development for microSD Express Memory Cards - Nextorage",
+    "snippet": "The new microSD Express memory card will offer a maximum sequential read speed of 810 MB/s and a maximum sequential write speed of 770 MB/s. It ...",
+    "host_name": "www.nextorage.net",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.talkphotography.co.uk/threads/memory-cards-and-sd-in-particular.759423",
+    "name": "Memory Cards and SD in particular. | Talk Photography",
+    "snippet": "We will all soon be introduced to the new New SD Express cards. This includes doubling the microSD Express memory card speed up to 2GB/s, using PCIe Gen4 ...",
+    "host_name": "www.talkphotography.co.uk",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.lexar.com/global/blog/nintendo-switch-2-microsd-express",
+    "name": "Nintendo Switch 2 Embraces microSD Express Specification: Lexar Leading the Charge",
+    "snippet": "Benefits of microSD Express: With read speeds reaching up to 985MB/s, games load significantly faster, reducing boot-up times and ensuring ...",
+    "host_name": "www.lexar.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.littlebit.at/media/productattach/d/s/ds_sad_l1131916_enu.pdf",
+    "name": "[PDF] SanDisk microSD Express - Littlebit Technology",
+    "snippet": "128GB: Up to 880MB/s read speed; up to 480MB/s write speed; 100MB/s sustained write speed. Interface. PCIe® NVME™. Dimensions. microSDTM: 0.59in x 0.43in x 0.03 ...",
+    "host_name": "www.littlebit.at",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.tweaktown.com/news/102050/switch-2-may-support-micro-sd-express-cards-that-deliver-ssd-like-speeds-of-985mb-sec/index.html",
+    "name": "Switch 2 may support micro SD Express cards that deliver SSD-like speeds of 985MB/sec",
+    "snippet": "The sequential read speed of Samsung's SD Express microSD card reaches up to 800MB/s - 1.4 times faster than SATA SSDs (up to 560 MB/s) and more ...",
+    "host_name": "www.tweaktown.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://kommunikasjon.ntb.no/pressemelding/18011861/microsd-express-doubles-speeds-new-sd-express-speed-classes-introduced?publisherId=90063",
+    "name": "microSD Express Doubles Speeds, New SD Express Speed Classes Introduced | Business Wire - NTB Kommunikasjon",
+    "snippet": "The latest generation of microSD Express uses the PCIe interface delivering a 1,969 megabytes per second (MB/s), nearly 2 gigabytes per second ...",
+    "host_name": "kommunikasjon.ntb.no",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://en.wikipedia.org/wiki/SD_card",
+    "name": "SD card - Wikipedia",
+    "snippet": "By incorporating a single PCI Express 3.0 (PCIe) lane and supporting the NVM Express (NVMe) storage protocol, SD Express enables full-duplex transfer speeds of ...",
+    "host_name": "en.wikipedia.org",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://www.sciencedirect.com/science/article/pii/S014193312500050X",
+    "name": "Scala defined hardware generators for Chisel - ScienceDirect.com",
+    "snippet": "This paper explores different examples and patterns to describe parameterizable hardware generators.",
+    "host_name": "www.sciencedirect.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://arxiv.org/html/2509.09774v1",
+    "name": "Towards An Approach to Identify Divergences in Hardware Designs",
+    "snippet": "One prominent example is Chisel [7] , a hardware description language embedded in Scala [9] that allows developers to express parameterized ...",
+    "host_name": "arxiv.org",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.ijerm.com/download_data/IJERM1104014.pdf",
+    "name": "[PDF] An Automated Customizable Framework for Neural Network  - IJERM",
+    "snippet": "The hardware portion is a generator. In the proposed neural network acceleration framework, a single language was not chosen for development.",
+    "host_name": "www.ijerm.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.mdpi.com/2072-666X/14/3/531",
+    "name": "Parameterizable Design on Convolutional Neural Networks Using",
+    "snippet": "This paper presents a parameterizable design generator on convolutional neural networks (CNNs) using the Chisel hardware construction language (HCL).",
+    "host_name": "www.mdpi.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://news.ycombinator.com/item?id=38781273",
+    "name": "Chisel: A Modern Hardware Design Language | Hacker News",
+    "snippet": "Chisel is no doubt a developer velocity booster. And generating those components does help speed you along especially when they're silicon proven.",
+    "host_name": "news.ycombinator.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/FPGA/comments/wnnhb8/so_whats_the_deal_with_chisel_and_why_is_it_so",
+    "name": "So what's the deal with CHISEL, and why is it so great? : r/FPGA",
+    "snippet": "They just provide much more flexibility in writing RTL. You can write SpinalHDL code the way you write Verilog, and it will look very similar. Is Chisel worth it (for DNN accelerator)? : r/FPGA - Reddit What's Your Thoughts on Chisel and its Future? : r/FPGA - Reddit More results from www.reddit.com",
+    "host_name": "www.reddit.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/chipsalliance/chisel",
+    "name": "chipsalliance/chisel: Chisel: A Modern Hardware Design Language",
+    "snippet": "Chisel is an open-source hardware description language (HDL) used to describe digital electronics and circuits at the register-transfer level. Missing: neural network",
+    "host_name": "github.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://e-space.mmu.ac.uk/635350/17/lpchisel_elsevier_revised__Symplectic_.pdf",
+    "name": "[PDF] Automatic Power Intent Generation for a Chisel-based ASIC design",
+    "snippet": "Chisel-based design description brings the objected-oriented as well as func- tional programming aspects inherent to software design into the digital design.",
+    "host_name": "e-space.mmu.ac.uk",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

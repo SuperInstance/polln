@@ -1,0 +1,26 @@
+{
+  "timestamp": "2026-03-07T08:39:49.784234",
+  "rounds_executed": 4,
+  "results": {
+    "round1": {
+      "model": "deepseek-coder",
+      "status": "completed",
+      "output": "rtl/ternary_mac.v"
+    },
+    "round3": {
+      "model": "deepseek-reasoner",
+      "status": "completed",
+      "output": "reports/stochastic_analysis.md"
+    },
+    "round4": {
+      "model": "deepseek-reasoner",
+      "status": "completed",
+      "output": "reports/power_analysis.md"
+    },
+    "round7": {
+      "model": "nvidia/llama-3.1-70b",
+      "status": "completed",
+      "output": "rtl/tb_ternary_mac.sv"
+    }
+  }
+}

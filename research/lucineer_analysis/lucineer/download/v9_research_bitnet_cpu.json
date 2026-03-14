@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://github.com/microsoft/BitNet",
+    "name": "microsoft/BitNet: Official inference framework for 1-bit LLMs",
+    "snippet": "bitnet.cpp achieves speedups of 1.37x to 5.07x on ARM CPUs , with larger models experiencing greater performance gains. Additionally, it reduces energy ... Read more",
+    "host_name": "github.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/coding-nexus/microsoft-just-declared-war-on-the-gpu-mafia-meet-bitnet-cpp-e6ddad8b54ba",
+    "name": "Microsoft Just Declared War on the GPU Mafia: Meet bitnet.",
+    "snippet": "Up to 6x faster inference ; Up to 82% lower energy consumption; Run 100B parameter models on a single x86 CPU; Achieve 5–7 tokens per second ( ... Read more",
+    "host_name": "medium.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/LocalLLaMA/comments/1r2ez9c/i_benchmarked_1_bit_models_on_cpu_and_the_results",
+    "name": "I benchmarked 1 bit models on CPU and the results",
+    "snippet": "I've been experimenting with BitNet b1.58 models via bitnet . cpp on my Ryzen 9 7845HX (8 threads, DDR5). Here are my numbers:. Read more",
+    "host_name": "www.reddit.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.ar-go.co/blog/microsoft-s-bitnet-revolution-the-game-changing-1-bit-llm-framework-that-s-democratizing-ai",
+    "name": "Microsoft's BitNet Revolution: The Game-Changing 1-Bit",
+    "snippet": "Sep 8, 2025 — Furthermore, bitnet . cpp can run a 100B BitNet b1.58 model on a single CPU , achieving speeds comparable to human reading (5-7 tokens per second ). Read more",
+    "host_name": "www.ar-go.co",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/pulse/bitnetcpp-1-bit-llms-here-fast-lean-gpu-free-ravi-naarla-bugbf",
+    "name": "BitNet.cpp: 1-Bit LLMs Are Here — Fast, Lean, and GPU-",
+    "snippet": "55–82% reduction in energy consumption · Deployment of 100B+ parameter models on CPUs with <32 GB ... Read more",
+    "host_name": "www.linkedin.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://aclanthology.org/2025.acl-long.457.pdf",
+    "name": "Bitnet.cpp: Efficient Edge Inference for Ternary LLMs",
+    "snippet": "2025 · Cited by 21 — cpp achieves up to a . 6.25x increase in speed over full-precision base- lines and up to 2.32x over low-bit baselines, setting new benchmarks in ... Read more 18 pages",
+    "host_name": "aclanthology.org",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.facebook.com/groups/DeepNetGroup/posts/2316331715426364",
+    "name": "Microsoft open-sources Bitnet.cpp for efficient inference",
+    "snippet": "Benchmarks reveal that bitnet . cpp achieves speedups of between 1.37x and 5.07x on ARM CPUs, and between 2.37x and 6.17x on x86 CPUs, depending ... Read more",
+    "host_name": "www.facebook.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.threads.com/@gitpicks/post/DSh4bl2gpy0/microsofts-bit-net-runs-ll-ms-at-bits-per-weight-real-benchmark-less-energy",
+    "name": "Microsoft's BitNet runs LLMs at 1.58 bits per weight. Real",
+    "snippet": "Dec 21, 2025 — Microsoft's BitNet runs LLMs at 1.58 bits per weight. Real benchmark : 55-82% less energy, 2-6× faster on ARM /x86 CPUs. Not vaporware—people ... Read more",
+    "host_name": "www.threads.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://arxiv.org/pdf/2502.11880",
+    "name": "arXiv:2502.11880v1 [cs.LG] 17 Feb 2025",
+    "snippet": "2025 · Cited by 21 — This comparison evaluates the lossless inference performance of Bitnet . cpp , demonstrat- ing its improvements in both accuracy and speed . For the ... Read more",
+    "host_name": "arxiv.org",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://ossels.ai/microsoft-bitnet-cpp-local-llm-inference",
+    "name": "bitnet.cpp: The Framework That Makes CPUs Powerful Again",
+    "snippet": "Sep 8, 2025 — Microsoft 's bitnet . cpp redefines local LLM inference with 6x faster speeds and 82% energy savings, making CPUs powerful for AI once again.",
+    "host_name": "ossels.ai",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://arxiv.org/html/2508.05571v2",
+    "name": "iFairy: the First 2-bit Complex LLM with All Parameters in {±",
+    "snippet": "Importantly, each quantized weight has either a zero real or imaginary part, enabling multiplication-free inference using only additions and element swaps.",
+    "host_name": "arxiv.org",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://arxiv.org/pdf/2508.05571",
+    "name": "[PDF] iFairy: the First 2-bit Complex LLM with All Parameters in $\\",
+    "snippet": "Im- portantly, each quantized weight has either a zero real or imaginary part, enabling multiplication-free inference using only additions and ...",
+    "host_name": "arxiv.org",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.sciencedirect.com/science/article/pii/S0957417425025102",
+    "name": "Frequency domain complex-valued convolutional neural",
+    "snippet": "We propose a lightweight fully complex-valued residual CNN that operates entirely on complex data in the frequency domain.",
+    "host_name": "www.sciencedirect.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://pubs.aip.org/aip/jcp/article/164/9/094104/3381969/Toward-quantum-aware-machine-learning-Improved",
+    "name": "Improved prediction of quantum dissipative dynamics via complex",
+    "snippet": "Here, we introduce complex-valued neural networks (CVNNs) as a physics-consistent framework for learning quantum dissipative dynamics. CVNNs ...",
+    "host_name": "pubs.aip.org",
+    "rank": 3,
+    "date": "Mar 1, 2026",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.researchgate.net/publication/398269763_FAIRY2I_Universal_Extremely-Low_Bit_QAT_framework_via_Widely-Linear_Representation_and_Phase-Aware_Quantization",
+    "name": "FAIRY2I: Universal Extremely-Low Bit QAT framework via Widely-Linear",
+    "snippet": "By proving a lossless mathematical equivalence between real and widely-linear maps, we convert standard Transformers into the complex domain and ...",
+    "host_name": "www.researchgate.net",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://link.springer.com/article/10.1007/s11063-025-11772-8",
+    "name": "Artificial Complex-Valued Neural Processing Using Memristive",
+    "snippet": "The proposed method makes use of complex-valued ANN synchronization assisted with memristive hyperchaotic system that has dimensions 4D, 5D and 6D to produce ...",
+    "host_name": "link.springer.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/@rlalithkanna/from-real-to-complex-exploring-complex-valued-neural-networks-for-machine-learning-1920a35028d7",
+    "name": "“From Real to Complex: Exploring \"Complex-Valued Neural Networks",
+    "snippet": "A CVNN is similar to a regular neural network but operates on complex numbers instead of just real numbers. Each neuron processes these ...",
+    "host_name": "medium.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.nature.com/articles/s41467-020-20719-7",
+    "name": "An optical neural chip for implementing complex-valued",
+    "snippet": "In this article, we highlight an optical neural chip (ONC) that implements truly complex-valued neural networks.",
+    "host_name": "www.nature.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.ieee-jas.net/article/doi/10.1109/JAS.2022.105743",
+    "name": "Complex-Valued Neural Networks: A Comprehensive Survey",
+    "snippet": "In this paper, we discuss and summarize the recent advances based on their learning algorithms, activation functions, which is the most challenging part of ...",
+    "host_name": "www.ieee-jas.net",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/@larry.lx.ye/apply-i-in-llm-ifairy-demystifying-the-first-2-bit-complex-language-model-a-laymans-guide-6554a92cb04d",
+    "name": "Apply i in LLM-iFairy: Demystifying the First 2-Bit Complex  - Medium",
+    "snippet": "The iFairy research paper introduces a groundbreaking advancement in artificial intelligence by creating the first 2-bit complex large language model (LLM) ...",
+    "host_name": "medium.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

@@ -46,9 +46,20 @@ yarn-error.log*
 .claude/
 *.log
 
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Windows and malformed paths
+**/productioncrdt_deployment/
+nul
+
 # Local research workspace (not part of POLLN)
 reseachlocal/
-
+apikey/
 # API Keys and Secrets (SECURITY CRITICAL)
 .env*.key
 .env*.secret

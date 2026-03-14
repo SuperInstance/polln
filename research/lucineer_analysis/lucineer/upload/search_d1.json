@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://developers.cloudflare.com/workers/platform/storage-options",
+    "name": "Choosing a data or storage product.",
+    "snippet": "12 Nov 2025 — With D1 , your application code and SQL database queries are not colocated which can impact application performance. If performance is a ...",
+    "host_name": "developers.cloudflare.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://developers.cloudflare.com/d1/get-started",
+    "name": "Getting started · Cloudflare D1 docs",
+    "snippet": "29 Jan 2026 — The Wrangler command-line interface is Cloudflare's tool for managing and deploying Workers applications and D1 databases in your terminal.",
+    "host_name": "developers.cloudflare.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://oneuptime.com/blog/post/2026-01-27-cloudflare-d1-database/view",
+    "name": "How to Use Cloudflare D1 Database",
+    "snippet": "27 Jan 2026 — ... Cloudflare Workers, giving you a complete serverless stack for building applications. ... database is stored in .wrangler/state/v3/d1 /. Applying ...",
+    "host_name": "oneuptime.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://developers.cloudflare.com/d1/best-practices/local-development",
+    "name": "Local development · Cloudflare D1 docs",
+    "snippet": "29 Jan 2026 — Local development uses Wrangler, the command-line interface for Workers , to manage local development sessions and state .",
+    "host_name": "developers.cloudflare.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/full-stack-engineer/use-a-d1-sqlite-database-in-a-cloudflare-pages-sveltekit-application-3b32c8c60556",
+    "name": "D1 Database in a Cloudflare Pages SvelteKit App",
+    "snippet": "Set up a Cloudflare D1 bucket and use it to store and serve data in a SvelteKit application deployed via GitHub.",
+    "host_name": "medium.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://developers.cloudflare.com/workers/testing/miniflare/storage/d1",
+    "name": "D1 - Workers",
+    "snippet": "28 Jan 2026 — For testing, it can be useful to put/get data from D1 storage bound to a Worker . You can do this with the getD1Database method.",
+    "host_name": "developers.cloudflare.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/CloudFlare/comments/1kpfd0d/is_there_anyone_using_d1_database_for_production",
+    "name": "is there anyone using D1 database for production?",
+    "snippet": "Yes Workers are stateless... Durable Objects enable stateful serverless applications . In-memory state means that each Durable Object has one ...",
+    "host_name": "www.reddit.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/devondragon/workers-users",
+    "name": "Cloudflare Workers based User Management and Session",
+    "snippet": "Leverage the power of serverless with stateful capabilities using Cloudflare Workers . This project demonstrates how to incorporate session state into ...",
+    "host_name": "github.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

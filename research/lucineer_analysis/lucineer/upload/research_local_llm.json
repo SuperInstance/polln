@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://dev.to/anita_ihuman/best-offline-ai-coding-assistant-how-to-run-llms-locally-without-internet-2bah",
+    "name": "Best Offline AI Coding Assistant: How to Run LLMs Locally Without Internet",
+    "snippet": "Offline coding assistants like Continue.dev let you run large language models directly on your machine, giving you cloud-level intelligence ... Missing: 2024 | Show results with: 2024",
+    "host_name": "dev.to",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.ijasi.org/index.php/ijasi/article/download/132/84/388",
+    "name": "[PDF] AI Assistant using LLM on Raspberry Pi",
+    "snippet": "This project introduces an offline AI assistant system built on Raspberry Pi, integrating speech-to-text (STT), large language model (LLM) inference, and text- ...",
+    "host_name": "www.ijasi.org",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/@mtshomsky/simplifying-my-local-llm-assistant-c5c3394eb906",
+    "name": "Simplifying my local LLM assistant | by MichaelT Shomsky - Medium",
+    "snippet": "Finally, the assistant service uses well known python libraries to listen+transcribe, communicate with our local LLM, and respond using audio.",
+    "host_name": "medium.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/Wakoma/OfflineAI",
+    "name": "Wakoma/OfflineAI: Local/Offline Machine Learning Resources",
+    "snippet": "This repository is intended to be catalog of local, offline, and open-source AI (including machine learning and generative AI) tools and approaches.",
+    "host_name": "github.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.hackster.io/news/build-your-own-fully-offline-ai-assistant-f83efb08fbb5",
+    "name": "Build Your Own Fully Offline AI Assistant - Hackster.io",
+    "snippet": "A multimodal AI assistant that runs entirely offline to protect your privacy is within reach. All you need is a Raspberry Pi 5 and a camera.",
+    "host_name": "www.hackster.io",
+    "rank": 4,
+    "date": "Mar 1, 2026",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=kFmhSTh167U",
+    "name": "Offline AI on Raspberry Pi 5 — It Talks, Thinks locally without Wi-Fi",
+    "snippet": "I built a fully offline AI assistant on a Raspberry Pi 5! It listens with Whisper, thinks with Ollama, and talks with Piper — all running ... Missing: code inference 2024",
+    "host_name": "www.youtube.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://forums.raspberrypi.com/viewtopic.php?t=384167",
+    "name": "AI On My Raspberry Pi 5",
+    "snippet": "For those working on proprietary projects, the dog developer claims an offline AI assistant leaks less information about the project than a ... PI5 and easy AI/CV/LLM - Raspberry Pi Forums PI5 and easy AI/CV/LLM - Page 2 - Raspberry Pi Forums More results from forums.raspberrypi.com",
+    "host_name": "forums.raspberrypi.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://itsfoss.com/llms-for-raspberry-pi",
+    "name": "I Ran 9 Popular LLMs on Raspberry Pi 5; Here's What I Found - It's FOSS",
+    "snippet": "Code Llama, based on Llama 2, is a model created to assist with code generation and discussion. It aims to streamline development workflows ...",
+    "host_name": "itsfoss.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.alibaba.com/product-insights/how-to-run-a-local-ai-code-assistant-on-raspberry-pi-5-for-offline-python-debugging.html",
+    "name": "How To Run A Local AI Code Assistant On Raspberry Pi 5 For",
+    "snippet": "A practical, step-by-step guide to running a lightweight local AI code assistant on Raspberry Pi 5 for offline Python debugging—no internet, ...",
+    "host_name": "www.alibaba.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://picovoice.ai/blog/local-llm-on-rpi-with-no-compromises",
+    "name": "Local LLM on Raspberry Pi with No Compromises using picoLLM",
+    "snippet": "The picoLLM quantization algorithm yields a smaller model size, reduced memory usage, and even faster inference speed, all while maintaining accuracy. Missing: code | Show results with: code",
+    "host_name": "picovoice.ai",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

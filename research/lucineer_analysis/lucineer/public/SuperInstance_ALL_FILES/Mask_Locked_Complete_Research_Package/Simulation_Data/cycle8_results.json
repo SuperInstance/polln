@@ -1,0 +1,41 @@
+{
+  "configuration": {
+    "array_size": "32\u00d732",
+    "n_pes": 1024,
+    "topology": "mesh",
+    "link_bandwidth_gb_s": 64.0
+  },
+  "network_metrics": {
+    "n_nodes": 1024,
+    "n_edges": 1984,
+    "density": 0.003787878787878788,
+    "avg_degree": 3.875,
+    "diameter": 57.0,
+    "avg_path_length": 21.342,
+    "global_clustering": 0.0,
+    "small_world_sigma": 0.0,
+    "is_small_world": false,
+    "power_law_exponent": -7.8514951770113,
+    "is_scale_free": false
+  },
+  "percolation_analysis": {
+    "site_critical_threshold": 0.4043062200956938,
+    "bond_critical_threshold": 0.5068181818181818,
+    "acceptable_defect_rate": 0.1142857142857143,
+    "manufacturing_margin": 0.1142857042857143
+  },
+  "flow_analysis": {
+    "horizontal_bandwidth_tb_s": 63.488,
+    "vertical_bandwidth_tb_s": 63.488,
+    "total_systolic_bandwidth_tb_s": 31.744,
+    "efficiency": 0.484375,
+    "bottleneck_directions": [
+      "diagonal"
+    ]
+  },
+  "key_findings": {
+    "network_resilience": "Maintains >90% functionality up to 11.4% defects",
+    "optimal_topology": "2D mesh with potential for small-world enhancement",
+    "data_movement_efficiency": "48.4% of theoretical peak bandwidth"
+  }
+}

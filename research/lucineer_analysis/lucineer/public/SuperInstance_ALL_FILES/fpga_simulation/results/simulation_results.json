@@ -1,0 +1,8 @@
+{
+  "tokens_generated": 100,
+  "elapsed_seconds": 0.2881321907043457,
+  "tokens_per_second": 347.06292190243556,
+  "total_operations": 2048000,
+  "operations_per_second": 7107848.640561881,
+  "total_cycles": 102400
+}

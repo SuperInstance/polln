@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://groq.com/blog/new-ai-inference-speed-benchmark-for-llama-3-3-70b-powered-by-groq",
+    "name": "New AI Inference Speed Benchmark for Llama 3.3 70B  - Groq",
+    "snippet": "Artificial Analysis has independently benchmarked Groq performance of Llama 3.3 70B at 276 tokens per second, the fastest of all benchmarked providers.",
+    "host_name": "groq.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://groq.com/newsroom/groq-lpu-inference-engine-leads-in-first-independent-llm-benchmark",
+    "name": "Groq® LPU™ Inference Engine Leads in First Independent LLM",
+    "snippet": "Groq has run several internal benchmarks, reaching 300 tokens per second consistently, setting a new speed standard for AI solutions that has ...",
+    "host_name": "groq.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://introl.com/blog/groq-lpu-infrastructure-ultra-low-latency-inference-guide-2025",
+    "name": "Groq LPU Infrastructure: Ultra-Low Latency AI Inference | Introl Blog",
+    "snippet": "Groq's LPU inference engine delivers Llama 2 70B at 300 tokens per second—ten times faster than NVIDIA H100 clusters running the same model.¹ ...",
+    "host_name": "introl.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://groq.com/blog/artificialanalysis-ai-llm-benchmark-doubles-axis-to-fit-new-groq-lpu-inference-engine-performance-results",
+    "name": "Groq LPU Tops Latency & Throughput in Benchmark",
+    "snippet": "ArtificialAnalysis.ai has independently benchmarked Groq's Llama 2 Chat (70B) API as achieving throughput of 241 tokens per second, more than double the speed ...",
+    "host_name": "groq.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.hpcwire.com/bigdatawire/this-just-in/groq-achieves-doubling-of-llama-2-70b-llm-inference-performance-in-3-weeks",
+    "name": "Groq Achieves Doubling of Llama-2 70B LLM Inference  - HPCwire",
+    "snippet": "... Llama-2 70B, in just three weeks and is now running at more than 240 tokens per second (T/s) per user on its LPU system. As mentioned in its ...",
+    "host_name": "www.hpcwire.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://groq.humain.ai/inference",
+    "name": "Groq Inference Performance, Quality, & Cost Savings",
+    "snippet": "Groq LPU AI inference ... From 10k to 100k tokens on a model like Llama 3.1 8B and 3.3 70B, you can see Groq performance via independent benchmarks.",
+    "host_name": "groq.humain.ai",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://adasci.org/blog/implementing-rapid-llm-inferencing-using-groq",
+    "name": "Implementing Rapid LLM Inferencing using Groq | ADaSci Blog",
+    "snippet": "Throughput vs. Price - Groq offers $0.64 per 1M tokens and achieves a throughput of 331 tokens per second for Llama 3 Instruct (70B) LLM.",
+    "host_name": "adasci.org",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://groq.com/blog/groq-lpu-inference-engine-crushes-first-public-llm-benchmark",
+    "name": "Groq LPU™ Inference Engine Crushes First Public LLM Benchmark",
+    "snippet": "For Output Tokens Throughput, Groq achieved an average of 185 tokens/s, a result that ranges 3-18x faster than any other cloud-based inference ...",
+    "host_name": "groq.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/%40giladam01/why-meta-ais-llama-3-running-on-groq-s-lpu-inference-engine-sets-a-new-benchmark-for-large-2da740415773",
+    "name": "Why Meta AI's Llama 3 Running on Groq's LPU Inference Engine",
+    "snippet": "In the first public benchmark, a Groq LPU Inference Engine achieved over 300 tokens per second per user on the Llama 2 70B model. It ...",
+    "host_name": "medium.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.kaggle.com/general/463088",
+    "name": "Groq built the World's First LPU Inference Engine - Kaggle",
+    "snippet": "Better Performance that GPUs. Performance Benchmarks. Record 1 - 100 tokens per second per user; Record 2 - 240 tokens per second per user; In the recent press ...",
+    "host_name": "www.kaggle.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

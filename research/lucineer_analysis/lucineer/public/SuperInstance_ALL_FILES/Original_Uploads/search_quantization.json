@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://arxiv.org/html/2601.03290v1",
+    "name": "Lightweight Transformer Architectures for Edge Devices in Real-Time Applications",
+    "snippet": "Jan 5, 2026 — This comprehensive survey examines lightweight transformer architectures specifically designed for edge deployment, analyzing recent advances in ...",
+    "host_name": "arxiv.org",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://wandb.ai/byyoung3/Generative-AI/reports/Quantization-Aware-Training-QAT-A-step-by-step-guide-with-PyTorch--VmlldzoxMTk2NTY2Mw",
+    "name": "Quantization-Aware Training (QAT): A step-by-step guide with PyTorch",
+    "snippet": "Mar 25, 2025 — A practical deep dive into quantization-aware training, covering how it works, why it matters, and how to implement it end-to-end.",
+    "host_name": "wandb.ai",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.mdpi.com/2673-2688/7/1/15",
+    "name": "Deploying LLM Transformer on Edge Computing Devices: A Survey of Strategies, Challenges, and Future Directions",
+    "snippet": "2026 · Cited by 1 — This section surveys various quantization methods, including Post-Training Quantization (PTQ), Quantization-Aware Training (QAT), and mixed-precision techniques ...",
+    "host_name": "www.mdpi.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.ibm.com/think/topics/quantization-aware-training",
+    "name": "What is Quantization Aware Training?",
+    "snippet": "Quantization aware training (QAT) is a method of quantization that integrates weight precision reduction directly into the pretraining or fine-tuning process ...",
+    "host_name": "www.ibm.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/@sharetonschool/how-do-you-optimize-transformer-models-for-edge-deployment-5c75278e2e23",
+    "name": "How do you optimize transformer models for edge deployment? | by NS Academy",
+    "snippet": "Quantization-aware training (QAT): simulates quantization during training, better accuracy for aggressive quant levels. Levels: FP16 ...",
+    "host_name": "medium.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.newline.co/@zaoyang/how-quantization-reduces-memory-in-edge-llms--6d6cb538",
+    "name": "How Quantization Reduces Memory in Edge LLMs - Newline.co",
+    "snippet": "Jul 6, 2025 — Quantization is a technique that simplifies the precision of large language model (LLM) parameters, enabling them to run on devices with limited memory and ...",
+    "host_name": "www.newline.co",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.sabrepc.com/blog/deep-learning-and-ai/what-is-quantization-aware-training-qat-vs-ptq?srsltid=AfmBOoq-iEeLANMhnhstiq6XuoTDuWT3uEiIact0dZw8IwJ6vhmITXE1",
+    "name": "What is Quantization Aware Training? QAT vs. PTQ",
+    "snippet": "Oct 9, 2025 — Learn how Quantization Aware Training optimizes AI models for deployment by maintaining accuracy while reducing size and improving speed for ...",
+    "host_name": "www.sabrepc.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.isca-archive.org/interspeech_2023/yang23s_interspeech.pdf",
+    "name": "Quantization-Aware and Tensor-Compressed Training of Transformers for Natural Language Understanding",
+    "snippet": "Cited by 16 — The rank 30 model in INT4 is only 4.8MB while still having acceptable accuracy. The tiny model is suitable for edge devices with strictly lim- ited memory.",
+    "host_name": "www.isca-archive.org",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

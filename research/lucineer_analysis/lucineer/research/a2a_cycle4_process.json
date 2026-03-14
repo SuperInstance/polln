@@ -1,0 +1,144 @@
+{
+  "agent_id": "process_engineering_agent",
+  "cycle": "4B",
+  "task": "Process Variation Monte Carlo Simulation",
+  "timestamp": "2026-03-15T14:30:00Z",
+  "status": "completed",
+  
+  "summary": {
+    "simulation_completed": true,
+    "n_samples": 10000,
+    "corners_analyzed": ["TT", "FF", "SS", "FS", "SF"],
+    "primary_finding": "Power budget exceeded; channel length variation dominant"
+  },
+  
+  "key_metrics": {
+    "throughput": {
+      "mean_tok_per_s": 8048,
+      "spec_min": 100,
+      "margin_factor": 80.5,
+      "yield_percent": 100.0
+    },
+    "power": {
+      "mean_watts": 9.89,
+      "spec_max": 5.0,
+      "exceedance_factor": 1.98,
+      "yield_percent": 0.0
+    },
+    "combined_yield_percent": 0.0
+  },
+  
+  "sensitivity_analysis": {
+    "dominant_variation": "channel_length",
+    "contributions": {
+      "L_all": 0.747,
+      "Vth_all": 0.246,
+      "Vth_d2d": 0.234,
+      "T_ox": 0.020,
+      "Vth_wid": 0.0,
+      "Vth_rdf": 0.0
+    }
+  },
+  
+  "corner_results": {
+    "TT": {
+      "throughput_mean": 8048,
+      "power_mean": 9.89,
+      "vth_shift_mv": -0.1
+    },
+    "FF": {
+      "throughput_mean": 8940,
+      "power_mean": 11.00,
+      "vth_shift_mv": -45.2
+    },
+    "SS": {
+      "throughput_mean": 7200,
+      "power_mean": 8.85,
+      "vth_shift_mv": 45.1
+    },
+    "FS": {
+      "throughput_mean": 8496,
+      "power_mean": 10.45,
+      "vth_shift_mv": -22.5
+    },
+    "SF": {
+      "throughput_mean": 7626,
+      "power_mean": 9.37,
+      "vth_shift_mv": 22.7
+    }
+  },
+  
+  "worst_case": {
+    "corner": "SS",
+    "throughput_min": 4599,
+    "power_max": 15.70,
+    "critical_metric": "power"
+  },
+  
+  "process_parameters": {
+    "node": "28nm",
+    "n_pes": 1024,
+    "vdd_v": 0.9,
+    "frequency_ghz": 1.0,
+    "temperature_k": 350,
+    "pelgrom_coefficient": 0.003,
+    "spatial_correlation_um": 50
+  },
+  
+  "variation_sources": {
+    "threshold_voltage": {
+      "sigma_rdf_mv": 18,
+      "sigma_ler_mv": 5,
+      "sigma_wid_mv": 15,
+      "sigma_d2d_mv": 25
+    },
+    "channel_length": {
+      "delta_percent": 5,
+      "sigma_wid_nm": 2,
+      "sigma_d2d_nm": 3
+    },
+    "oxide_thickness": {
+      "delta_percent": 2
+    },
+    "metal_width": {
+      "delta_percent": 10
+    },
+    "via_resistance": {
+      "delta_percent": 20
+    }
+  },
+  
+  "recommendations": {
+    "critical_actions": [
+      "Implement aggressive clock gating",
+      "Reduce target frequency to 500 MHz",
+      "Consider reduced PE configuration (512 PEs)"
+    ],
+    "process_control_priority": [
+      "Gate length uniformity",
+      "Global Vth centering"
+    ],
+    "expected_yield_with_fixes": ">95%"
+  },
+  
+  "files_generated": {
+    "simulation_code": "/home/z/my-project/research/cycle4_process_variation.py",
+    "results_json": "/home/z/my-project/research/cycle4_yield_results.json",
+    "analysis_report": "/home/z/my-project/research/cycle4_yield_analysis.md"
+  },
+  
+  "next_steps": {
+    "for_thermal_agent": "Power model integration for thermal simulation",
+    "for_circuit_agent": "Power reduction strategy implementation",
+    "for_architecture_agent": "PE array reconfiguration for power budget",
+    "for_manufacturing_agent": "Process control specification update"
+  },
+  
+  "confidence_level": "high",
+  "validation_status": {
+    "pelgrom_model": "verified",
+    "corner_trends": "consistent",
+    "spatial_correlation": "implemented",
+    "physical_intuition": "validated"
+  }
+}

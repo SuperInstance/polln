@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://huggingface.co/microsoft/bitnet-b1.58-2B-4T",
+    "name": "microsoft/bitnet-b1.58-2B-4T",
+    "snippet": "Apr 16, 2025 — This repository contains the weights for BitNet b1 . 58 2B4T , the first open-source, native 1-bit Large Language Model (LLM) at the 2-billion parameter scale. Read more",
+    "host_name": "huggingface.co",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://huggingface.co/microsoft/bitnet-b1.58-2B-4T/blob/main/LICENSE",
+    "name": "LICENSE · microsoft/bitnet-b1.58-2B-4T at main",
+    "snippet": "Apr 15, 2025 — Permission is hereby granted, free of charge, to any person obtaining a copy. of this software and associated documentation files (the ... Read more",
+    "host_name": "huggingface.co",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://arxiv.org/abs/2504.12285",
+    "name": "[2504.12285] BitNet b1.58 2B4T Technical Report",
+    "snippet": "2025 · Cited by 6 — We introduce BitNet b1.58 2B 4T , the first open-source, native 1-bit Large Language Model (LLM) at the 2-billion parameter scale. Read more",
+    "host_name": "arxiv.org",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/wavegoodvybe2929/bitnet-rust",
+    "name": "A high-performance Rust implementation of BitNet neural",
+    "snippet": "This complete implementation provides support for Microsoft's BitNet b1 . 58 2B4T model, comprehensive training infrastructure with functional forward pass ... Read more",
+    "host_name": "github.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://huggingface.co/microsoft/bitnet-b1.58-2B-4T/discussions/13/files",
+    "name": "microsoft/bitnet-b1.58-2B-4T",
+    "snippet": "Apr 17, 2025 — Trained on a corpus of 4 trillion tokens, this model demonstrates that native 1-bit LLMs can achieve performance comparable to leading ... Read more",
+    "host_name": "huggingface.co",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://vnreview.vn/threads/microsoft-ra-mat-bitnet-b1-58-2b4t-mo-hinh-ai-nen-1-bit-voi-2-ty-tham-so-de-dang-chay-tren-cpu-pho-thong.59562",
+    "name": "Microsoft ra mắt BitNet b1.58 2B4T, mô hình AI nén 1-bit",
+    "snippet": "Apr 17, 2025 — Mô hình được huấn luyện trên 4 tỷ tokens (tương đương khoảng 33.000.000 cuốn sách), vượt trội về quy mô so với nhiều mô hình hiện nay. BitNet b1 ... Read more",
+    "host_name": "vnreview.vn",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://cafef.vn/mo-hinh-ai-moi-cua-microsoft-gay-sot-chay-muot-tren-cpu-nhu-apple-m2-khong-can-gpu-toc-do-gap-doi-ma-nhe-bat-ngo-1882504191249125.chn",
+    "name": "Mô hình AI mới của Microsoft gây sốt: Chạy mượt trên CPU",
+    "snippet": "Apr 19, 2025 — Theo TechCrunch, Microsoft vừa giới thiệu BitNet b1 . 58 2B4T - mô hình AI \"1-bit\" lớn nhất từng được huấn luyện, với tham vọng mở ra một ... Read more",
+    "host_name": "cafef.vn",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://huggingface.co/microsoft/bitnet-b1.58-2B-4T/blame/main/LICENSE",
+    "name": "LICENSE · microsoft/bitnet-b1.58-2B-4T at main",
+    "snippet": "MIT License Copyright (c) Microsoft Corporation. Permission is hereby granted, free of charge, to any person obtaining a copy of this software and ... Read more",
+    "host_name": "huggingface.co",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/data-science-in-your-pocket/bitnet-b1-58-2b4t-the-1st-1-bit-llm-is-here-35f0315089c6",
+    "name": "BitNet b1.58 2B4T : The 1st 1-Bit LLM is here",
+    "snippet": "BitNet b1.58 outperforms comparable small LLMs (1B–2B params) in efficiency, speed, and accuracy, despite using 1.58-bit weights (vs. full-precision ... Read more",
+    "host_name": "medium.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/posts/weifuru_microsoftbitnet-b158-2b-4t-hugging-face-activity-7318156724912250883-empm",
+    "name": "Introducing BitNet b1.58 2B4T, a 1-bit LLM trained at scale",
+    "snippet": "BitNet b1.58 2B4T is our first (small) large-scale training of native 1-bit LLM / BitNet b1.58 with 2 billion parameters and 4 trillion tokens. Read more",
+    "host_name": "www.linkedin.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

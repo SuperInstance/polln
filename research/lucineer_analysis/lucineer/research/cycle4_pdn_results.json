@@ -1,0 +1,158 @@
+{
+  "parameters": {
+    "core_voltage": 0.9,
+    "voltage_tolerance": 0.05,
+    "max_ir_drop": 0.045,
+    "array_size": 32,
+    "grid_pitch": 0.00016,
+    "metal_layers": 6,
+    "grid_segment_resistance": 0.025,
+    "via_resistance": 0.02,
+    "decap_per_pe": 1e-10,
+    "decap_esr": 0.02,
+    "decap_esl": 5e-12,
+    "package_type": "48-pin QFN",
+    "num_vdd_pins": 12,
+    "num_vss_pins": 12,
+    "package_inductance": 5e-10,
+    "package_resistance": 0.01,
+    "core_current": 3.5,
+    "peak_current": 5.0,
+    "di_dt_slope": 500000000.0,
+    "tech_node": "28nm",
+    "die_size": 0.0065
+  },
+  "analysis": {
+    "ir_drop": {
+      "uniform": {
+        "max_ir_drop_mv": 32.43951882002237,
+        "avg_ir_drop_mv": 16.77746036654176,
+        "std_ir_drop_mv": 9.094541412074912,
+        "min_voltage_v": 0.8675604811799776,
+        "passes_spec": true
+      },
+      "gaussian": {
+        "max_ir_drop_mv": 34.330573139356886,
+        "avg_ir_drop_mv": 23.91406791392649,
+        "std_ir_drop_mv": 8.711368475952286,
+        "min_voltage_v": 0.8656694268606432,
+        "passes_spec": true
+      },
+      "center_heavy": {
+        "max_ir_drop_mv": 32.91363224127718,
+        "avg_ir_drop_mv": 18.59314037435325,
+        "std_ir_drop_mv": 8.877482513340015,
+        "min_voltage_v": 0.8670863677587228,
+        "passes_spec": true
+      },
+      "worst_case": {
+        "max_ir_drop_mv": 32.11882124354726,
+        "avg_ir_drop_mv": 15.751452211234442,
+        "std_ir_drop_mv": 9.138001049528565,
+        "min_voltage_v": 0.8678811787564528,
+        "passes_spec": true
+      },
+      "corner_heavy": {
+        "max_ir_drop_mv": 32.75597544430359,
+        "avg_ir_drop_mv": 17.759990341844013,
+        "std_ir_drop_mv": 9.112172447515546,
+        "min_voltage_v": 0.8672440245556965,
+        "passes_spec": true
+      }
+    },
+    "decap": {
+      "total_decap_nf": 102.40000000000002,
+      "resonance_freq_mhz": 77.05055550768748,
+      "peak_impedance_mohm": 21.005121594830293,
+      "optimized_total_decap_nf": 102.39999999999999,
+      "decap_per_pe_range_pf": [
+        40.46558560854634,
+        161.86234243040573
+      ]
+    },
+    "dynamic_noise": {
+      "ldi_dt_worst_case_mv": 17.158836907956967,
+      "ldi_dt_typical_mv": 2.040624821084574,
+      "ramp_up_time_ns": 42.093333333333334,
+      "overshoot_mv": 0.0,
+      "damping_ratio": 24.82515847549283
+    },
+    "pin_placement": {
+      "num_vdd_pins": 12,
+      "optimized_positions": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          31
+        ],
+        [
+          31,
+          0
+        ],
+        [
+          31,
+          31
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          0,
+          30
+        ],
+        [
+          1,
+          31
+        ]
+      ],
+      "max_ir_drop_mv": 34.20063544503084,
+      "avg_ir_drop_mv": 16.441719420886233
+    },
+    "compliance": {
+      "ir_drop_spec_mv": 45.0,
+      "actual_max_ir_mv": 34.330573139356886,
+      "ir_drop_passes": true,
+      "ldi_dt_noise_mv": 17.158836907956967,
+      "total_noise_mv": 51.489410047313854,
+      "total_noise_passes": true,
+      "voltage_margin_mv": 10.66942686064312,
+      "decap_adequate": true,
+      "ramp_up_acceptable": true,
+      "impedance_target_mohm": 100,
+      "impedance_passes": true,
+      "all_specs_met": true
+    },
+    "summary": {
+      "max_static_ir_drop_mv": 34.330573139356886,
+      "max_dynamic_noise_mv": 17.158836907956967,
+      "total_power_noise_mv": 51.489410047313854,
+      "resonance_freq_mhz": 77.05055550768748,
+      "total_decap_nf": 102.40000000000002,
+      "all_specs_met": true
+    }
+  }
+}

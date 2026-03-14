@@ -1,0 +1,47 @@
+[
+  {
+    "url": "https://github.com/MineDojo/Voyager",
+    "name": "GitHub - MineDojo/Voyager: An Open-Ended Embodied Agent with Large Language Models",
+    "snippet": "The first LLM-powered embodied lifelong learning agent in Minecraft that continuously explores the world, acquires diverse skills, and makes novel discoveries ...",
+    "host_name": "github.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/eduardoloz/minecraft-agents",
+    "name": "eduardoloz/minecraft-agents: hopper hacks 2026 - GitHub",
+    "snippet": "minecraft-agents. A hopper hacks 2026 project integrating LLM agents with Minecraft, using the Odyssey framework as its upstream agent core.",
+    "host_name": "github.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/CraftJarvis/MineStudio",
+    "name": "MineStudio: A Streamlined Package for Minecraft AI Agent Development · GitHub",
+    "snippet": "MineStudio contains a series of tools and APIs that can help you quickly develop Minecraft AI agents: Simulator: Easily customizable Minecraft simulator ... Missing: SuperInstance | Show results with: SuperInstance\nMineStudio contains a series of tools and APIs that can help you quickly develop Minecraft AI agents: Simulator: Easily customizable Minecraft simulator based on MineRL.",
+    "host_name": "github.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/dawn0815/Awesome-Minecraft-Agent",
+    "name": "lizaijing/Awesome-Minecraft-Agent - GitHub",
+    "snippet": "We introduce a powerful Minecraft agent, Optimus-1, which achieves a 30% improvement over existing agents on 67 long-horizon tasks. Missing: SuperInstance | Show results with: SuperInstance",
+    "host_name": "github.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/gojue/moling-minecraft",
+    "name": "GitHub - gojue/moling-minecraft: MoLing-Minecraft is an AI Agent MCP Server for the Minecraft game, featuring intelligent construction, building, and game control",
+    "snippet": "MoLing-MineCraft is an AI agent MCP server for the Minecraft game, featuring intelligent building, architecture, and game control capabilities. Missing: SuperInstance | Show results with: SuperInstance",
+    "host_name": "github.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  }
+]

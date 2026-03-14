@@ -1,0 +1,26 @@
+{
+  "rau": {
+    "gate_count": 99,
+    "area_um2": 177.29999999999987,
+    "critical_path_ps": 334,
+    "dynamic_power_250mhz_uW": 1600.0,
+    "static_power_nW": 1023,
+    "energy_per_op_pJ": 6.4040919999999995
+  },
+  "mac": {
+    "gate_count": 200,
+    "area_um2": 414.40000000000055,
+    "critical_path_ps": 890,
+    "dynamic_power_250mhz_uW": 3830.0,
+    "static_power_nW": 2384,
+    "energy_per_op_pJ": 15.329536000000001
+  },
+  "improvements": {
+    "gate_reduction": 50.5,
+    "area_reduction": 57.21525096525105,
+    "power_reduction": 58.22454308093995,
+    "energy_reduction": 58.22383665102454,
+    "max_freq_rau_mhz": 2994.011976047904,
+    "max_freq_mac_mhz": 1123.5955056179776
+  }
+}

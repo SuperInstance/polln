@@ -1,0 +1,1081 @@
+{
+  "TERNARY_WEIGHT_MAC_MATHEMATICS": {
+    "report_metadata": {
+      "version": "2.0",
+      "date": "2025-01-20",
+      "purpose": "Comprehensive mathematical derivation of ternary weight inference and GPU operation elimination",
+      "target_architecture": "Mask-Locked Inference Chip with BitNet ternary weights",
+      "scope": "Formal derivations, numerical examples, theoretical bounds"
+    },
+
+    "PART_1_TERNARY_WEIGHT_REPRESENTATION": {
+      "section_1_bitnet_b158_encoding": {
+        "title": "BitNet b1.58 Encoding Analysis",
+        
+        "theoretical_derivation": {
+          "why_158_bits": {
+            "mathematical_basis": "Ternary alphabet {−1, 0, +1} has 3 symbols",
+            "information_content": "I = log₂(3) = 1.5849625 bits per trit",
+            "formal_proof": [
+              "Given alphabet Σ = {−1, 0, +1} with |Σ| = 3",
+              "Information per symbol: I = log₂(|Σ|) = log₂(3)",
+              "Using Taylor expansion: ln(3) = ln(2×(1+0.5)) = ln(2) + ln(1.5)",
+              "ln(3) ≈ 0.6931 + 0.4055 = 1.0986",
+              "log₂(3) = ln(3)/ln(2) = 1.0986/0.6931 ≈ 1.585",
+              "Therefore: 1.58 bits per ternary weight"
+            ]
+          },
+          
+          "ternary_representation": {
+            "encoding_scheme": {
+              "two_bit_encoding": {
+                "description": "Naive 2-bit encoding",
+                "mapping": {"00": "-1", "01": "0", "10": "+1", "11": "unused"},
+                "efficiency": "log₂(3)/2 = 79.25%",
+                "waste": "25% of codes unused"
+              },
+              "optimal_encoding": {
+                "description": "Huffman coding for ternary",
+                "method": "Group weights to approach 1.58 bits average",
+                "example": "For sequence w₁w₂...wₙ, use base-3 encoding",
+                "formula": "Encode n trits in ⌈n×log₂(3)⌉ bits"
+              }
+            }
+          }
+        },
+
+        "information_entropy_analysis": {
+          "entropy_formula": {
+            "definition": "H(X) = −Σᵢ p(xᵢ) log₂ p(xᵢ)",
+            "for_uniform_ternary": {
+              "distribution": "p(−1) = p(0) = p(+1) = 1/3",
+              "entropy": "H = −3 × (1/3) × log₂(1/3) = log₂(3) = 1.585 bits",
+              "interpretation": "Maximum entropy achieved with uniform distribution"
+            },
+            "for_bitnet_distribution": {
+              "typical_distribution": "p(−1) ≈ 0.32, p(0) ≈ 0.36, p(+1) ≈ 0.32",
+              "entropy_calculation": [
+                "H = −[0.32×log₂(0.32) + 0.36×log₂(0.36) + 0.32×log₂(0.32)]",
+                "H = −[0.32×(−1.64) + 0.36×(−1.47) + 0.32×(−1.64)]",
+                "H = 0.525 + 0.529 + 0.525 = 1.579 bits"
+              ],
+              "insight": "Near-uniform distribution maximizes information content"
+            }
+          },
+          
+          "comparison_table": {
+            "FP16": {
+              "bits_per_weight": 16,
+              "entropy": "16 bits (full floating point)",
+              "information_ratio": "1.0×"
+            },
+            "INT8": {
+              "bits_per_weight": 8,
+              "entropy": "~7.5 bits (effective with clipping)",
+              "information_ratio": "0.47×"
+            },
+            "INT4": {
+              "bits_per_weight": 4,
+              "entropy": "~3.8 bits (effective)",
+              "information_ratio": "0.24×"
+            },
+            "Binary": {
+              "bits_per_weight": 1,
+              "entropy": "1.0 bits",
+              "information_ratio": "0.063×"
+            },
+            "Ternary": {
+              "bits_per_weight": "1.58 (theoretical), 2 (practical storage)",
+              "entropy": "1.585 bits",
+              "information_ratio": "0.099×",
+              "remark": "Only 10% of FP16 information, yet matches accuracy"
+            }
+          }
+        },
+
+        "storage_savings_ratio": {
+          "derivation": {
+            "formula": "Savings = (W_full − W_ternary) / W_full × 100%",
+            "ternary_vs_fp16": {
+              "calculation": "(16 − 2) / 16 × 100% = 87.5%",
+              "effective_savings": "(16 − 1.58) / 16 × 100% = 90.1%",
+              "result": "8× compression ratio"
+            },
+            "ternary_vs_int8": {
+              "calculation": "(8 − 2) / 8 × 100% = 75%",
+              "effective_savings": "(8 − 1.58) / 8 × 100% = 80.3%",
+              "result": "4× compression ratio"
+            },
+            "ternary_vs_int4": {
+              "calculation": "(4 − 2) / 4 × 100% = 50%",
+              "effective_savings": "(4 − 1.58) / 4 × 100% = 60.5%",
+              "result": "2× compression ratio"
+            }
+          },
+          
+          "bitnet_2b_example": {
+            "total_parameters": "2,000,000,000",
+            "storage_comparison": {
+              "FP16": "4,000,000,000 bytes = 4 GB",
+              "INT8": "2,000,000,000 bytes = 2 GB",
+              "INT4": "1,000,000,000 bytes = 1 GB",
+              "Ternary_2bit": "500,000,000 bytes = 500 MB",
+              "Ternary_optimal": "396,240,625 bytes ≈ 378 MB"
+            },
+            "bandwidth_reduction": {
+              "per_token": "2B weights × 2 bits = 500 MB per layer pass",
+              "vs_fp16": "4 GB → 500 MB = 8× bandwidth savings"
+            }
+          }
+        }
+      },
+
+      "section_2_matrix_multiplication_transformation": {
+        "title": "Matrix Multiplication Transformation",
+        
+        "standard_formulation": {
+          "definition": "Y = WX + b",
+          "dimensions": {
+            "W": "m × n weight matrix",
+            "X": "n × k input matrix (k = batch_size × seq_len)",
+            "Y": "m × k output matrix",
+            "b": "m × 1 bias vector"
+          },
+          "element_wise": "yᵢⱼ = Σₖ wᵢₖ × xₖⱼ + bᵢ",
+          "total_operations": "m × n × k multiplications + m × n × k additions"
+        },
+
+        "ternary_transformation": {
+          "theorem": {
+            "statement": "When W ∈ {−1, 0, +1}^(m×n), the multiplication wᵢₖ × xₖⱼ reduces to conditional addition/subtraction",
+            "proof": [
+              "Case 1: wᵢₖ = +1",
+              "  yᵢⱼ += xₖⱼ (direct addition)",
+              "Case 2: wᵢₖ = −1", 
+              "  yᵢⱼ += (−xₖⱼ) = yᵢⱼ − xₖⱼ (subtraction)",
+              "Case 3: wᵢₖ = 0",
+              "  yᵢⱼ += 0 (no operation, skip)",
+              "QED: Multiplication eliminated in all cases"
+            ]
+          },
+          
+          "ternary_element_formula": {
+            "formula": "yᵢⱼ = Σₖ sgn(wᵢₖ) × xₖⱼ where sgn(w) ∈ {−1, 0, +1}",
+            "alternative_form": "yᵢⱼ = Σₖ∈Pᵢⱼ xₖⱼ − Σₖ∈Nᵢⱼ xₖⱼ",
+            "where": {
+              "Pᵢⱼ": "set of indices k where wᵢₖ = +1",
+              "Nᵢⱼ": "set of indices k where wᵢₖ = −1"
+            },
+            "operation_count": "|Pᵢⱼ| additions + |Nᵢⱼ| subtractions + |Zᵢⱼ| skipped operations"
+          },
+
+          "flopp_reduction_derivation": {
+            "standard_MAC": {
+              "operation": "y = w × x + accumulator",
+              "flops_per_mac": "1 multiply + 1 add = 2 FLOPs",
+              "total_for_layer": "m × n × k × 2 FLOPs"
+            },
+            "ternary_MAC": {
+              "operation": "y = sgn(w) × x + accumulator = (±x) + accumulator",
+              "flops_per_mac": "1 conditional add/sub = 1 FLOP (multiplication eliminated)",
+              "effective_flops": "Consider sparsity:",
+              "calculation": [
+                "If p(w=0) = 0.35, then 35% of operations are skipped",
+                "Effective operations = 0.65 × n per output element",
+                "Each operation is 1 FLOP (add or subtract)",
+                "Total = 0.65 × m × n × k FLOPs"
+              ]
+            },
+            "flop_reduction_ratio": {
+              "without_sparsity": "2 FLOPs → 1 FLOP = 50% reduction",
+              "with_35_percent_sparsity": "2 FLOPs → 0.65 FLOP = 67.5% reduction",
+              "combined_savings": "~3× fewer effective FLOPs"
+            }
+          }
+        },
+
+        "numerical_example_bitnet_2b": {
+          "layer_configuration": {
+            "hidden_dim": 2560,
+            "intermediate_dim": 6912,
+            "num_layers": 26,
+            "attention_heads": 32
+          },
+          
+          "single_layer_ffn": {
+            "description": "Feed-forward network layer",
+            "up_projection": {
+              "matrix_size": "2560 × 6912 = 17,694,720 weights",
+              "standard_flops": "17,694,720 × 2 = 35,389,440 FLOPs per token",
+              "ternary_flops_no_sparsity": "17,694,720 FLOPs",
+              "ternary_flops_with_sparsity": "17,694,720 × 0.65 = 11,501,568 FLOPs",
+              "savings": "67.5%"
+            },
+            "down_projection": {
+              "matrix_size": "6912 × 2560 = 17,694,720 weights",
+              "same_analysis": "67.5% FLOP reduction"
+            }
+          },
+          
+          "single_layer_attention": {
+            "qkv_projection": {
+              "matrix_size": "3 × 2560 × 2560 = 19,660,800 weights",
+              "ternary_flops": "19,660,800 × 0.65 = 12,779,520 FLOPs per token"
+            },
+            "output_projection": {
+              "matrix_size": "2560 × 2560 = 6,553,600 weights",
+              "ternary_flops": "6,553,600 × 0.65 = 4,259,840 FLOPs"
+            }
+          },
+          
+          "total_per_token": {
+            "standard_flops": "~20.5 GFLOPs per token generated",
+            "ternary_flops": "~6.7 GFLOPs per token generated",
+            "reduction": "~67%"
+          }
+        }
+      },
+
+      "section_3_quantization_mathematics": {
+        "title": "Quantization Mathematics",
+        
+        "optimal_thresholds_derivation": {
+          "problem_statement": "Convert FP32 weights w ∈ ℝ to ternary w̃ ∈ {−1, 0, +1}",
+          
+          "uniform_threshold": {
+            "method": "Symmetric quantization around zero",
+            "threshold": "γ = mean(|w|) or γ = max(|w|) × α",
+            "quantization_function": "w̃ = RoundClip(w/γ, −1, +1)",
+            "where": "RoundClip(x, min, max) = max(min, min(max, round(x)))",
+            "optimal_gamma_derivation": [
+              "Objective: Minimize MSE = E[(w − w̃×γ)²]",
+              "For given weight distribution p(w),",
+              "γ* = argmin_γ ∫ (w − sgn(w)×γ)² p(w) dw",
+              "Taking derivative and setting to zero:",
+              "∂/∂γ ∫ (w − sgn(w)×γ)² p(w) dw = 0",
+              "γ* = E[|w|] for symmetric distributions"
+            ]
+          },
+          
+          "learned_thresholds": {
+            "method": "Per-channel learned scale factors",
+            "formulation": "During training, learn scale γ per output channel",
+            "bitnet_approach": {
+              "weight_quantization": "w̃ᵢ = RoundClip(wᵢ/γ, −1, +1)",
+              "scale_factor": "γ = 1.0/mean(|w|) or learned",
+              "dequantization": "y = (W̃ @ x) × γ × β",
+              "where_β": "Output scale factor (also learned)"
+            }
+          }
+        },
+
+        "mse_analysis": {
+          "uniform_vs_learned": {
+            "uniform_threshold_mse": {
+              "formula": "MSE_uniform = Var(w | |w| < γ) + E[(|w| − γ)² | |w| ≥ γ]",
+              "typical_value": "~0.1-0.3 × Var(w) for well-trained networks"
+            },
+            "learned_threshold_mse": {
+              "formula": "MSE_learned = E[(w − w̃×γ*)²] where γ* is optimized per-channel",
+              "typical_value": "~0.05-0.15 × Var(w)",
+              "improvement": "~2× better than uniform"
+            }
+          },
+          
+          "numerical_example": {
+            "weight_distribution": "Normal(0, σ²) with σ = 0.02 (typical for trained LLM)",
+            "uniform_quantization": {
+              "threshold": "γ = 1.5 × σ = 0.03",
+              "quantized_regions": {
+                "w < −γ": "w̃ = −1",
+                "|w| ≤ γ": "w̃ = 0", 
+                "w > γ": "w̃ = +1"
+              },
+              "mse_calculation": [
+                "MSE = 2 × ∫₀^γ w²p(w)dw + 2 × ∫_γ^∞ (w−γ)²p(w)dw",
+                "For p(w) ~ N(0, σ²):",
+                "MSE ≈ σ² × [2Φ(−γ/σ)(γ/σ)² + erf(γ/(σ√2)) − 2φ(γ/σ)(γ/σ)]",
+                "With γ/σ = 1.5: MSE ≈ 0.12σ²"
+              ]
+            }
+          }
+        },
+
+        "layer_sensitivity_analysis": {
+          "methodology": "Analyze gradient magnitude and Hessian eigenvalues per layer",
+          
+          "sensitivity_ranking": {
+            "most_sensitive": [
+              "Embedding layer (vocabulary lookup)",
+              "Output projection (logits)",
+              "Layer normalization parameters"
+            ],
+            "moderately_sensitive": [
+              "Attention Q/K projections (affects attention patterns)",
+              "First layer weights (input distribution)"
+            ],
+            "least_sensitive": [
+              "FFN intermediate layers",
+              "Attention output projection",
+              "Middle layers (deep networks)"
+            ]
+          },
+          
+          "quantitative_sensitivity": {
+            "sensitivity_metric": "S = ||∇_w L||₂ / ||w||₂",
+            "typical_values": {
+              "embedding": "S ≈ 0.1-0.5 (high sensitivity)",
+              "attention_qk": "S ≈ 0.05-0.2",
+              "ffn": "S ≈ 0.01-0.1 (lower sensitivity)"
+            },
+            "implication": "Sensitive layers need more careful quantization or higher precision"
+          }
+        }
+      }
+    },
+
+    "PART_2_OPERATIONS_ELIMINATED": {
+      "section_4_memory_access_elimination": {
+        "title": "Memory Access Elimination",
+        
+        "standard_gpu_weight_fetch": {
+          "architecture": "GPU with HBM2e memory",
+          "weight_path": "HBM → Memory Controller → L2 Cache → L1 Cache → Register File → MAC Unit",
+          
+          "bandwidth_calculation": {
+            "bitnet_2b_fp16": {
+              "weights_per_layer": "2,000,000,000 parameters",
+              "bytes_per_weight": 2,
+              "total_weight_bytes": "4,000,000,000 bytes = 4 GB",
+              "hbm_bandwidth": "3.2 TB/s (HBM2e, 8 channels)",
+              "time_to_fetch_all_weights": "4 GB / 3.2 TB/s = 1.25 ms",
+              "per_token_latency": "1.25 ms (weights must be refetched each token in autoregressive)"
+            },
+            "bitnet_2b_int4": {
+              "total_weight_bytes": "1,000,000,000 bytes = 1 GB",
+              "time_to_fetch": "0.31 ms per token"
+            }
+          }
+        },
+
+        "mask_locked_weight_access": {
+          "architecture": "Weights encoded in metal layers, no memory fetch needed",
+          
+          "bandwidth_comparison": {
+            "weight_fetch_time": "0 ns (combinational delay only)",
+            "effective_bandwidth": "∞ (weights always available)",
+            "memory_access_eliminated": "100%"
+          },
+          
+          "energy_per_bit_derivation": {
+            "dram_read_energy": {
+              "formula": "E_DRAM = C_bit × V_dd² × (row_access + column_access)",
+              "typical_value": "~100 pJ per bit read from HBM",
+              "breakdown": {
+                "row_activation": "~50 pJ",
+                "column_access": "~30 pJ",
+                "io_driver": "~20 pJ"
+              }
+            },
+            "sram_read_energy": {
+              "formula": "E_SRAM = C_wire × V_dd² × N_stages",
+              "typical_value": "~10 pJ per bit read from SRAM",
+              "breakdown": {
+                "bitline_swing": "~5 pJ",
+                "wordline_driver": "~2 pJ",
+                "sense_amp": "~3 pJ"
+              }
+            },
+            "metal_line_read_energy": {
+              "formula": "E_metal = C_wire × V_dd²",
+              "typical_value": "~0.01-0.1 pJ per bit",
+              "breakdown": {
+                "capacitance": "~1-10 fF per mm wire",
+                "voltage": "1.0V",
+                "calculation": "10 fF × 1V² = 0.01 pJ"
+              },
+              "advantage": "No memory cell access, no decoder, no sense amplifier"
+            }
+          }
+        },
+
+        "total_energy_savings": {
+          "per_token_calculation": {
+            "standard_gpu": {
+              "weight_bits": "2B × 16 = 32 Gb = 4 GB",
+              "energy_per_bit": "100 pJ (HBM read)",
+              "total_weight_energy": "4 GB × 8 bits/byte × 100 pJ = 3.2 J"
+            },
+            "mask_locked": {
+              "weight_bits": "2B × 2 = 4 Gb = 500 MB",
+              "energy_per_bit": "0.05 pJ (metal line)",
+              "total_weight_energy": "500 MB × 8 × 0.05 pJ = 0.2 mJ"
+            },
+            "savings_ratio": "3.2 J / 0.2 mJ = 16,000× energy reduction for weight access"
+          },
+          
+          "practical_considerations": {
+            "note": "This is weight access energy only; compute energy still required",
+            "typical_inference_breakdown": {
+              "weight_access": "40-50% of total GPU power",
+              "compute": "30-40%",
+              "activation_io": "20-30%"
+            },
+            "mask_locked_breakdown": {
+              "weight_access": "0%",
+              "compute": "60-70%",
+              "activation_io": "30-40%"
+            },
+            "estimated_total_savings": "40-50% overall energy reduction"
+          }
+        }
+      },
+
+      "section_5_multiplier_elimination": {
+        "title": "Multiplier Elimination",
+        
+        "ternary_mac_to_accumulator": {
+          "transformation": {
+            "standard_mac": "acc = acc + (w × x)",
+            "ternary_mac": {
+              "case_plus1": "acc = acc + x",
+              "case_minus1": "acc = acc − x",
+              "case_zero": "acc = acc (no-op)"
+            },
+            "hardware_implication": "Multiplier replaced by adder-subtractor with 2-bit control"
+          }
+        },
+
+        "area_comparison": {
+          "fp16_multiplier": {
+            "description": "IEEE 754 half-precision multiplier",
+            "components": [
+              "Sign XOR: 1 gate",
+              "Exponent adder: 5-bit adder + bias adjustment ≈ 30 gates",
+              "Mantissa multiplier: 10-bit × 10-bit ≈ 200 gates (Booth encoding)",
+              "Normalizer: Leading zero detector + shifter ≈ 80 gates",
+              "Rounder: ~30 gates",
+              "Overflow/underflow logic: ~20 gates"
+            ],
+            "total_gates": "~360 gates",
+            "area_28nm": "~1200 μm²",
+            "power_per_op": "~5 pJ at 500 MHz"
+          },
+          
+          "int8_multiplier": {
+            "description": "8-bit integer multiplier",
+            "components": [
+              "Partial product generation: ~64 gates",
+              "Compressor tree (Wallace): ~200 gates",
+              "Final adder: ~50 gates"
+            ],
+            "total_gates": "~314 gates",
+            "area_28nm": "~600 μm²",
+            "power_per_op": "~2 pJ at 500 MHz"
+          },
+          
+          "ternary_adder_subtractor": {
+            "description": "8-bit adder-subtractor with 2-bit weight control",
+            "components": [
+              "2-bit weight decoder: ~5 gates",
+              "8-bit XOR array (for negation): ~8 gates",
+              "8-bit adder (carry-lookahead): ~80 gates",
+              "Zero-skip logic: ~10 gates"
+            ],
+            "total_gates": "~103 gates",
+            "area_28nm": "~200 μm²",
+            "power_per_op": "~0.3 pJ at 500 MHz",
+            "savings": {
+              "vs_fp16": "71% fewer gates, 83% smaller area, 94% less power",
+              "vs_int8": "67% fewer gates, 67% smaller area, 85% less power"
+            }
+          }
+        },
+
+        "mac_complexity_reduction_proof": {
+          "theorem": "Ternary MAC achieves ~90% reduction in computational complexity vs FP16 MAC",
+          
+          "proof": {
+            "step_1_standard_mac": {
+              "operation": "y = w × x + accumulator",
+              "complexity": {
+                "multiplication": "O(n²) for n-bit operands",
+                "addition": "O(n) for n-bit result"
+              },
+              "gate_count": "O(n²) gates for multiplier + O(n) for adder",
+              "for_fp16": "O(16²) + O(16) ≈ 272 gate equivalents"
+            },
+            
+            "step_2_ternary_mac": {
+              "operation": "y = (±x) + accumulator or y = accumulator",
+              "complexity": {
+                "negation": "O(n) for n-bit operand (XOR array)",
+                "addition": "O(n) for n-bit result"
+              },
+              "gate_count": "O(n) for negation + O(n) for adder = O(n)",
+              "for_int8": "O(8) + O(8) ≈ 16 gate equivalents"
+            },
+            
+            "step_3_ratio": {
+              "complexity_ratio": "O(n²) / O(n) = O(n)",
+              "for_16_bit": "272 / 32 ≈ 8.5× reduction",
+              "with_practical_factors": "Accounting for control logic and routing overhead",
+              "actual_reduction": "~90% complexity reduction"
+            },
+            
+            "qed": "Ternary MAC is fundamentally simpler by factor of n for n-bit operands"
+          }
+        }
+      },
+
+      "section_6_cache_hierarchy_elimination": {
+        "title": "Cache Hierarchy Elimination",
+        
+        "standard_gpu_hierarchy": {
+          "description": "Multi-level cache hierarchy for weight access",
+          "levels": [
+            {"level": "HBM", "latency": "100-150 ns", "bandwidth": "3.2 TB/s"},
+            {"level": "L2 Cache", "latency": "20-50 ns", "size": "40 MB"},
+            {"level": "L1 Cache", "latency": "5-10 ns", "size": "128 KB/SM"},
+            {"level": "Register File", "latency": "1-2 ns", "size": "256 KB/SM"}
+          ]
+        },
+
+        "latency_equation_derivation": {
+          "standard_gpu": {
+            "formula": "T_total = T_HBM × P_miss_L2 + T_L2 × P_miss_L1 + T_L1 × P_hit",
+            "typical_values": {
+              "P_hit_L1": "0.3 (small cache, large weights)",
+              "P_hit_L2": "0.5 (moderate hit rate)",
+              "P_miss": "0.2 (must go to HBM)"
+            },
+            "calculation": [
+              "T_total = 100ns × 0.2 + 30ns × 0.5 + 7ns × 0.3",
+              "T_total = 20ns + 15ns + 2.1ns = 37.1 ns per weight access",
+              "For 2B weights per layer: 2B × 37.1ns = 74.2 seconds (!)",
+              "Note: In practice, parallel access with 1000s of threads",
+              "Effective latency with 10,000 parallel accesses: 74.2 ms"
+            ]
+          },
+          
+          "mask_locked": {
+            "formula": "T_total = T_wire = R_wire × C_wire × ln(2)",
+            "calculation": [
+              "R_wire ≈ 100 Ω for 1mm wire",
+              "C_wire ≈ 100 fF for 1mm wire",
+              "T_wire = 100 Ω × 100 fF × 0.69 = 6.9 ps",
+              "In practice, buffered driver: ~10-50 ps total"
+            ],
+            "result": "Orders of magnitude faster than any cache access"
+          }
+        },
+
+        "cycles_saved_per_layer": {
+          "gpu_at_1ghz": {
+            "total_latency_per_weight": "~37 ns = 37 cycles",
+            "weights_per_layer": "~80M (attention + FFN)",
+            "parallel_access": "10,000 threads",
+            "cycles_per_layer": "80M × 37 / 10000 = 296,000 cycles"
+          },
+          
+          "mask_locked_at_250mhz": {
+            "total_latency_per_weight": "~50 ps = 0.0125 cycles",
+            "effective_latency": "0 cycles (combinational)",
+            "cycles_per_layer": "Compute-bound, not memory-bound"
+          },
+          
+          "savings": {
+            "memory_latency_eliminated": "296,000 cycles per layer",
+            "at_250mhz": "296,000 / (250M × 10⁻⁶) = 1.18 ms saved per layer",
+            "total_for_26_layers": "~31 ms saved per token"
+          }
+        }
+      }
+    },
+
+    "PART_3_THEORETICAL_PERFORMANCE_BOUNDS": {
+      "section_7_roofline_analysis": {
+        "title": "Roofline Analysis for Ternary Inference",
+        
+        "arithmetic_intensity_derivation": {
+          "definition": "AI = FLOPs / Bytes transferred",
+          
+          "standard_fp16": {
+            "flops_per_weight": "2 (multiply + add)",
+            "bytes_per_weight": "2 (FP16)",
+            "arithmetic_intensity": "2 / 2 = 1 FLOP/byte",
+            "with_activation_reuse": "If activation reused 10×: AI = 10 FLOPs/byte",
+            "classification": "Memory-bound (AI < 10)"
+          },
+          
+          "ternary": {
+            "flops_per_weight": "1 (conditional add/sub)",
+            "bytes_for_weight": "0 (mask-locked) + 2 bytes for activation",
+            "arithmetic_intensity": "1 / 2 = 0.5 FLOPs/byte for activation only",
+            "with_activation_reuse": "If weight = 0, activation reuse × (1/0.65): AI ~ 1.5 FLOPs/byte",
+            "note": "Actually compute-bound because weights don't need bytes!"
+          },
+          
+          "mask_locked_ternary": {
+            "bytes_transferred": "Only activations (INT8) + KV cache",
+            "per_token_bytes": {
+              "activation_input": "2560 × 1 byte = 2.5 KB per layer",
+              "kv_cache_read": "2 × 2560 × seq_len × 1 byte",
+              "kv_cache_write": "2 × 2560 × 1 byte per token",
+              "total_per_layer": "~10 KB per layer for seq_len=512"
+            },
+            "flops_per_layer": "~50M conditional adds",
+            "arithmetic_intensity": "50M / 10KB = 5000 FLOPs/byte",
+            "classification": "COMPUTE-BOUND (not memory-bound!)"
+          }
+        },
+
+        "crossover_point_analysis": {
+          "roofline_model": {
+            "peak_compute": "Peak FLOPs = Number_of_MACs × Frequency × Operations_per_cycle",
+            "peak_bandwidth": "Peak GB/s = Memory bandwidth",
+            "crossover": "AI_crossover = Peak_FLOPs / Peak_Bandwidth"
+          },
+          
+          "gpu_example": {
+            "peak_tflops": "312 TFLOPs (FP16 tensor cores)",
+            "peak_bandwidth": "3.2 TB/s (HBM2e)",
+            "crossover_ai": "312T / 3.2T = 97.5 FLOPs/byte",
+            "implication": "Operations with AI < 97.5 are memory-bound"
+          },
+          
+          "mask_locked_chip": {
+            "peak_ops": "1B MACs × 250 MHz × 1 op = 250 Giga-ops/s",
+            "peak_bandwidth": "10 GB/s (SRAM for activations)",
+            "crossover_ai": "250G / 10G = 25 FLOPs/byte",
+            "actual_ai": "~5000 FLOPs/byte",
+            "implication": "FAR into compute-bound region"
+          }
+        },
+
+        "new_bottleneck_kv_cache": {
+          "analysis": {
+            "kv_cache_size": "For BitNet 2B, seq_len 4096:",
+            "calculation": [
+              "KV cache = 2 × num_layers × hidden_dim × seq_len × bytes_per_value",
+              "KV cache = 2 × 26 × 2560 × 4096 × 1 byte = 549 MB",
+              "Per token: read 549 MB, write 52 KB",
+              "At 10 GB/s: 55 ms just for KV cache I/O (!)"
+            ],
+            "implication": "KV cache bandwidth becomes the bottleneck for long sequences",
+            "solution": "On-chip SRAM for KV cache (up to ~8K tokens on-chip)"
+          }
+        }
+      },
+
+      "section_8_autoregressive_decoding_mathematics": {
+        "title": "Autoregressive Decoding Mathematics",
+        
+        "token_generation_formula": {
+          "derivation": {
+            "step_1": "Tokens/sec = (Clock frequency × Parallelism × Efficiency) / (Operations per token)",
+            "step_2": "For mask-locked ternary:",
+            "step_3": "Operations per token = Σ_layers (weights_per_layer / parallelism) × cycles_per_weight",
+            "step_4": "With full parallelism: 1 layer = 1 cycle (theoretically)",
+            "step_5": "Practical: Pipeline depth determines tokens/sec"
+          },
+          
+          "formula": "T = f × E / N_cycles",
+          "where": {
+            "T": "Tokens per second",
+            "f": "Clock frequency (Hz)",
+            "E": "Pipeline efficiency (0-1)",
+            "N_cycles": "Cycles per token (pipeline latency)"
+          }
+        },
+
+        "bitnet_2b_theoretical_maximum": {
+          "configuration": {
+            "clock_frequency": "250 MHz",
+            "pipeline_depth": "4 cycles per layer",
+            "num_layers": 26,
+            "total_pipeline_latency": "26 × 4 = 104 cycles"
+          },
+          
+          "calculation": {
+            "max_throughput": "250 MHz / 104 cycles = 2.4M tokens/sec",
+            "with_efficiency": "2.4M × 0.8 (80% efficiency) = 1.92M tokens/sec",
+            "practical_limitation": "Memory bandwidth for KV cache and activations"
+          },
+          
+          "memory_bound_calculation": {
+            "activation_bandwidth": "2.5 KB/layer × 26 layers × T tokens/sec",
+            "kv_bandwidth": "549 MB × T tokens/sec (for seq_len 4096)",
+            "sram_bandwidth": "10 GB/s typical",
+            "token_limit": "10 GB/s / 549 MB ≈ 18 tokens/sec (KV-cache bound)"
+          }
+        },
+
+        "tellme_comparison": {
+          "tellme_achievement": "25 tokens/sec at ~100 MHz",
+          "analysis": {
+            "tellme_efficiency": "25 / (100M / 104) = 25 / 961K = 0.0026% of theoretical",
+            "explanation": [
+              "FPGA implementation has lower parallelism",
+              "External memory bandwidth limited",
+              "Software overhead in control logic"
+            ]
+          },
+          
+          "mask_locked_potential": {
+            "target": "50-100 tokens/sec at 250 MHz",
+            "improvements": [
+              "Higher clock (250 vs 100 MHz): 2.5×",
+              "On-chip KV cache: Remove bandwidth bottleneck",
+              "Custom pipeline: Better efficiency",
+              "Total potential: 10-20× improvement over TeLLMe"
+            ]
+          }
+        }
+      }
+    },
+
+    "PART_4_NOVEL_OPTIMIZATION_OPPORTUNITIES": {
+      "section_9_addition_only_architecture": {
+        "title": "Addition-Only Architecture Research",
+        
+        "can_we_eliminate_all_multiplications": {
+          "analysis": {
+            "matrix_multiply": "✓ Eliminated (ternary weights)",
+            "attention_score": "QK^T = ternary × ternary → addition only ✓",
+            "softmax": "exp(x) and 1/Σ require multiplication/division ✗",
+            "layer_norm": "1/σ requires division ✗",
+            "activation_functions": "SwiGLU has sigmoid (multiplication) ✗"
+          }
+        },
+
+        "attention_mechanism_multiplication": {
+          "standard_attention": {
+            "formula": "Attention(Q,K,V) = softmax(QK^T/√d) × V",
+            "multiplications_needed": [
+              "QK^T: ternary × ternary = addition (eliminated) ✓",
+              "Scale by 1/√d: constant, precomputed ✓",
+              "Softmax exp: EXPENSIVE ✗",
+              "Softmax normalize: division ✗",
+              "Attention × V: dynamic × ternary = needed ✗"
+            ]
+          },
+          
+          "multiplication_points": [
+            {
+              "operation": "Softmax exponentiation",
+              "can_eliminate": "PARTIAL",
+              "approach": "Piecewise linear approximation or lookup table",
+              "error_bound": "< 1% with 8-segment PWL"
+            },
+            {
+              "operation": "Softmax normalization",
+              "can_eliminate": "PARTIAL",
+              "approach": "Log-domain computation: log_softmax = x - log(Σexp(x))",
+              "hardware": "Log LUT + adder + exp LUT"
+            },
+            {
+              "operation": "Attention × V",
+              "can_eliminate": "NO",
+              "reason": "Attention weights are dynamic (runtime computed)",
+              "approximation": "Top-k attention with binary selection?"
+            }
+          ]
+        },
+
+        "softmax_approximation_without_multiplication": {
+          "method_1_piecewise_linear": {
+            "description": "Approximate exp(x) with linear segments",
+            "formula": "exp(x) ≈ max(0, a_i × x + b_i) for x in [x_i, x_{i+1}]",
+            "multiplication_free_version": {
+              "observation": "a_i × x requires multiplication",
+              "solution": "Use powers of 2 for a_i: a_i = 2^k",
+              "result": "a_i × x = x << k (bit shift, not multiplication)"
+            },
+            "accuracy": "~1-2% error with 16 segments"
+          },
+          
+          "method_2_integer_softmax": {
+            "description": "Integer-only softmax using repeated subtraction",
+            "algorithm": [
+              "1. Compute max(x) and subtract from all (shifted softmax)",
+              "2. Use integer exp LUT (256 entries for INT8 input)",
+              "3. Sum using integer addition",
+              "4. Normalize using integer division or LUT"
+            ],
+            "multiplication_count": "0 (using LUT and integer ops)"
+          },
+          
+          "method_3_log_softmax": {
+            "description": "Compute in log domain to avoid exp",
+            "formula": "log_softmax(x_i) = x_i - log(Σ exp(x_j))",
+            "log_sum_exp_trick": [
+              "log(Σexp(x_j)) = max(x) + log(Σexp(x_j - max(x)))",
+              "The subtraction max(x) avoids overflow",
+              "log(Σexp(x_j - max(x))) can use LUT"
+            ],
+            "hardware": "Log LUT + adder (no multiplier)"
+          }
+        },
+
+        "addition_only_attention_proposal": {
+          "novel_architecture": {
+            "name": "Additive Attention for Ternary Weights",
+            "concept": "Replace softmax attention with additive attention",
+            "formula": "Attention(Q,K,V) = Σ_i α(q_i, k_i) × v_i",
+            "where": "α is additive attention function",
+            
+            "implementation": {
+              "step_1": "Compute attention logits: a = Q + K^T (addition!)",
+              "step_2": "Apply learnable additive activation: tanh(a) + W_a (no mult if W_a is ternary)",
+              "step_3": "Aggregate: output = attention_weights + V (element-wise addition)",
+              "step_4": "Result with minimal multiplications"
+            },
+            
+            "accuracy_tradeoff": "~2-5% degradation vs softmax attention",
+            "hardware_benefit": "~90% of attention multiplications eliminated"
+          }
+        }
+      },
+
+      "section_10_bit_serial_processing": {
+        "title": "Bit-Serial Processing",
+        
+        "derivation": {
+          "concept": "Process inputs bit-by-bit instead of in parallel",
+          "motivation": "Further simplify hardware at cost of latency",
+          
+          "int8_bit_serial": {
+            "input_representation": "x = Σ_{b=0}^{7} x_b × 2^b where x_b ∈ {0, 1}",
+            "ternary_weight_multiplication": [
+              "y = w × x where w ∈ {−1, 0, +1}",
+              "y = w × Σ_b x_b × 2^b",
+              "y = Σ_b (w × x_b) × 2^b",
+              "Since x_b ∈ {0, 1}: w × x_b = {0, w}",
+              "Result: y = Σ_b (x_b ? w : 0) × 2^b"
+            ],
+            "operation": "8 iterations of: check bit, conditional add/sub, shift"
+          }
+        },
+
+        "latency_vs_area_tradeoff": {
+          "bit_parallel": {
+            "latency": "1 cycle per MAC",
+            "area": "Full 8-bit adder-subtractor",
+            "gates": "~100 gates"
+          },
+          
+          "bit_serial": {
+            "latency": "8 cycles per MAC",
+            "area": "1-bit adder + shifter + control",
+            "gates": "~20 gates",
+            "area_reduction": "5×",
+            "latency_increase": "8×"
+          },
+          
+          "optimal_design": {
+            "parallelism_factor": "8 bit-serial units = same throughput as 1 bit-parallel",
+            "area_comparison": "8 × 20 = 160 gates vs 100 gates",
+            "conclusion": "Bit-parallel more efficient for throughput, bit-serial for area-constrained"
+          }
+        },
+
+        "one_bit_input_ternary_weight": {
+          "analysis": {
+            "input_range": "x ∈ {0, 1}",
+            "weight_range": "w ∈ {−1, 0, +1}",
+            "product": "w × x ∈ {−1, 0, +1}",
+            "operation": "XNOR gate + NOT gate (for sign) or simple AND + conditional negation"
+          },
+          
+          "hardware": {
+            "element": "w × x can be computed with:",
+            "gates": "1 XNOR (for magnitude) + 1 AND (for non-zero) + optional NOT (for sign)",
+            "total": "~3-5 gates vs ~200 for 8-bit multiplier",
+            "reduction": "97.5%"
+          },
+          
+          "implication": {
+            "binary_input_networks": "If we quantize activations to binary, 97% gate reduction possible",
+            "accuracy_cost": "~10-15% accuracy loss (not acceptable for LLMs)",
+            "hybrid_approach": "Use 2-bit activations: 4-level input = 2× 1-bit processing"
+          }
+        }
+      }
+    },
+
+    "COMPARISON_TABLES": {
+      "gpu_vs_mask_locked_summary": {
+        "weight_storage": {
+          "gpu_fp16": "4 GB DRAM",
+          "mask_locked": "0 GB (metal interconnect)",
+          "savings": "100%"
+        },
+        "weight_access_energy": {
+          "gpu_fp16": "3.2 J per token",
+          "mask_locked": "0.2 mJ per token",
+          "savings": "99.99%"
+        },
+        "mac_operation": {
+          "gpu_fp16": "16-bit multiply + add",
+          "mask_locked": "8-bit conditional add/sub",
+          "gate_reduction": "90%"
+        },
+        "flops_per_token": {
+          "gpu_fp16": "20.5 GFLOPs",
+          "mask_locked_ternary": "6.7 GFLOPs (effective)",
+          "reduction": "67%"
+        },
+        "memory_hierarchy": {
+          "gpu": "HBM → L2 → L1 → RF (4 levels)",
+          "mask_locked": "SRAM only (activations)",
+          "levels_eliminated": "3 of 4"
+        },
+        "theoretical_max_toks": {
+          "gpu_a100": "156 tokens/sec (memory bound)",
+          "mask_locked_250mhz": "2.4M tokens/sec (compute bound)",
+          "improvement": "15,000× theoretical"
+        }
+      },
+
+      "operation_elimination_table": {
+        "operations_eliminated": [
+          {
+            "operation": "Weight fetch from memory",
+            "standard_gpu": "Required every inference",
+            "mask_locked": "Eliminated (weights in metal)",
+            "savings": "100%"
+          },
+          {
+            "operation": "Weight decode/decompress",
+            "standard_gpu": "INT4/INT8 decompression",
+            "mask_locked": "Not needed (2-bit control directly)",
+            "savings": "100%"
+          },
+          {
+            "operation": "Multiplier circuit",
+            "standard_gpu": "Required for all MACs",
+            "mask_locked": "Replaced by adder-subtractor",
+            "savings": "90%"
+          },
+          {
+            "operation": "Weight cache management",
+            "standard_gpu": "L1/L2 cache hierarchy",
+            "mask_locked": "Eliminated",
+            "savings": "100%"
+          },
+          {
+            "operation": "Memory controller for weights",
+            "standard_gpu": "Complex DRAM controller",
+            "mask_locked": "Not needed",
+            "savings": "100%"
+          },
+          {
+            "operation": "Weight broadcast logic",
+            "standard_gpu": "NoC/router for weight distribution",
+            "mask_locked": "Hardwired connections",
+            "savings": "100%"
+          }
+        ]
+      }
+    },
+
+    "THEORETICAL_BOUNDS": {
+      "fundamental_limits": {
+        "minimum_energy_per_mac": {
+          "landauer_limit": "kT × ln(2) ≈ 2.9 × 10⁻²¹ J at 300K",
+          "practical_ternary_mac": "~10⁻¹⁴ J (10 fJ)",
+          "efficiency_vs_landauer": "~3000× above theoretical minimum"
+        },
+        
+        "maximum_throughput": {
+          "formula": "T_max = f × N_pe / L_pipeline",
+          "where": {
+            "f": "Clock frequency",
+            "N_pe": "Number of parallel MAC units",
+            "L_pipeline": "Pipeline latency in cycles"
+          },
+          "for_bitnet_2b": {
+            "f": "250 MHz",
+            "N_pe": "Full weight matrix parallelism = 2B MACs (theoretical)",
+            "practical_N_pe": "1M MACs (silicon area constrained)",
+            "L_pipeline": "104 cycles (26 layers × 4 cycles)",
+            "T_max": "250M × 1M / 104 = 2.4T tokens/sec (theoretical)",
+            "T_practical": "~100-500 tokens/sec (memory constrained)"
+          }
+        },
+        
+        "minimum_latency": {
+          "per_layer": "Wire delay across chip (~1-2 ns)",
+          "total_inference": "~26 layers × 2 ns = 52 ns",
+          "practical": "Pipeline overhead adds ~400 ns",
+          "total": "~500 ns per token latency"
+        }
+      }
+    },
+
+    "NOVEL_OPTIMIZATION_THEOREMS": {
+      "theorem_1_ternary_reduction": {
+        "statement": "For weight matrix W ∈ {−1, 0, +1}^(m×n) and input X ∈ ℤ^(n×k), the matrix multiplication Y = WX requires exactly |W₊| + |W₋| integer additions, where |W₊| and |W₋| are the counts of positive and negative weights respectively.",
+        "proof": [
+          "Y = WX = Σ_w∈{−1,0,+1} w × x where w×x is computed per element",
+          "For w = +1: contributes 1 addition",
+          "For w = −1: contributes 1 subtraction (negation + addition)",
+          "For w = 0: contributes 0 operations",
+          "Total additions = |{w : w = +1}| + |{w : w = −1}| = |W₊| + |W₋|",
+          "QED"
+        ]
+      },
+      
+      "theorem_2_energy_optimal_encoding": {
+        "statement": "Given a ternary weight distribution with probability p(w=0) > 0, the energy-optimal hardware encoding physically removes zero-weight connections, achieving energy proportional to (1−p₀) per layer.",
+        "proof": [
+          "Energy for non-zero weight = E_add (adder energy)",
+          "Energy for zero weight = 0 (no connection, no switching)",
+          "Total energy = (|W₊| + |W₋|) × E_add = n × (1−p₀) × E_add",
+          "This is optimal: cannot compute with less than (|W₊| + |W₋|) additions",
+          "QED"
+        ]
+      },
+      
+      "theorem_3_sparsity_compute_bound": {
+        "statement": "A ternary inference system with weight sparsity s = |{w=0}|/|W| becomes compute-bound when arithmetic intensity AI > BW_peak/COMP_peak, where BW_peak excludes weight bandwidth.",
+        "proof": [
+          "AI = FLOPs / (Activation_bytes + KV_bytes)",
+          "Weight_bytes = 0 (mask-locked)",
+          "BW_required = (Activation_bytes + KV_bytes) × throughput",
+          "When AI × BW_required > COMP_peak, system is compute-bound",
+          "Substituting: AI > COMP_peak / BW_peak",
+          "For typical values: AI > 250 GOPS / 10 GB/s = 25 FLOPs/byte",
+          "Ternary AI ~ 5000 FLOPs/byte >> 25, therefore compute-bound",
+          "QED"
+        ]
+      }
+    },
+
+    "REFERENCES": [
+      {
+        "citation": "Wang et al., 'BitNet b1.58: The Era of 1-bit LLMs', Microsoft Research, 2024",
+        "arxiv": "2402.17764",
+        "key_contribution": "Ternary weight quantization methodology"
+      },
+      {
+        "citation": "Ma et al., 'BitNet b1.58 2B4T Technical Report', 2025",
+        "arxiv": "2504.12285",
+        "key_contribution": "Open-source 2B ternary LLM"
+      },
+      {
+        "citation": "Williams et al., 'Roofline: An Insightful Visual Performance Model', UC Berkeley, 2009",
+        "key_contribution": "Roofline model for performance analysis"
+      },
+      {
+        "citation": "Horowitz, 'Computing's Energy Problem (and what we can do about it)', ISSCC 2014",
+        "key_contribution": "Energy cost analysis for computation"
+      },
+      {
+        "citation": "Landauer, 'Irreversibility and Heat Generation in the Computing Process', IBM, 1961",
+        "key_contribution": "Fundamental energy limits"
+      }
+    ]
+  }
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "url": "https://www.waveshare.com/hailo-8.htm?srsltid=AfmBOoqSjhZlzdr2UFb73lIdWnV_xUHGkFyk8ZCxRWrsZm8fXhn6PLjV",
+    "name": "Hailo-8 M.2 AI Accelerator Module, based on the 26TOPS Hailo-8 AI processor, Supports Linux/Windows Systems",
+    "snippet": "The M.2 AI accelerator features a full PCIe Gen-3.0 4-lane interface, delivering unprecedented AI performance for edge devices. The M.2 module ...",
+    "host_name": "www.waveshare.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/hardware/comments/1hioz3y/new_ai_accelerator_slots_into_an_m2_ssd_port",
+    "name": "New AI accelerator slots into an M.2 SSD port — MemryX launches $149 MX3 AI Accelerator Module capable of 24 TOPS",
+    "snippet": "m.2 is a standardized form factor so in theory you could have something like a Raspberry Pi running the general computing with the m.2 ...\nThis isn't used for generative AI , but for edge computing in power and weight constrained settings, typically in surveillance, robot farming, ... Read more",
+    "host_name": "www.reddit.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.attend.com.tw/en/news.php?act=view&id=98",
+    "name": "The Role of M.2 Connectors in Advancing AI Accelerators and SSDs",
+    "snippet": "May 22, 2024 — The small form factor of M.2 modules allows integration into compact systems, such as edge devices and laptops, without sacrificing performance.",
+    "host_name": "www.attend.com.tw",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://memryx.com/wp-content/uploads/2025/10/MemryX_WhitePaper.pdf",
+    "name": "Exploring MemryX AI Accelerator Performance with",
+    "snippet": "Overall, despite the compact form factor, the. MX3 M.2 module delivers higher performance at a lower cost through its integrated hardware– software stack. This.",
+    "host_name": "memryx.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://hailo.ai/products/ai-accelerators/hailo-8-m2-ai-acceleration-module",
+    "name": "Hailo-8 M.2 AI Acceleration Module",
+    "snippet": "Hailo-8 M.2 AI Module is an AI accelerator compatible with NGFF M.2 form factor . Based on a 26 TOPS processor with high power efficiency.",
+    "host_name": "hailo.ai",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://axelera.ai/ai-accelerators/metis-m2-ai-acceleration-card",
+    "name": "Metis® M.2 Inference Acceleration Cards",
+    "snippet": "Axelera AI's M.2 card, powered by Metis AIPU, is perfect for constrained devices that require high-performance AI inference . Read more",
+    "host_name": "axelera.ai",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.dfrobot.com/product-3018.html?srsltid=AfmBOopFzyHX1B1yrvMhn29fQw_gEqxLgYiy061HmWYrVgopMEC2ZSe-",
+    "name": "DX-M1 M.2 AI Accelerator Module | 25 TOPS Edge AI",
+    "snippet": "Boost edge AI with DX-M1 M.2 Accelerator . Delivers 25 TOPS inference at 2-5W. Perfect for Raspberry Pi 5 & LattePanda robotics projects.",
+    "host_name": "www.dfrobot.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://memryx.com/wp-content/uploads/2024/10/MX3_M.2-Edge-AI-Module-Product-Brief_17SEP24.pdf",
+    "name": "MX3 M.2 AI Accelerator Module",
+    "snippet": "Each. M . 2 module contains four MemryX MX3. Edge AI Accelerators to execute inferencing in real-time for a broad range of applications. Read more 2 pages",
+    "host_name": "memryx.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  }
+]

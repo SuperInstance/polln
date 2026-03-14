@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://ieeexplore.ieee.org/iel8/6287639/10380310/10776967.pdf",
+    "name": "Trends and Challenges in Computing-in-Memory for Neural",
+    "snippet": "In this paper, we will comprehensively analyze the current problems faced by CIMs from various perspectives, such as CIM memory arrays, ...",
+    "host_name": "ieeexplore.ieee.org",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://scholarworks.bwise.kr/cau/bitstream/2019.sw.cau/86269/1/Dual-Mode%202T1C%20DRAM%20Process-In-Memory%20Architecture%20for%20Boolean%20and%20MAC%20Operations.pdf",
+    "name": "[PDF] Dual-Mode 2T1C DRAM Process-In-Memory Architecture for",
+    "snippet": "Although DRAM is generally slower than SRAM, recent advancements in device engineering have focused on significantly reducing cell leakage current, thereby.",
+    "host_name": "scholarworks.bwise.kr",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.researchgate.net/publication/386432487_Trends_and_Challenges_in_Computing-in-memory_for_Neural_Network_Model_A_Review_from_Device_Design_to_Application-side_Optimization",
+    "name": "(PDF) Trends and Challenges in Computing-in-Memory for Neural",
+    "snippet": "Neural network models have been widely used in various fields as the main way to solve problems in the current artificial intelligence (AI) field.",
+    "host_name": "www.researchgate.net",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11323881",
+    "name": "Semantic memory–based dynamic neural network using memristive",
+    "snippet": "As shown in Fig. 2 (A to C), the ternary weights of the neural network are encoded into the memristive conductances in CIM, and CAM stores the semantic centers.",
+    "host_name": "pmc.ncbi.nlm.nih.gov",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.mdpi.com/2076-3417/14/21/9749",
+    "name": "Logic-Compatible Embedded DRAM Architecture for Multifunctional",
+    "snippet": "The proposed configurable memory unit operates in three modes: (1) memory mode in which it works as a normal dynamic memory, (2) logic– ...",
+    "host_name": "www.mdpi.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.frontiersin.org/journals/nanotechnology/articles/10.3389/fnano.2022.905407/full",
+    "name": "STeP-CiM: Strain-Enabled Ternary Precision Computation-In-Memory",
+    "snippet": "We propose 2D Piezoelectric FET (PeFET) based compute-enabled non-volatile memory for ternary deep neural networks (DNNs).",
+    "host_name": "www.frontiersin.org",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.scribd.com/document/757716510/An-Overview-of-Computing-In-Memory-Circuits-With-DRAM-and-NVM",
+    "name": "An Overview of Computing-In-Memory Circuits With",
+    "snippet": "An Overview of Computing-In-Memory Circuits With DRAM and NVM - Free download as PDF File (.pdf), Text File (.txt) or read online for free.",
+    "host_name": "www.scribd.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://d-nb.info/1247768805/34",
+    "name": "[PDF] Ternary Logic with Stateful Neural Networks Using a Bilayered TaO",
+    "snippet": "A memristive stateful neural network allowing complete Boolean in-memory computing attracts high interest in future electronics.",
+    "host_name": "d-nb.info",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://pubs.aip.org/aip/adv/article/15/12/125102/3374042/A-novel-computing-in-memory-array-based-on-STT",
+    "name": "A novel computing-in-memory array based on STT-MRAM using high on",
+    "snippet": "The CIM architecture based on embedded non-volatile memory (eNVM) enables significant further energy and throughput benefits in AI applications.",
+    "host_name": "pubs.aip.org",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://pure.kaist.ac.kr/en/publications/a-logic-compatible-edram-compute-in-memory-with-embedded-adcs-for",
+    "name": "A Logic-Compatible eDRAM Compute-In-Memory with Embedded ADCs",
+    "snippet": "A novel 4T2C ternary embedded DRAM (eDRAM) cell is proposed for computing a vector-matrix multiplication in the memory array. The proposed eDRAM-based ... Missing: 1C | Show results with: 1C",
+    "host_name": "pure.kaist.ac.kr",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://developers.cloudflare.com/vectorize/get-started/embeddings",
+    "name": "Vectorize and Workers AI - Cloudflare Docs",
+    "snippet": "Vectorize allows you to generate vector embeddings using a machine-learning model, including the models available in Workers AI. Set up Workers AI · Write code in your Worker Missing: codebase management",
+    "host_name": "developers.cloudflare.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.cloudflare.com/developer-platform/products/vectorize",
+    "name": "Vectorize - Cloudflare",
+    "snippet": "Vectorize is a globally distributed vector database that enables you to build full-stack, AI-powered applications with Cloudflare Workers AI. Missing: codebase | Show results with: codebase",
+    "host_name": "www.cloudflare.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://developers.cloudflare.com/vectorize/get-started/intro",
+    "name": "Introduction to Vectorize - Cloudflare Docs",
+    "snippet": "Build an end-to-end vector search application using Workers AI and Vectorize. Learn more about how vector databases work. Read examples on ... Missing: codebase management",
+    "host_name": "developers.cloudflare.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://dev.to/andyjessop/building-an-ai-powered-second-brain-in-a-cloudflare-worker-with-cloudflare-vectorize-and-openai-23di",
+    "name": "Creating a Smart Second Brain: Leveraging Cloudflare Workers",
+    "snippet": "This journey involves using Cloudflare Vectorize for storing snippets of my life and then retrieving relevant entries for each query I have. Missing: codebase | Show results with: codebase",
+    "host_name": "dev.to",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://developers.cloudflare.com/workers-ai",
+    "name": "Overview · Cloudflare Workers AI docs",
+    "snippet": "Workers AI allows you to run AI models in a serverless way, without having to worry about scaling, maintaining, or paying for unused infrastructure. Missing: codebase management",
+    "host_name": "developers.cloudflare.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://lobehub.com/skills/jackspace-claudeskillz-cloudflare-vectorize",
+    "name": "cloudflare-vectorize | Skills Market - LobeHub",
+    "snippet": "Cloudflare Vectorize is a production-ready, globally distributed vector database and toolkit for building semantic search, RAG workflows, ... Missing: codebase | Show results with: codebase",
+    "host_name": "lobehub.com",
+    "rank": 5,
+    "date": "Mar 1, 2026",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.cloudflare.com/learning/ai/what-is-vector-database",
+    "name": "What is a vector database? - Cloudflare",
+    "snippet": "A vector database is a collection of data stored as mathematical representations. Vector databases make it easier for machine learning models to remember ... Missing: codebase | Show results with: codebase",
+    "host_name": "www.cloudflare.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/ever-works/awesome-vector-databases/blob/master/details/cloudflare-vectorize.md",
+    "name": "cloudflare-vectorize.md - GitHub",
+    "snippet": "Cloudflare Vectorize is a globally distributed, managed vector database integrated with Cloudflare Workers and Workers AI. It stores and queries vector ... Missing: codebase | Show results with: codebase",
+    "host_name": "github.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.cloudflare.com/developer-platform/products/workers-ai",
+    "name": "Workers AI - Cloudflare",
+    "snippet": "Workers AI allows you to run AI models, on the Cloudflare network, from your own code — whether that be from Workers, Pages, or via the Cloudflare API. It ... Missing: codebase | Show results with: codebase",
+    "host_name": "www.cloudflare.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.hpcwire.com/bigdatawire/this-just-in/cloudflare-speeds-up-ai-applications-with-vector-database-and-larger-model-support",
+    "name": "Cloudflare Speeds Up AI Applications with Vector Database and Larger",
+    "snippet": "Applications built on Workers AI can now benefit from faster inference, bigger models, improved performance analytics, and more. Workers AI is ... Missing: codebase | Show results with: codebase",
+    "host_name": "www.hpcwire.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

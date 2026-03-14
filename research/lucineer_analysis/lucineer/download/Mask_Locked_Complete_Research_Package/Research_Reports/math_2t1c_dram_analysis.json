@@ -1,0 +1,169 @@
+{
+  "metadata": {
+    "title": "2T1C DRAM Ternary Cell Mathematical Analysis",
+    "source": "KAIST HPIC Lab Research",
+    "process_node": "28nm",
+    "analysis_date": "2024"
+  },
+  "part1_ternary_cell_physics": {
+    "charge_states": {
+      "state_plus1": {
+        "symbol": "Q\u2081",
+        "value_C": 3e-14,
+        "voltage_V": 1.0,
+        "ternary_value": 1,
+        "description": "Fully charged capacitor"
+      },
+      "state_zero": {
+        "symbol": "Q\u2080",
+        "value_C": 1.5e-14,
+        "voltage_V": 0.5,
+        "ternary_value": 0,
+        "description": "Half-charged capacitor (reference)"
+      },
+      "state_minus1": {
+        "symbol": "Q\u208b\u2081",
+        "value_C": 0,
+        "voltage_V": 0,
+        "ternary_value": -1,
+        "description": "Discharged capacitor"
+      }
+    },
+    "noise_analysis": {
+      "cell_capacitance_F": 3e-14,
+      "bitline_capacitance_F": 3e-13,
+      "cell_to_bitline_ratio": 0.1,
+      "thermal_noise_mV": 0.3714835124201342,
+      "bitline_signal_mV": 50.0,
+      "noise_margin_mV": 248.88554946273962,
+      "SNR_dB": 42.58060922270801
+    },
+    "write_operation": {
+      "time_constant_ps": 150.0,
+      "write_time_ns": 0.45,
+      "energy_per_write_aJ": 3750.0
+    }
+  },
+  "part2_adc_free_mac_operations": {
+    "mac_operation": {
+      "cells_per_bitline": 128,
+      "output_range_mV": 12800.0,
+      "precision_bits": 13.487523602995529
+    },
+    "ternary_encoding": {
+      "weight_to_voltage_V": {
+        "plus1": 1.0,
+        "zero": 0.5,
+        "minus1": 0
+      },
+      "charge_representation_fC": {
+        "plus1": 30.0,
+        "zero": 15.0,
+        "minus1": 0
+      }
+    },
+    "adc_free_accumulation": {
+      "method": "binary_weighted_bitlines",
+      "bitlines_for_4bit": 5,
+      "bitlines_for_8bit": 9,
+      "error_propagation_factor": 2.8284271247461903
+    }
+  },
+  "part3_process_compatibility": {
+    "cell_comparison": {
+      "6T_SRAM_um2": 0.12,
+      "1T1C_DRAM_um2": 0.04,
+      "2T1C_logic_um2": 0.08
+    },
+    "process_requirements": {
+      "additional_masks": "2-3",
+      "process_node": "28nm",
+      "compatibility": "logic_process"
+    },
+    "array_efficiency": 0.7
+  },
+  "part4_system_integration": {
+    "llm_kv_cache": {
+      "context_length": 2048,
+      "model_dimension": 4096,
+      "num_layers": 32,
+      "total_cache_MB": 1024.0,
+      "cells_needed_billions": 5.419645315325498,
+      "die_area_mm2": 619.3880360371999,
+      "sram_area_mm2": 128.84901888
+    },
+    "bandwidth": {
+      "cycle_time_ns": 10.0,
+      "read_bandwidth_Gbps": 102.4,
+      "estimated_tokens_per_second": 390625.0
+    }
+  },
+  "part5_novel_architecture": {
+    "hybrid_architecture": {
+      "mask_locked_weights": {
+        "area_mm2": 110.94737505048091,
+        "power_W": 0,
+        "benefit": "Zero power, near-zero area"
+      },
+      "2t1c_kv_cache": {
+        "area_mm2": 619.3880360371999,
+        "power_mW": 858.9934592000001,
+        "benefit": "In-memory compute, ternary precision"
+      },
+      "total_system": {
+        "area_mm2": 730.3354110876808,
+        "power_mW": 1358.9934592
+      }
+    },
+    "attention_compute": {
+      "qkt_operations": 34359738368,
+      "speedup_vs_gpu": 1677.7215999999999,
+      "precision_sufficient": true,
+      "native_precision_bits": 13.487523602995529
+    }
+  },
+  "key_findings": {
+    "ternary_storage": {
+      "states": [
+        "+1",
+        "0",
+        "-1"
+      ],
+      "voltage_levels_V": [
+        1.0,
+        0.5,
+        0
+      ],
+      "information_per_cell_bits": 1.585
+    },
+    "mac_operation": {
+      "method": "Charge sharing on bitlines",
+      "precision_bits": 13.5,
+      "speedup_potential_vs_gpu": "1678\u00d7"
+    },
+    "area_efficiency": {
+      "vs_sram": "1.50\u00d7 smaller",
+      "vs_1t1c_dram": "2.00\u00d7 larger",
+      "absolute_28nm_um2": 0.08
+    },
+    "energy_efficiency": {
+      "per_write_aJ": 3750.0,
+      "vs_lpddr4": "20\u00d7 lower"
+    }
+  },
+  "circuit_equations": {
+    "charge_state_equation": "Q = C \u00d7 V, where V \u2208 {0, Vdd/2, Vdd} for states {-1, 0, +1}",
+    "bitline_voltage_after_sense": "V_BL = V_BL(0) + (C/C_BL) \u00d7 \u03a3(w_i \u00d7 Vdd/2)",
+    "mac_output": "\u03a3(w_i \u00d7 a_i) \u221d \u0394V_BL \u00d7 (C_BL/C) \u00d7 (2/Vdd)",
+    "noise_margin": "NM = \u0394V/2 - 3\u03c3_noise, where \u03c3_noise = \u221a(kT/C)",
+    "write_time": "t_write \u2248 3\u03c4 = 3RC",
+    "write_energy": "E = 0.5 \u00d7 C \u00d7 \u0394V\u00b2"
+  },
+  "recommendations": [
+    "Use binary-weighted bitlines for ADC-free accumulation",
+    "Combine with mask-locked metal for weight storage",
+    "Implement QK^T computation directly in memory array",
+    "Target 4-6 bit precision with additional weighted bitlines",
+    "Optimize cell-to-bitline ratio (r\u22480.1) for SNR > 40dB"
+  ]
+}

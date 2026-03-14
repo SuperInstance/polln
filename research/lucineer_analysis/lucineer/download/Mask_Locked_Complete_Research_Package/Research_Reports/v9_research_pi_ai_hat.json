@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.raspberrypi.com/news/when-and-why-you-might-need-the-raspberry-pi-ai-hat-plus-2",
+    "name": "When and why you might need the Raspberry Pi AI HAT+ 2",
+    "snippet": "It pairs a Hailo-10H AI accelerator capable of up to 40 TOPS of inference performance (INT4) with 8GB of dedicated on-board LPDDR4X memory ...",
+    "host_name": "www.raspberrypi.com",
+    "rank": 0,
+    "date": "Feb 24, 2026",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.jeffgeerling.com/blog/2026/raspberry-pi-ai-hat-2",
+    "name": "Raspberry Pi's new AI HAT adds 8GB of RAM for local LLMs - Jeff Geerling",
+    "snippet": "With that, the Hailo 10H is capable of running LLMs entirely standalone, freeing the Pi's CPU and system RAM for other tasks. The chip runs at a ...",
+    "host_name": "www.jeffgeerling.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.tomshardware.com/raspberry-pi/raspberry-pi-ai-hat-plus-2-review",
+    "name": "Raspberry Pi AI HAT+ 2 Review: The brains and the brawn",
+    "snippet": "Review by Les Pounder 15 Jan 2026 · Raspberry Pi AI HAT+ 2 Specifications ; AI Accelerator. Hailo-10H. Hailo-8, Hailo-8L ; TOPS. 40 (INT4) 26 (Image Inference / Computer Vision). 13 ...",
+    "host_name": "www.tomshardware.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=jRQaur0LdLE",
+    "name": "AI this, AI that, Here's Raspberry Pi's new AI HAT - YouTube",
+    "snippet": "the Hailo 10H for $20 over the original. Raspberry Pi provided the AI ... Raspberry Pi AI HAT+ 2: Setup with Pi 5 & LLM Performance. Gary ...",
+    "host_name": "www.youtube.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.raspberrypi.com/news/introducing-the-raspberry-pi-ai-hat-plus-2-generative-ai-on-raspberry-pi-5",
+    "name": "Introducing the Raspberry Pi AI HAT+ 2: Generative AI on Raspberry Pi 5",
+    "snippet": "This, along with an updated hardware architecture, allows the Hailo-10H chip to accelerate large language models (LLMs), vision-language models ...",
+    "host_name": "www.raspberrypi.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://community.hailo.ai/t/hailo-10h-raspberry-pi/15178",
+    "name": "Hailo-10H Raspberry Pi - General Discussion",
+    "snippet": "A high-performance, power-efficient local LLM inference platform by utilising two Hailo-10H modules on a dual M.2 board with the Raspberry Pi 5.",
+    "host_name": "community.hailo.ai",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://core-electronics.com.au/guides/raspberry-pi-ai-hat-1-vs-ai-hat-2-which-should-you-buy",
+    "name": "Raspberry Pi AI HAT 1 vs AI HAT 2: Which Should You Buy?",
+    "snippet": "... benchmark performance. Most webcams can only run at 60 FPS, and even a Raspberry Pi Camera tops out at about 120 FPS at 480p. We attained ...",
+    "host_name": "core-electronics.com.au",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.cnx-software.com/2026/01/20/raspberry-pi-ai-hat-2-review-a-40-tops-ai-accelerator-tested-with-computer-vision-llm-and-vlm-workloads",
+    "name": "Raspberry Pi AI HAT+ 2 review - A 40 TOPS AI accelerator tested with",
+    "snippet": "Raspberry Pi AI HAT+ 2 review – A 40 TOPS AI accelerator tested with Computer Vision, LLM, and VLM workloads. Raspberry Pi sent me a sample of ...",
+    "host_name": "www.cnx-software.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=si6e5kmLbWc",
+    "name": "Raspberry Pi AI HAT+ 2: Setup with Pi 5 & LLM Performance - YouTube",
+    "snippet": "Let's dive into the Raspberry Pi AI Hat+ 2 with 40 TOPS. I'll walk you through the initial setup process, then show you how to run a Large ... Missing: 10H | Show results with: 10H",
+    "host_name": "www.youtube.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.hackster.io/news/gen-ai-on-your-raspberry-pi-a-hands-on-review-of-the-raspberry-pi-ai-hat-2-3c829a8894dd",
+    "name": "Gen AI on Your Raspberry Pi: A Hands-On Review of  - Hackster.io",
+    "snippet": "From computer vision workloads to large language models (LLMs), Raspberry Pi's latest Hailo-10H accelerator offers 40 TOPS of INT4 compute.",
+    "host_name": "www.hackster.io",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

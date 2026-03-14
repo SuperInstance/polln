@@ -1,0 +1,1112 @@
+{
+  "TELLME_TABLE_LOOKUP_MATH_ANALYSIS": {
+    "metadata": {
+      "version": "1.0",
+      "date": "2025-01-20",
+      "purpose": "Complete mathematical derivation of TeLLMe Table-Lookup MatMul for Gate 0 reference",
+      "source_paper": "arXiv:2510.15926 - TeLLMe v2",
+      "key_results": {
+        "0.73B_model": "25 tok/s at 4.8W on KV260 FPGA",
+        "technique": "Table-Lookup MatMul (TLMM) eliminates DSP multipliers",
+        "resources": "98K LUTs, 610 DSPs, 60 URAMs"
+      }
+    },
+
+    "part_1_table_lookup_matmul_mathematics": {
+      "section_1_ternary_multiplication_truth_table": {
+        "fundamental_principle": {
+          "statement": "For ternary weights w ∈ {-1, 0, +1} and arbitrary activation a, the product w × a is NOT a multiplication operation but a SELECTION operation",
+          "mathematical_proof": {
+            "case_w_equals_plus1": {
+              "weight": "+1",
+              "product": "+1 × a = +a",
+              "operation": "PASS THROUGH (identity function)",
+              "hardware": "Direct connection, 0 gates"
+            },
+            "case_w_equals_minus1": {
+              "weight": "-1",
+              "product": "-1 × a = -a",
+              "operation": "NEGATE (two's complement)",
+              "hardware": "NOT gates + add 1, or dedicated negator"
+            },
+            "case_w_equals_zero": {
+              "weight": "0",
+              "product": "0 × a = 0",
+              "operation": "SKIP (no operation)",
+              "hardware": "No connection, 0 gates, 0 power"
+            }
+          },
+          "critical_insight": "Ternary multiplication is O(1) selection, not O(n²) multiplication. This is the foundational optimization of TLMM."
+        },
+
+        "truth_table_complete": {
+          "description": "All possible products w × a for w ∈ {-1, 0, +1}",
+          "table": [
+            {"w": "+1", "a": "any", "product": "+a", "operation": "select positive"},
+            {"w": "-1", "a": "any", "product": "-a", "operation": "select negative"},
+            {"w": "0", "a": "any", "product": "0", "operation": "select zero"}
+          ],
+          "simplified_truth_table": {
+            "input_bits": 2,
+            "output_function": "f(w, a) = w × a ∈ {-a, 0, +a}",
+            "encoding": {
+              "w_encoding": {"00": "0", "01": "+1", "10": "-1", "11": "reserved"},
+              "a_encoding": "N-bit signed integer (INT4, INT8, etc.)"
+            }
+          }
+        },
+
+        "selection_vs_multiplication": {
+          "multiplication_cost": {
+            "gate_count": "O(N²) gates for N-bit multiplication",
+            "int8_multiplier": "~300-500 gates",
+            "int4_multiplier": "~100-150 gates",
+            "latency": "O(N) stages in carry-save or booth encoding"
+          },
+          "selection_cost": {
+            "gate_count": "O(N) gates for selection/negation",
+            "int8_selector": "~50-80 gates (adder-subtractor mux)",
+            "int4_selector": "~25-40 gates",
+            "latency": "O(1) - single mux + optional negate"
+          },
+          "savings_factor": {
+            "int8": "6-10× fewer gates",
+            "int4": "4-6× fewer gates",
+            "latency_improvement": "3-5× faster"
+          }
+        }
+      },
+
+      "section_2_lookup_table_design": {
+        "lut_entries_derivation": {
+          "concept": "Instead of computing w × a, store all possible products in a lookup table",
+          "entries_per_weight_value": {
+            "description": "For each weight value, we need to store the product for all possible activations",
+            "for_weight_plus1": "Products are {+a | a ∈ range} = same as activation range",
+            "for_weight_minus1": "Products are {-a | a ∈ range} = negated activation range",
+            "for_weight_zero": "Product is always 0 = single value"
+          },
+
+          "activation_range_analysis": {
+            "INT8_activation": {
+              "range": "-128 to +127",
+              "distinct_values": 256,
+              "lut_entries_per_weight": 256,
+              "total_lut_entries": "3 × 256 = 768 entries",
+              "entry_width": "8 bits (for product)",
+              "total_lut_size_bits": "768 × 8 = 6,144 bits"
+            },
+            "INT4_activation": {
+              "range": "-8 to +7",
+              "distinct_values": 16,
+              "lut_entries_per_weight": 16,
+              "total_lut_entries": "3 × 16 = 48 entries",
+              "entry_width": "4 bits",
+              "total_lut_size_bits": "48 × 4 = 192 bits"
+            },
+            "UINT8_activation": {
+              "range": "0 to 255",
+              "distinct_values": 256,
+              "lut_entries_per_weight": 256,
+              "total_lut_entries": "768 entries",
+              "entry_width": "9 bits (need extra bit for signed result)",
+              "total_lut_size_bits": "768 × 9 = 6,912 bits"
+            }
+          },
+
+          "optimization_zero_weight": {
+            "observation": "For w=0, the product is always 0 regardless of activation",
+            "optimized_entries": "2 × 256 = 512 entries (only store +1 and -1 cases)",
+            "savings_percent": "33% reduction in LUT size",
+            "implementation": "Detect w=0 early, output 0 directly"
+          }
+        },
+
+        "optimal_lut_structure": {
+          "design_1_direct_addressed": {
+            "address_bits": "2 (weight) + N (activation bits) = N+2 bits",
+            "for_int8": "10-bit address, 1024-entry LUT",
+            "data_width": "N bits (same as activation)",
+            "access_time": "1 LUT cycle",
+            "fpga_implementation": "Single BRAM or distributed LUTs"
+          },
+
+          "design_2_mux_based": {
+            "concept": "Use activation as mux select, weight as data source select",
+            "structure": [
+              "LUT_pos[activation] = +activation (identity)",
+              "LUT_neg[activation] = -activation (negated)",
+              "Output = MUX(weight, {LUT_pos, LUT_neg, 0})"
+            ],
+            "hardware": [
+              "For INT8: Two 256×8 ROMs + 1 3:1 mux",
+              "For INT4: Two 16×4 ROMs + 1 3:1 mux"
+            ],
+            "advantage": "Simpler routing, regular structure"
+          },
+
+          "design_3_adder_subtractor": {
+            "concept": "No LUT at all - just conditional add/subtract",
+            "structure": [
+              "If w = +1: output = a (pass through)",
+              "If w = -1: output = -a (two's complement negate)",
+              "If w = 0: output = 0 (no operation)"
+            ],
+            "hardware": "Single N-bit adder-subtractor with enable",
+            "advantage": "No memory needed, pure combinational",
+            "fpga_lut_usage": "~8 LUTs per bit = 64 LUTs for INT8 (vs 768 LUTs for stored table)",
+            "savings_vs_bruteforce": "12× more efficient"
+          }
+        },
+
+        "address_encoding_scheme": {
+          "ternary_weight_encoding": {
+            "option_1_two_bit": {
+              "encoding": {"00": "0", "01": "+1", "10": "-1", "11": "invalid"},
+              "advantage": "2 bits minimum",
+              "disadvantage": "Invalid state possible"
+            },
+            "option_2_one_hot": {
+              "encoding": {"001": "0", "010": "+1", "100": "-1"},
+              "advantage": "No invalid states, natural for control",
+              "disadvantage": "3 bits, more routing"
+            },
+            "option_3_signed_magnitude": {
+              "encoding": "1 bit sign + 1 bit magnitude",
+              "formula": "w = sign × magnitude where sign ∈ {-1,+1}, magnitude ∈ {0,1}",
+              "advantage": "Natural for negation control"
+            }
+          },
+
+          "activation_addressing": {
+            "unsigned_offset": "Add 128 to INT8 to get 0-255 address",
+            "signed_direct": "Use two's complement directly as address",
+            "absolute_value": "For sign-magnitude LUT, use |a| as address, sign(a) as separate bit"
+          },
+
+          "combined_address": {
+            "format": "[weight_select_bits][activation_bits]",
+            "int8_example": "weight[1:0] + activation[7:0] = 10-bit address",
+            "int4_example": "weight[1:0] + activation[3:0] = 6-bit address"
+          }
+        }
+      },
+
+      "section_3_accumulation_after_lookup": {
+        "standard_mac_operation": {
+          "formula": "y = Σᵢ wᵢ × xᵢ for i = 1 to N",
+          "per_iteration": "sum += w × a",
+          "hardware": "Multiplier + Adder + Register"
+        },
+
+        "tlmm_accumulation": {
+          "formula": "y = Σᵢ LUT[wᵢ][aᵢ] for i = 1 to N",
+          "per_iteration": "sum += LUT[w][a]",
+          "hardware": "LUT lookup + Adder + Register"
+        },
+
+        "optimized_accumulation": {
+          "grouped_by_weight": {
+            "concept": "Group products by weight value before accumulation",
+            "formula": "y = Σ₊(aᵢ | wᵢ=+1) - Σ₋(aⱼ | wⱼ=-1)",
+            "hardware": [
+              "Accumulator_pos = Σ activations where w = +1",
+              "Accumulator_neg = Σ activations where w = -1",
+              "Output = Accumulator_pos - Accumulator_neg"
+            ],
+            "advantage": "Two adders, no conditional operations in inner loop"
+          },
+
+          "parallel_accumulation": {
+            "concept": "Multiple accumulators for different weight groups",
+            "structure": [
+              "PE_+1: accumulates activations with w = +1",
+              "PE_-1: accumulates activations with w = -1",
+              "PE_0: skipped entirely"
+            ],
+            "throughput": "K activations per cycle with K parallel PEs"
+          }
+        },
+
+        "accumulator_width_calculation": {
+          "worst_case_analysis": {
+            "scenario": "All N weights are +1 (or all -1), all activations at maximum value",
+            "formula": "max_sum = N × max(|a|)",
+            "example_int8_4096_weights": {
+              "N": 4096,
+              "max_activation": 127,
+              "max_sum": "4096 × 127 = 520,192",
+              "bits_needed": "⌈log₂(520,192)⌉ = 20 bits"
+            },
+            "example_int8_2048_weights": {
+              "N": 2048,
+              "max_sum": "2048 × 127 = 260,096",
+              "bits_needed": "19 bits"
+            }
+          },
+
+          "statistical_analysis": {
+            "assumption": "Weights uniformly distributed in {-1, 0, +1}, activations bounded",
+            "expected_sum": "E[y] = E[w] × E[a] × N = 0 (weights have zero mean)",
+            "variance": "Var[y] = N × Var[w] × E[a²]",
+            "var_w": "2/3 (for uniform ternary)",
+            "int8_example": {
+              "E[a²]": "≈ 5500 (typical INT8 activation variance)",
+              "Var[y]": "N × (2/3) × 5500",
+              "std_dev_for_N_4096": "sqrt(4096 × 0.67 × 5500) ≈ 3883",
+              "3_sigma_range": "±11,649 → needs 15 bits for 99.7% coverage"
+            },
+            "practical_width": "16-18 bits sufficient for typical LLM workloads"
+          },
+
+          "layer_specific_requirements": {
+            "attention_layer": {
+              "head_dim": 64,
+              "typical_accumulator_width": "16 bits (64 × 127 / 4 average)"
+            },
+            "mlp_layer": {
+              "intermediate_size": 8192,
+              "typical_accumulator_width": "20 bits"
+            },
+            "recommendation": "Use 20-bit accumulators for safety margin"
+          }
+        }
+      }
+    },
+
+    "part_2_fpga_implementation_analysis": {
+      "section_4_lut_resource_calculation": {
+        "tellme_reference": {
+          "model_size": "0.73B parameters (BitNet b1.58)",
+          "fpga": "AMD Kria KV260 (Zynq UltraScale+ MPSoC)",
+          "luts_used": "98,304 LUTs",
+          "lut_utilization": "~70% of KV260's 141K LUTs"
+        },
+
+        "lut_scaling_formula": {
+          "theory": "LUTs scale with compute parallelism, not directly with parameters",
+          "parallelism_factors": [
+            "Number of parallel MAC units",
+            "Bit-width of each MAC unit",
+            "Control logic overhead"
+          ],
+          "formula_derivation": {
+            "observation": "Mask-locked weights eliminate weight storage in LUTs",
+            "parameter_lut_ratio": "98,304 LUTs / 730M params ≈ 0.135 LUTs per parameter",
+            "interpretation": "This ratio represents the compute parallelism density, not storage"
+          },
+
+          "scaling_analysis": {
+            "linear_scaling_assumption": {
+              "formula": "LUTs_2B = LUTs_0.73B × (2B / 0.73B) = 98K × 2.74 = 269K LUTs",
+              "validity": "INVALID - assumes LUTs store parameters",
+              "reality": "LUTs are for compute, not storage"
+            },
+            "compute_bound_scaling": {
+              "insight": "LUTs determined by parallel MAC units, not parameter count",
+              "formula": "LUTs ≈ num_parallel_PEs × LUTs_per_PE",
+              "for_same_throughput": "Same number of PEs = same LUTs regardless of model size",
+              "for_proportional_throughput": "LUTs scale with desired throughput, not model size"
+            },
+
+            "realistic_scaling": {
+              "scenario_1_same_throughput": {
+                "description": "Keep 25 tok/s target, increase model to 2B",
+                "compute_increase": "2.74× more operations per token",
+                "lut_increase": "2.74× for same throughput (need more PEs)",
+                "estimated_luts": "269K LUTs"
+              },
+              "scenario_2_same_latency": {
+                "description": "Keep same per-token latency, larger model",
+                "lut_increase": "2.74× for same latency",
+                "estimated_luts": "269K LUTs"
+              },
+              "scenario_3_reduced_throughput": {
+                "description": "Accept proportionally lower tok/s",
+                "lut_usage": "Same 98K LUTs",
+                "throughput": "25 / 2.74 ≈ 9 tok/s"
+              }
+            }
+          }
+        },
+
+        "2b_on_kv260_feasibility": {
+          "kv260_resources": {
+            "total_luts": "141,000",
+            "available_for_compute": "~100,000 (after system overhead)",
+            "tellme_usage": "98,304 LUTs"
+          },
+
+          "analysis": {
+            "same_throughput_2b": {
+              "luts_needed": "269,000",
+              "fits_on_kv260": false,
+              "deficit": "128,000 LUTs (91% over capacity)"
+            },
+            "proportional_throughput": {
+              "luts_needed": "98,304",
+              "expected_throughput": "9 tok/s",
+              "fits_on_kv260": true
+            },
+            "optimized_implementation": {
+              "techniques": [
+                "Better LUT packing (4 LUTs per slice)",
+                "DSP-free accumulation",
+                "Time-multiplexed PEs"
+              ],
+              "potential_savings": "20-30% LUT reduction",
+              "optimized_luts_needed": "190K for 25 tok/s",
+              "still_fits": false
+            }
+          },
+
+          "recommendation": "2B model on KV260 requires either: (a) lower throughput ~9 tok/s, or (b) larger FPGA"
+        },
+
+        "lut_efficiency_analysis": {
+          "luts_per_parameter": "0.135 LUTs/param",
+          "interpretation": "This is the compute density for TLMM",
+          "comparison_to_other_approaches": {
+            "traditional_int8_mac": {
+              "luts_per_pe": "~150-200 LUTs (adder + control)",
+              "throughput_per_pe": "1 INT8 MAC/cycle",
+              "efficiency": "~0.75 LUTs per INT8 MAC/cycle"
+            },
+            "tlmm_mac": {
+              "luts_per_pe": "~50-80 LUTs (adder-subtractor + mux)",
+              "throughput_per_pe": "1 ternary MAC/cycle",
+              "efficiency": "~0.065 LUTs per ternary MAC/cycle"
+            },
+            "improvement_factor": "~12× more efficient than traditional"
+          }
+        }
+      },
+
+      "section_5_dsp_elimination": {
+        "tellme_dsp_usage": {
+          "dsps_used": 610,
+          "total_kv260_dsps": 768,
+          "utilization": "79.4%"
+        },
+
+        "dsp_purpose_analysis": {
+          "question": "If TLMM eliminates multipliers, why use 610 DSPs?",
+          "potential_uses": [
+            {
+              "purpose": "Accumulation",
+              "description": "DSP48E2 can implement 48-bit accumulator",
+              "advantage": "Efficient add with preload, cascade"
+            },
+            {
+              "purpose": "Non-ternary operations",
+              "description": "Layer norm, softmax, attention still need multipliers",
+              "layers": [
+                "LayerNorm: scale × (x - mean) / std",
+                "Softmax: exp(x) computation",
+                "Attention score: QK^T still needs scaling"
+              ]
+            },
+            {
+              "purpose": "INT8 activation processing",
+              "description": "Dequantization, rescaling between layers",
+              "operations": "Multiplication by scale factors"
+            },
+            {
+              "purpose": "Embedding layer",
+              "description": "Token embedding lookup + positional encoding",
+              "operations": "Not ternary, needs real multiplication"
+            }
+          ],
+
+          "dsp_allocation_estimate": {
+            "accumulation": "~200 DSPs (efficient 48-bit accumulators)",
+            "layer_norm_softmax": "~150 DSPs (floating point or fixed mult)",
+            "attention_scaling": "~100 DSPs (1/sqrt(d) scaling)",
+            "embedding_dequant": "~100 DSPs (scale factors)",
+            "overhead_spares": "~60 DSPs",
+            "total": "~610 DSPs"
+          }
+        },
+
+        "dsp_free_possibility": {
+          "can_eliminate_dsp": {
+            "accumulation": {
+              "current": "DSP48E2 accumulator",
+              "alternative": "LUT-based adder tree with register",
+              "luts_cost": "48 bits × 1 LUT/bit = 48 LUTs per accumulator",
+              "total_lut_cost": "200 accumulators × 48 = 9,600 LUTs",
+              "feasibility": "YES - adds 10% LUT overhead, saves 200 DSPs"
+            },
+            "layer_norm": {
+              "current": "DSP for multiplication",
+              "alternative": "LUT-based fixed-point multiplier",
+              "challenge": "Division (1/std) needs approximation",
+              "solution": "Newton-Raphson or LUT-based reciprocal",
+              "feasibility": "POSSIBLE - more LUTs, but doable"
+            },
+            "softmax": {
+              "current": "DSP for exp computation",
+              "alternative": "Piecewise linear exp approximation",
+              "implementation": "Comparator + MUX + adder (LUT only)",
+              "feasibility": "YES - standard technique"
+            },
+            "attention_scaling": {
+              "current": "DSP for 1/sqrt(d_k) multiplication",
+              "alternative": "Precomputed constant, shift-add",
+              "feasibility": "YES - constant known at design time"
+            },
+            "embedding": {
+              "current": "DSP for embedding scale",
+              "alternative": "Hardwired scale in embedding output path",
+              "feasibility": "YES - mask-locked advantage"
+            }
+          },
+
+          "dsp_free_estimate": {
+            "total_luts_needed": "98K + 20K (replacements) = 118K LUTs",
+            "fits_kv260": true,
+            "dsps_eliminated": "610 → 0",
+            "advantage": "Frees DSPs for future features or other IP blocks"
+          },
+
+          "recommendation": "DSP-free implementation IS possible with ~20% additional LUTs. Worth pursuing for ASIC where DSPs don't exist."
+        }
+      },
+
+      "section_6_uram_usage": {
+        "tellme_uram_usage": {
+          "urams_used": 60,
+          "total_kv260_urams": 64,
+          "utilization": "93.75%"
+        },
+
+        "uram_capacity": {
+          "per_uram": "288 Kb = 36 KB",
+          "total_capacity": "60 × 36 KB = 2.16 MB"
+        },
+
+        "uram_contents_analysis": {
+          "what_is_stored": {
+            "kv_cache": {
+              "description": "Key-Value cache for attention",
+              "size_per_token": "49,152 bytes (derived in KV cache analysis)",
+              "max_tokens_with_60_uram": "2.16 MB / 49 KB ≈ 44 tokens"
+            },
+            "activations": {
+              "description": "Intermediate layer activations",
+              "size": "Hidden_size × num_layers × bytes_per_element",
+              "for_0.73b": "2048 × 24 × 2 = 98 KB per activation set"
+            },
+            "embeddings": {
+              "description": "Token and positional embeddings",
+              "vocab_size": "32,000",
+              "embedding_dim": "2048",
+              "size": "32K × 2048 × 2 bytes = 128 MB",
+              "stored_in_uram": "NO - too large, must be in DRAM"
+            }
+          },
+
+          "actual_allocation_estimate": {
+            "kv_cache_short": "44 tokens × 49 KB = 2.16 MB",
+            "activation_buffer": "Streaming, not stored",
+            "attention_buffer": "Per-head intermediate",
+            "conclusion": "Primary use is KV cache for short sequences"
+          }
+        },
+
+        "kv_cache_storage": {
+          "on_chip_strategy": {
+            "recent_tokens": "URAM for most recent N tokens",
+            "older_tokens": "LPDDR4 for longer context",
+            "hybrid_approach": "Hot cache in URAM, cold cache in DRAM"
+          },
+
+          "memory_bandwidth_constraints": {
+            "lpddr4_kv260": "4.2 GB/s",
+            "kv_read_per_token_2048_ctx": "2.5 GB/s at 25 tok/s",
+            "overhead_factor": "2.5× for prefill + other accesses",
+            "effective_bandwidth_needed": "6.4 GB/s",
+            "deficit": "52% over LPDDR4 capacity"
+          },
+
+          "solutions": {
+            "int4_kv_cache": "4× reduction → 1.6 GB/s bandwidth",
+            "sliding_window": "2× reduction for 1024 window",
+            "combined": "8× reduction → 0.8 GB/s, well within LPDDR4"
+          }
+        }
+      }
+    },
+
+    "part_3_scaling_to_2b_parameters": {
+      "section_7_resource_extrapolation": {
+        "scaling_factor": {
+          "from_model": "0.73B",
+          "to_model": "2B",
+          "ratio": "2.74×"
+        },
+
+        "scaling_theory": {
+          "linear_scaling_components": [
+            "Weight matrix dimensions (proportional to parameters)",
+            "Compute operations per token (proportional to parameters)",
+            "KV cache per token (proportional to hidden size, not total params)"
+          ],
+          "sublinear_scaling_components": [
+            "Control logic (fixed overhead)",
+            "Memory interfaces (fixed overhead)",
+            "Attention heads (may not scale linearly)"
+          ],
+          "superlinear_scaling_components": [
+            "Routing complexity (may increase superlinearly)",
+            "Memory bandwidth contention"
+          ]
+        },
+
+        "resource_scaling_formulas": {
+          "luts_scaling": {
+            "formula": "LUTs(N) = LUTs_base × (N / N_base) × efficiency_factor",
+            "efficiency_factor": "Accounts for fixed overheads, typically 0.8-1.0",
+            "for_2b": "98K × 2.74 × 0.9 ≈ 241K LUTs"
+          },
+
+          "dsps_scaling": {
+            "formula": "DSPs(N) = DSPs_base × (N / N_base) × ops_per_param_factor",
+            "ops_per_param_factor": "~1.0 for linear scaling",
+            "for_2b": "610 × 2.74 ≈ 1,672 DSPs",
+            "note": "If going DSP-free, this becomes 0"
+          },
+
+          "uram_scaling": {
+            "formula": "URAM(N) = URAM_base + additional_for_kv",
+            "kv_scaling": "Scales with hidden_size, not total params",
+            "2b_hidden_size": "2560 (vs 2048 for 0.73B)",
+            "kv_ratio": "2560 / 2048 = 1.25×",
+            "for_2b": "60 × 1.25 = 75 URAMs"
+          }
+        },
+
+        "larger_fpga_analysis": {
+          "zynq_ultrascale_plus_vu9p": {
+            "luts": "2,764,800",
+            "dsps": "6,840",
+            "uram": "960",
+            "2b_feasibility": "Easily fits with room for optimization"
+          },
+          "zynq_ultrascale_plus_zu19eg": {
+            "luts": "1,143,600",
+            "dsps": "1,968",
+            "uram": "304",
+            "2b_feasibility": "Good fit, some headroom"
+          },
+          "kv260_limitation": "Cannot fit 2B at same throughput as 0.73B"
+        }
+      },
+
+      "section_8_performance_scaling": {
+        "baseline_performance": {
+          "model": "0.73B BitNet",
+          "throughput": "25 tok/s",
+          "tokens_per_joule": "25 / 4.8 = 5.2 tok/J"
+        },
+
+        "scaling_derivation": {
+          "compute_per_token": {
+            "formula": "Ops_per_token ∝ N_params",
+            "for_2b": "2.74× more ops per token"
+          },
+
+          "memory_per_token": {
+            "kv_cache": "Scales with hidden_size, ~1.25×",
+            "activation_io": "Scales with hidden_size, ~1.25×",
+            "weight_io": "0 for mask-locked (hardwired)"
+          },
+
+          "throughput_formula": {
+            "general": "Throughput = min(compute_bound, memory_bound)",
+            "compute_bound": "Frequency × Parallelism / Ops_per_token",
+            "memory_bound": "Bandwidth / Bytes_per_token"
+          },
+
+          "scaling_prediction": {
+            "same_hardware": {
+              "compute_bound_throughput": "25 / 2.74 = 9.1 tok/s",
+              "memory_bound_throughput": "25 / 1.25 = 20 tok/s",
+              "bottleneck": "Compute (as expected for mask-locked)",
+              "predicted_throughput": "9 tok/s"
+            },
+            "scaled_hardware": {
+              "compute_increase": "2.74× more PEs",
+              "predicted_throughput": "25 tok/s maintained",
+              "resource_cost": "2.74× LUTs, DSPs"
+            }
+          }
+        },
+
+        "scaling_analysis": {
+          "linear_or_sublinear": {
+            "analysis": "Throughput scales INVERSELY LINEARLY with model size for fixed hardware",
+            "formula": "T(N) = T_base × (N_base / N)",
+            "reason": "More parameters = more operations per token"
+          },
+
+          "superlinear_possible": {
+            "scenario": "If memory becomes bottleneck at larger sizes",
+            "effect": "Performance drops faster than linear",
+            "mitigation": "KV cache optimization becomes more important"
+          }
+        }
+      },
+
+      "section_9_power_scaling": {
+        "baseline_power": {
+          "total": "4.8W",
+          "breakdown_estimate": {
+            "compute_lut": "1.5W (~31%)",
+            "compute_dsp": "1.0W (~21%)",
+            "memory_uram": "0.8W (~17%)",
+            "memory_lpddr4": "0.8W (~17%)",
+            "control_io": "0.7W (~14%)"
+          }
+        },
+
+        "power_scaling_formula": {
+          "compute_power": {
+            "formula": "P_compute ∝ Activity_factor × Capacitance × V² × Frequency",
+            "scaling_with_size": "For more PEs: linear increase",
+            "scaling_with_frequency": "Linear with frequency"
+          },
+
+          "memory_power": {
+            "formula": "P_memory ∝ Bandwidth_utilization × Access_energy",
+            "kv_cache_power": "Scales with context length and throughput",
+            "activation_power": "Scales with throughput"
+          },
+
+          "combined_formula": {
+            "approximate": "P_total(N) ≈ P_compute × (N/N_base) + P_memory × (hidden_ratio) + P_fixed",
+            "for_2b_same_throughput": {
+              "compute_power": "1.5W × 2.74 = 4.1W",
+              "dsp_power": "1.0W × 2.74 = 2.7W (or 0 if DSP-free)",
+              "memory_power": "0.8W × 1.25 = 1.0W",
+              "fixed_power": "0.7W",
+              "total": "4.1 + 2.7 + 1.0 + 0.7 = 8.5W (with DSPs)",
+              "total_dsp_free": "4.1 + 1.0 + 1.0 + 0.7 = 6.8W"
+            }
+          }
+        },
+
+        "5w_budget_compliance": {
+          "challenge": "2B model at 25 tok/s exceeds 5W budget",
+          "solutions": [
+            {
+              "approach": "Reduce throughput",
+              "target": "9 tok/s",
+              "power": "4.8W × (9/25) × (2.74/1) ≈ 4.7W",
+              "feasibility": "Fits 5W budget"
+            },
+            {
+              "approach": "DSP-free implementation",
+              "savings": "~2W from eliminating DSPs",
+              "power": "6.8W - 2W = 4.8W",
+              "feasibility": "Fits 5W budget at 25 tok/s"
+            },
+            {
+              "approach": "Lower voltage/frequency",
+              "power_reduction": "V² scaling, ~30% at 85% voltage",
+              "throughput_impact": "15% slower",
+              "combined": "May achieve 5W at ~20 tok/s"
+            },
+            {
+              "approach": "Better process node",
+              "28nm_to_22fdx": "~20% power reduction",
+              "28nm_to_7nm": "~50% power reduction"
+            }
+          ],
+
+          "recommended_approach": "DSP-free implementation + modest throughput reduction to hit 5W target for 2B"
+        }
+      }
+    },
+
+    "part_4_asic_translation": {
+      "section_10_lut_to_standard_cell": {
+        "fundamental_difference": {
+          "fpga_lut": {
+            "structure": "6-input LUT can implement ANY 6-input Boolean function",
+            "flexibility": "Programmable at configuration time",
+            "overhead": "Multiplexers, configuration memory",
+            "area_per_lut": "~100-150 μm² at 28nm"
+          },
+          "asic_standard_cell": {
+            "structure": "Fixed Boolean function per cell",
+            "flexibility": "Determined at design time",
+            "efficiency": "Optimized for specific function",
+            "area_per_gate": "~1-5 μm² at 28nm"
+          }
+        },
+
+        "translation_analysis": {
+          "tlmm_cell_design": {
+            "function": "Conditional add/subtract based on 2-bit weight select",
+            "cells_needed": {
+              "mux_2to1": "8 cells (one per bit)",
+              "adder_subtractor_8bit": "~40 cells",
+              "control_logic": "~10 cells",
+              "total": "~58 cells"
+            },
+            "area_estimate": "58 × 3 μm² = 174 μm²",
+            "vs_fpga_luts": {
+              "luts_for_same": "8 LUTs × 125 μm² = 1000 μm²",
+              "area_savings": "5.7× smaller in ASIC"
+            }
+          },
+
+          "per_parameter_analysis": {
+            "fpga_approach": "0.135 LUTs per parameter (compute, not storage)",
+            "asic_approach": {
+              "mask_locked_weight": "0 area - hardwired in metal",
+              "computation_cell": "1/100 of adder per weight = 0.4 μm²",
+              "total_per_param": "~0.4 μm²"
+            },
+            "for_2b_params": "0.4 × 2B = 800 mm² (too large)",
+            "reality_check": "Parameters are time-multiplexed, not spatially instantiated"
+          },
+
+          "realistic_asic_sizing": {
+            "parallel_pes": "10,000 (for target throughput)",
+            "area_per_pe": "174 μm²",
+            "pe_array_area": "1.74 mm²",
+            "control_and_routing": "×3 overhead = 5.2 mm²",
+            "sram_for_kv": "~50 mm² for 16 MB",
+            "total_die_estimate": "~60 mm²",
+            "vs_fpga_kv260": "~180 mm² die",
+            "area_efficiency": "3× better in ASIC"
+          }
+        },
+
+        "power_savings_asic": {
+          "source_of_savings": [
+            {
+              "factor": "No configuration memory",
+              "savings": "~20% reduction"
+            },
+            {
+              "factor": "Optimized cell sizing",
+              "savings": "~15% reduction"
+            },
+            {
+              "factor": "No programmable routing",
+              "savings": "~30% reduction"
+            },
+            {
+              "factor": "Custom datapath",
+              "savings": "~10% reduction"
+            }
+          ],
+          "total_power_reduction": "~60% vs FPGA implementation",
+          "projected_power": "4.8W × 0.4 = 1.9W for 0.73B at 25 tok/s"
+        }
+      },
+
+      "section_11_mask_locked_tlmm_combination": {
+        "synergy_analysis": {
+          "mask_locked_advantages": [
+            "Weights stored in metal layers (zero SRAM for weights)",
+            "No weight fetch power or latency",
+            "Weight sparsity physically implemented (no wires for w=0)"
+          ],
+          "tlmm_advantages": [
+            "No multipliers needed",
+            "Simple add/subtract operations",
+            "Efficient LUT-based or pure combinational"
+          ],
+          "combined_benefits": {
+            "weight_access": "Zero (mask-locked)",
+            "weight_decode": "Zero (hardwired to adder control)",
+            "multiplication": "Zero (TLMM eliminates)",
+            "remaining": "Just activation routing and accumulation"
+          }
+        },
+
+        "optimal_implementation": {
+          "architecture": "Weight bits control adder-subtractor directly",
+          "structure": {
+            "metal_layer_1": "Weight sign bit routing",
+            "metal_layer_2": "Weight magnitude routing",
+            "combinational_logic": "Mux + Adder-Subtractor",
+            "register": "Accumulator state"
+          },
+          "area_breakdown": {
+            "metal_routing_per_weight": "~0.1 μm² (negligible)",
+            "adder_subtractor_per_pe": "~100 μm²",
+            "accumulator_register": "~50 μm²",
+            "total_per_pe": "~150 μm²"
+          }
+        },
+
+        "storage_allocation": {
+          "in_mask": "All ternary weights {-1, 0, +1} as 2-bit patterns in metal",
+          "in_sram": "Activations (INT8), KV cache (INT8/INT4), partial sums",
+          "in_lut_or_hardwired": "Computation logic (not data)"
+        }
+      },
+
+      "section_12_theoretical_limits": {
+        "efficiency_analysis": {
+          "theoretical_optimal": {
+            "energy_per_ternary_mac": {
+              "add_operation": "1-10 fJ at 28nm",
+              "negate_operation": "0.5-5 fJ (NOT gates)",
+              "accumulate": "1-10 fJ (register write)",
+              "total_optimal": "2.5-25 fJ per ternary MAC"
+            },
+            "ops_per_joule": "40-400 TOPS/J (ternary ops)"
+          },
+
+          "tellme_achieved": {
+            "tokens_per_second": 25,
+            "ops_per_token_estimate": "0.73B × 2 = 1.46B ops (forward + backward approx)",
+            "ops_per_second": "36.5B ops/s",
+            "power": "4.8W",
+            "ops_per_joule": "7.6 TOPS/J",
+            "efficiency_vs_optimal": "1.9-19% of theoretical optimal"
+          },
+
+          "remaining_optimization": {
+            "fpga_overhead": "3-5× vs optimal (configurable routing)",
+            "memory_access": "~30% of power (KV cache, activations)",
+            "control_overhead": "~10% of power",
+            "potential_improvement": "5-10× with ASIC optimization"
+          }
+        },
+
+        "fundamental_bounds": {
+          "landauer_limit": "kT ln(2) ≈ 2.9 zJ per bit operation at 300K",
+          "ternary_operation_minimum": "3 × Landauer ≈ 8.7 zJ",
+          "practical_limit": "~10-100× Landauer = 0.1-1 fJ",
+          "tellme_vs_practical": "25 fJ achieved vs 0.1-1 fJ practical limit",
+          "gap": "25-250× above practical limit",
+          "conclusion": "Significant room for optimization remains"
+        }
+      }
+    },
+
+    "part_5_novel_optimizations": {
+      "section_13_multi_bit_ternary": {
+        "concept": {
+          "description": "Process multiple ternary operations per LUT entry or per cycle",
+          "motivation": "Amortize LUT lookup overhead across multiple operations"
+        },
+
+        "vectorized_tlmm": {
+          "approach_1_parallel_weights": {
+            "description": "Process K weights with same activation simultaneously",
+            "structure": "K parallel adder-subtractors, one shared activation input",
+            "lut_savings": "1 activation lookup for K operations",
+            "hardware": "K × (adder-subtractor) + 1 activation bus",
+            "example": "K=8, process 8 weights per activation load",
+            "throughput_improvement": "8× for weight-heavy layers"
+          },
+
+          "approach_2_parallel_activations": {
+            "description": "Process one weight across K activations simultaneously",
+            "structure": "K parallel adder-subtractors with K activations",
+            "use_case": "Batch processing or multi-head attention",
+            "throughput_improvement": "K× for activation-parallel scenarios"
+          },
+
+          "approach_3_simd_ternary": {
+            "description": "Pack multiple ternary weights into single LUT entry",
+            "encoding": {
+              "4_weights_in_8_bits": "2 bits per weight × 4 = 8 bits",
+              "lut_entry": "Contains 4 weight encodings",
+              "processing": "Decode and process 4 weights in parallel"
+            },
+            "lut_utilization": "4× better",
+            "throughput": "4× per LUT access"
+          }
+        },
+
+        "throughput_calculation": {
+          "baseline": "1 ternary MAC per cycle",
+          "with_vectorization_k8": "8 ternary MACs per cycle",
+          "frequency_impact": "May reduce by 10-20% due to larger datapath",
+          "net_improvement": "6.4-7.2× throughput"
+        }
+      },
+
+      "section_14_sparse_activation_handling": {
+        "activation_sparsity_analysis": {
+          "observation": "After ReLU or similar activations, many values are zero or near-zero",
+          "in_llm_inference": {
+            "after_layer_norm": "Usually dense (normalized)",
+            "after_ge_glu": "Some sparsity (~20-40%)",
+            "after_attention_softmax": "Often sparse (attention patterns)"
+          }
+        },
+
+        "zero_skip_optimization": {
+          "mechanism": {
+            "detection": "Compare activation to zero threshold",
+            "action": "Skip entire MAC operation if activation is zero",
+            "savings": "No adder toggling, no register update"
+          },
+
+          "expected_sparsity": {
+            "activation_zero_percent": "20-40% typical",
+            "attention_zero_percent": "40-60% typical (sparse attention)",
+            "combined_average": "~35% zeros"
+          },
+
+          "speedup_calculation": {
+            "without_skip": "Process all N operations",
+            "with_skip": "Process N × (1 - sparsity) operations",
+            "speedup_factor": "1 / (1 - 0.35) = 1.54×",
+            "power_reduction": "~35% from skipped operations"
+          }
+        },
+
+        "near_zero_approximation": {
+          "threshold_based": {
+            "concept": "Treat |a| < threshold as zero",
+            "benefit": "Higher skip rate",
+            "risk": "Accuracy degradation",
+            "typical_threshold": "INT8: |a| < 2 (out of 127)"
+          },
+          "expected_skip_rate": "Additional 10-15%",
+          "total_speedup": "1.7× combined"
+        }
+      },
+
+      "section_15_dynamic_lut_reconfiguration": {
+        "time_multiplexed_design": {
+          "concept": "Same LUT hardware processes different layers sequentially",
+          "rationale": "Layers execute sequentially, don't need simultaneous hardware"
+        },
+
+        "reconfiguration_strategy": {
+          "layer_by_layer": {
+            "description": "Process one layer at a time, reconfigure between layers",
+            "reconfig_time": "~1-10 cycles for simple weight routing",
+            "overhead_percent": "~0.01% for 1000+ cycle layers"
+          },
+
+          "attention_head_multiplex": {
+            "description": "Process attention heads sequentially",
+            "heads_per_layer": "32 heads",
+            "multiplex_factor": "32× hardware reuse"
+          },
+
+          "mlp_intermediate_multiplex": {
+            "description": "Process MLP intermediate neurons in batches",
+            "intermediate_size": "8192",
+            "batch_size": "256",
+            "multiplex_factor": "32× hardware reuse"
+          }
+        },
+
+        "hardware_reuse_calculation": {
+          "naive_implementation": "One PE per weight = 2B PEs",
+          "with_multiplexing": {
+            "pe_count": "~10,000 PEs",
+            "reuse_factor": "200,000× (2B / 10K)",
+            "achieved_by": "Time-multiplexing through all weights"
+          },
+          "frequency_consideration": "Must run at 200× higher frequency or accept proportionally lower throughput"
+        },
+
+        "optimal_multiplex_degree": {
+          "tradeoff": {
+            "more_multiplexing": "Less hardware, higher frequency needed",
+            "less_multiplexing": "More hardware, lower frequency acceptable"
+          },
+          "sweet_spot": {
+            "pes": "10,000-50,000",
+            "frequency": "200-500 MHz",
+            "throughput": "20-50 tok/s for 2B model"
+          }
+        }
+      }
+    },
+
+    "summary_and_recommendations": {
+      "key_mathematical_insights": [
+        {
+          "insight": "Ternary multiplication is selection, not multiplication",
+          "implication": "O(1) operation vs O(N²) gates for multiplication"
+        },
+        {
+          "insight": "LUT entries scale with activation precision, not weight count",
+          "implication": "Fixed LUT size regardless of model parameters"
+        },
+        {
+          "insight": "Accumulator width bounded by sqrt(N) statistically",
+          "implication": "16-20 bits sufficient for most LLM layers"
+        },
+        {
+          "insight": "DSP-free implementation possible with ~20% LUT overhead",
+          "implication": "Pure ASIC-compatible design achievable"
+        },
+        {
+          "insight": "Scaling is compute-bound, not memory-bound for mask-locked",
+          "implication": "Throughput scales inversely with model size"
+        }
+      ],
+
+      "scaling_summary": {
+        "from_0.73b_to_2b": {
+          "luts": "98K → 241K (2.46× for same throughput)",
+          "dsps": "610 → 0 (DSP-free achievable)",
+          "uram": "60 → 75 (1.25× for larger hidden size)",
+          "throughput_same_hw": "25 → 9 tok/s",
+          "power_same_hw": "4.8W → 4.7W (proportional throughput)",
+          "power_scaled_hw": "4.8W → 6.8W (25 tok/s, DSP-free)"
+        }
+      },
+
+      "asic_projections": {
+        "area": "~60 mm² for 2B ternary inference chip",
+        "power": "~2W for 0.73B at 25 tok/s",
+        "power_2b": "~3W for 2B at 9 tok/s (same hardware)",
+        "process_node": "28nm recommended (mature, low cost)"
+      },
+
+      "optimization_priorities": [
+        {
+          "priority": 1,
+          "optimization": "DSP-free implementation",
+          "benefit": "20% LUT overhead, 40% power reduction"
+        },
+        {
+          "priority": 2,
+          "optimization": "KV cache compression (INT4 + sliding window)",
+          "benefit": "32× memory reduction, enables 2B on edge"
+        },
+        {
+          "priority": 3,
+          "optimization": "Vectorized TLMM (K=8)",
+          "benefit": "6-8× throughput improvement"
+        },
+        {
+          "priority": 4,
+          "optimization": "Zero-skip activation handling",
+          "benefit": "1.5-1.7× speedup, 35% power reduction"
+        },
+        {
+          "priority": 5,
+          "optimization": "Time-multiplexed PE reuse",
+          "benefit": "100-1000× hardware reduction"
+        }
+      ],
+
+      "gate_0_critical_findings": {
+        "feasibility": "HIGH - TLMM math is sound and validated",
+        "scaling": "Predictable - compute-bound scaling",
+        "asic_advantage": "5-10× efficiency improvement over FPGA",
+        "power_budget": "Achievable - 2W for 0.73B, 3W for 2B with optimizations",
+        "recommendation": "PROCEED with ASIC design using DSP-free TLMM approach"
+      }
+    }
+  }
+}

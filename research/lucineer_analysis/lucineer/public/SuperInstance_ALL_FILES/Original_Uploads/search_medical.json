@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-software-medical-device",
+    "name": "Artificial Intelligence in Software as a Medical Device | FDA",
+    "snippet": "AI/ML technologies have the potential to transform health care by deriving new and important insights from the vast amount of data generated during the ... Missing: chip edge",
+    "host_name": "www.fda.gov",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://onlinelibrary.wiley.com/doi/10.1155/joch/5202999",
+    "name": "A Critical Review of the FDA's Draft Guidance on Artificial Intelligence in",
+    "snippet": "This risk-based approach reflects lessons learned from the FDA's experience regulating AI-enabled medical devices, where a one-size-fits-all ...",
+    "host_name": "onlinelibrary.wiley.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.acldigital.com/blogs/on-device-ai-edge-computing-in-mobile-apps-for-the-healthcare-industry",
+    "name": "On-Device AI & Edge Computing in Healthcare Apps - ACL Digital",
+    "snippet": "Additionally, the regulatory burden is significant. AI-driven medical applications may require FDA or CE certification, necessitating ...",
+    "host_name": "www.acldigital.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://intuitionlabs.ai/pdfs/ai-medical-device-cybersecurity-regulations-risks.pdf",
+    "name": "[PDF] AI Medical Device Cybersecurity: Regulations & Risks - IntuitionLabs.ai",
+    "snippet": "Overall, this report provides an in-depth examination of cybersecurity requirements for AI-enabled medical devices, combining regulatory ...",
+    "host_name": "intuitionlabs.ai",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.sciencedirect.com/science/article/pii/S2211383524004398",
+    "name": "The applications and advances of artificial intelligence in drug regulation",
+    "snippet": "This review aims to provide a comprehensive overview of the current state of AI in drug regulation, encapsulating AI-related policies, initiatives, and its ...",
+    "host_name": "www.sciencedirect.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.researchgate.net/publication/399172444_Privacy-Preserving_AI_Inference_in_Edge_Systems_Ethical_and_Architectural_Tradeoffs",
+    "name": "(PDF) Privacy-Preserving AI Inference in Edge Systems - ResearchGate",
+    "snippet": "Edge AI systems offer compelling advantages for low-latency applications, yet they introduce significant privacy and regulatory challenges ...",
+    "host_name": "www.researchgate.net",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-enabled-medical-devices",
+    "name": "Artificial Intelligence-Enabled Medical Devices - FDA",
+    "snippet": "The AI-Enabled Medical Device List is a resource intended to identify AI-enabled medical devices that are authorized for marketing in the United States. Missing: inference chip edge deployment",
+    "host_name": "www.fda.gov",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.mdpi.com/journal/electronics/special_issues/9O7C074H56",
+    "name": "Edge AI for Biomedical Applications: Innovations in Sensing, Computing",
+    "snippet": "Applications: The deployment of Edge AI in diverse biomedical applications such as remote patient monitoring, wearable health diagnostics, neuroprosthetics, and ...",
+    "host_name": "www.mdpi.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.facebook.com/FrostSullivanAP/posts/handheld-devices-ai-inference-at-the-edge-and-cloud-enabled-diagnostics-are-tran/1300056415488282",
+    "name": "Handheld devices, AI inference at the edge, and cloud-enabled",
+    "snippet": "Recently FDA-approved AI software can detect early signs of breast ... USA developed AI chip decoding images enabling advanced medical ...",
+    "host_name": "www.facebook.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.adlinktech.com/en/news/fda-registration-sjmc",
+    "name": "ADLINK San Jose Manufacturing Center (SJMC) Achieves FDA",
+    "snippet": "ADLINK SJMC has fully met its FDA registration requirements as a Contract Manufacturer in the medical device ecosystem.",
+    "host_name": "www.adlinktech.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

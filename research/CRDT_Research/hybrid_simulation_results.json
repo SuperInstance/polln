@@ -1,0 +1,32 @@
+{
+  "claim_1_tiered": {
+    "description": "95%+ operations use fast path, 90%+ latency reduction",
+    "fast_path_ratio": 0.9882,
+    "latency_vs_consensus_percent": 97.70338983050847,
+    "validated": true
+  },
+  "claim_2_detection": {
+    "description": "CRDT detects 99%+ of conflicts",
+    "conflicts_detected": 0,
+    "total_conflict_checks": 6725,
+    "detection_rate": 0.0,
+    "validated": false
+  },
+  "claim_3_adaptive": {
+    "description": "Adaptive selection achieves 95%+ accuracy",
+    "prediction_accuracy": 0.9882,
+    "static_accuracy": 0.9,
+    "improvement": 0.08819999999999995,
+    "validated": true
+  },
+  "summary": {
+    "overall_latency_reduction": 97.70338983050847,
+    "fast_path_ratio": 0.9882,
+    "prediction_accuracy": 0.9882,
+    "optimal_configuration": {
+      "num_replicas": 16,
+      "criticality_threshold": 0.95,
+      "conflict_threshold": 0.5
+    }
+  }
+}

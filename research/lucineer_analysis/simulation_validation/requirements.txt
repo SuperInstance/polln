@@ -1,0 +1,29 @@
+# Lucineer Simulation Validation Suite - Python Dependencies
+
+# Core scientific computing
+numpy>=1.21.0
+scipy>=1.7.0
+
+# Data structures
+dataclasses>=0.6; python_version < '3.7'
+
+# Visualization
+matplotlib>=3.4.0
+
+# Optional: Statistical power analysis
+statsmodels>=0.13.0
+
+# Optional: Advanced plotting
+seaborn>=0.11.0
+
+# Optional: Progress bars
+tqdm>=4.62.0
+
+# Optional: Better JSON output
+simplejson>=3.17.0
+
+# Development dependencies (optional)
+pytest>=6.2.0
+pytest-cov>=2.12.0
+black>=21.0.0
+mypy>=0.910

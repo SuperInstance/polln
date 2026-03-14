@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://arxiv.org/html/2504.17376v1",
+    "name": "On-Device Qwen2.5: Efficient LLM Inference with Model Compression",
+    "snippet": "Our framework achieves a model compression rate of 55.08% compared to the original model and produces output at a rate of 5.1 tokens per second, ...",
+    "host_name": "arxiv.org",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.researchgate.net/publication/391120273_On-Device_Qwen25_Efficient_LLM_Inference_with_Model_Compression_and_Hardware_Acceleration",
+    "name": "(PDF) On-Device Qwen2.5: Efficient LLM Inference with Model",
+    "snippet": "Our framework achieves a model compression rate of 55.08% compared to the original model and produces output at a rate of 5.1 tokens per second, ...",
+    "host_name": "www.researchgate.net",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.amd.com/en/blogs/2025/accelerating-generative-ai-how-instinct-gpus-delivered.html",
+    "name": "Accelerating Generative AI: How AMD Instinct™ GPUs Delivered",
+    "snippet": "On the Llama 2 70B Server benchmark, the AMD Instinct MI355X delivered a 2.7X increase in tokens per second compared to submitted Instinct ...",
+    "host_name": "www.amd.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.amd.com/en/blogs/2025/experience-unparalleled-performance-with-the-amd-ryzen.html",
+    "name": "Experience Unparalleled Performance with the AMD Ryzen™ AI Max+",
+    "snippet": "AI benchmark showing Ryzen AI Max 395 processor running Llama 70B model with 2.2x performance. Incredible Hardware Meets Incredible Software.",
+    "host_name": "www.amd.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://dai.sjtu.edu.cn/my_file/pdf/a43c4dc7-6132-49cb-b737-311eefde646f.pdf",
+    "name": "[PDF] LARGE LANGUAGE MODEL INFERENCE ACCELERATION",
+    "snippet": "For full LLM inference, WaferLLM achieves 2700 tokens/s and 2039 tokens ... large models, the emphasis shifts to inference speed (tokens per second, tokens/s) and ...",
+    "host_name": "dai.sjtu.edu.cn",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://arxiv.org/html/2504.16266v2",
+    "name": "TeLLMe: An Energy-Efficient Ternary LLM Accelerator for Prefill and",
+    "snippet": "We present TeLLMe, the first ternary LLM accelerator for low‑power FPGAs (e.g., AMD KV260) that fully supports both prefill and autoregressive ...",
+    "host_name": "arxiv.org",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.amd.com/en/blogs/2025/the-amd-advantage-for-ai-and-data-centers.html",
+    "name": "The AMD Advantage for AI and Data Centers",
+    "snippet": "AMD EPYC CPUs help ensure your data center is future-ready, high-performance, and ready for the next wave of AI adoption.",
+    "host_name": "www.amd.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://uwspace.uwaterloo.ca/bitstreams/3a3b6d67-d8fa-4610-aca8-434aa68b1b2b/download",
+    "name": "[PDF] Language Model Inference on FPGA with Integer-only Operations",
+    "snippet": "We demonstrate that by removing the floating-point operations from the inference pipeline, especially from non-linear functions like GELU,. Softmax, and Layer ...",
+    "host_name": "uwspace.uwaterloo.ca",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.amd.com/en/newsroom/press-releases/2025-6-12-amd-unveils-vision-for-an-open-ai-ecosystem-detai.html",
+    "name": "AMD Unveils Vision for an Open AI Ecosystem, Detailing New Silicon",
+    "snippet": "AMD unveiled the AMD Instinct MI350 Series GPUs, setting a new benchmark for performance, efficiency and scalability in generative AI and high- ...",
+    "host_name": "www.amd.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.emergentmind.com/topics/amd-kria-kv260-system-on-module-som",
+    "name": "AMD Kria KV260 SoM - Emergent Mind",
+    "snippet": "AMD Kria KV260 SoM is an embedded computing platform combining FPGA fabric and ARM Cortex-A53 cores for edge AI and real-time processing.",
+    "host_name": "www.emergentmind.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

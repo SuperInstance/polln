@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://miai-cluster.univ-grenoble-alpes.fr/fr/recherche/chaires/digital-hardware-ai-architectures-1360741.kjsp",
+    "name": "Architectures matérielles numériques pour l'IA - MIAI Cluster - Institut",
+    "snippet": "L'idée d'un accélérateur de réseau neuronal ternaire basé sur une TCAM est à l'étude, afin de construire un moteur de multiplication matricielle à haute ...",
+    "host_name": "miai-cluster.univ-grenoble-alpes.fr",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://theses.hal.science/tel-05261534v1/file/2025TLSES033.pdf",
+    "name": "[PDF] Approximation with neural networks and construction of quantized",
+    "snippet": "HadamRNN: Les poids binaires et ternaires parcimonieux dans les réseaux de neurones permettent des calculs plus rapides et des représentations plus légères ...",
+    "host_name": "theses.hal.science",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.informatiquenews.fr/bitnet-b1-58-le-llm-1-bit-de-microsoft-research-pour-une-ia-frugale-104627",
+    "name": "BitNet b1.58, le LLM « 1 bit » de Microsoft Research pour une IA frugale",
+    "snippet": "Un LLM nativement entraîné en 1 bit, conçu par Microsoft, défie les modèles FP16 tout en tenant sur CPU avec 0,4 Go. Découvrez BitNet b1.58 ...",
+    "host_name": "www.informatiquenews.fr",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://dim-cbrains.fr/fr/proposals/retains/list",
+    "name": "Liste des appels projets retenus - DIM C-BRAINS",
+    "snippet": "Axe 3 : Réseaux neuronaux, modélisation et intelligence artificielle. PhD Program international, Édition 2024-2025. PhD Program international, Édition 2024-2025. Missing: ternaires accélérateur",
+    "host_name": "dim-cbrains.fr",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://recherche-expertise.asnr.fr/sites/default/files/2024-04/Livret-Journee-des-theses-2024-IRSN-ARLES.pdf",
+    "name": "[PDF] Journées des thèses 2024 - ASNR",
+    "snippet": "l'IRSN des outils permettant de quantifier et de localiser le dépôt dans les réseaux de ventilation ... réseaux de neurones sur des sous-ensembles ...",
+    "host_name": "recherche-expertise.asnr.fr",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/MachineLearning/comments/1fmnkar/d_understanding_158bit_large_language_models/?tl=fr",
+    "name": "[D] Comprendre les modèles de langage de grande taille à 1,58 bit",
+    "snippet": "Bonjour à tous, j'ai écrit un article sur les modèles ternaires (trinaires) pour résumer ce que j'ai lu sur le sujet. C'est plutôt une revue de littérature ...",
+    "host_name": "www.reddit.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://theses.fr/2024COAZ4025",
+    "name": "Étude de l'accélération matérielle reconfigurable pour les réseaux de neurones embarqués faible consommation | Theses.fr",
+    "snippet": "Les résultats indiquent qu'en utilisant des mécanismes de reconfiguration optimisés, le gain en efficacité énergétique est d'environ un facteur de deux lors de ... Missing: ternaires 2025",
+    "host_name": "theses.fr",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://cpp.numerev.com/articles/revue-48/4111-l-ia-contre-avec-l-ensemble-humain",
+    "name": "L'IA, contre-avec l'ensemble humain - Jacques Demorgon",
+    "snippet": "Cet article teste la capacité réflexive de l'IA sur son propre savoir et sa place dans l'aventure humaine pour mettre en évidence les biais ...",
+    "host_name": "cpp.numerev.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.cnrs.fr/sites/default/files/2025-03/CNRS%20COMP_VF_Planches_Clic.pdf",
+    "name": "[PDF] Contrat d'objectifs, de moyens et de performance CNRS-État 2024-2028",
+    "snippet": "soulevées par les réseaux neuronaux de très grande taille comme les transformeurs ou les modèles génératifs. L'objectif à 5 ans est d ...",
+    "host_name": "www.cnrs.fr",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://theses.hal.science/tel-05216300/document",
+    "name": "[PDF] Neural network quantization methods for FPGA on-board processing of satellite images",
+    "snippet": "Aujourd'hui, la plupart des systèmes satellites intègrent du matériel dédié à la compression d'images pour réduire le volume de données, comme l ...",
+    "host_name": "theses.hal.science",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

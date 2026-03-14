@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://dl.acm.org/doi/10.1145/3776568",
+    "name": "A High-Throughput, Area-Efficient Ternary Weight GNNs",
+    "snippet": "2025 — The hardware implementation of CPSM and 3D-TBM relies on a complex memory access design involving n block Transpose Buffers within the ... Read more",
+    "host_name": "dl.acm.org",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://ieeexplore.ieee.org/document/10547036",
+    "name": "Efficient Hardware Design of DNN for RF Signal",
+    "snippet": "2024 · Cited by 7 — A novel DNN design optimized for mobile applications is demonstrated by combining MobileNetV3-based DNN with a ternary weight quantization. We ... Read more",
+    "host_name": "ieeexplore.ieee.org",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://hal.science/hal-03417446/file/petrot-csw-hipeac.pdf",
+    "name": "Hardware-friendly AI algorithms: Ternary Neural Networks",
+    "snippet": "2021 — ⇒ Specific access shemes if network doesn't fit-in, ASIC -like solutions. – ASICs follow a very different (but equally useful) architectural path. Read more 28 pages",
+    "host_name": "hal.science",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.researchgate.net/publication/385988727_Hardware_Implementation_of_Neural_Networks",
+    "name": "(PDF) Hardware Implementation of Neural Networks",
+    "snippet": "Jan 29, 2025 — CNN is used for image recognition,. computer vision and classification tasks. C. Chaotic Oscillatory Neural Network . A Chaotic Oscillatory Neur ... Read more",
+    "host_name": "www.researchgate.net",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.sciencedirect.com/science/article/pii/S2590123024010168",
+    "name": "Design implementations of ternary logic systems",
+    "snippet": "2024 · Cited by 29 — This paper provides a brief overview of the implementation of ternary logic systems and their related benefits for the design of digital logic circuit ... Read more",
+    "host_name": "www.sciencedirect.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://openaccess.uoc.edu/server/api/core/bitstreams/92f68eda-5e95-428f-abed-58727eceb3be/content",
+    "name": "Ternary Neural Networks Based on on/off Memristors",
+    "snippet": "2022 · Cited by 3 — Abstract: Neuromorphic systems based on hardware neural networks (HNNs) are expected to be an energy and time-efficient computing ... Read more",
+    "host_name": "openaccess.uoc.edu",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://digibug.ugr.es/bitstream/handle/10481/101050/79252.pdf?sequence=1&isAllowed=y",
+    "name": "Power-Efficient Implementation of Ternary Neural Networks",
+    "snippet": "2022 · Cited by 5 — This paper presents a simplified method to obtain a Ternary Neural Network based on the Multi- layer Perceptron. The method is focused on resource-constrained. Read more",
+    "host_name": "digibug.ugr.es",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://arxiv.org/pdf/1705.09283",
+    "name": "GXNOR-Net: Training deep neural networks with ternary",
+    "snippet": "2017 · Cited by 193 — In this paper, we propose a discretization framework: (1) A multi-step discretization function that constrains the neuronal activations in a ... Read more",
+    "host_name": "arxiv.org",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://openaccess.thecvf.com/content/ICCV2021/papers/Chen_FATNN_Fast_and_Accurate_Ternary_Neural_Networks_ICCV_2021_paper.pdf",
+    "name": "FATNN: Fast and Accurate Ternary Neural Networks",
+    "snippet": "2021 · Cited by 35 — Also, FATNN works efficiently on almost all kinds of devices (such as CPU, GPU, DSP, FPGA and. ASIC) with basic bit operation instructions available. Fur-. Read more 10 pages",
+    "host_name": "openaccess.thecvf.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://opus.lib.uts.edu.au/rest/bitstreams/4236c2db-08ca-4758-a717-0748f1a57246/retrieve",
+    "name": "A Low-Power, High-Accuracy with Fully On-Chip Ternary",
+    "snippet": "Cited by 16 — Section III describes our proposed Ternary Weight Spiking Neural Networks (TW-SNN) system. Section IV covers our proposed hardware architecture. Read more",
+    "host_name": "opus.lib.uts.edu.au",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

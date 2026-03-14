@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://global.fujitsu/-/media/Project/Fujitsu/Fujitsu-HQ/ir/documents/tech/2025/12/02-03a-ja.pdf",
+    "name": "富士通のテクノロジー戦略",
+    "snippet": "2 Dec 2025 — 軽量化、 省電力 、 推論 高速化. モーダル融合による. 業務理解深化. 企業の ... AI推論 時代をリードする、Made in JapanのNo.1 プロセッサ. 全ての AI ... Read more 37 pages",
+    "host_name": "global.fujitsu",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://members12.live.itmedia.co.jp/library/ODQyMjk%253D",
+    "name": "エッジAI イニシアチブ 2025 Edge AI Everywhere：加速する",
+    "snippet": "AI のためにゼロから考えられたSambaNovaの再構成可能なデータフローアーキテクチャは、遥かに少ない 電力 で超高速な学習・ 推論 が可能です。本講演ではSambaNovaの ... Read more",
+    "host_name": "members12.live.itmedia.co.jp",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.jasa.or.jp/dl/tech/EdgeTech+2025_S1-06.pdf",
+    "name": "AI研究WG EdgeTech+ 2025 組込AIの現状と 組込生成AIの",
+    "snippet": "19 Nov 2025 — トローラ）上で AI推論 を実行する技術. ▫ 仕組み: •. 「学習はパワフルな環境（クラウド）で、 推論 のみを 省電力 なデバイスで」. 実行. ▫ 必須となる ... Read more 54 pages",
+    "host_name": "www.jasa.or.jp",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://ai.softbank/action/014",
+    "name": "クラウドからエッジまで：ArmがAIスタックのスケーリングを",
+    "snippet": "11 Dec 2025 — 本記事は、 2025 年10月2日にArm Newsroomに掲載された英語記事を 日本語 訳したものです。 ... LLM ） 推論 で4.5倍の性能を発揮します。 GoogleのAxionは ... Read more",
+    "host_name": "ai.softbank",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.ibm.com/jp-ja/events/semicon-japan",
+    "name": "SEMICON Japan 2025 - IBM 出展情報",
+    "snippet": "17 Dec 2025 — 超 省電力AI チップ. AI の利用拡大に伴い、電力効率に優れた新しいチップ設計が求められています。脳型 AI アーキテクチャやアナログチップなど、従来のCPU ... Read more",
+    "host_name": "www.ibm.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://ledge.ai/articles/fujitsu_1bit_quantization_takane_lightweight_power_saving",
+    "name": "1ビット量子化によるAIの軽量化・省電力化──「生成AI再構成",
+    "snippet": "富士通は 2025 年9月8日、 AI サービス「Fujitsu Kozuchi」の中核技術として、大規模言語モデル（ LLM ）の軽量化と 省電力 化を実現する「生成 AI 再構成技術」を開発したと発表 ... Read more",
+    "host_name": "ledge.ai",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://arpable.com/artificial-intelligence/edge-ai-slm-roi-guide",
+    "name": "エッジAI×SLMで推論コストを最適化する最新戦略【2025年版】",
+    "snippet": "1 May 2025 — 10億クエリ時代、クラウド依存は限界。 エッジAI と小型言語モデル(SLM)の組合せで 推論電力 を90％削減し、GDPR対応とリアルタイム応答を同時に実現する ...",
+    "host_name": "arpable.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://note.com/hiroe28/n/ne6abc213125c",
+    "name": "特筆すべきAI関連ニュース（2025年9月6日〜9月12日）｜HIROE",
+    "snippet": "推論 コストが大きな LLM でも高速応答が期待でき、 エッジ デバイスなど計算資源が限られた環境への応用も可能になります。リアルタイム性が求められる ... Read more",
+    "host_name": "note.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://xtech.nikkei.com/atcl/nxt/news/24/03033",
+    "name": "次世代エッジAI半導体研究開発事業、3テーマ8課題決定 経産",
+    "snippet": "23 Dec 2025 — 国が進める「次世代 エッジAI 半導体研究開発事業」における 2025 年度の研究開発課題として「ローカル LLM 支援による エッジAI 半導体の次世代高効率設計 ...",
+    "host_name": "xtech.nikkei.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.nttpc.co.jp/gpu/article/report29.html",
+    "name": "ISC2025 現地レポート：HPCとAIの“融合”がもたらす未来とは？",
+    "snippet": "26 Aug 2025 — 例えば、液冷や光通信などのエネルギー効率化技術の採用、 AI推論 の 省電力 化設計など、HPCシステムそのものの設計思想に「 省エネ 」が組み込まれつつ ... Read more",
+    "host_name": "www.nttpc.co.jp",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

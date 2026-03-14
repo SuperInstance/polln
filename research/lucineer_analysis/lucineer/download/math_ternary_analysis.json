@@ -1,0 +1,590 @@
+{
+  "TERNARY_MATH_ANALYSIS": {
+    "report_metadata": {
+      "version": "1.0",
+      "date": "2025-01-19",
+      "purpose": "Deep-dive into BitNet/ternary mathematics for mask-locked inference chip optimization",
+      "target_architecture": "Fixed-weight ternary LLM inference chip"
+    },
+
+    "fundamental_operations": {
+      "ternary_MAC_definition": {
+        "description": "Multiply-Accumulate with weights in {-1, 0, +1}",
+        "mathematical_form": "y = Σᵢ wᵢ × xᵢ where wᵢ ∈ {-1, 0, +1}",
+        "critical_insight": "Multiplication is eliminated — becomes conditional addition/subtraction/skip",
+        "operations": [
+          {
+            "weight_value": "+1",
+            "operation": "y += x",
+            "hardware": "Direct addition to accumulator",
+            "gate_equivalent": "0 gates (pass-through)"
+          },
+          {
+            "weight_value": "-1",
+            "operation": "y -= x",
+            "hardware": "Two's complement negation + addition",
+            "gate_equivalent": "NOT gates + adder (or adder-subtractor)"
+          },
+          {
+            "weight_value": "0",
+            "operation": "skip",
+            "hardware": "No operation, no power consumed",
+            "gate_equivalent": "0 gates, 0 switching activity"
+          }
+        ]
+      },
+
+      "eliminated_operations": [
+        {
+          "operation": "Multiplication",
+          "traditional_cost": "Dedicated multiplier hardware",
+          "ternary_replacement": "Mux-controlled adder-subtractor",
+          "savings_percent": "95-99%"
+        },
+        {
+          "operation": "Weight memory access",
+          "traditional_cost": "DRAM/SRAM read per MAC",
+          "mask_locked_replacement": "Hardwired metal connections",
+          "savings_percent": "100% (eliminated entirely)"
+        },
+        {
+          "operation": "Weight decode",
+          "traditional_cost": "INT4 → floating point conversion",
+          "ternary_replacement": "2-bit control signal directly routes to ALU",
+          "savings_percent": "100%"
+        }
+      ],
+
+      "bitnet_specific_operations": {
+        "BitLinear_layer": {
+          "description": "Replaces standard nn.Linear with ternary weights + INT8 activations",
+          "operations_sequence": [
+            "1. LayerNorm on input activations",
+            "2. AbsMax quantization of activations to INT8",
+            "3. Ternary matrix multiplication (no multipliers)",
+            "4. Dequantization to INT8 output",
+            "5. SubLN (Subtraction Layer Normalization)"
+          ],
+          "key_equations": {
+            "weight_quantization": "w̃ = RoundClip(w/γ, -1, +1) where γ = mean(|w|)",
+            "activation_quantization": "x̃ = Clip(Round(x/|x_max| × Q_b), -Q_b, Q_b) where Q_b = 127 for INT8",
+            "output": "y = (W̃ @ x̃) × β × |x_max| / Q_b"
+          }
+        },
+
+        "popcount_optimization": {
+          "description": "For binary operations, popcount replaces addition",
+          "formula": "For binary inputs x ∈ {0,1}, ternary weights: y = popcount(x∧w_pos) - popcount(x∧w_neg)",
+          "hardware_benefit": "Single-cycle accumulation using population count circuits",
+          "applicability": "Limited for INT8 activations, but useful for certain sparse patterns"
+        }
+      }
+    },
+
+    "hardware_implications": {
+      "gate_count_analysis": {
+        "traditional_INT4_MAC": {
+          "description": "4-bit × 4-bit multiplier + 8-bit accumulator",
+          "components": [
+            {"component": "4×4 multiplier", "gates": "~200-300 gates (array multiplier)"},
+            {"component": "8-bit adder", "gates": "~80-120 gates"},
+            {"component": "8-bit register", "gates": "~200 gates (DFFs)"},
+            {"component": "Control logic", "gates": "~50 gates"}
+          ],
+          "total_gates": "~530-670 gates",
+          "area_um2_28nm": "~1500-2000 μm²",
+          "critical_path": "Multiplier → Adder → Register (~3-4ns at 28nm)"
+        },
+
+        "ternary_MAC_unit": {
+          "description": "No multiplier — only adder-subtractor with 2-bit weight control",
+          "components": [
+            {"component": "Mux (weight select)", "gates": "~10 gates"},
+            {"component": "8-bit adder-subtractor", "gates": "~100-150 gates"},
+            {"component": "8-bit register", "gates": "~200 gates (DFFs)"},
+            {"component": "Zero-skip logic", "gates": "~20 gates"}
+          ],
+          "total_gates": "~330-380 gates",
+          "area_um2_28nm": "~500-700 μm²",
+          "critical_path": "Mux → Adder-Subtractor → Register (~1.5-2ns at 28nm)",
+          "savings": "38-43% fewer gates, 60-65% smaller area, 2× faster timing"
+        },
+
+        "mask_locked_MAC_unit": {
+          "description": "Weight encoded in metal — no weight register or decode",
+          "components": [
+            {"component": "Hardwired weight routing", "gates": "0 gates (metal only)"},
+            {"component": "8-bit adder-subtractor", "gates": "~100-150 gates"},
+            {"component": "8-bit accumulator register", "gates": "~200 gates"},
+            {"component": "Skip control (zero weights)", "gates": "0 gates (physical gap in array)"}
+          ],
+          "total_gates": "~300-350 gates",
+          "area_um2_28nm": "~400-600 μm²",
+          "critical_path": "Adder-Subtractor → Register (~1-1.5ns at 28nm)",
+          "additional_benefit": "Zero weight memory access, zero switching for zero-weights",
+          "power_savings": "80-90% lower dynamic power vs traditional MAC"
+        }
+      },
+
+      "critical_path_analysis": {
+        "traditional_pipeline": {
+          "stages": [
+            "Weight fetch from SRAM (~0.5ns)",
+            "Weight decode (~0.2ns)",
+            "Multiplier (~2ns)",
+            "Adder (~0.5ns)",
+            "Accumulator write (~0.3ns)"
+          ],
+          "total_latency": "~3.5ns per MAC",
+          "max_frequency": "~280 MHz"
+        },
+
+        "ternary_pipeline": {
+          "stages": [
+            "Weight decode (2-bit mux, ~0.1ns)",
+            "Adder-subtractor (~0.8ns)",
+            "Accumulator write (~0.3ns)"
+          ],
+          "total_latency": "~1.2ns per MAC",
+          "max_frequency": "~800 MHz",
+          "note": "Can be further pipelined for higher throughput"
+        },
+
+        "mask_locked_pipeline": {
+          "stages": [
+            "Activation load from SRAM (~0.3ns)",
+            "Adder-subtractor (~0.8ns)",
+            "Accumulator write (~0.3ns)"
+          ],
+          "total_latency": "~1.0ns per MAC",
+          "max_frequency": "~1 GHz",
+          "unique_benefit": "Weight is always 'available' — no fetch, no decode"
+        }
+      },
+
+      "parallelism_opportunities": {
+        "systolic_array_implementation": {
+          "description": "Ternary weights enable massive systolic arrays without weight registers",
+          "array_efficiency": "100% PE utilization (no weight loading stalls)",
+          "memory_bandwidth": "Only activations need streaming",
+          "area_efficiency": "2-3× more PEs per mm² vs traditional systolic arrays"
+        },
+
+        "weight_stationary_optimization": {
+          "description": "Mask-locked = ultimate weight-stationary architecture",
+          "power_benefit": "No weight movement = zero weight-related power",
+          "latency_benefit": "Zero weight fetch latency",
+          "unique_property": "Weight access time is literally zero (it's a wire)"
+        }
+      }
+    },
+
+    "unique_mask_locked_opportunities": {
+      "opportunities_not_possible_in_software": [
+        {
+          "name": "Spatial Weight Distribution",
+          "description": "Weights etched as physical wires in metal layers",
+          "benefit": "Zero runtime memory access for weights",
+          "mathematical_implication": "W @ x becomes pure combinational logic (weighted sum of inputs)",
+          "hardware_technique": "Metal routing encodes weight sign (+1/-1/0) as connection topology"
+        },
+
+        {
+          "name": "Zero-Weight Gaps",
+          "description": "Physical absence of connection for w=0",
+          "benefit": "Zero switching activity for that weight",
+          "mathematical_implication": "Sparsity is 'baked in' — no need for sparse matrix libraries",
+          "hardware_technique": "Simply don't route that connection — 0×x is physically absent"
+        },
+
+        {
+          "name": "Pre-computed Weight Statistics",
+          "description": "Model weights are known at design time",
+          "benefit": "All weight-dependent constants can be precomputed",
+          "examples": [
+            "Layer norm scaling factors",
+            "Attention scaling (1/√d)",
+            "Softmax temperature constants",
+            "Weight magnitude sums for normalization"
+          ],
+          "mathematical_implication": "These become hardwired constants, not runtime divisions"
+        },
+
+        {
+          "name": "Fixed Point Optimization",
+          "description": "No dynamic range concerns from weight updates",
+          "benefit": "Precisely tuned fixed-point arithmetic",
+          "mathematical_implication": "Bit widths for accumulators can be mathematically proven sufficient",
+          "hardware_technique": "Integer-only datapath with guaranteed no overflow"
+        },
+
+        {
+          "name": "Matrix Structure Exploitation",
+          "description": "W is known, can analyze structure at design time",
+          "benefit": "Optimal operation scheduling before fabrication",
+          "examples": [
+            "Identify weight patterns for custom datapaths",
+            "Pre-schedule computation order for zero-skipping",
+            "Optimal dataflow graph compiled into hardware"
+          ]
+        }
+      ],
+
+      "precomputation_opportunities": {
+        "layer_norm_constants": {
+          "description": "LayerNorm requires mean(μ) and variance(σ²) per token, but scaling can be precomputed",
+          "traditional": "y = (x - μ) / σ × γ + β, where γ, β are learned parameters",
+          "mask_locked": "γ, β can be baked into subsequent layer weights",
+          "hardware_benefit": "Eliminates per-layer constant storage, reduces multiplications"
+        },
+
+        "attention_scaling": {
+          "description": "Softmax attention uses 1/√d_k scaling",
+          "traditional": "Runtime multiplication by 1/√d_k",
+          "mask_locked": "Scale factor absorbed into Q projection weights during compilation",
+          "hardware_benefit": "One less multiplication per attention score"
+        },
+
+        "accumulation_bounds": {
+          "description": "Maximum accumulator bit-width is provable",
+          "calculation": "For n weights, max |Σwᵢxᵢ| ≤ n × max|xᵢ|",
+          "example": "4096 weights × INT8 (max 127) = max 520,192 → needs 20 bits",
+          "hardware_benefit": "Precise accumulator sizing, no guard bands needed"
+        }
+      },
+
+      "sparsity_exploitation": {
+        "weight_distribution_analysis": {
+          "typical_bitnet_distribution": {
+            "weight_neg1": "~30-35% of weights",
+            "weight_zero": "~30-35% of weights",
+            "weight_pos1": "~30-35% of weights"
+          },
+          "implication": "~33% of weights are zero → 33% of MACs consume zero power",
+          "mask_locked_advantage": "This is physical sparsity — wires literally don't exist"
+        },
+
+        "structured_pruning_opportunity": {
+          "description": "Design-time analysis can identify rows/columns with high zero density",
+          "technique": "Permute weight matrix to cluster zeros together",
+          "hardware_benefit": "Entire compute units can be power-gated for zero-heavy regions",
+          "not_possible_in_software": "Software must still check each weight; hardware can be designed to skip regions"
+        }
+      }
+    },
+
+    "mathematical_optimizations": {
+      "ternary_matrix_vector_multiplication": {
+        "naive_algorithm": {
+          "complexity": "O(n²) operations",
+          "operations_per_element": "1 multiply + 1 add",
+          "total_ops": "2n² operations"
+        },
+
+        "optimized_algorithm": {
+          "description": "Decompose W = W⁺ - W⁻ where W⁺, W⁻ are binary matrices",
+          "formula": "W @ x = (W⁺ @ x) - (W⁻ @ x)",
+          "benefit": "Two binary matrix-vector multiplications",
+          "hardware_technique": "Parallel W⁺ and W⁻ computation, single subtraction",
+          "complexity": "O(n²) but with simpler operations"
+        },
+
+        "popcount_based": {
+          "applicable_when": "Activations are also binary (1-bit)",
+          "formula": "For x ∈ {0,1}: W @ x = popcount(W⁺ ∧ x) - popcount(W⁻ ∧ x)",
+          "hardware_benefit": "AND gates + popcount units → extremely efficient",
+          "speedup_potential": "10-100× over traditional MAC for binary inputs"
+        }
+      },
+
+      "activation_quantization_analysis": {
+        "int8_vs_ternary_activations": {
+          "int8_activations": {
+            "range": "-128 to +127",
+            "precision": "8 bits",
+            "multiplication": "Ternary weight × INT8 = conditional add/sub of INT8",
+            "hardware": "8-bit adder-subtractor",
+            "accuracy": "Near FP16 performance (BitNet b1.58 results)"
+          },
+
+          "ternary_activations": {
+            "range": "{-1, 0, +1}",
+            "precision": "1.58 bits (ternary)",
+            "multiplication": "Ternary × Ternary = {-1, 0, +1}",
+            "hardware": "XNOR + NOT gates (XNOR for product, NOT for sign)",
+            "accuracy": "Significant degradation (not viable for LLMs)",
+            "research_note": "Ternary activations work for CNNs but not transformers"
+          },
+
+          "int4_activations": {
+            "range": "-8 to +7",
+            "precision": "4 bits",
+            "potential": "4-bit adder-subtractor, 50% smaller than INT8",
+            "accuracy_concern": "May cause degradation at 2B scale",
+            "research_needed": "Quantization-aware training for INT4 activations"
+          }
+        },
+
+        "optimal_activation_bit_width": {
+          "research_findings": [
+            "INT8 activations: Negligible accuracy loss (<1% on MMLU)",
+            "INT4 activations: ~2-3% degradation, may be acceptable for edge",
+            "INT2 activations: ~5-10% degradation, requires careful QAT",
+            "Ternary activations: ~15-25% degradation, not recommended for LLMs"
+          ],
+          "recommendation": "INT8 for production, INT4 as option for ultra-low-power"
+        }
+      },
+
+      "layer_norm_and_attention": {
+        "layer_norm_implementation": {
+          "traditional_operations": [
+            "Compute mean: μ = (1/n) Σxᵢ",
+            "Compute variance: σ² = (1/n) Σ(xᵢ - μ)²",
+            "Normalize: (xᵢ - μ) / σ",
+            "Scale: γ × normalized",
+            "Shift: + β"
+          ],
+
+          "mask_locked_optimizations": [
+            {
+              "optimization": "Fused LayerNorm",
+              "description": "γ, β absorbed into adjacent layer weights",
+              "hardware": "Eliminates 2 multiplications and 2 additions per element"
+            },
+            {
+              "optimization": "Precomputed reciprocal",
+              "description": "1/√σ² can use lookup table with limited precision",
+              "hardware": "Small ROM instead of divider"
+            },
+            {
+              "optimization": "Approximate variance",
+              "description": "E[x²] - E[x]² identity for streaming computation",
+              "hardware": "Two running sums instead of storing all values"
+            }
+          ]
+        },
+
+        "softmax_approximation": {
+          "traditional_operations": [
+            "Exponentiate: e^(xᵢ)",
+            "Sum: Σ e^(xⱼ)",
+            "Normalize: e^(xᵢ) / sum"
+          ],
+
+          "ternary_friendly_approximations": [
+            {
+              "name": "Shifted Softmax",
+              "description": "Subtract max before exp to prevent overflow",
+              "hardware": "Find-max unit + subtraction"
+            },
+            {
+              "name": "Log-Softmax",
+              "description": "Compute in log domain, use addition instead of multiplication",
+              "hardware": "Log LUT + adder + exp LUT"
+            },
+            {
+              "name": "Piecewise Linear Approximation",
+              "description": "Approximate exp(x) with linear segments",
+              "hardware": "Comparator + mux + adder (no actual exponentiation)"
+            },
+            {
+              "name": "Fixed-point Softmax",
+              "description": "Pre-compute exp LUT for INT8 range",
+              "hardware": "256-entry ROM for exp lookup, 8-bit adder for sum"
+            }
+          ],
+
+          "mask_locked_advantage": {
+            "description": "Attention dimension d_k is fixed at design time",
+            "implication": "Softmax input range is bounded, LUT can be precisely sized",
+            "hardware": "Optimal LUT without guard bands"
+          }
+        },
+
+        "attention_mechanism": {
+          "formula": "Attention(Q,K,V) = softmax(QKᵀ/√d_k) × V",
+          "operations": [
+            "QKᵀ: Matrix-matrix multiply (ternary weights for Q,K projections)",
+            "Scale: Divide by √d_k (precomputed constant for mask-locked)",
+            "Softmax: Approximated as above",
+            "×V: Matrix-matrix multiply (ternary weights for V projection)"
+          ],
+
+          "mask_locked_specific": [
+            "Q, K, V projection weights are ternary",
+            "Scale factor 1/√d_k is a constant (hardwired)",
+            "Attention pattern (after softmax) is dynamic, computed per-token",
+            "KV cache: Mutable INT8, stored in SRAM"
+          ]
+        }
+      },
+
+      "fast_ternary_algorithms": {
+        "walsh_hadamard_transform": {
+          "description": "Ternary matrices related to Hadamard matrices",
+          "property": "Hadamard matrices have entries ±1, subset of ternary matrices",
+          "fast_algorithm": "WHT in O(n log n) time",
+          "relevance": "If weight matrices have Hadamard-like structure, can exploit fast transforms"
+        },
+
+        "grouped_accumulation": {
+          "description": "Group weights by value before accumulation",
+          "algorithm": [
+            "1. Group all +1 weights: sum₊ = Σ xᵢ for all i where wᵢ = +1",
+            "2. Group all -1 weights: sum₋ = Σ xⱼ for all j where wⱼ = -1",
+            "3. Result: y = sum₊ - sum₋"
+          ],
+          "hardware": "Parallel adders for +1 and -1 groups",
+          "benefit": "No conditional operations in inner loop"
+        },
+
+        "binary_decomposition": {
+          "description": "Represent W as difference of two binary matrices",
+          "formula": "W = P - N where P, N ∈ {0,1}",
+          "hardware_implementation": [
+            "Compute P @ x and N @ x in parallel",
+            "Subtract results"
+          ],
+          "benefit": "Binary matrix-vector multiply is very efficient (AND + popcount)"
+        }
+      }
+    },
+
+    "accuracy_analysis": {
+      "bitnet_b158_performance": {
+        "model": "BitNet b1.58 2B4T",
+        "comparison": "vs full-precision Llama 2 2B",
+        "benchmarks": {
+          "MMLU": {"bitnet": "56.4%", "llama2_2b": "54.3%", "delta": "+2.1%"},
+          "ARC-Easy": {"bitnet": "72.2%", "llama2_2b": "71.4%", "delta": "+0.8%"},
+          "ARC-Challenge": {"bitnet": "46.5%", "llama2_2b": "45.2%", "delta": "+1.3%"},
+          "HellaSwag": {"bitnet": "71.2%", "llama2_2b": "72.8%", "delta": "-1.6%"},
+          "WinoGrande": {"bitnet": "61.8%", "llama2_2b": "62.4%", "delta": "-0.6%"}
+        },
+        "conclusion": "Ternary weights achieve parity with FP16 at 2B scale"
+      },
+
+      "quantization_sensitivity": {
+        "weight_quantization": {
+          "ternary_vs_fp16": "~0-2% accuracy difference (acceptable)",
+          "ternary_vs_int8": "Ternary often matches INT8 performance"
+        },
+        "activation_quantization": {
+          "int8": "~0-1% accuracy difference",
+          "int4": "~2-5% accuracy difference (use QAT)",
+          "ternary": "~10-25% accuracy difference (not viable for LLMs)"
+        }
+      }
+    },
+
+    "silicon_implementation_implications": {
+      "memory_hierarchy": {
+        "weights": {
+          "storage": "Metal interconnect (hardwired)",
+          "access_time": "0 ns (combinational)",
+          "power": "0 W for weight access",
+          "area": "Routing only, no memory cells"
+        },
+        "activations": {
+          "storage": "SRAM",
+          "access_time": "~0.5-1 ns",
+          "power": "~10-100 pJ per access",
+          "area": "~1 μm² per bit at 28nm"
+        },
+        "kv_cache": {
+          "storage": "SRAM or external DRAM",
+          "size_for_4k_context": "~100-500 MB for 2B model",
+          "bandwidth_requirement": "~10-20 GB/s for real-time inference"
+        }
+      },
+
+      "power_analysis": {
+        "traditional_inference": {
+          "weight_memory_access": "40-50% of total power",
+          "computation": "30-40% of total power",
+          "activation_memory": "20-30% of total power"
+        },
+        "mask_locked_inference": {
+          "weight_memory_access": "0% (eliminated)",
+          "computation": "60-70% of total power",
+          "activation_memory": "30-40% of total power"
+        },
+        "estimated_savings": "40-50% total power reduction"
+      },
+
+      "area_analysis": {
+        "2B_parameter_model": {
+          "ternary_weight_storage": "~500 MB if in memory",
+          "mask_locked_weight_storage": "0 mm² memory, ~50-100 mm² routing",
+          "sram_for_activations": "~10-50 MB for batch processing",
+          "compute_units": "~20-50 mm² for ternary MAC arrays"
+        }
+      }
+    },
+
+    "research_gaps_and_investigation_needed": [
+      {
+        "topic": "Ternary-friendly attention approximation",
+        "question": "Can we design a softmax approximation optimized for ternary weights?",
+        "potential_approach": "Learned temperature scaling, piecewise linear exp",
+        "impact": "Could eliminate all multipliers from attention"
+      },
+      {
+        "topic": "INT4 activation feasibility",
+        "question": "What accuracy degradation for INT4 activations with ternary weights?",
+        "potential_approach": "QAT with joint weight-activation quantization",
+        "impact": "50% reduction in activation memory and adder size"
+      },
+      {
+        "topic": "Structured sparsity in mask-locked weights",
+        "question": "Can we train models with structured zero patterns?",
+        "potential_approach": "Sparse training with block sparsity constraints",
+        "impact": "Could power-gate entire compute regions"
+      },
+      {
+        "topic": "Accumulator overflow analysis",
+        "question": "What is the minimum safe accumulator bit-width?",
+        "potential_approach": "Statistical analysis of activation distributions",
+        "impact": "Precise hardware sizing, no over-engineering"
+      }
+    ],
+
+    "references": [
+      {
+        "citation": "Wang et al., 'BitNet b1.58: The Era of 1-bit LLMs', Microsoft Research, 2024",
+        "arxiv": "2402.17764",
+        "key_contribution": "Established ternary weight quantization for LLMs"
+      },
+      {
+        "citation": "Ma et al., 'BitNet b1.58 2B4T Technical Report', 2025",
+        "arxiv": "2504.12285",
+        "key_contribution": "First open-source native 1-bit LLM at 2B scale"
+      },
+      {
+        "citation": "Liu et al., 'TeLLMe: A Low-Bit Quantization Framework for LLMs on FPGA', 2024",
+        "key_contribution": "First FPGA implementation of ternary LLM"
+      },
+      {
+        "citation": "Chen et al., 'FATNN: Fast and Accurate Ternary Neural Networks', ICCV 2021",
+        "key_contribution": "Efficient ternary inference on various hardware"
+      },
+      {
+        "citation": "Hardware-friendly AI algorithms: Ternary Neural Networks, HAL Archives, 2021",
+        "key_contribution": "Comprehensive analysis of ternary NN hardware implementations"
+      },
+      {
+        "citation": "Power-Efficient Implementation of Ternary Neural Networks, Universidad de Granada, 2022",
+        "key_contribution": "Resource-constrained ternary NN implementation"
+      },
+      {
+        "citation": "Design implementations of ternary logic systems, ScienceDirect, 2024",
+        "key_contribution": "Ternary logic circuit design techniques"
+      },
+      {
+        "citation": "A Logic-Compatible eDRAM Compute-In-Memory for Neural Networks, IEEE, 2021",
+        "key_contribution": "Ternary eDRAM cell for in-memory computing"
+      }
+    ]
+  }
+}

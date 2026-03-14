@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  # Main platform API
+  platform:
+    build:
+      context: ../..
+      dockerfile: deployment/docker/Dockerfile
+    container_name: superinstance-platform
+    ports:
+      - "8000:8000"
+    volumes:
+      - platform_data:/app/research/phase8_platform/data
+      - platform_logs:/app/research/phase8_platform/logs
+    environment:
+      - PLATFORM_DATA_DIR=/app/research/phase8_platform/data
+      - PLATFORM_LOG_LEVEL=INFO
+      - PLATFORM_MAX_CONCURRENT=5
+      - PLATFORM_MAX_GPU_MEMORY_GB=4.0
+      # Add cloud API key if using cloud features
+      # - DEEPINFRA_API_KEY=your_api_key_here
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+
+  # Nginx reverse proxy (optional)
+  nginx:
+    image: nginx:alpine
+    container_name: superinstance-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - platform
+    restart: unless-stopped
+
+  # Redis for caching (optional, for future enhancement)
+  redis:
+    image: redis:alpine
+    container_name: superinstance-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+  # PostgreSQL for experiment metadata (optional, for future enhancement)
+  postgres:
+    image: postgres:15-alpine
+    container_name: superinstance-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=superinstance
+      - POSTGRES_USER=platform
+      - POSTGRES_PASSWORD=change_me_in_production
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  platform_data:
+    driver: local
+  platform_logs:
+    driver: local
+  redis_data:
+    driver: local
+  postgres_data:
+    driver: local
+
+networks:
+  default:
+    name: superinstance-network

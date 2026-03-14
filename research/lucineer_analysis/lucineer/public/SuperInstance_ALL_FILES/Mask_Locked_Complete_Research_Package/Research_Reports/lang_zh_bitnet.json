@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://zhuanlan.zhihu.com/p/1959995410811711644",
+    "name": "腾讯发布1.58Bit大模型量化新算法Tequila！突破\"死区陷阱\"，效果性能刷新SOTA",
+    "snippet": "模型使用1.58Bit 的位宽达到的性能，能对标同参数量的全精度模型，潜力巨大，腾讯近期发布了1.58Bit量化的新算法Tequila，提出一种QAT阶段解决“死区陷阱”的新 ...",
+    "host_name": "zhuanlan.zhihu.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://crad.ict.ac.cn/cn/article/pdf/preview/10.7544/issn1000-1239.202550788.pdf",
+    "name": "[PDF] 大语言模型低比特量化的历史、现状和未来 - 计算机研究与发展",
+    "snippet": "T-MAC[58] 面向通用CPU. 平台进一步消除反量化瓶颈，通过位运算重构矩阵. 乘法，从而将整个推理过程转化为查表与加法操作，. 最终在低功耗的树莓派上也能实现 ...",
+    "host_name": "crad.ict.ac.cn",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://m.tech.china.com/articles/20250821/202508211718421.html",
+    "name": "芯动力RPP架构成功适配微软BitNet，打造端侧AI高效推理新生态 - 中华网",
+    "snippet": "微软开源BitNet模型结合芯动力RPP生态架构，可在边缘和端侧智能设备上快速适配和部署新的模型，为边缘AI的加速普及带来新的活力。",
+    "host_name": "m.tech.china.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.techwalker.com/2025/0418/3165517.shtml",
+    "name": "微软发布首个开源原生1比特大语言模型BitNet b1.58 2B4T - 科技行者",
+    "snippet": "它以与BitNet b1.58训练方法一致的方式处理权重元素，确保数值准确性（相对于训练过程的无损推理）。 这种方法在CPU上提供了快速且准确的1.58比特模型推理。",
+    "host_name": "www.techwalker.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://news.qq.com/rain/a/20251010A06DNG00",
+    "name": "腾讯发布1.58Bit大模型量化新算法Tequila！突破“死区陷阱”，效果性能刷新SOTA - QQ News",
+    "snippet": "腾讯近期发布了1.58Bit量化的新算法Tequila，提出一种QAT阶段解决“死区陷阱”的新算法，性能效果达到新SOTA。模型使用1.58Bit 的位宽达到的性能，能对标同参数 ...",
+    "host_name": "news.qq.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://blog.csdn.net/gitblog_00498/article/details/151461496",
+    "name": "BitNet终极指南：为什么1-bit推理是边缘计算的未来原创 - CSDN博客",
+    "snippet": "在AI大模型快速发展的今天，BitNet作为1-bit LLM高效推理框架正在重新定义边缘计算的边界。这个开源项目支持在CPU端快速运行1.58-bit模型，为资源受限的 ...",
+    "host_name": "blog.csdn.net",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://developer.volcengine.com/articles/7502283227436941375",
+    "name": "开源局部1位大语言模型BitNet b1.58 2B4T：20亿参数，40万亿token语料训练，性能比肩全精度且计算高效！ - 文章- 开发者社区- 火山引擎",
+    "snippet": "作者介绍了BitNet b1.58 2B4T，这是首个开源的、局部的1位大语言模型（LLM），参数规模达到20亿。该模型在包含40万亿token的语料库上训练，并在涵盖语言理解、 ...\n作者的研究发现，相较于现有的全精度 Baseline 模型，BitNet b1.58 2B4T表现出优异的性能，同时在效率方面具有显著优势。 最后，作者通过Hugging Face公开发布BitNet b1.58 2B4T模型权重，并提供针对GPU和CPU执行优化的开源推理代码，旨在促进进一步研究以及高效大语言 ...",
+    "host_name": "developer.volcengine.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkresearcher.com/theses/15e3d584-6efe-417e-b700-b7ca1d44c485",
+    "name": "北大提出首个复数大模型，2比特量化，推理仅加法，可手机部署！ - 领研网",
+    "snippet": "我们推出首个面向复数值大语言模型的2比特量化框架Fairy ±i。具体而言，该方法利用复数域的表示优势提升全精度准确率，将权重映射至单位四次根{±1, ...",
+    "host_name": "www.linkresearcher.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.microsoft.com/en-us/research/wp-content/uploads/2025/01/matrix70.pdf",
+    "name": "[PDF] 01 焦点02 前沿求索 - Microsoft",
+    "snippet": "此外，大模型. 的快速迭代与硬件升级的缓慢步伐之间存在差距，导致许多新. 数据类型无法得到硬件支持，进而影响大模型的加速和运行。 微软亚洲研究院的研究员们发现，尽管硬件 ...",
+    "host_name": "www.microsoft.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://zhuanlan.zhihu.com/p/1899980343198594832",
+    "name": "微软开源 1-bit 大模型推理框架，性能炸裂！手机上跑大模型时代即将到",
+    "snippet": "BitNet 是这一领域的代表作，它使用了特殊的 1.58 位表示法 (实际上是三值化)，能够在极低比特下保持良好性能，同时实现显著的推理速度和能效提升。 1 比特大模型特别适合响应速度敏感、隐私要求高、计算资源有限的场景，正在重塑AI在终端设备的落地范式。",
+    "host_name": "zhuanlan.zhihu.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

@@ -1,0 +1,55 @@
+{
+  "game_theory": {
+    "nash_pd": {
+      "p1_strategy": [
+        0.11806496080225523,
+        0.8819350391977447
+      ],
+      "p2_strategy": [
+        0.40733634537899777,
+        0.5926636546210023
+      ],
+      "p1_payoff": 0.8082311416541931,
+      "p2_payoff": 0.6024914230815431
+    },
+    "stackelberg": {
+      "q_first_mover": 0.8000000011102231,
+      "q_follower": 0.19999999944488844,
+      "equilibrium_price": 0.49999999972244424,
+      "profit_first_mover": 0.20800000000000005,
+      "profit_follower": 0.019999999888977688,
+      "market_share_first_mover": 0.8000000006661339,
+      "first_mover_advantage": 0.3
+    },
+    "differentiation": {
+      "optimal_si_strategy": "focus",
+      "optimal_comp_strategy": "differentiation"
+    }
+  },
+  "roadmap": {
+    "first_mover_window": 18,
+    "optimal_process_node": "28nm",
+    "fma_coefficient": 0.1417099658223044
+  },
+  "defensive": {
+    "patent_roi": 2.4545454545454546,
+    "lockin_coefficient": 0.5208333333333333,
+    "customer_moat": 0.215,
+    "open_source_benefit": 0.49999999999999994
+  },
+  "scenarios": {
+    "expected_revenue_b": 0.4300572315566765,
+    "expected_share": 0.001204335564831201,
+    "probabilities": {
+      "bull": 0.2,
+      "base": 0.45,
+      "bear": 0.25,
+      "black_swan": 0.1
+    }
+  },
+  "market_evolution": {
+    "peak_share": 0.0009990009990009992,
+    "peak_time": 0.0,
+    "bass_peak_adoption": 5.0
+  }
+}

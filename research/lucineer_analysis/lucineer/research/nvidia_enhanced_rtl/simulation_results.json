@@ -1,0 +1,37 @@
+{
+  "memristor_swarm": {
+    "num_agents": 100,
+    "num_iterations": 200,
+    "final_variance": 0.8939000000000001
+  },
+  "quantum_annealer": {
+    "num_variables": 50,
+    "initial_energy": 1.8272579530287119,
+    "final_energy": -34.999124046066854,
+    "min_energy": -36.43281752470441
+  },
+  "thermodynamic": {
+    "array_size": "32x32",
+    "total_heat_dissipated_j": 1.3824326235450953e-16,
+    "landauer_efficiency": 3.3445851492735237
+  },
+  "defect_tolerance": {
+    "array_size": 32,
+    "defect_rates_tested": [
+      0.001,
+      0.005,
+      0.01,
+      0.02,
+      0.05,
+      0.1
+    ],
+    "accuracies": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  }
+}

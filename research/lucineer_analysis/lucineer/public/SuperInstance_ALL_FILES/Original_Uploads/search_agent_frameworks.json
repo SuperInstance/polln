@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://openagents.org/blog/posts/2026-02-23-open-source-ai-agent-frameworks-compared",
+    "name": "Open Source AI Agent Frameworks Compared: CrewAI vs LangGraph",
+    "snippet": "In this guide, we compare four of the most prominent open source AI agent frameworks — CrewAI, LangGraph, AutoGen, and OpenAgents — across the ...",
+    "host_name": "openagents.org",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/@a.posoldova/comparing-4-agentic-frameworks-langgraph-crewai-autogen-and-strands-agents-b2d482691311",
+    "name": "LangGraph, CrewAI, AutoGen, and Strands Agents",
+    "snippet": "I recently explored four leading frameworks that let you create intelligent, multi-agent systems: LangGraph, CrewAI, AutoGen (by Microsoft), and Strands Agents ...",
+    "host_name": "medium.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://rywalker.com/research/agent-frameworks",
+    "name": "Agent Frameworks Compared | Ry Walker Research",
+    "snippet": "Comparative analysis of 6 leading AI agent frameworks: AutoGen, CrewAI, LangChain/LangGraph, LlamaIndex, Mastra, and Vercel AI SDK ...",
+    "host_name": "rywalker.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://propelius.ai/blogs/langchain-vs-crewai-vs-autogen-ai-agent-frameworks",
+    "name": "LangChain vs CrewAI vs AutoGen: Which Framework to Choose",
+    "snippet": "Compare LangChain, CrewAI, and AutoGen for building AI agents. Covers architecture, strengths, weaknesses, and which framework fits your use ...",
+    "host_name": "propelius.ai",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://pub.towardsai.net/autogen-vs-crewai-two-approaches-to-multi-agent-orchestration-56c8e81e5eb4",
+    "name": "AutoGen vs CrewAI: Two Approaches to Multi-Agent Orchestration",
+    "snippet": "CrewAI is an open-source Python framework for orchestrating role-based multi-agent teams. It focuses on Agents → Tasks → Crew primitives, ...",
+    "host_name": "pub.towardsai.net",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.digitalapplied.com/blog/ai-agent-orchestration-workflows-guide",
+    "name": "AI Agent Orchestration: Multi-Agent Workflow Guide",
+    "snippet": "AI Agent Framework Comparison 2025: LangGraph vs CrewAI vs AutoGen. Seven major frameworks now compete in the agentic AI frameworks landscape.",
+    "host_name": "www.digitalapplied.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.linkedin.com/pulse/ai-teams-revolution-orchestrating-agents-crewai-autogen-davan%C3%A7o-7zjjf",
+    "name": "Orchestrating Agents with CrewAI and AutoGen - LinkedIn",
+    "snippet": "This article explores two of the most promising frameworks for agent orchestration - CrewAI and AutoGen - analyzing their architectures, use ...",
+    "host_name": "www.linkedin.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://peliqan.io/blog/crewai-vs-autogen",
+    "name": "Crewai vs Autogen: Explained - Peliqan",
+    "snippet": "CrewAI and AutoGen take different design paths for building agentic systems: CrewAI emphasizes structured, role-based crews and deterministic flows, while ...",
+    "host_name": "peliqan.io",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://arsum.com/blog/posts/ai-agent-frameworks",
+    "name": "AI Agent Frameworks Compared (2026): LangChain, CrewAI  - Arsum",
+    "snippet": "Side-by-side comparison of 10 AI agent frameworks: LangChain, CrewAI, AutoGen, MetaGPT, OpenDevin, Haystack, LlamaIndex, and more.",
+    "host_name": "arsum.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.firecrawl.dev/blog/best-open-source-agent-frameworks",
+    "name": "The Best Open Source Frameworks For Building AI Agents in 2026",
+    "snippet": "Discover the top seven open source frameworks for building powerful AI agents with advanced reasoning, multi-agent collaboration, and tool integration ...",
+    "host_name": "www.firecrawl.dev",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

@@ -1,0 +1,525 @@
+{
+  "entropy": {
+    "ternary_uniform": {
+      "shannon_entropy": 1.584962500721156,
+      "max_entropy": 1.584962500721156,
+      "efficiency": 1.0,
+      "information_per_weight": 1.584962500721156,
+      "distribution_type": "ternary"
+    },
+    "ternary_bitnet": {
+      "shannon_entropy": 1.582683189255492,
+      "max_entropy": 1.584962500721156,
+      "efficiency": 0.998561914578656,
+      "information_per_weight": 1.582683189255492,
+      "distribution_type": "ternary"
+    },
+    "ternary_sparse": {
+      "shannon_entropy": 1.1812908992306925,
+      "max_entropy": 1.584962500721156,
+      "efficiency": 0.7453115759478263,
+      "information_per_weight": 1.1812908992306925,
+      "distribution_type": "ternary"
+    },
+    "complex_uniform": {
+      "shannon_entropy": 2.0,
+      "max_entropy": 2.0,
+      "efficiency": 1.0,
+      "information_per_weight": 2.0,
+      "distribution_type": "complex_c4"
+    },
+    "comparison": {
+      "ternary": {
+        "entropy_bits": 1.585,
+        "max_entropy": 1.585,
+        "efficiency": 1.0,
+        "storage_bits": 1.585
+      },
+      "c4_complex": {
+        "entropy_bits": 2.0,
+        "max_entropy": 2.0,
+        "efficiency": 1.0,
+        "storage_bits": 2.0
+      },
+      "int8": {
+        "entropy_bits": 8.0,
+        "max_entropy": 8.0,
+        "efficiency": 0.75,
+        "storage_bits": 8.0
+      },
+      "fp16": {
+        "entropy_bits": 16.0,
+        "max_entropy": 16.0,
+        "efficiency": 0.5,
+        "storage_bits": 16.0
+      }
+    }
+  },
+  "mutual_information": {
+    "weight_output": {
+      "I(W; Y)": 8.040000000000001,
+      "H(Y)": 12.0,
+      "H(W)": 1.585,
+      "preservation_ratio": 5.072555205047319,
+      "information_loss": -6.455000000000001
+    },
+    "information_bottleneck": {
+      "compression_bits": 14.415,
+      "compression_ratio": 10.094637223974763,
+      "information_preserved": 0.95,
+      "ib_tradeoff_parameter": 0.06590357266736038
+    },
+    "layer_mi": {
+      "early_layers": {
+        "contribution": 2.1,
+        "cumulative": 2.1
+      },
+      "middle_layers": {
+        "contribution": 2.0,
+        "cumulative": 3.8
+      },
+      "late_layers": {
+        "contribution": 2.2,
+        "cumulative": 7.6
+      }
+    }
+  },
+  "channel_capacity": {
+    "ternary": {
+      "noiseless_capacity": 1.584962500721156,
+      "noisy_capacity": 1.584962220539958,
+      "defect_probability": 1e-08,
+      "effective_rate": 1.585
+    },
+    "defect_tolerance": {
+      "total_weights": 2400000000.0,
+      "defect_probability": 1e-08,
+      "expected_defects": 24.0,
+      "probability_no_defects": 3.775134544279098e-11,
+      "probability_acceptable_defects": 0.0010849985517712305,
+      "yield_impact": 0.9989150014482288
+    },
+    "complex_c4": {
+      "noiseless_capacity": 2.0,
+      "noisy_capacity": 1.999999719818802,
+      "information_advantage": 0.26182965299684546
+    }
+  },
+  "kolmogorov": {
+    "theoretical_bounds": {
+      "upper_bound_bits": 3799200000.0,
+      "upper_bound_bytes": 474900000.0,
+      "upper_bound_mb": 474.9,
+      "entropy_contribution": 1.583,
+      "log_term": 31.160387259820055
+    },
+    "compressibility": {
+      "random_weights": {
+        "k_ratio": 1.0,
+        "description": "Incompressible - K(W) \u2248 n * H(W)"
+      },
+      "structured_weights": {
+        "k_ratio": 0.7,
+        "description": "Some structure - K(W) < n * H(W)"
+      },
+      "bitnet_observed": {
+        "k_ratio": 0.99,
+        "description": "Near random - BitNet weights have low redundancy"
+      }
+    }
+  },
+  "rate_distortion": {
+    "curve": {
+      "distortion_range": [
+        0.001,
+        0.001064785977823349,
+        0.0011337691785692256,
+        0.0012072215234288093,
+        0.0012854325502735379,
+        0.0013687105549689703,
+        0.0014573838066297739,
+        0.0015518018416061984,
+        0.0016523368413027299,
+        0.0017593850992600728,
+        0.0018733685832834667,
+        0.0019947365987750282,
+        0.00212396755982669,
+        0.0022615708750551348,
+        0.0024080889556123888,
+        0.0025640993532873475,
+        0.002730217037126285,
+        0.0029070968175464785,
+        0.0030954359274983734,
+        0.003295976770850881,
+        0.003509509848833503,
+        0.003736876876070852,
+        0.003978974098492568,
+        0.004236755826197188,
+        0.004511238195196144,
+        0.004803503172865966,
+        0.005114702822897648,
+        0.005446063846554922,
+        0.005798892418142371,
+        0.00617457933374413,
+        0.006574605493528587,
+        0.007000547739229599,
+        0.0074540850698146316,
+        0.007937005259841,
+        0.008451211906588863,
+        0.008998731933749553,
+        0.009581723581247715,
+        0.010202484912691896,
+        0.010863462873988606,
+        0.011567262938827608,
+        0.012316659379059347,
+        0.01311460620044883,
+        0.013964248786913063,
+        0.01486893629914175,
+        0.015832234876474737,
+        0.016857941694076083,
+        0.017950099930815817,
+        0.01911301470686055,
+        0.020351270053796562,
+        0.021669746984178825,
+        0.02307364273173342,
+        0.024568491238055393,
+        0.026160184966557195,
+        0.02785499812965528,
+        0.02965961142075257,
+        0.0315811383485066,
+        0.03362715327718906,
+        0.035805721283667415,
+        0.03812542994870011,
+        0.04059542320786224,
+        0.0432254373955363,
+        0.046025839624048076,
+        0.04900766864923267,
+        0.052182678383515924,
+        0.05556338422803334,
+        0.059163112406420935,
+        0.06299605249474366,
+        0.06707731335462666,
+        0.07142298269006933,
+        0.07605019046270566,
+        0.08097717641548398,
+        0.08622336197093494,
+        0.09180942678743859,
+        0.09775739027526396,
+        0.10409069839370574,
+        0.11083431607145729,
+        0.11801482561452878,
+        0.12566053148961803,
+        0.1338015718959747,
+        0.1424700375655567,
+        0.15170009825977057,
+        0.16152813746142794,
+        0.17199289579285088,
+        0.1831356237254601,
+        0.19500024418280296,
+        0.2076335256779779,
+        0.22108526666793515,
+        0.2354084918513532,
+        0.250659661183863,
+        0.26689889243452897,
+        0.2841901981608688,
+        0.30260173803653234,
+        0.322206087526274,
+        0.34308052396729927,
+        0.3653073311846677,
+        0.38897412384150437,
+        0.41417419280255674,
+        0.4410068728724671,
+        0.4695779343583273,
+        0.5
+      ],
+      "rates": [
+        4.321928094887363,
+        4.231364617264513,
+        4.140801139641664,
+        4.050237662018813,
+        3.9596741843959644,
+        3.8691107067731156,
+        3.778547229150266,
+        3.687983751527417,
+        3.597420273904568,
+        3.5068567962817174,
+        3.416293318658868,
+        3.3257298410360194,
+        3.23516636341317,
+        3.144602885790321,
+        3.0540394081674718,
+        2.963475930544621,
+        2.8729124529217724,
+        2.782348975298923,
+        2.691785497676074,
+        2.601222020053225,
+        2.5106585424303742,
+        2.420095064807527,
+        2.3295315871846762,
+        2.238968109561827,
+        2.148404631938978,
+        2.057841154316129,
+        1.9672776766932798,
+        1.876714199070429,
+        1.7861507214475798,
+        1.6955872438247308,
+        1.6050237662018818,
+        1.5144602885790326,
+        1.423896810956182,
+        1.3333333333333328,
+        1.242769855710484,
+        1.1522063780876348,
+        1.0616429004647856,
+        0.9710794228419356,
+        0.8805159452190867,
+        0.7899524675962375,
+        0.6993889899733876,
+        0.6088255123505385,
+        0.5182620347276895,
+        0.42769855710483956,
+        0.33713507948199045,
+        0.2465716018591415,
+        0.1560081242362915,
+        0.06544464661344247,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "optimal_rate": 1.585,
+      "optimal_distortion": 0.1
+    },
+    "precision_comparison": {
+      "ternary": {
+        "bits": 1.585,
+        "distortion": 0.1,
+        "sqnr_db": 15.6,
+        "rd_ratio": 1.4409090909090907,
+        "efficiency": 0.5735589331803843
+      },
+      "binary": {
+        "bits": 1.0,
+        "distortion": 0.3,
+        "sqnr_db": 5.2,
+        "rd_ratio": 0.7692307692307692,
+        "efficiency": 0.7692307692307692
+      },
+      "int4": {
+        "bits": 4.0,
+        "distortion": 0.01,
+        "sqnr_db": 25.8,
+        "rd_ratio": 3.9603960396039604,
+        "efficiency": 0.24752475247524752
+      },
+      "int8": {
+        "bits": 8.0,
+        "distortion": 0.001,
+        "sqnr_db": 49.9,
+        "rd_ratio": 7.992007992007993,
+        "efficiency": 0.1248751248751249
+      },
+      "fp16": {
+        "bits": 16.0,
+        "distortion": 1e-09,
+        "sqnr_db": 96.3,
+        "rd_ratio": 15.999999983999999,
+        "efficiency": 0.062499999937499995
+      }
+    },
+    "quantization": {
+      "quantization_points": [
+        -0.02,
+        0.0,
+        0.02
+      ],
+      "decision_boundaries": [
+        -0.01,
+        0.01
+      ],
+      "expected_distortion": 3.3333333333333335e-05
+    }
+  },
+  "error_correction": {
+    "defect_patterns": {
+      "num_blocks": 2343750.0,
+      "expected_defects_per_block": 1.024e-05,
+      "probability_no_defect": 0.9999897600524286,
+      "probability_one_defect": 1.023989514293686e-05,
+      "probability_multiple_defects": 5.242849634523681e-11,
+      "expected_affected_blocks": 0.00012287928830914877
+    },
+    "codebooks": {
+      "ternary": {
+        "natural": {
+          "-1": "00",
+          "0": "01",
+          "1": "10"
+        },
+        "gray": {
+          "-1": "00",
+          "0": "11",
+          "1": "01"
+        },
+        "balanced": {
+          "-1": "00",
+          "0": "10",
+          "1": "11"
+        },
+        "recommended": "gray",
+        "rationale": "Gray code minimizes impact of single-bit errors on weight value"
+      },
+      "complex": {
+        "natural": {
+          "1": "00",
+          "-1": "01",
+          "1j": "10",
+          "(-0-1j)": "11"
+        },
+        "phase_ordered": {
+          "1": "00",
+          "1j": "01",
+          "-1": "10",
+          "(-0-1j)": "11"
+        },
+        "recommended": "phase_ordered",
+        "rationale": "Phase ordering provides natural rotation relationship in code"
+      }
+    },
+    "codebook_efficiency": {
+      "average_hamming_distance": 1.3333333333333333,
+      "minimum_hamming_distance": 1,
+      "error_amplification_factor": 1.0,
+      "effective_error_rate": 1e-08
+    },
+    "redundancy": {
+      "strategy": "hybrid",
+      "original_weights": 2400000000.0,
+      "total_storage": 2882160000.0,
+      "overhead_fraction": 0.2009,
+      "overhead_bits": 964320000
+    },
+    "recommendations": {
+      "target_ber": 1e-12,
+      "raw_ber": 1e-08,
+      "coding_gain_needed": 10000.0,
+      "recommendations": [
+        {
+          "code": "simple_parity",
+          "overhead": "0.1%",
+          "complexity": "low",
+          "effective_ber": 5e-09,
+          "recommendation": "suitable for low-defect foundries"
+        },
+        {
+          "code": "hamming_7_4",
+          "overhead": "14%",
+          "complexity": "medium",
+          "effective_ber": 1e-10,
+          "recommendation": "good balance of overhead and protection"
+        },
+        {
+          "code": "triple_modular_redundancy",
+          "overhead": "200%",
+          "complexity": "low",
+          "effective_ber": 1.0000000000000001e-24,
+          "recommendation": "use only for attention output weights (critical path)"
+        }
+      ]
+    }
+  },
+  "visualizations": {
+    "entropy_comparison": "/home/z/my-project/research/entropy_comparison.png",
+    "rate_distortion": "/home/z/my-project/research/rate_distortion_curve.png",
+    "channel_capacity": "/home/z/my-project/research/channel_capacity_analysis.png",
+    "mutual_information": "/home/z/my-project/research/mutual_information_analysis.png",
+    "kolmogorov": "/home/z/my-project/research/kolmogorov_complexity.png",
+    "error_correction": "/home/z/my-project/research/error_correction_tradeoff.png"
+  },
+  "summary": {
+    "theoretical_bounds": {
+      "ternary_entropy": 1.585,
+      "c4_entropy": 2.0,
+      "ternary_channel_capacity": 1.585,
+      "c4_channel_capacity": 2.0
+    },
+    "encoding_efficiency": {
+      "ternary_efficiency": 0.999,
+      "c4_efficiency": 1.0,
+      "int8_efficiency": 0.75,
+      "fp16_efficiency": 0.5
+    },
+    "optimal_operating_point": {
+      "encoding": "ternary",
+      "rate_bits_per_weight": 1.585,
+      "distortion_mse": 0.1,
+      "sqnr_db": 15.6,
+      "rationale": "At the knee of R-D curve - minimal rate for acceptable distortion"
+    },
+    "defect_tolerance": {
+      "expected_defects_per_2_4b_weights": 24,
+      "yield_with_no_ecc": 0.99999997,
+      "recommended_strategy": "Hybrid TMR + Parity",
+      "overhead_percent": 20.1
+    },
+    "information_preservation": {
+      "ternary_mi_preservation": 0.95,
+      "weight_contribution_to_output": 0.67,
+      "compression_ratio_vs_fp16": 10.0
+    },
+    "key_findings": [
+      "Ternary encoding (1.585 bits) is optimal for LLM inference at acceptable distortion",
+      "BitNet weights achieve 99.9% of maximum ternary entropy",
+      "Manufacturing defects have negligible impact on channel capacity",
+      "Hybrid ECC strategy provides best protection with reasonable overhead",
+      "C4 complex encoding offers 26% more information capacity at 26% higher rate"
+    ]
+  }
+}

@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://medium.com/@lyx_62906/context-kills-vram-how-to-run-llms-on-consumer-gpus-a785e8035632",
+    "name": "Context Kills VRAM: How to Run LLMs on consumer GPUs - Medium",
+    "snippet": "This guide breaks it all down. We'll show you how GPU memory (VRAM) gets used during inference, how to predict usage, and how to avoid common traps.",
+    "host_name": "medium.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/LocalLLaMA/comments/1848puo/relationship_of_ram_to_context_size",
+    "name": "Relationship of RAM to context size? : r/LocalLLaMA - Reddit",
+    "snippet": "I understand that a bigger memory means you can run a model with more parameters or less compression, but how does context size factor in? Which parameters affect memory requirements? : r/LocalLLaMA How much memory context size utilizes, really? : r/LocalLLaMA More results from www.reddit.com",
+    "host_name": "www.reddit.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://blogs.vmware.com/cloud-foundation/2024/09/25/llm-inference-sizing-and-performance-guidance",
+    "name": "LLM Inference Sizing and Performance Guidance - VMware Blogs",
+    "snippet": "The last column, KV cache size (GiB/token) for each model, is calculated based on the values in the preceding columns. Table 2 includes six ...",
+    "host_name": "blogs.vmware.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://localllm.in/blog/lm-studio-increase-context-length",
+    "name": "How to Increase Context Length in LM Studio - LocalLLM.in",
+    "snippet": "For an 8B parameter model with 4-bit quantization, expect to use approximately 4-5 GB for the model weights plus an additional 1.5-2 GB per 8K ...",
+    "host_name": "localllm.in",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://arxiv.org/html/2401.18079v4",
+    "name": "Towards 10 Million Context Length LLM Inference with KV Cache",
+    "snippet": "Our method enables serving LLaMA-7B with a context length of up to 1 million on a single A100-80GB GPU and up to 10 million on an 8-GPU system.",
+    "host_name": "arxiv.org",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://infohub.delltechnologies.com/p/scaling-multi-turn-llm-inference-with-kv-cache-storage-offload-and-dell-rdma-accelerated-architecture",
+    "name": "Scaling Multi-Turn LLM Inference with KV Cache Storage Offload",
+    "snippet": "In standard vLLM, KV cache quickly exceeds GPU memory limits, leading to frequent evictions, re-computation, and SLA violations. Throughput ...",
+    "host_name": "infohub.delltechnologies.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://medium.com/@nraman.n6/estimating-llm-inference-memory-requirements-3ab599b7284b",
+    "name": "Estimating LLM Inference Memory Requirements | by NJ Raman",
+    "snippet": "Key Takeaways. KV cache dominates production memory requirements, often exceeding parameter memory by 2–3×; The 2.6GB rule: Each 1K tokens per ...",
+    "host_name": "medium.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://mbrenndoerfer.com/writing/kv-cache-memory-calculation-llm-inference-gpu",
+    "name": "KV Cache Memory: Calculating GPU Requirements for LLM Inference",
+    "snippet": "Learn to calculate KV cache memory requirements for transformer models. Covers batch size, context length, GQA optimization, ... Missing: parameter | Show results with: parameter",
+    "host_name": "mbrenndoerfer.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/erans/selfhostllm",
+    "name": "erans/selfhostllm: A web-based calculator for estimating GPU",
+    "snippet": "KV Cache per Request. KV Cache = (Context Length × Adjusted Model Memory × KV Overhead) / 1000. This memory is needed for each active request's attention cache.",
+    "host_name": "github.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://pub.towardsai.net/llm-inference-optimization-730b2d718a44",
+    "name": "LLM Inference Optimization: KV Cache, Batching  - Towards AI",
+    "snippet": "KV Cache memory needs & hyper-parameter Settings. The memory allocation needs for a KV Cache are straight forward. Assuming half-precision ...",
+    "host_name": "pub.towardsai.net",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

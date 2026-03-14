@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://awesomeagents.ai/hardware/hailo-10h",
+    "name": "Hailo-10H - Edge AI With On-Device LLMs",
+    "snippet": "3 days ago — The LLM performance tells an interesting story. At 9.45 tokens per second on Qwen2-1.5B, the Hailo - 10H delivers an usable - if not fast ... Read more",
+    "host_name": "awesomeagents.ai",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/LocalLLaMA/comments/1f72yh9/hailo10h_estimated_launch_date",
+    "name": "Hailo-10H Estimated launch date : r/LocalLLaMA",
+    "snippet": "Llama2-7B LLM at up to 10 tokens per second . Pretty sure thats CPU speeds. IIRC I get like 12t/s with 8B on DDR4, full CPU. MoffKalast. Read more",
+    "host_name": "www.reddit.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.fiercesensors.com/ai/hailo-10h-debuts-genai-focus-device-processing",
+    "name": "Hailo-10H debuts with GenAI focus for on-device processing",
+    "snippet": "Jul 23, 2025 — The company said that in performance benchmark tests , the Hailo - 10H has achieved a first- token latency of under 1 second and over 10 Tokens ... Read more",
+    "host_name": "www.fiercesensors.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.cnx-software.com/2026/01/20/raspberry-pi-ai-hat-2-review-a-40-tops-ai-accelerator-tested-with-computer-vision-llm-and-vlm-workloads",
+    "name": "Raspberry Pi AI HAT+ 2 review - A 40 TOPS AI accelerator",
+    "snippet": "11.29 tokens /s, 5.89 tokens /s ; Llama3.2 3B, 4.78 tokens /s, 2.60 tokens /s ; Qwen 2.5 ... Read more",
+    "host_name": "www.cnx-software.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.vellum.ai/llm-leaderboard",
+    "name": "LLM Leaderboard 2025",
+    "snippet": "Dec 15, 2025 — This LLM leaderboard displays the latest public benchmark performance for SOTA model versions released after April 2024. Read more",
+    "host_name": "www.vellum.ai",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://hailo.ai/products/ai-accelerators/hailo-10h-ai-accelerator",
+    "name": "LLM and VLM Generative AI Accelerator | Hailo-10H Chip",
+    "snippet": "Bring generative AI inference to edge devices. Hailo - 10H runs LLMs, VLMs, and Stable Diffusion with unmatched performance & power efficiency.",
+    "host_name": "hailo.ai",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.timetoact-group.at/en/insights/llm-benchmarks/llm-benchmarks-summer-2025",
+    "name": "LLM Benchmarks Summer 2025",
+    "snippet": "For example, 120B can run fairly well ( 10 -30 tokens per second ) on older cards with just 5-8GB of VRAM. In that case we are keeping attention part of the ... Read more",
+    "host_name": "www.timetoact-group.at",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://onyx.app/llm-leaderboard",
+    "name": "LLM Leaderboard - AI Model Rankings, Benchmarks &",
+    "snippet": "6 days ago — Complete benchmark results and pricing for every major LLM . Click any column header to sort and rank. Filter: All. Zhipu AI. Moonshot. Qwen . Read more",
+    "host_name": "onyx.app",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://lambda.ai/llm-benchmarks-leaderboard",
+    "name": "LLM Benchmarks Leaderboard: DeepSeek, Qwen, Llama",
+    "snippet": "We present standardized benchmark results for top contenders like Meta's Llama 4 series, Alibaba's Qwen3, and the latest from DeepSeek. Read more",
+    "host_name": "lambda.ai",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.edge-ai-vision.com/2026/01/top-python-libraries-of-2025",
+    "name": "Top Python Libraries of 2025",
+    "snippet": "Jan 19, 2026 — MaxText achieves high Model FLOPs Utilization (MFU) and tokens / second performance from single host to very large clusters while maintaining ... Read more",
+    "host_name": "www.edge-ai-vision.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

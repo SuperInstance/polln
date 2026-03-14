@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://patents.google.com/patent/US10540588B2/en",
+    "name": "US10540588B2 - Deep neural network processing on hardware accelerators with stacked memory",
+    "snippet": "A method is provided for processing on an acceleration component a deep neural network. The method includes configuring the acceleration component to ...",
+    "host_name": "patents.google.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://ftsg.com/wp-content/uploads/2025/03/FTSG_2025_TR_FINAL_LINKED.pdf",
+    "name": "18th edition – 2025 tech trends report",
+    "snippet": "Mar 13, 2025 — Our 2025 edition includes 1000 pages, with hundreds of trends published individually in 15 volumes and as one comprehensive report. Download all ...",
+    "host_name": "ftsg.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.researchgate.net/publication/398395756_Analog_artificial_intelligence_hardware_for_neural_networks_design_trends_and_considerations",
+    "name": "Analog artificial intelligence hardware for neural networks: design trends and considerations",
+    "snippet": "Dec 20, 2025 — This review presented a comprehensive analysis of analog very-large-scale integration (VLSI) design approaches for neural network (NN) ...",
+    "host_name": "www.researchgate.net",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.mckinsey.com/~/media/mckinsey/business%20functions/mckinsey%20digital/our%20insights/the%20top%20trends%20in%20tech%202025/mckinsey-technology-trends-outlook-2025.pdf",
+    "name": "Technology Trends Outlook 2025",
+    "snippet": "Jul 1, 2025 — The global technology landscape is undergoing significant shifts, propelled by fast-moving innovations in technologies.",
+    "host_name": "www.mckinsey.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.ceva-ip.com/wp-content/uploads/2025-Edge-AI-Technology-Report.pdf",
+    "name": "THE 2025 EDGE AI TECHNOLOGY REPORT | Ceva",
+    "snippet": "Edge AI meets these demands by embedding intelligence directly into machinery, sensors, and robotic systems, turning data into decisions at the source. Here are ...",
+    "host_name": "www.ceva-ip.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.federalregister.gov/documents/2025/01/15/2025-00636/framework-for-artificial-intelligence-diffusion",
+    "name": "Framework for Artificial Intelligence Diffusion",
+    "snippet": "Jan 15, 2025 — These changes will cultivate secure ecosystems for the responsible diffusion and use of AI and advanced computing ICs.",
+    "host_name": "www.federalregister.gov",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://ieeexplore.ieee.org/iel8/6287639/10820123/10908588.pdf",
+    "name": "Embedded Artificial Intelligence for IoT Applications Using the MAX78000",
+    "snippet": "2025 · Cited by 3 — A CNN accelerator is a specialized hardware component designed to efficiently execute the operations of convolutional neural networks, such as ...",
+    "host_name": "ieeexplore.ieee.org",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://hai-production.s3.amazonaws.com/files/hai_ai_index_report_2025.pdf",
+    "name": "Artificial Intelligence Index Report 2025",
+    "snippet": "Apr 18, 2025 — New in this year's report are in-depth analyses of the evolving landscape of AI hardware, novel estimates of inference costs, and new analyses ...",
+    "host_name": "hai-production.s3.amazonaws.com",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://dipartimenti.unicatt.it/politica-economica-DIPE0050.pdf",
+    "name": "A Deep Learning procedure for the identification of Artificial Intelligence technologies in patent data - Dipartimenti e istituti | La ricerca in Cattolica",
+    "snippet": "Jul 7, 2025 — Abstract. This paper introduces a deep learning methodology employing transformer-based models to systematically.",
+    "host_name": "dipartimenti.unicatt.it",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.nature.com/articles/s41467-025-57352-1",
+    "name": "The road to commercial success for neuromorphic technologies",
+    "snippet": "2025 · Cited by 58 — Gradient-based training of deep spiking neural networks is now an off-the-shelf technique for building general-purpose Neuromorphic applications ...",
+    "host_name": "www.nature.com",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]

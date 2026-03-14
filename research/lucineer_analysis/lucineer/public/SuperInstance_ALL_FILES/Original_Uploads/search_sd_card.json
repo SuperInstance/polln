@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://community.nxp.com/t5/LPCXpresso-IDE/typical-SD-card-power-consumption/m-p/528444",
+    "name": "typical SD card power consumption? - NXP Community",
+    "snippet": "While testing the power consumption of our device under various circumstances, I noticed that it is using about 110mW (30mA at 3.7V) more when the SD card is ...",
+    "host_name": "community.nxp.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.analog.com/en/resources/app-notes/an-1443.html",
+    "name": "AN-1443: Interfacing an SD Card Through the",
+    "snippet": "Typically, the interface is composed of power lines (supply and ground), a clock line, data lines, and command lines. On the newer high speed cards, a low ...",
+    "host_name": "www.analog.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://jisem-journal.com/index.php/journal/article/download/12638/5880/21268",
+    "name": "The Evolution of High-Speed Interfaces and Memory Systems in AI Architectures",
+    "snippet": "5 Aug 2025 — ... power (TDP) limits of 2.5–17 W. These limits, in turn, cap maximum interface power consumption at 0.3–2.1 W [4]. Network. Architecture.",
+    "host_name": "jisem-journal.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.synopsys.com/blogs/chip-design/designing-hbm3-high-bandwidth-memory-interfaces.html",
+    "name": "Designing High-Bandwidth Memory Interfaces for HBM3",
+    "snippet": "12 Oct 2021 — High-Bandwidth Memory (HBM) interfaces prevent bottlenecks in online games, AI applications, and more; we explore design challenges and IP ...",
+    "host_name": "www.synopsys.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.arasan.com/blog/data-rates-embedded-systems",
+    "name": "Data Rates: The Heartbeat of Embedded Systems",
+    "snippet": "16 Jan 2025 — One of the primary trade-offs of higher data rates is increased power consumption. Faster data transmission requires more energy, which can be a ...",
+    "host_name": "www.arasan.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://community.st.com/t5/others-stm32-mcus-related/techniques-for-sd-card-power-consumption-reducing/td-p/174445",
+    "name": "Techniques for SD Card power consumption reducing",
+    "snippet": "6 Jan 2021 — Several tips & tricks to minimize power consumption while increasing performance for STM32L4 devices as example are also described in AN4746.",
+    "host_name": "community.st.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.embedded.com/ai-demand-drives-expanded-high-bandwidth-memory-usage",
+    "name": "AI demand drives expanded high-bandwidth memory usage",
+    "snippet": "20 Feb 2022 — As a memory interface for 3D-stacked DRAM, HBM achieves higher bandwidth while using less power in a form factor that's significantly smaller than DDR4 or GDDR ...",
+    "host_name": "www.embedded.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://ieeexplore.ieee.org/iel8/8782712/9530264/10677348.pdf",
+    "name": "High-Bandwidth and Energy-Efficient Memory Interfaces for the Data-Centric Era",
+    "snippet": "2024 · Cited by 17 — Memory is a key component of AI systems. However, the energy consumption of data transfer in memory interfaces accounts for a significant portion of the total ...",
+    "host_name": "ieeexplore.ieee.org",
+    "rank": 7,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.engineersgarage.com/how-microsd-cards-power-embedded-systems-and-applications",
+    "name": "How MicroSD cards power embedded systems and",
+    "snippet": "25 Feb 2025 — SD Express cards use the PCIe interface to achieve extremely high data transfer speeds, making them ideal for demanding applications such as ...",
+    "host_name": "www.engineersgarage.com",
+    "rank": 8,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.researchgate.net/publication/383971948_High-Bandwidth_and_Energy-Efficient_Memory_Interfaces_for_the_Data-Centric_Era_Recent_Advances_Design_Challenges_and_Future_Prospects",
+    "name": "High-Bandwidth and Energy-Efficient Memory Interfaces for the Data-Centric Era: Recent Advances, Design Challenges, and Future Prospects",
+    "snippet": "2 Sept 2024 — This paper presents contemporary approaches to improve I/O bandwidth, such as increasing the I/O pin count and data rate/pin, and to save energy in memory ...",
+    "host_name": "www.researchgate.net",
+    "rank": 9,
+    "date": "",
+    "favicon": ""
+  }
+]
