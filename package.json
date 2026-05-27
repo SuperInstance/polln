@@ -197,7 +197,7 @@
     "ts-jest": "^29.4.9",
     "typescript": "^5",
     "vitepress": "^1.6.4",
-    "vitest": "^4.1.6"
+    "vitest": "^4.1.7"
   },
   "optionalDependencies": {
     "jsPDF": "^2.5.2",
