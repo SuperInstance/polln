@@ -65,3 +65,5 @@ deepseek.com
 *.deepseek.*
 *deepseek*
 LOG-tensor/
+target/
+Cargo.lock
