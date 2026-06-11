@@ -67,3 +67,8 @@ deepseek.com
 LOG-tensor/
 target/
 Cargo.lock
+
+
+# Added by cargo
+
+/target
