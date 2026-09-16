@@ -171,7 +171,7 @@
     "y-leveldb": "^0.2.0",
     "y-protocols": "^1.0.6",
     "y-websocket": "^2.0.4",
-    "yjs": "^13.6.31"
+    "yjs": "^13.6.32"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
