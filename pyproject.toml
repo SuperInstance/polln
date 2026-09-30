@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "polln"
-version = "1.0.0"
+version = "0.1.0"
 description = "Cocapn Fleet module — polln"
 readme = "README.md"
 requires-python = ">=3.10"
