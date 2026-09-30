@@ -167,13 +167,45 @@ export class PlinkoLayer {
   }
 
   /**
-   * Calculate entropy (diversity measure)
+   * Shannon entropy of the confidence distribution, in nats.
+   *
+   * H = -sum(p_i * ln p_i) over p_i = c_i / sum(c).
+   *
+   * This previously returned -ln(sum(exp(c_i / max))), which is not an entropy:
+   *   - it is negative for every input, and Shannon entropy on a probability
+   *     distribution is never negative;
+   *   - it is MONOTONE IN THE WRONG DIRECTION. For [0.5,0.5,0.5] it returns
+   *     -2.099; for a collapsed [0.98,0.01,0.01] it returns -1.556. The healthy,
+   *     diverse panel scored LOWER than the collapsed one, so any threshold
+   *     reading "low entropy => collapse" fired when the pool was fine;
+   *   - it produced NaN on all-zero confidences (b/max = 0/0), which flowed
+   *     silently into PlinkoResult.entropy. `decision-optimized.ts` already had
+   *     a `max === 0` guard; this copy did not.
+   *
+   * Known-answer values, pinned in the test suite:
+   *   uniform over n            -> ln n          (0.000 for n=1)
+   *   degenerate (one dominant) -> 0
+   *   all zeros                 -> 0, never NaN
    */
   private calculateEntropy(proposals: AgentProposal[]): number {
+    if (proposals.length === 0) return 0;
+
     const confidences = proposals.map(p => p.confidence);
-    const max = Math.max(...confidences);
-    const sum = confidences.reduce((a, b) => a + Math.exp(b / max), 0);
-    return -Math.log(sum);
+    const total = confidences.reduce((a, b) => a + b, 0);
+
+    // A zero total is a real case (nobody proposed), not an error. The old
+    // b/max form divided by zero here and returned NaN.
+    if (!(total > 0)) return 0;
+
+    let h = 0;
+    for (const c of confidences) {
+      if (c > 0) {
+        const p = c / total;
+        h -= p * Math.log(p);
+      }
+    }
+    // Numerical guard: the sum of small positives can drift a hair below zero.
+    return h > 0 ? h : 0;
   }
 
   /**
