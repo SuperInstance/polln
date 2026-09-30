@@ -97,7 +97,7 @@ export class FederationBenchmarkRunner {
     results.push(await this.benchmarkBroadcast());
 
     // Concurrent operations benchmark
-    results.push(await this.benchmarkConcurrentOperations()));
+    results.push(await this.benchmarkConcurrentOperations());
 
     // Scalability benchmark with increasing peers
     results.push(await this.benchmarkScalability());

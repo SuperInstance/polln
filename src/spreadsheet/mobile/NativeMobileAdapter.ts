@@ -215,7 +215,8 @@ export class NativeMobileAdapter {
 
         // Check for offline support
         if ('serviceWorker' in navigator) {
-          const swr: any = new (window as any).OfflineSpeechRecognition?.SpeechRecognition();
+          const OfflineSR = (window as any).OfflineSpeechRecognition?.SpeechRecognition;
+          const swr: any = OfflineSR ? new OfflineSR() : null;
           if (swr) {
             capabilities.voice.offline = true;
           }
@@ -694,7 +695,7 @@ export class NativeMobileAdapter {
     return latex
       .replace(/\\frac{(\w+)}{(\w+)}/g, '($1 over $2)')
       .replace(/\\sqrt{(\w+)}/g, 'square root of $1')
-      .replace(/\\/.(\w+)/g, '$1') // Remove backslash from commands
+      .replace(/\\(\w+)/g, '$1') // Remove backslash from commands
       .replace(/\\alpha/g, 'alpha')
       .replace(/\\beta/g, 'beta')
       .replace(/\\gamma/g, 'gamma')

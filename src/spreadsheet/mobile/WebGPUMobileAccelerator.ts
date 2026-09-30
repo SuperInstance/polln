@@ -202,7 +202,7 @@ export class WebGPUMobileAccelerator {
       const commandEncoder = this.device.createCommandEncoder();
       const computePass = commandEncoder.beginComputePass();
       computePass.setPipeline(pipeline);
-      computePass.setBindGroup(0, this.bindGroups.get(pipelineKey)!
+      computePass.setBindGroup(0, this.bindGroups.get(pipelineKey)!);
       computePass.dispatchWorkgroups(Math.ceil(tensorData.length / workgroupSize), 1, 1);
       computePass.end();
 

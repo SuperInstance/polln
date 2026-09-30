@@ -21,7 +21,7 @@ import { calculateStats, calculateThroughput } from '../benchmark-profiler.js';
 /**
  * KVCacheBenchmarks - KV-cache system performance tests
  */
-export class K VCacheBenchmarks implements BenchmarkSuite {
+export class KVCacheBenchmarks implements BenchmarkSuite {
   name = 'kv-cache';
   description = 'KV-cache and anchor management benchmarks';
   version = '1.0.0';
@@ -38,15 +38,19 @@ export class K VCacheBenchmarks implements BenchmarkSuite {
     });
 
     this.annIndex = new ANNIndex({
-      type: 'hnsw',
-      dim: 128,
-      maxElements: 10000,
+      algorithm: 'hnsw',
+      dimension: 128,
     });
 
     this.lmcacheAdapter = new LMCacheAdapter({
-      backendUrl: 'http://localhost:8080',
-      enableCompression: true,
-    });
+      backend: 'cpu',
+      chunkSize: 128,
+      maxChunks: 100,
+      compression: true,
+      evictionPolicy: 'lru',
+      maxSizeGb: 1,
+      enableRemote: false,
+    } as ConstructorParameters<typeof LMCacheAdapter>[0]);
   }
 
   async teardown(): Promise<void> {
@@ -235,7 +239,7 @@ export class K VCacheBenchmarks implements BenchmarkSuite {
       const start = performance.now();
 
       for (const vector of vectors) {
-        this.annIndex.insert(uuidv4(), vector);
+        this.annIndex.add(vector);
       }
 
       const end = performance.now();
@@ -263,7 +267,7 @@ export class K VCacheBenchmarks implements BenchmarkSuite {
 
     // Build index
     for (let i = 0; i < 1000; i++) {
-      this.annIndex.insert(uuidv4(), new Array(128).fill(0).map(() => Math.random()));
+      this.annIndex.add(new Array(128).fill(0).map(() => Math.random()));
     }
 
     const samples: number[] = [];
@@ -299,7 +303,7 @@ export class K VCacheBenchmarks implements BenchmarkSuite {
 
     // Build index
     for (let i = 0; i < 1000; i++) {
-      this.annIndex.insert(uuidv4(), new Array(128).fill(0).map(() => Math.random()));
+      this.annIndex.add(new Array(128).fill(0).map(() => Math.random()));
     }
 
     const batchSize = 10;
@@ -345,7 +349,7 @@ export class K VCacheBenchmarks implements BenchmarkSuite {
       const segment = this.createMockSegment(i);
 
       const start = performance.now();
-      await this.lmcacheAdapter.serializeSegment(segment);
+      await (this.lmcacheAdapter as any).serializeSegment(segment);
       const end = performance.now();
 
       samples.push(end - start);
@@ -374,7 +378,7 @@ export class K VCacheBenchmarks implements BenchmarkSuite {
     const serializedData: string[] = [];
     for (let i = 0; i < config.iterations; i++) {
       const segment = this.createMockSegment(i);
-      const serialized = await this.lmcacheAdapter.serializeSegment(segment);
+      const serialized = await (this.lmcacheAdapter as any).serializeSegment(segment);
       serializedData.push(serialized);
     }
 
@@ -382,7 +386,7 @@ export class K VCacheBenchmarks implements BenchmarkSuite {
 
     for (const data of serializedData) {
       const start = performance.now();
-      await this.lmcacheAdapter.deserializeSegment(data);
+      await (this.lmcacheAdapter as any).deserializeSegment(data);
       const end = performance.now();
 
       samples.push(end - start);
@@ -419,7 +423,7 @@ export class K VCacheBenchmarks implements BenchmarkSuite {
       const anchor = await this.anchorPool.createAnchor(segment, embedding);
 
       // Insert into ANN
-      this.annIndex.insert(anchor.anchorId, embedding);
+      this.annIndex.add(embedding);
 
       // Search
       this.annIndex.search(embedding, 5);

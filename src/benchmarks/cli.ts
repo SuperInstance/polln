@@ -12,7 +12,7 @@ import { AgentBenchmarks } from './suites/agent-benchmarks.js';
 import { CommunicationBenchmarks } from './suites/communication-benchmarks.js';
 import { DecisionBenchmarks } from './suites/decision-benchmarks.js';
 import { LearningBenchmarks } from './suites/learning-benchmarks.js';
-import { K VCacheBenchmarks } from './suites/kv-cache-benchmarks.js';
+import { KVCacheBenchmarks } from './suites/kv-cache-benchmarks.js';
 import { WorldModelBenchmarks } from './suites/worldmodel-benchmarks.js';
 import { IntegrationBenchmarks } from './suites/integration-benchmarks.js';
 
@@ -100,7 +100,7 @@ async function runBenchmarks(options: CliOptions): Promise<void> {
     communication: new CommunicationBenchmarks(),
     decision: new DecisionBenchmarks(),
     learning: new LearningBenchmarks(),
-    'kv-cache': new K VCacheBenchmarks(),
+    'kv-cache': new KVCacheBenchmarks(),
     worldmodel: new WorldModelBenchmarks(),
     integration: new IntegrationBenchmarks(),
   };
@@ -361,7 +361,7 @@ async function compareBaseline(options: {
     new CommunicationBenchmarks(),
     new DecisionBenchmarks(),
     new LearningBenchmarks(),
-    new K VCacheBenchmarks(),
+    new KVCacheBenchmarks(),
     new WorldModelBenchmarks(),
     new IntegrationBenchmarks(),
   ];

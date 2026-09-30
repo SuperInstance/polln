@@ -95,7 +95,7 @@ export interface CacheInstance {
   // Batch operations
   batchSet(entries: Array<{ key: string; value: any; ttl?: number }>): Promise<void>;
   batchGet(keys: string[]): Promise<BatchGetResult>;
-  []<key>(...keys: string[]): Promise<void>;
+  batchDelete(...keys: string[]): Promise<void>;
 
   // Advanced operations
   getEntry(key: string): Promise<CacheEntry | undefined>;

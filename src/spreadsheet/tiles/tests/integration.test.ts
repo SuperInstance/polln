@@ -540,3 +540,6 @@ describe('Tile Integration Tests', () => {
 if (process.env.NODE_ENV === 'test') {
   console.log('Running Tile Integration Tests...');
 }
+});
+}
+)

@@ -105,7 +105,7 @@ describe('YjsDocument', () => {
       const cell = doc.getCell('A1');
 
       cell.observe((event, transaction) => {
-        expect(event.keysChanged)..hasOwnProperty('value');
+        expect(event.keysChanged).hasOwnProperty('value');
         done();
       });
 

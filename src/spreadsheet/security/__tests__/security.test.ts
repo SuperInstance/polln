@@ -130,7 +130,7 @@ describe('Security Middleware Suite', () => {
           action: 'read' as PermissionAction
         }],
         '127.0.0.1'
-      });
+      );
 
       const secureRequest: any = {
         ...mockRequest,

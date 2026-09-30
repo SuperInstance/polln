@@ -3,20 +3,20 @@
   "version": "0.1.0",
   "description": "Pattern-Organized Large Language Network - A distributed intelligence system",
   "type": "module",
-  "main": "./dist/index.js",
+  "main": "./dist/core/index.js",
   "files": [
     "dist",
     "README.md",
     "LICENSE"
   ],
-  "types": "./dist/index.d.ts",
+  "types": "./dist/core/index.d.ts",
   "bin": {
     "polln": "./dist/cli/index.js"
   },
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/core/index.js",
+      "types": "./dist/core/index.d.ts"
     },
     "./core": {
       "import": "./dist/core/index.js",

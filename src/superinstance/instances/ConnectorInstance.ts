@@ -1145,13 +1145,13 @@ export class ConcreteConnectorInstance extends BaseSuperInstance implements Conn
 
     // Simulate subscription
     await new Promise(resolve => setTimeout(resolve, 50));
-    console.log(`Subscribed to ${topic || default topic}`);
+    console.log(`Subscribed to ${topic || 'default topic'}`);
   }
 
   async unsubscribe(topic?: string): Promise<void> {
     // Simulate unsubscription
     await new Promise(resolve => setTimeout(resolve, 50));
-    console.log(`Unsubscribed from ${topic || default topic}`);
+    console.log(`Unsubscribed from ${topic || 'default topic'}`);
   }
 
   async publish(topic: string, message: any): Promise<void> {
