@@ -17,3 +17,33 @@ jobs:
       - run: npm install
       - run: npm run build
         continue-on-error: true
+
+  # The test suite existed and CI never invoked it. `package.json` has had a `test`
+  # script and a `test:*` family (integration, api, cli, scaling, llm, kv, ...) for
+  # 185 test files, ts-jest configured, and the only real step above carried
+  # `continue-on-error: true` -- so this workflow could not fail. A gate that cannot
+  # fail is not a gate, and a test suite that is never executed is not a test suite.
+  known-answer-controls:
+    name: Known-answer controls (fast)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install
+      # The KATs are the tests that must be able to fail. Run them first, on their
+      # own, so a broken instrument is not lost in a large suite's noise.
+      - name: run the known-answer controls
+        run: npx jest src/core/__tests__/entropy-kat.test.ts --ci
+
+  suite:
+    name: Full test suite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install
+      - run: npm test -- --ci
