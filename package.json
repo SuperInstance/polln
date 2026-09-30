@@ -1,5 +1,5 @@
 {
-  "name": "polln",
+  "name": "@superinstance/polln",
   "version": "0.1.0",
   "description": "Pattern-Organized Large Language Network - A distributed intelligence system",
   "type": "module",
