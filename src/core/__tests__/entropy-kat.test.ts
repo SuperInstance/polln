@@ -1,22 +1,25 @@
 /**
  * Known-answer control for PlinkoLayer's entropy.
  *
- * The function it pins is reached only through `PlinkoLayer.evaluate`, so these
- * cases drive the real code path rather than a re-implementation: a test that
- * re-derives the answer cannot catch the code being wrong.
+ * The function it pins is reached only through `PlinkoLayer.evaluate`, so these cases
+ * drive the real code path rather than a re-implementation: a test that re-derives the
+ * expected value cannot catch the code being wrong, which is how the original shipped.
+ *
+ * NOTE on the shapes — both were wrong in the first version of this file and neither
+ * compiled: `AgentProposal` requires a `bid`, and `PlinkoConfig` requires `decayRate`.
+ * They are spelled out here rather than cast, so a shape change breaks this file loudly
+ * instead of being papered over with `as AgentProposal[]`.
  */
-import { PlinkoLayer, type AgentProposal } from '../decision.js';
+import { PlinkoLayer, type AgentProposal, type PlinkoConfig } from '../decision.js';
+
+const CONFIG: PlinkoConfig = { temperature: 1.0, minTemperature: 0.1, decayRate: 0.001 };
 
 function proposals(confidences: number[]): AgentProposal[] {
-  return confidences.map((confidence, i) => ({
-    agentId: `a${i}`,
-    confidence,
-  })) as AgentProposal[];
+  return confidences.map((confidence, i) => ({ agentId: `a${i}`, confidence, bid: confidence }));
 }
 
 function entropyOf(confidences: number[]): number {
-  const layer = new PlinkoLayer({ temperature: 0.5, minTemperature: 0.1 });
-  return layer.evaluate(proposals(confidences)).entropy;
+  return new PlinkoLayer(CONFIG).evaluate(proposals(confidences)).entropy;
 }
 
 describe('entropy — known-answer control', () => {
@@ -36,7 +39,7 @@ describe('entropy — known-answer control', () => {
   });
 
   it('points the RIGHT WAY: a healthy pool outscores a collapsed one', () => {
-    // This is the assertion the old formula inverted. A detector reading
+    // The assertion the old formula inverted. A detector reading
     // "low entropy => mode collapse" was firing on healthy pools.
     const healthy = entropyOf([0.5, 0.5, 0.5]);
     const collapsed = entropyOf([0.98, 0.01, 0.01]);
@@ -51,9 +54,8 @@ describe('entropy — known-answer control', () => {
   });
 
   it('is finite for an empty proposal list', () => {
-    const layer = new PlinkoLayer({ temperature: 0.5, minTemperature: 0.1 });
-    const r = layer.evaluate([]);
-    expect(Number.isFinite(r.entropy)).toBe(true);
+    const e = new PlinkoLayer(CONFIG).evaluate([]).entropy;
+    expect(Number.isFinite(e)).toBe(true);
   });
 
   it('is invariant to scale — entropy is a function of the SHAPE, not the magnitude', () => {
