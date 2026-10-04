@@ -164,7 +164,7 @@ export interface SystemInfo {
   cpuModel: string;
   cpuCores: number;
   totalMemory: number;
-  freemMemory: number;
+  freeMemory: number;
 }
 
 /**

@@ -162,14 +162,13 @@ async function main(): Promise<void> {
   const totalTime = (endTime - startTime) / 1000;
 
   // Create reporter
-  const reporter = new BenchmarkReporter();
-  const report = reporter.generateReport(summary);
+  const report = BenchmarkReporter.generateReport(summary.results, 'json');
 
   // Output results
   if (options.output === 'json') {
-    console.log(JSON.stringify(report, null, 2));
+    console.log(report);
   } else {
-    console.log('\n' + report.markdown);
+    console.log('\n' + BenchmarkReporter.generateReport(summary.results, 'markdown'));
   }
 
   // Print summary

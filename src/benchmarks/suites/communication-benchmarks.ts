@@ -8,12 +8,32 @@
 import { performance } from 'perf_hooks';
 import { v4 as uuidv4 } from 'uuid';
 import type { BenchmarkSuite, BenchmarkConfig, BenchmarkMetrics } from '../types.js';
-import { A2APackage, PollenGrain } from '../../core/communication.js';
+import type { A2APackage } from '../../core/types.js';
+import { PollenGrain, TileCategory } from '../../core/tile.js';
+import { PrivacyLevel, SubsumptionLayer } from '../../core/types.js';
 import { calculateStats, calculateThroughput } from '../benchmark-profiler.js';
 
 /**
  * CommunicationBenchmarks - A2A package performance tests
  */
+
+/** Complete A2APackage mock matching core/types.js (privacy + subsumption fields included). */
+function mockA2APackage(payload: unknown, parentIds: string[] = []): A2APackage {
+  return {
+    id: uuidv4(),
+    timestamp: Date.now(),
+    senderId: uuidv4(),
+    receiverId: uuidv4(),
+    type: 'benchmark-message',
+    payload,
+    parentIds,
+    causalChainId: uuidv4(),
+    privacyLevel: PrivacyLevel.PUBLIC,
+    layer: SubsumptionLayer.REFLEX,
+  };
+}
+
+
 export class CommunicationBenchmarks implements BenchmarkSuite {
   name = 'communication';
   description = 'A2A package communication benchmarks';
@@ -49,16 +69,7 @@ export class CommunicationBenchmarks implements BenchmarkSuite {
     for (let i = 0; i < config.iterations; i++) {
       const start = performance.now();
 
-      const pkg: A2APackage = {
-        packageId: uuidv4(),
-        sourceAgentId: uuidv4(),
-        targetAgentId: uuidv4(),
-        payload: { message: `Test message ${i}` },
-        timestamp: Date.now(),
-        parentIds: [],
-        causalChainId: uuidv4(),
-        pollenGrain: this.createMockPollenGrain(),
-      };
+      const pkg = mockA2APackage({ message: `Test message ${i}` });
 
       const end = performance.now();
       samples.push(end - start);
@@ -176,17 +187,20 @@ export class CommunicationBenchmarks implements BenchmarkSuite {
 
       const grain: PollenGrain = {
         id: uuidv4(),
+        tileId: 'bench-tile',
+        tileName: 'bench-tile',
+        tileType: 'BenchTile',
+        category: TileCategory.EPHEMERAL,
         embedding: new Array(128).fill(0).map(() => Math.random()),
-        pattern: {
-          action: 'test-action',
-          context: 'test-context',
-          outcome: 'test-outcome',
-        },
-        metadata: {
-          createdAt: Date.now(),
-          sourceAgent: uuidv4(),
-          weight: Math.random(),
-        },
+        weights: {},
+        trainingEpisodes: 0,
+        successRate: 1,
+        avgReward: 0,
+        valueFunction: 0.5,
+        createdAt: Date.now(),
+        sourceKeeperId: 'bench-keeper',
+        sourceColonyId: 'bench-colony',
+        signature: 'bench-signature',
       };
 
       const end = performance.now();
@@ -248,9 +262,10 @@ export class CommunicationBenchmarks implements BenchmarkSuite {
       const start = performance.now();
 
       const pkg: A2APackage = {
-        packageId: uuidv4(),
-        sourceAgentId: uuidv4(),
-        targetAgentId: uuidv4(),
+        id: uuidv4(),
+        senderId: uuidv4(),
+        receiverId: uuidv4(),
+        type: 'benchmark-message',
         payload: {
           data: 'x'.repeat(10000), // 10KB payload
           items: Array.from({ length: 100 }, (_, j) => ({ id: j, value: `item-${j}` })),
@@ -258,7 +273,8 @@ export class CommunicationBenchmarks implements BenchmarkSuite {
         timestamp: Date.now(),
         parentIds: [],
         causalChainId: uuidv4(),
-        pollenGrain: this.createMockPollenGrain(),
+        privacyLevel: PrivacyLevel.PUBLIC,
+        layer: SubsumptionLayer.REFLEX,
       };
 
       const end = performance.now();
@@ -291,16 +307,7 @@ export class CommunicationBenchmarks implements BenchmarkSuite {
       const start = performance.now();
 
       for (let j = 0; j < batchSize; j++) {
-        const pkg: A2APackage = {
-          packageId: uuidv4(),
-          sourceAgentId: uuidv4(),
-          targetAgentId: uuidv4(),
-          payload: { message: `Batch ${i} message ${j}` },
-          timestamp: Date.now(),
-          parentIds: [],
-          causalChainId: uuidv4(),
-          pollenGrain: this.createMockPollenGrain(),
-        };
+        const pkg = mockA2APackage({ message: `Batch ${i} message ${j}` });
       }
 
       const end = performance.now();
@@ -328,14 +335,16 @@ export class CommunicationBenchmarks implements BenchmarkSuite {
 
     for (let i = 0; i < config.iterations; i++) {
       const pkg: A2APackage = {
-        packageId: uuidv4(),
-        sourceAgentId: uuidv4(),
-        targetAgentId: uuidv4(),
+        id: uuidv4(),
+        senderId: uuidv4(),
+        receiverId: uuidv4(),
+        type: 'benchmark-message',
         payload: { message: `Test ${i}` },
         timestamp: Date.now(),
         parentIds: Array.from({ length: 10 }, () => uuidv4()),
         causalChainId: uuidv4(),
-        pollenGrain: this.createMockPollenGrain(),
+        privacyLevel: PrivacyLevel.PUBLIC,
+        layer: SubsumptionLayer.REFLEX,
       };
 
       const start = performance.now();
@@ -403,17 +412,20 @@ export class CommunicationBenchmarks implements BenchmarkSuite {
   private createMockPollenGrain(): PollenGrain {
     return {
       id: uuidv4(),
+      tileId: 'bench-tile',
+      tileName: 'bench-tile',
+      tileType: 'BenchTile',
+      category: TileCategory.EPHEMERAL,
       embedding: new Array(128).fill(0).map(() => Math.random()),
-      pattern: {
-        action: 'test-action',
-        context: 'test-context',
-        outcome: 'test-outcome',
-      },
-      metadata: {
-        createdAt: Date.now(),
-        sourceAgent: uuidv4(),
-        weight: Math.random(),
-      },
+      weights: {},
+      trainingEpisodes: 0,
+      successRate: 1,
+      avgReward: 0,
+      valueFunction: 0.5,
+      createdAt: Date.now(),
+      sourceKeeperId: 'bench-keeper',
+      sourceColonyId: 'bench-colony',
+      signature: 'bench-signature',
     };
   }
 
@@ -424,16 +436,7 @@ export class CommunicationBenchmarks implements BenchmarkSuite {
     const packages: A2APackage[] = [];
 
     for (let i = 0; i < count; i++) {
-      packages.push({
-        packageId: uuidv4(),
-        sourceAgentId: uuidv4(),
-        targetAgentId: uuidv4(),
-        payload: { message: `Test message ${i}` },
-        timestamp: Date.now(),
-        parentIds: [],
-        causalChainId: uuidv4(),
-        pollenGrain: this.createMockPollenGrain(),
-      });
+      packages.push(mockA2APackage({ message: `Test message ${i}` }));
     }
 
     return packages;

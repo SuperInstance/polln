@@ -15,7 +15,61 @@ import type {
   BenchmarkContext,
   ProfilingData
 } from './types.js';
+export type { BenchmarkConfig, BenchmarkResult, BenchmarkMetrics } from './types.js';
 import { BenchmarkProfiler } from './benchmark-profiler.js';
+
+
+/**
+ * Adapt legacy suite result shapes (timing/memory/throughput literals) to the
+ * canonical BenchmarkResult. Suites kept their own stat math; this normalizes
+ * the container so downstream consumers (reporter, dashboard, baselines) see
+ * one shape.
+ */
+export function createBenchmarkResult(
+  name: string,
+  category: string,
+  times: number[],
+  config: Partial<BenchmarkConfig>,
+  metadata: Record<string, unknown> = {},
+  memory: { before?: number; after?: number; peak?: number; delta?: number } = {},
+  suite = 'polln'
+): BenchmarkResult {
+  const sorted = [...times].sort((a, b) => a - b);
+  const totalOps = sorted.length || 1;
+  const totalTime = sorted.reduce((sum, t) => sum + t, 0);
+  const mean = totalTime / totalOps;
+  const at = (q: number): number => sorted[Math.min(sorted.length - 1, Math.floor(sorted.length * q))] ?? mean;
+  return {
+    name,
+    suite,
+    category,
+    timestamp: Date.now(),
+    config: config as BenchmarkConfig,
+    metrics: {
+      mean,
+      median: at(0.5),
+      min: sorted[0] ?? 0,
+      max: sorted[sorted.length - 1] ?? 0,
+      stdDev: 0,
+      p50: at(0.5),
+      p75: at(0.75),
+      p90: at(0.9),
+      p95: at(0.95),
+      p99: at(0.99),
+      memoryBefore: memory.before ?? 0,
+      memoryAfter: memory.after ?? 0,
+      memoryDelta: memory.delta ?? 0,
+      memoryPeak: memory.peak ?? memory.after ?? 0,
+      opsPerSecond: 1000 / mean,
+      totalOps: sorted.length,
+      totalTime,
+    },
+    samples: sorted,
+    memorySamples: [],
+    passed: true,
+    metadata,
+  };
+}
 
 export interface RunOptions {
   suites?: string[];

@@ -307,9 +307,9 @@ class Bootstrap {
   /**
    * Generate bootstrap sample
    */
-  static resample(data: number[]): number[] {
+  static resample<T>(data: T[]): T[] {
     const n = data.length;
-    const sample: number[] = [];
+    const sample: T[] = [];
     for (let i = 0; i < n; i++) {
       sample.push(data[Math.floor(Math.random() * n)]);
     }
@@ -319,9 +319,9 @@ class Bootstrap {
   /**
    * Calculate bootstrap confidence interval
    */
-  static confidenceInterval(
-    data: number[],
-    statistic: (data: number[]) => number,
+  static confidenceInterval<T>(
+    data: T[],
+    statistic: (data: T[]) => number,
     confidenceLevel: number,
     iterations: number = 10000
   ): [number, number] {
@@ -1465,7 +1465,7 @@ export class NormalityTest {
       rejected: pValue < 0.05,
       alpha: 0.05,
       testName: "Shapiro-Wilk test",
-      details: { n, normality: !pValue < 0.05 },
+      details: { n, normality: !(pValue < 0.05) },
     };
   }
 }

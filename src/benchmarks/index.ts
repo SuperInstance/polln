@@ -16,6 +16,3 @@ export * from './load-test-benchmarks';
 export * from './performance-profiler';
 export * from './benchmark-runner';
 export * from './dashboard-generator';
-
-// Main benchmark runner
-export { runAllBenchmarks } from './benchmark-runner';

@@ -4,7 +4,8 @@
  * Main entry point for SMPbot GPU performance benchmarks.
  */
 
-export { SMPbotGPUBenchmarkSuite, createSMPbotGPUBenchmarkSuite } from './SMPbotGPUBenchmarkSuite.js';
+import { SMPbotGPUBenchmarkSuite, createSMPbotGPUBenchmarkSuite } from './SMPbotGPUBenchmarkSuite.js';
+export { SMPbotGPUBenchmarkSuite, createSMPbotGPUBenchmarkSuite };
 export type { SMPbotBenchmarkConfig, SMPbotBenchmarkResult } from './SMPbotGPUBenchmarkSuite.js';
 
 export { runSMPbotGPUBenchmarks } from './runner.js';

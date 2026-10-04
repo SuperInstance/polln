@@ -5,7 +5,11 @@
  */
 
 import { performanceMonitor } from '../superinstance/performance/SuperInstancePerformanceMonitor';
-import { BenchmarkConfig, BenchmarkResult } from './benchmark-runner';
+import { BenchmarkConfig, BenchmarkResult, createBenchmarkResult } from './benchmark-runner';
+
+interface LoadTestBenchmarkConfig extends BenchmarkConfig {
+  loadTestUsers?: number;
+}
 
 // Simulated user behavior
 interface VirtualUser {
@@ -18,11 +22,11 @@ interface VirtualUser {
 
 // API endpoints to test
 enum APIEndpoint {
-  CREATE_INSTANCE = '/api/instances',
-  GET_INSTANCE = '/api/instances/{id}',
-  UPDATE_INSTANCE = '/api/instances/{id}',
-  DELETE_INSTANCE = '/api/instances/{id}',
-  LIST_INSTANCES = '/api/instances',
+  CREATE_INSTANCE = '/api/instances:POST',
+  GET_INSTANCE = '/api/instances/{id}:GET',
+  UPDATE_INSTANCE = '/api/instances/{id}:PUT',
+  DELETE_INSTANCE = '/api/instances/{id}:DELETE',
+  LIST_INSTANCES = '/api/instances:GET',
   FEDERATION_SYNC = '/api/federation/sync',
   PERFORMANCE_METRICS = '/api/metrics',
   GPU_COMPUTE = '/api/compute/gpu',
@@ -184,21 +188,24 @@ export class LoadTestRunner {
   private server: MockAPIServer;
   private virtualUsers: VirtualUser[] = [];
 
+  private loadTestConfig: LoadTestBenchmarkConfig;
+
   constructor(config: BenchmarkConfig) {
     this.config = config;
+    this.loadTestConfig = config as LoadTestBenchmarkConfig;
     this.server = new MockAPIServer();
   }
 
   async runAll(): Promise<BenchmarkResult[]> {
     const results: BenchmarkResult[] = [];
 
-    console.log(`  ⚡ Running Load Tests (${this.config.loadTestUsers} users)...`);
+    console.log(`  ⚡ Running Load Tests (${(this.loadTestConfig.loadTestUsers ?? 100)} users)...`);
 
     // Basic API load test
     results.push(await this.benchmarkAPILoad());
 
     // Concurrent user simulation
-    results.push(await this.benchmarkConcurrentUsers());
+    results.push(...(await this.benchmarkConcurrentUsers()));
 
     // Mixed workload benchmark
     results.push(await this.benchmarkMixedWorkload());
@@ -213,14 +220,14 @@ export class LoadTestRunner {
   }
 
   private async benchmarkAPILoad(): Promise<BenchmarkResult> {
-    console.log(`    - API Load Test (${this.config.loadTestUsers} users)...`);
+    console.log(`    - API Load Test (${(this.loadTestConfig.loadTestUsers ?? 100)} users)...`);
 
     const times: number[] = [];
     const endpoints = Object.values(APIEndpoint);
 
     // Create virtual users
     this.virtualUsers = [];
-    for (let i = 0; i < this.config.loadTestUsers; i++) {
+    for (let i = 0; i < (this.loadTestConfig.loadTestUsers ?? 100); i++) {
       this.virtualUsers.push({
         id: `user-${i}`,
         session: new Map(),
@@ -267,20 +274,20 @@ export class LoadTestRunner {
       {
         totalRequests,
         totalErrors,
-        users: this.config.loadTestUsers,
-        avgRequestsPerUser: totalRequests / this.config.loadTestUsers
+        users: (this.loadTestConfig.loadTestUsers ?? 100),
+        avgRequestsPerUser: totalRequests / (this.loadTestConfig.loadTestUsers ?? 100)
       }
     );
   }
 
-  private async benchmarkConcurrentUsers(): Promise<BenchmarkResult> {
-    console.log(`    - Concurrent Users (${this.config.loadTestUsers} users)...`);
+  private async benchmarkConcurrentUsers(): Promise<BenchmarkResult[]> {
+    console.log(`    - Concurrent Users (${(this.loadTestConfig.loadTestUsers ?? 100)} users)...`);
 
     const results: BenchmarkResult[] = [];
     const userCounts = [10, 50, 100, 500, 1000, 2000];
 
     for (const userCount of userCounts) {
-      if (userCount > this.config.loadTestUsers) break;
+      if (userCount > (this.loadTestConfig.loadTestUsers ?? 100)) break;
 
       const times: number[] = [];
       const responseTimes: number[] = [];
@@ -334,7 +341,7 @@ export class LoadTestRunner {
   }
 
   private async benchmarkMixedWorkload(): Promise<BenchmarkResult> {
-    console.log(`    - Mixed Workload (${this.config.loadTestUsers} users)...`);
+    console.log(`    - Mixed Workload (${(this.loadTestConfig.loadTestUsers ?? 100)} users)...`);
 
     const times: number[] = [];
     const workloads = [
@@ -399,7 +406,7 @@ export class LoadTestRunner {
 
       // Generate extreme load
       const requests = [];
-      for (let j = 0; j < this.config.loadTestUsers * stressMultiplier; j++) {
+      for (let j = 0; j < (this.loadTestConfig.loadTestUsers ?? 100) * stressMultiplier; j++) {
         if (j % 10 === 0) {
           // 10% large data operations
           requests.push(this.server.handleRequest(APIEndpoint.LIST_INSTANCES, { limit: 10000 }));
@@ -430,7 +437,7 @@ export class LoadTestRunner {
       times,
       {
         stressMultiplier,
-        totalRequests: this.config.loadTestUsers * stressMultiplier,
+        totalRequests: (this.loadTestConfig.loadTestUsers ?? 100) * stressMultiplier,
         scenario: 'extreme_burst'
       }
     );
@@ -528,37 +535,6 @@ export class LoadTestRunner {
     times: number[],
     metadata: Record<string, any>
   ): BenchmarkResult {
-    times.sort((a, b) => a - b);
-    const iterations = times.length;
-    const totalTime = times.reduce((sum, t) => sum + t, 0);
-    const avgTime = totalTime / iterations;
-    const minTime = times[0];
-    const maxTime = times[times.length - 1];
-    const p50 = times[Math.floor(iterations * 0.5)];
-    const p95 = times[Math.floor(iterations * 0.95)];
-    const p99 = times[Math.floor(iterations * 0.99)];
-
-    return {
-      name,
-      category,
-      iterations,
-      timing: {
-        avg: avgTime,
-        min: minTime,
-        max: maxTime,
-        p50,
-        p95,
-        p99
-      },
-      memory: {
-        before: 0,
-        after: 0,
-        peak: 0,
-        delta: 0
-      },
-      throughput: metadata.throughput ? { opsPerSecond: metadata.throughput } : undefined,
-      errors: metadata.totalErrors || 0,
-      metadata
-    };
+    return createBenchmarkResult(name, category, times, this.config, metadata, {}, 'load_test');
   }
 }

@@ -14,7 +14,7 @@ export class DashboardGenerator {
     return html;
   }
 
-  generateHTML(results: BenchmarkResult[], config: BenchmarkConfig): string {
+  generateHTML(results: BenchmarkResult[], config: BenchmarkConfig & { gpuEnabled?: boolean; federationPeers?: number; loadTestUsers?: number }): string {
     const summary = this.generateSummary(results);
     const categories = this.groupByCategory(results);
 
@@ -234,7 +234,7 @@ export class DashboardGenerator {
         <header>
             <h1>🚀 SuperInstance Performance Dashboard</h1>
             <p>Comprehensive Benchmark Report - Round 12</p>
-            <p>Generated on: ${new Date().toLocaleString()} | Runtime: ${((data.endTime - data.startTime) / 1000).toFixed(2)}s</p>
+            <p>Generated on: ${new Date().toLocaleString()} | Span: ${results.length ? ((Math.max(...results.map(r => r.timestamp)) - Math.min(...results.map(r => r.timestamp))) / 1000).toFixed(2) : '0.00'}s</p>
         </header>
 
         <div class="config-info">
@@ -250,10 +250,10 @@ export class DashboardGenerator {
                     <strong>GPU Enabled:</strong> ${config.gpuEnabled ? 'Yes' : 'No'}
                 </div>
                 <div class="config-item">
-                    <strong>Federation Peers:</strong> ${config.federationPeers.toLocaleString()}
+                    <strong>Federation Peers:</strong> ${(config.federationPeers ?? 0).toLocaleString()}
                 </div>
                 <div class="config-item">
-                    <strong>Load Test Users:</strong> ${config.loadTestUsers.toLocaleString()}
+                    <strong>Load Test Users:</strong> ${(config.loadTestUsers ?? 0).toLocaleString()}
                 </div>
             </div>
         </div>
@@ -317,10 +317,10 @@ export class DashboardGenerator {
 
             <div class="card">
                 <h3>🏆 Best Performers</h3>
-                ${summary.bestPerformers.slice(0, 3).map(bench => `
+                ${summary.bestPerformers.slice(0, 3).map((bench: { name: string; metrics: { opsPerSecond: number } }) => `
                 <div class="metric">
                     <span>${bench.name}:</span>
-                    <span class="metric-value">${bench.throughput.toFixed(0)} ops/s</span>
+                    <span class="metric-value">${bench.metrics.opsPerSecond.toFixed(0)} ops/s</span>
                 </div>
                 `).join('')}
             </div>
@@ -345,7 +345,7 @@ export class DashboardGenerator {
             </div>
         </div>
 
-        ${Object.entries(categories).map(([category, benchmarks]) =
+        ${Object.entries(categories).map(([category, benchmarks]: [string, BenchmarkResult[]]) =>
           this.generateCategorySection(category, benchmarks))
           .join('')}
 
@@ -366,30 +366,30 @@ export class DashboardGenerator {
   }
 
   private generateSummary(results: BenchmarkResult[]): any {
-    const totalOperations = results.reduce((sum, r) => sum + r.iterations, 0);
-    const totalErrors = results.reduce((sum, r) => sum + r.errors, 0);
+    const totalOperations = results.reduce((sum, r) => sum + r.metrics.totalOps, 0);
+    const totalErrors = results.reduce((sum, r) => sum + (r.passed ? 0 : 1), 0);
     const successRate = ((totalOperations - totalErrors) / totalOperations) * 100;
 
     const responseTimes = results
-      .filter(r => r.timing.avg > 0)
-      .map(r => r.timing.avg);
+      .filter(r => r.metrics.mean > 0)
+      .map(r => r.metrics.mean);
     const avgResponseTime = responseTimes.reduce((sum, t) => sum + t, 0) / responseTimes.length;
     const p95ResponseTime = responseTimes.sort((a, b) => a - b)[Math.floor(responseTimes.length * 0.95)];
     const p99ResponseTime = responseTimes.sort((a, b) => a - b)[Math.floor(responseTimes.length * 0.99)];
 
     const throughputs = results
-      .filter(r => r.throughput?.opsPerSecond)
-      .map(r => r.throughput!.opsPerSecond);
+      .filter(r => r.metrics.opsPerSecond > 0)
+      .map(r => r.metrics.opsPerSecond);
     const avgThroughput = throughputs.reduce((sum, t) => sum + t, 0) / throughputs.length;
 
-    const memories = results.map(r => r.memory);
-    const peakMemory = Math.max(...memories.map(m => m.peak));
-    const avgMemoryDelta = memories.reduce((sum, m) => sum + m.delta, 0) / memories.length;
-    const memoryEfficiency = peakMemory / (memories.reduce((sum, m) => sum + m.before, 0) / memories.length);
+    const memories = results.map(r => r.metrics);
+    const peakMemory = Math.max(...memories.map(m => m.memoryPeak));
+    const avgMemoryDelta = memories.reduce((sum, m) => sum + m.memoryDelta, 0) / memories.length;
+    const memoryEfficiency = peakMemory / (memories.reduce((sum, m) => sum + m.memoryBefore, 0) / memories.length);
 
     const bestPerformers = results
-      .filter(r => r.throughput?.opsPerSecond)
-      .sort((a, b) => (b.throughput?.opsPerSecond || 0) - (a.throughput?.opsPerSecond || 0))
+      .filter(r => r.metrics.opsPerSecond > 0)
+      .sort((a, b) => (b.metrics.opsPerSecond || 0) - (a.metrics.opsPerSecond || 0))
       .slice(0, 5);
 
     return {
@@ -451,7 +451,7 @@ export class DashboardGenerator {
   }
 
   private getCategoryIcon(category: string): string {
-    const icons = {
+    const icons: Record<string, string> = {
       'instance_creation': '🏗️',
       'instance_operations': '⚙️',
       'federation': '🌐',
@@ -470,22 +470,22 @@ export class DashboardGenerator {
     return `
         <tr>
             <td><strong>${benchmark.name}</strong></td>
-            <td>${benchmark.iterations.toLocaleString()}</td>
-            <td>${benchmark.timing.avg.toFixed(2)}</td>
-            <td>${benchmark.timing.p95.toFixed(2)}</td>
-            <td>${benchmark.timing.p99.toFixed(2)}</td>
-            <td>${benchmark.throughput?.opsPerSecond.toFixed(0) || 'N/A'}</td>
+            <td>${benchmark.metrics.totalOps.toLocaleString()}</td>
+            <td>${benchmark.metrics.mean.toFixed(2)}</td>
+            <td>${benchmark.metrics.p95.toFixed(2)}</td>
+            <td>${benchmark.metrics.p99.toFixed(2)}</td>
+            <td>${benchmark.metrics.opsPerSecond.toFixed(0) || 'N/A'}</td>
             <td><span class="performance-indicator ${performanceClass}">${status}</span></td>
         </tr>
     `;
   }
 
   private getPerformanceStatus(benchmark: BenchmarkResult): string {
-    if (benchmark.errors > 0) return 'Failed';
+    if (!benchmark.passed) return 'Failed';
 
     // Simple heuristics based on timing
-    if (benchmark.timing.avg < 10) return 'Good';
-    if (benchmark.timing.avg < 100) return 'Fair';
+    if (benchmark.metrics.mean < 10) return 'Good';
+    if (benchmark.metrics.mean < 100) return 'Fair';
     return 'Needs Attention';
   }
 
@@ -499,13 +499,13 @@ export class DashboardGenerator {
                 labels: ${JSON.stringify(Object.keys(categories))},
                 datasets: [{
                     label: 'Average Time (ms)',
-                    data: ${JSON.stringify(Object.values(categories).map(group => group.reduce((sum, r) => sum + r.timing.avg, 0) / group.length))},
+                    data: ${JSON.stringify(Object.values(categories).map(group => group.reduce((sum, r) => sum + r.metrics.mean, 0) / group.length))},
                     backgroundColor: 'rgba(102, 126, 234, 0.8)',
                     borderColor: 'rgba(102, 126, 234, 1)',
                     borderWidth: 1
                 }, {
                     label: 'P95 Time (ms)',
-                    data: ${JSON.stringify(Object.values(categories).map(group => group.reduce((sum, r) => sum + r.timing.p95, 0) / group.length))},
+                    data: ${JSON.stringify(Object.values(categories).map(group => group.reduce((sum, r) => sum + r.metrics.p95, 0) / group.length))},
                     backgroundColor: 'rgba(118, 75, 162, 0.8)',
                     borderColor: 'rgba(118, 75, 162, 1)',
                     borderWidth: 1
@@ -527,9 +527,9 @@ export class DashboardGenerator {
 
         // Throughput Chart
         const throughputCtx = document.getElementById('throughputChart').getContext('2d');
-        const throughputData = ${JSON.stringify(results.filter(r => r.throughput?.opsPerSecond).slice(0, 20).map(r => ({
+        const throughputData = ${JSON.stringify(results.filter(r => r.metrics.opsPerSecond > 0).slice(0, 20).map(r => ({
           name: r.name,
-          throughput: r.throughput!.opsPerSecond
+          throughput: r.metrics.opsPerSecond
         })))};
 
         new Chart(throughputCtx, {
@@ -538,7 +538,7 @@ export class DashboardGenerator {
                 labels: throughputData.map(d => d.name),
                 datasets: [{
                     label: 'Throughput (ops/s)',
-                    data: throughputData.map(d => d.throughput),
+                    data: throughputData.map((d: { throughput: number }) => d.throughput),
                     backgroundColor: 'rgba(102, 126, 234, 0.2)',
                     borderColor: 'rgba(102, 126, 234, 1)',
                     borderWidth: 2,
@@ -563,8 +563,8 @@ export class DashboardGenerator {
         const memoryCtx = document.getElementById('memoryChart').getContext('2d');
         const memoryData = ${JSON.stringify(results.map((r, i) => ({
           name: r.name,
-          peak: r.memory.peak / 1024 / 1024,
-          delta: r.memory.delta / 1024 / 1024
+          peak: r.metrics.memoryPeak / 1024 / 1024,
+          delta: r.metrics.memoryDelta / 1024 / 1024
         })).slice(0, 15))};
 
         new Chart(memoryCtx, {
@@ -613,7 +613,7 @@ export class DashboardGenerator {
 
         // Response Time Distribution
         const responseCtx = document.getElementById('responseTimeChart').getContext('2d');
-        const responseTimeData = ${JSON.stringify(results.map(r => r.timing.avg))};
+        const responseTimeData = ${JSON.stringify(results.map(r => r.metrics.mean))};
 
         new Chart(responseCtx, {
             type: 'histogram',

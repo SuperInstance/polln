@@ -10,7 +10,10 @@ import { v4 as uuidv4 } from 'uuid';
 import type { BenchmarkSuite, BenchmarkConfig, BenchmarkMetrics } from '../types.js';
 import { WorldModel } from '../../core/worldmodel.js';
 import { DreamBasedPolicyOptimizer } from '../../core/dreaming.js';
-import { TileDreaming } from '../../core/tiledreaming.js';
+import { TileDreamer } from '../../core/tiledreaming.js';
+import { ValueNetwork } from '../../core/valuenetwork.js';
+import { BaseTile } from '../../core/tile.js';
+import type { TileConfig } from '../../core/tile.js';
 import { calculateStats, calculateThroughput } from '../benchmark-profiler.js';
 
 /**
@@ -23,25 +26,34 @@ export class WorldModelBenchmarks implements BenchmarkSuite {
 
   private worldModel?: WorldModel;
   private dreamOptimizer?: DreamBasedPolicyOptimizer;
-  private tileDreaming?: TileDreaming;
+  private tileDreaming?: TileDreamer;
+  private benchTileId = '';
 
   async setup(): Promise<void> {
     this.worldModel = new WorldModel({
-      stateDim: 128,
       latentDim: 32,
       learningRate: 0.001,
     });
 
-    this.dreamOptimizer = new DreamBasedPolicyOptimizer({
-      numDreams: 100,
-      dreamLength: 10,
-      explorationRate: 0.1,
-    });
+    const valueNetwork = new ValueNetwork();
+    this.dreamOptimizer = new DreamBasedPolicyOptimizer(
+      this.worldModel,
+      valueNetwork,
+      null,
+      {
+        dreamHorizon: 10,
+        dreamBatchSize: 100,
+        explorationRate: 0.1,
+      }
+    );
 
-    this.tileDreaming = new TileDreaming({
-      optimizationIterations: 50,
-      batchSize: 20,
+    this.tileDreaming = new TileDreamer(this.worldModel, valueNetwork, {
+      dreamBatchSize: 20,
+      dreamHorizon: 50,
     });
+    const benchTile = new BenchTile({ name: 'bench-tile' });
+    this.tileDreaming.registerTile(benchTile);
+    this.benchTileId = benchTile.id;
   }
 
   async teardown(): Promise<void> {
@@ -105,7 +117,7 @@ export class WorldModelBenchmarks implements BenchmarkSuite {
     for (let i = 0; i < config.iterations; i++) {
       const state = new Array(128).fill(0).map(() => Math.random());
       const latent = await this.worldModel.encode(state);
-      latents.push(latent);
+      latents.push(latent.sample);
     }
 
     const samples: number[] = [];
@@ -145,7 +157,7 @@ export class WorldModelBenchmarks implements BenchmarkSuite {
       const start = performance.now();
 
       const latent = await this.worldModel.encode(state);
-      await this.worldModel.decode(latent);
+      await this.worldModel.decode(latent.sample);
 
       const end = performance.now();
       samples.push(end - start);
@@ -176,7 +188,7 @@ export class WorldModelBenchmarks implements BenchmarkSuite {
       const currentState = new Array(128).fill(0).map(() => Math.random());
 
       const start = performance.now();
-      await this.dreamOptimizer.generateDream(currentState);
+      this.dreamOptimizer!.addExperience(currentState, Math.floor(Math.random() * 4), Math.random() * 2 - 1, currentState, false);
       const end = performance.now();
 
       samples.push(end - start);
@@ -210,7 +222,7 @@ export class WorldModelBenchmarks implements BenchmarkSuite {
       const start = performance.now();
 
       for (let j = 0; j < batchSize; j++) {
-        await this.dreamOptimizer!.generateDream(currentState);
+        this.dreamOptimizer!.addExperience(currentState, Math.floor(Math.random() * 4), Math.random() * 2 - 1, currentState, false);
       }
 
       const end = performance.now();
@@ -244,13 +256,12 @@ export class WorldModelBenchmarks implements BenchmarkSuite {
       const start = performance.now();
 
       // Generate multiple dreams
-      const dreams = [];
       for (let j = 0; j < 10; j++) {
-        dreams.push(await this.dreamOptimizer.generateDream(currentState));
+        this.dreamOptimizer!.addExperience(currentState, Math.floor(Math.random() * 4), Math.random() * 2 - 1, currentState, false);
       }
 
-      // Optimize policy based on dreams
-      await this.dreamOptimizer.optimizePolicy(dreams);
+      // Optimize policy on accumulated dream experience
+      await this.dreamOptimizer!.optimize();
 
       const end = performance.now();
       samples.push(end - start);
@@ -283,7 +294,10 @@ export class WorldModelBenchmarks implements BenchmarkSuite {
       );
 
       const start = performance.now();
-      await this.tileDreaming.optimize(tileStates);
+      for (const st of tileStates) {
+        this.tileDreaming!.addExperience(this.benchTileId, st, st, benchTileContext(), Math.random() * 2 - 1);
+      }
+      await this.tileDreaming!.forceSleep();
       const end = performance.now();
 
       samples.push(end - start);
@@ -321,7 +335,10 @@ export class WorldModelBenchmarks implements BenchmarkSuite {
       const start = performance.now();
 
       // Simulate overnight optimization
-      await this.tileDreaming.optimizeOvernight(experiences, 50);
+      for (const exp of experiences) {
+        this.tileDreaming!.addExperience(this.benchTileId, exp.state, exp.nextState, benchTileContext(), exp.reward);
+      }
+      await this.tileDreaming!.forceSleep();
 
       const end = performance.now();
       samples.push(end - start);
@@ -357,9 +374,13 @@ export class WorldModelBenchmarks implements BenchmarkSuite {
       const start = performance.now();
 
       // Train on batch
-      for (const state of states) {
-        await this.worldModel!.train(state);
-      }
+      await this.worldModel!.train({
+        observations: states,
+        actions: states.map(() => [0]),
+        rewards: states.map(() => 0),
+        nextObservations: states,
+        dones: states.map(() => false),
+      });
 
       const end = performance.now();
       samples.push(end - start);
@@ -395,10 +416,10 @@ export class WorldModelBenchmarks implements BenchmarkSuite {
       const latent = await this.worldModel.encode(currentState);
 
       // Generate dream from latent
-      await this.dreamOptimizer.generateDreamFromLatent(latent);
+      this.dreamOptimizer!.addExperience(latent.sample, 0, 0, latent.sample, false);
 
       // Decode dream
-      await this.worldModel.decode(latent);
+      await this.worldModel.decode(latent.sample);
 
       const end = performance.now();
       samples.push(end - start);
@@ -416,4 +437,26 @@ export class WorldModelBenchmarks implements BenchmarkSuite {
       ...throughput,
     };
   }
+}
+
+
+/** Minimal concrete tile for TileDreamer benchmarks. */
+class BenchTile extends BaseTile {
+  constructor(config: TileConfig) {
+    super(config);
+  }
+  execute(input: unknown, _context: import('../../core/tile.js').TileContext): Promise<import('../../core/tile.js').TileResult<unknown>> {
+    return Promise.resolve({ success: true, output: input, confidence: 1, executionTimeMs: 0, energyUsed: 0, observations: [] });
+  }
+}
+
+/** Context stub matching core TileContext. */
+function benchTileContext(): import('../../core/tile.js').TileContext {
+  return {
+    colonyId: 'bench-colony',
+    keeperId: 'bench-keeper',
+    timestamp: Date.now(),
+    causalChainId: 'bench-chain',
+    energyBudget: 100,
+  };
 }

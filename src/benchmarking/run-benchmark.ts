@@ -168,6 +168,6 @@ export async function main(args: string[]): Promise<void> {
 }
 
 // Run if called directly
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (require.main === module) {
   main(process.argv.slice(2)).catch(console.error);
 }

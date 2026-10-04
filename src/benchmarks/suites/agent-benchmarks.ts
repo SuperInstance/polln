@@ -8,19 +8,39 @@
 import { performance } from 'perf_hooks';
 import { v4 as uuidv4 } from 'uuid';
 import type { BenchmarkSuite, BenchmarkConfig, BenchmarkMetrics } from '../types.js';
-import { BaseAgent, TaskAgent, RoleAgent, CoreAgent } from '../../core/agents.js';
+import { TaskAgent, RoleAgent, CoreAgent } from '../../core/agents.js';
 import { AgentConfig } from '../../core/types.js';
 import { calculateStats, calculateThroughput } from '../benchmark-profiler.js';
 
 /**
  * AgentBenchmarks - Agent lifecycle performance tests
  */
+
+/**
+ * Minimal valid AgentConfig for benchmarking (core/types.js AgentConfig
+ * requires the full model/SPORE fields; benchmarks only exercise lifecycle).
+ */
+function makeAgentConfig(id: string = uuidv4()): AgentConfig {
+  return {
+    id,
+    typeId: 'task',
+    categoryId: 'benchmark',
+    modelFamily: 'benchmark-model',
+    defaultParams: {},
+    inputTopics: [],
+    outputTopic: 'benchmark.out',
+    minExamples: 0,
+    requiresWorldModel: false,
+  };
+}
+
+
 export class AgentBenchmarks implements BenchmarkSuite {
   name = 'agent';
   description = 'Agent lifecycle and operations benchmarks';
   version = '1.0.0';
 
-  private agents: Map<string, BaseAgent> = new Map();
+  private agents: Map<string, TaskAgent | RoleAgent | CoreAgent> = new Map();
 
   async setup(): Promise<void> {
     this.agents.clear();
@@ -56,11 +76,7 @@ export class AgentBenchmarks implements BenchmarkSuite {
     for (let i = 0; i < config.iterations; i++) {
       const start = performance.now();
 
-      const agentConfig: AgentConfig = {
-        id: uuidv4(),
-        type: 'task',
-        category: 'benchmark',
-      };
+      const agentConfig = makeAgentConfig();
 
       const agent = new TaskAgent(agentConfig);
       this.agents.set(agent.id, agent);
@@ -87,13 +103,9 @@ export class AgentBenchmarks implements BenchmarkSuite {
    */
   private async benchmarkAgentInitialize(config: BenchmarkConfig): Promise<BenchmarkMetrics> {
     // Pre-create agents
-    const agents: BaseAgent[] = [];
+    const agents: (TaskAgent | RoleAgent | CoreAgent)[] = [];
     for (let i = 0; i < config.iterations; i++) {
-      const agentConfig: AgentConfig = {
-        id: uuidv4(),
-        type: 'task',
-        category: 'benchmark',
-      };
+      const agentConfig = makeAgentConfig();
       agents.push(new TaskAgent(agentConfig));
     }
 
@@ -126,11 +138,7 @@ export class AgentBenchmarks implements BenchmarkSuite {
    */
   private async benchmarkAgentProcess(config: BenchmarkConfig): Promise<BenchmarkMetrics> {
     // Create and initialize an agent
-    const agentConfig: AgentConfig = {
-      id: uuidv4(),
-      type: 'task',
-      category: 'benchmark',
-    };
+    const agentConfig = makeAgentConfig();
     const agent = new TaskAgent(agentConfig);
     await agent.initialize();
     this.agents.set(agent.id, agent);
@@ -164,11 +172,7 @@ export class AgentBenchmarks implements BenchmarkSuite {
    * Benchmark: Agent state get
    */
   private async benchmarkAgentStateGet(config: BenchmarkConfig): Promise<BenchmarkMetrics> {
-    const agentConfig: AgentConfig = {
-      id: uuidv4(),
-      type: 'task',
-      category: 'benchmark',
-    };
+    const agentConfig = makeAgentConfig();
     const agent = new TaskAgent(agentConfig);
     await agent.initialize();
 
@@ -201,11 +205,7 @@ export class AgentBenchmarks implements BenchmarkSuite {
    * Benchmark: Agent state set
    */
   private async benchmarkAgentStateSet(config: BenchmarkConfig): Promise<BenchmarkMetrics> {
-    const agentConfig: AgentConfig = {
-      id: uuidv4(),
-      type: 'task',
-      category: 'benchmark',
-    };
+    const agentConfig = makeAgentConfig();
     const agent = new TaskAgent(agentConfig);
     await agent.initialize();
 
@@ -235,11 +235,7 @@ export class AgentBenchmarks implements BenchmarkSuite {
    * Benchmark: Agent value function update
    */
   private async benchmarkAgentValueUpdate(config: BenchmarkConfig): Promise<BenchmarkMetrics> {
-    const agentConfig: AgentConfig = {
-      id: uuidv4(),
-      type: 'task',
-      category: 'benchmark',
-    };
+    const agentConfig = makeAgentConfig();
     const agent = new TaskAgent(agentConfig);
     await agent.initialize();
 
@@ -272,15 +268,11 @@ export class AgentBenchmarks implements BenchmarkSuite {
    * Benchmark: Agent shutdown
    */
   private async benchmarkAgentShutdown(config: BenchmarkConfig): Promise<BenchmarkMetrics> {
-    const agents: BaseAgent[] = [];
+    const agents: (TaskAgent | RoleAgent | CoreAgent)[] = [];
 
     // Pre-create agents
     for (let i = 0; i < config.iterations; i++) {
-      const agentConfig: AgentConfig = {
-        id: uuidv4(),
-        type: 'task',
-        category: 'benchmark',
-      };
+      const agentConfig = makeAgentConfig();
       const agent = new TaskAgent(agentConfig);
       await agent.initialize();
       agents.push(agent);
@@ -321,11 +313,7 @@ export class AgentBenchmarks implements BenchmarkSuite {
       const start = performance.now();
 
       for (let j = 0; j < batchSize; j++) {
-        const agentConfig: AgentConfig = {
-          id: uuidv4(),
-          type: 'task',
-          category: 'benchmark',
-        };
+        const agentConfig = makeAgentConfig();
         const agent = new TaskAgent(agentConfig);
         this.agents.set(agent.id, agent);
       }
@@ -352,16 +340,8 @@ export class AgentBenchmarks implements BenchmarkSuite {
    */
   private async benchmarkAgentCommunication(config: BenchmarkConfig): Promise<BenchmarkMetrics> {
     // Create two agents
-    const agent1Config: AgentConfig = {
-      id: uuidv4(),
-      type: 'task',
-      category: 'benchmark',
-    };
-    const agent2Config: AgentConfig = {
-      id: uuidv4(),
-      type: 'task',
-      category: 'benchmark',
-    };
+    const agent1Config = makeAgentConfig();
+    const agent2Config = makeAgentConfig();
 
     const agent1 = new TaskAgent(agent1Config);
     const agent2 = new TaskAgent(agent2Config);
@@ -406,11 +386,7 @@ export class AgentBenchmarks implements BenchmarkSuite {
       const start = performance.now();
 
       // Create
-      const agentConfig: AgentConfig = {
-        id: uuidv4(),
-        type: 'task',
-        category: 'benchmark',
-      };
+      const agentConfig = makeAgentConfig();
       const agent = new TaskAgent(agentConfig);
 
       // Initialize

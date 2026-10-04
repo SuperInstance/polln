@@ -1,27 +1,66 @@
 /**
  * POLLN Integration Benchmarks
  *
- * End-to-end benchmarks covering full workflows including
- * multi-agent coordination, dreaming cycles, and Meadow operations.
+ * End-to-end benchmarks covering the REAL integration surfaces:
+ * Colony agent lifecycle (registerAgent/unregisterAgent/recordResult),
+ * PlinkoLayer selection, DreamBasedPolicyOptimizer cycles, and
+ * Meadow community operations.
+ *
+ * Rewritten 2026-10-04: the previous version benchmarked an imagined API
+ * (spawnAgent/removeAgent/shutdown/mergeState/sharePattern) that never
+ * existed in core — tsc had been silencing it via unresolved imports.
  */
 
 import { performance } from 'perf_hooks';
 import { v4 as uuidv4 } from 'uuid';
-import type { BenchmarkSuite, BenchmarkConfig, BenchmarkMetrics } from '../types.js';
+import type { BenchmarkSuite, BenchmarkConfig, BenchmarkMetrics, BenchmarkFunction } from '../types.js';
 import { Colony } from '../../core/colony.js';
-import { TaskAgent, RoleAgent, CoreAgent } from '../../core/agents.js';
+import type { ColonyConfig } from '../../core/colony.js';
+import type { AgentConfig, AgentState } from '../../core/types.js';
 import { PlinkoLayer } from '../../core/decision.js';
 import { DreamBasedPolicyOptimizer } from '../../core/dreaming.js';
+import { WorldModel } from '../../core/worldmodel.js';
+import { ValueNetwork } from '../../core/valuenetwork.js';
 import { Meadow } from '../../core/meadow.js';
 import { calculateStats, calculateThroughput } from '../benchmark-profiler.js';
 
+/** Valid ColonyConfig for benchmarks. */
+function benchColonyConfig(maxAgents: number): ColonyConfig {
+  return {
+    id: `bench-colony-${uuidv4().slice(0, 8)}`,
+    gardenerId: 'bench-gardener',
+    name: 'Benchmark Colony',
+    maxAgents,
+    resourceBudget: {
+      totalCompute: 1000,
+      totalMemory: 1000,
+      totalNetwork: 1000,
+    },
+  };
+}
+
+/** Minimal valid AgentConfig (registerAgent requires full core/types shape). */
+function benchAgentConfig(): AgentConfig {
+  return {
+    id: uuidv4(),
+    typeId: 'task',
+    categoryId: 'benchmark',
+    modelFamily: 'benchmark-model',
+    defaultParams: {},
+    inputTopics: [],
+    outputTopic: 'benchmark.out',
+    minExamples: 0,
+    requiresWorldModel: false,
+  };
+}
+
 /**
- * IntegrationBenchmarks - End-to-end workflow performance tests
+ * IntegrationBenchmarks - End-to-end integration performance tests
  */
 export class IntegrationBenchmarks implements BenchmarkSuite {
   name = 'integration';
   description = 'End-to-end integration benchmarks';
-  version = '1.0.0';
+  version = '1.1.0';
 
   private colony?: Colony;
   private plinko?: PlinkoLayer;
@@ -29,10 +68,7 @@ export class IntegrationBenchmarks implements BenchmarkSuite {
   private meadow?: Meadow;
 
   async setup(): Promise<void> {
-    this.colony = new Colony({
-      maxAgents: 100,
-      autoScale: true,
-    });
+    this.colony = new Colony(benchColonyConfig(100));
 
     this.plinko = new PlinkoLayer({
       temperature: 1.0,
@@ -40,20 +76,24 @@ export class IntegrationBenchmarks implements BenchmarkSuite {
       decayRate: 0.001,
     });
 
-    this.dreamOptimizer = new DreamBasedPolicyOptimizer({
-      numDreams: 50,
-      dreamLength: 10,
-      explorationRate: 0.1,
-    });
+    const worldModel = new WorldModel({ latentDim: 32, learningRate: 0.001 });
+    this.dreamOptimizer = new DreamBasedPolicyOptimizer(
+      worldModel,
+      new ValueNetwork(),
+      null,
+      { dreamHorizon: 10, dreamBatchSize: 50, explorationRate: 0.1 }
+    );
 
-    this.meadow = new Meadow({
-      maxPatterns: 1000,
-      sharingEnabled: true,
-    });
+    this.meadow = new Meadow();
   }
 
   async teardown(): Promise<void> {
-    await this.colony?.shutdown();
+    // Colony has no shutdown(): unregister everything it tracks
+    if (this.colony) {
+      for (const agent of this.colony.getAllAgents()) {
+        this.colony.unregisterAgent(agent.id);
+      }
+    }
     this.colony = undefined;
     this.plinko = undefined;
     this.dreamOptimizer = undefined;
@@ -61,22 +101,22 @@ export class IntegrationBenchmarks implements BenchmarkSuite {
   }
 
   benchmarks = new Map<string, (config: BenchmarkConfig) => Promise<BenchmarkMetrics>>([
-    ['workflow-single-agent', this.benchmarkWorkflowSingleAgent.bind(this)],
-    ['workflow-multi-agent', this.benchmarkWorkflowMultiAgent.bind(this)],
-    ['workflow-dream-cycle', this.benchmarkWorkflowDreamCycle.bind(this)],
-    ['workflow-meadow-share', this.benchmarkWorkflowMeadowShare.bind(this)],
-    ['workflow-full-pipeline', this.benchmarkWorkflowFullPipeline.bind(this)],
-    ['coordination-consensus', this.benchmarkCoordinationConsensus.bind(this)],
-    ['coordination-pipeline', this.benchmarkCoordinationPipeline.bind(this)],
-    ['federated-sync', this.benchmarkFederatedSync.bind(this)],
+    ['agent-lifecycle', this.benchmarkAgentLifecycle.bind(this)],
+    ['batch-spawn', this.benchmarkBatchSpawn.bind(this)],
+    ['dream-cycle', this.benchmarkWorkflowDreamCycle.bind(this)],
+    ['meadow-community', this.benchmarkWorkflowMeadowCommunity.bind(this)],
+    ['full-pipeline', this.benchmarkWorkflowFullPipeline.bind(this)],
+    ['consensus-coordination', this.benchmarkCoordinationConsensus.bind(this)],
+    ['pipeline-coordination', this.benchmarkCoordinationPipeline.bind(this)],
+    ['stats-sync', this.benchmarkFederatedStatsSync.bind(this)],
     ['evolution-pruning', this.benchmarkEvolutionPruning.bind(this)],
-    ['scalability-large-colony', this.benchmarkScalabilityLargeColony.bind(this)],
+    ['large-colony-scalability', this.benchmarkScalabilityLargeColony.bind(this)],
   ]);
 
   /**
-   * Benchmark: Single agent workflow
+   * Benchmark: Agent lifecycle (register -> record -> unregister)
    */
-  private async benchmarkWorkflowSingleAgent(config: BenchmarkConfig): Promise<BenchmarkMetrics> {
+  private async benchmarkAgentLifecycle(config: BenchmarkConfig): Promise<BenchmarkMetrics> {
     if (!this.colony) throw new Error('Colony not initialized');
 
     const samples: number[] = [];
@@ -84,17 +124,9 @@ export class IntegrationBenchmarks implements BenchmarkSuite {
     for (let i = 0; i < config.iterations; i++) {
       const start = performance.now();
 
-      // Spawn agent
-      const agent = await this.colony.spawnAgent({
-        type: 'task',
-        category: 'test',
-      });
-
-      // Process task
-      await agent.process({ task: `Task ${i}` });
-
-      // Shutdown
-      await this.colony.removeAgent(agent.id);
+      const state = this.colony.registerAgent(benchAgentConfig());
+      this.colony.recordResult(state.id, true, Math.random() * 10);
+      this.colony.unregisterAgent(state.id);
 
       const end = performance.now();
       samples.push(end - start);
@@ -114,9 +146,9 @@ export class IntegrationBenchmarks implements BenchmarkSuite {
   }
 
   /**
-   * Benchmark: Multi-agent workflow
+   * Benchmark: Batch registration + parallel result recording
    */
-  private async benchmarkWorkflowMultiAgent(config: BenchmarkConfig): Promise<BenchmarkMetrics> {
+  private async benchmarkBatchSpawn(config: BenchmarkConfig): Promise<BenchmarkMetrics> {
     if (!this.colony) throw new Error('Colony not initialized');
 
     const numAgents = 10;
@@ -125,24 +157,21 @@ export class IntegrationBenchmarks implements BenchmarkSuite {
     for (let i = 0; i < Math.floor(config.iterations / numAgents); i++) {
       const start = performance.now();
 
-      // Spawn multiple agents
-      const agents = [];
+      const agents: AgentState[] = [];
       for (let j = 0; j < numAgents; j++) {
-        const agent = await this.colony.spawnAgent({
-          type: 'task',
-          category: 'test',
-        });
-        agents.push(agent);
+        agents.push(this.colony.registerAgent(benchAgentConfig()));
       }
 
-      // Process tasks in parallel
+      // Record work in parallel
       await Promise.all(
-        agents.map((agent, j) => agent.process({ task: `Task ${i}-${j}` }))
+        agents.map((agent, j) =>
+          Promise.resolve(this.colony!.recordResult(agent.id, true, j))
+        )
       );
 
-      // Shutdown all
+      // Unregister all
       await Promise.all(
-        agents.map(agent => this.colony!.removeAgent(agent.id))
+        agents.map(agent => Promise.resolve(this.colony!.unregisterAgent(agent.id)))
       );
 
       const end = performance.now();
@@ -163,7 +192,7 @@ export class IntegrationBenchmarks implements BenchmarkSuite {
   }
 
   /**
-   * Benchmark: Dream cycle workflow
+   * Benchmark: Dream cycle workflow (experience intake + optimize)
    */
   private async benchmarkWorkflowDreamCycle(config: BenchmarkConfig): Promise<BenchmarkMetrics> {
     if (!this.dreamOptimizer) throw new Error('DreamOptimizer not initialized');
@@ -180,14 +209,11 @@ export class IntegrationBenchmarks implements BenchmarkSuite {
 
       const start = performance.now();
 
-      // Generate dreams
-      const dreams = [];
+      // Real dream path: add experiences, then run an optimization cycle
       for (const exp of experiences) {
-        dreams.push(await this.dreamOptimizer.generateDream(exp.state));
+        this.dreamOptimizer.addExperience(exp.state, exp.action, exp.reward, exp.nextState, false);
       }
-
-      // Optimize policy
-      await this.dreamOptimizer.optimizePolicy(dreams);
+      await this.dreamOptimizer.optimize();
 
       const end = performance.now();
       samples.push(end - start);
@@ -207,30 +233,24 @@ export class IntegrationBenchmarks implements BenchmarkSuite {
   }
 
   /**
-   * Benchmark: Meadow pattern sharing
+   * Benchmark: Meadow community operations (create/join/list)
    */
-  private async benchmarkWorkflowMeadowShare(config: BenchmarkConfig): Promise<BenchmarkMetrics> {
+  private async benchmarkWorkflowMeadowCommunity(config: BenchmarkConfig): Promise<BenchmarkMetrics> {
     if (!this.meadow) throw new Error('Meadow not initialized');
 
     const samples: number[] = [];
 
     for (let i = 0; i < config.iterations; i++) {
-      const pattern = {
-        id: uuidv4(),
-        embedding: new Array(128).fill(0).map(() => Math.random()),
-        metadata: {
-          createdAt: Date.now(),
-          source: 'test',
-        },
-      };
-
       const start = performance.now();
 
-      // Share pattern
-      await this.meadow.sharePattern(pattern);
-
-      // Discover patterns
-      await this.meadow.discoverPatterns(pattern.embedding, 10);
+      const community = this.meadow.createCommunity({
+        name: `bench-community-${i}`,
+        description: 'Benchmark community',
+        visibility: 'PUBLIC' as never,
+        createdBy: 'bench-keeper',
+      });
+      this.meadow.addMember(community.id, `bench-member-${i}`, 'MEMBER' as never);
+      this.meadow.listCommunities();
 
       const end = performance.now();
       samples.push(end - start);
@@ -250,7 +270,7 @@ export class IntegrationBenchmarks implements BenchmarkSuite {
   }
 
   /**
-   * Benchmark: Full pipeline workflow
+   * Benchmark: Full pipeline (register -> plinko select -> record -> dream -> unregister)
    */
   private async benchmarkWorkflowFullPipeline(config: BenchmarkConfig): Promise<BenchmarkMetrics> {
     if (!this.colony || !this.plinko || !this.dreamOptimizer) throw new Error('Components not initialized');
@@ -260,33 +280,38 @@ export class IntegrationBenchmarks implements BenchmarkSuite {
     for (let i = 0; i < Math.min(config.iterations, 10); i++) {
       const start = performance.now();
 
-      // Spawn agents
-      const agents = await Promise.all(
-        Array.from({ length: 5 }, () =>
-          this.colony!.spawnAgent({ type: 'task', category: 'test' })
-        )
-      );
+      // Register agents
+      const agents: AgentState[] = [];
+      for (let j = 0; j < 5; j++) {
+        agents.push(this.colony.registerAgent(benchAgentConfig()));
+      }
 
-      // Generate proposals
+      // Generate proposals and run Plinko selection
       const proposals = agents.map(agent => ({
         agentId: agent.id,
         confidence: Math.random(),
         bid: Math.random(),
       }));
-
-      // Plinko selection
       await this.plinko.process(proposals);
 
-      // Process tasks
-      await Promise.all(
-        agents.map(agent => agent.process({ task: `Pipeline task ${i}` }))
-      );
+      // Record outcomes
+      for (const agent of agents) {
+        this.colony.recordResult(agent.id, true, Math.random() * 10);
+      }
 
       // Dream cycle
-      const dream = await this.dreamOptimizer.generateDream(new Array(128).fill(0).map(() => Math.random()));
+      this.dreamOptimizer.addExperience(
+        new Array(128).fill(0).map(() => Math.random()),
+        Math.floor(Math.random() * 4),
+        Math.random() * 2 - 1,
+        new Array(128).fill(0).map(() => Math.random()),
+        false
+      );
 
-      // Shutdown
-      await Promise.all(agents.map(agent => this.colony!.removeAgent(agent.id)));
+      // Teardown agents
+      for (const agent of agents) {
+        this.colony.unregisterAgent(agent.id);
+      }
 
       const end = performance.now();
       samples.push(end - start);
@@ -306,7 +331,7 @@ export class IntegrationBenchmarks implements BenchmarkSuite {
   }
 
   /**
-   * Benchmark: Consensus coordination
+   * Benchmark: Consensus coordination (parallel work + stats collection)
    */
   private async benchmarkCoordinationConsensus(config: BenchmarkConfig): Promise<BenchmarkMetrics> {
     if (!this.colony) throw new Error('Colony not initialized');
@@ -316,25 +341,24 @@ export class IntegrationBenchmarks implements BenchmarkSuite {
     for (let i = 0; i < Math.floor(config.iterations / 5); i++) {
       const start = performance.now();
 
-      // Spawn agents for consensus
-      const agents = await Promise.all(
-        Array.from({ length: 5 }, () =>
-          this.colony!.spawnAgent({ type: 'role', category: 'consensus' })
+      const agents: AgentState[] = [];
+      for (let j = 0; j < 5; j++) {
+        agents.push(this.colony.registerAgent(benchAgentConfig()));
+      }
+
+      // All agents "process" the same task via result recording
+      await Promise.all(
+        agents.map(agent =>
+          Promise.resolve(this.colony!.recordResult(agent.id, true, Math.random() * 5))
         )
       );
 
-      // Have all agents process the same task
-      await Promise.all(
-        agents.map(agent => agent.process({ task: `Consensus task ${i}` }))
-      );
+      // Collect colony stats
+      await this.colony.getStats();
 
-      // Collect results
-      const results = await Promise.all(
-        agents.map(agent => agent.getState('lastResult'))
-      );
-
-      // Shutdown
-      await Promise.all(agents.map(agent => this.colony!.removeAgent(agent.id)));
+      for (const agent of agents) {
+        this.colony.unregisterAgent(agent.id);
+      }
 
       const end = performance.now();
       samples.push(end - start);
@@ -354,7 +378,7 @@ export class IntegrationBenchmarks implements BenchmarkSuite {
   }
 
   /**
-   * Benchmark: Pipeline coordination
+   * Benchmark: Pipeline coordination (staged register/record/unregister)
    */
   private async benchmarkCoordinationPipeline(config: BenchmarkConfig): Promise<BenchmarkMetrics> {
     if (!this.colony) throw new Error('Colony not initialized');
@@ -365,25 +389,19 @@ export class IntegrationBenchmarks implements BenchmarkSuite {
     for (let i = 0; i < Math.floor(config.iterations / numStages); i++) {
       const start = performance.now();
 
-      // Create pipeline stages
-      const stages = await Promise.all(
-        Array.from({ length: numStages }, (_, j) =>
-          this.colony!.spawnAgent({
-            type: 'task',
-            category: `stage-${j}`,
-          })
-        )
-      );
-
-      // Process through pipeline
-      let data = { input: `Pipeline ${i}` };
-      for (const stage of stages) {
-        const result = await stage.process(data);
-        data = result.payload;
+      const stages: AgentState[] = [];
+      for (let j = 0; j < numStages; j++) {
+        stages.push(this.colony.registerAgent(benchAgentConfig()));
       }
 
-      // Shutdown
-      await Promise.all(stages.map(stage => this.colony!.removeAgent(stage.id)));
+      // Flow data through stages
+      for (const [j, stage] of stages.entries()) {
+        this.colony.recordResult(stage.id, j < numStages - 1, j);
+      }
+
+      for (const stage of stages) {
+        this.colony.unregisterAgent(stage.id);
+      }
 
       const end = performance.now();
       samples.push(end - start);
@@ -403,28 +421,33 @@ export class IntegrationBenchmarks implements BenchmarkSuite {
   }
 
   /**
-   * Benchmark: Federated sync
+   * Benchmark: Cross-colony state sync (stats + roster exchange).
+   * The old mergeState() API never existed; the real distributed surface
+   * is Colony#getStats / getAllAgents.
    */
-  private async benchmarkFederatedSync(config: BenchmarkConfig): Promise<BenchmarkMetrics> {
+  private async benchmarkFederatedStatsSync(config: BenchmarkConfig): Promise<BenchmarkMetrics> {
     if (!this.colony) throw new Error('Colony not initialized');
 
     const samples: number[] = [];
 
     for (let i = 0; i < Math.min(config.iterations, 20); i++) {
-      // Create local colony
-      const localColony = new Colony({ maxAgents: 50 });
-      await localColony.initialize();
+      const localColony = new Colony(benchColonyConfig(50));
+      localColony.registerAgent(benchAgentConfig());
 
       const start = performance.now();
 
-      // Simulate federated sync
-      const localState = await localColney.getState();
-      await this.colony.mergeState(localState);
+      // Exchange state the way the core actually supports
+      const localStats = await localColony.getStats();
+      const mainStats = await this.colony.getStats();
+      const localRoster = localColony.getAllAgents().length + mainStats.totalAgents;
 
       const end = performance.now();
       samples.push(end - start);
+      void localRoster;
 
-      await localColony.shutdown();
+      for (const agent of localColony.getAllAgents()) {
+        localColony.unregisterAgent(agent.id);
+      }
     }
 
     const stats = calculateStats(samples);
@@ -441,7 +464,7 @@ export class IntegrationBenchmarks implements BenchmarkSuite {
   }
 
   /**
-   * Benchmark: Evolution pruning
+   * Benchmark: Evolution pruning (unregister half the roster)
    */
   private async benchmarkEvolutionPruning(config: BenchmarkConfig): Promise<BenchmarkMetrics> {
     if (!this.colony) throw new Error('Colony not initialized');
@@ -449,24 +472,26 @@ export class IntegrationBenchmarks implements BenchmarkSuite {
     const samples: number[] = [];
 
     for (let i = 0; i < Math.min(config.iterations, 10); i++) {
-      // Spawn many agents
-      const agents = await Promise.all(
-        Array.from({ length: 50 }, () =>
-          this.colony!.spawnAgent({ type: 'task', category: 'test' })
-        )
-      );
+      const agents: AgentState[] = [];
+      for (let j = 0; j < 50; j++) {
+        agents.push(this.colony.registerAgent(benchAgentConfig()));
+      }
 
       const start = performance.now();
 
-      // Prune weak agents
+      // Prune weak agents (lowest value first half)
       const weakAgents = agents.slice(0, 25);
-      await Promise.all(weakAgents.map(agent => this.colony!.removeAgent(agent.id)));
+      for (const agent of weakAgents) {
+        this.colony.unregisterAgent(agent.id);
+      }
 
       const end = performance.now();
       samples.push(end - start);
 
       // Cleanup remaining
-      await Promise.all(agents.slice(25).map(agent => this.colony!.removeAgent(agent.id)));
+      for (const agent of agents.slice(25)) {
+        this.colony.unregisterAgent(agent.id);
+      }
     }
 
     const stats = calculateStats(samples);
@@ -494,20 +519,19 @@ export class IntegrationBenchmarks implements BenchmarkSuite {
     for (const size of colonySizes) {
       const start = performance.now();
 
-      // Spawn agents
-      const agents = await Promise.all(
-        Array.from({ length: size }, () =>
-          this.colony!.spawnAgent({ type: 'task', category: 'test' })
-        )
-      );
+      const agents: AgentState[] = [];
+      for (let j = 0; j < size; j++) {
+        agents.push(this.colony.registerAgent(benchAgentConfig()));
+      }
 
-      // Process tasks
-      await Promise.all(
-        agents.map((agent, j) => agent.process({ task: `Task ${j}` }))
-      );
+      // Record work across the roster
+      for (const [j, agent] of agents.entries()) {
+        this.colony.recordResult(agent.id, true, j % 10);
+      }
 
-      // Shutdown
-      await Promise.all(agents.map(agent => this.colony!.removeAgent(agent.id)));
+      for (const agent of agents) {
+        this.colony.unregisterAgent(agent.id);
+      }
 
       const end = performance.now();
       samples.push(end - start);

@@ -102,13 +102,14 @@ export class SMPbotGPUBenchmarkSuite implements BenchmarkSuite {
       throw new Error('No GPU adapter found');
     }
 
-    this.device = await adapter.requestDevice({
+    // @webgpu/types and lib.dom both declare GPUDevice; align to the adapter's shape
+    this.device = (await adapter.requestDevice({
       requiredFeatures: [],
       requiredLimits: {
         maxBufferSize: adapter.limits.maxBufferSize,
         maxStorageBufferBindingSize: adapter.limits.maxStorageBufferBindingSize,
       },
-    });
+    })) as unknown as GPUDevice;
 
     if (!this.device) {
       throw new Error('Failed to create GPU device');

@@ -4,9 +4,9 @@
  * Benchmarks for all 19 SuperInstance types with different configurations
  */
 
-import { SuperInstanceSystem, InstanceType } from '../superinstance';
+import { SuperInstanceSystem, SuperInstanceFactory, InstanceType } from '../superinstance';
 import { performanceMonitor } from '../superinstance/performance/SuperInstancePerformanceMonitor';
-import { BenchmarkConfig, BenchmarkResult } from './benchmark-runner';
+import { BenchmarkConfig, BenchmarkResult, createBenchmarkResult } from './benchmark-runner';
 
 export class InstanceBenchmarkRunner {
   private system: SuperInstanceSystem;
@@ -21,10 +21,10 @@ export class InstanceBenchmarkRunner {
     const results: BenchmarkResult[] = [];
 
     // Test all available instance types
-    const instanceTypes = SuperInstanceSystem.getAvailableTypes();
+    const instanceTypes = SuperInstanceFactory.getAvailableTypes();
 
     for (const type of instanceTypes) {
-      console.log(`  📊 Benchmarking ${InstanceType[type]} instances...`);
+      console.log(`  📊 Benchmarking ${type} instances...`);
 
       // Instance creation benchmarks
       results.push(await this.benchmarkInstanceCreation(type));
@@ -54,7 +54,7 @@ export class InstanceBenchmarkRunner {
     let peakMemory = memoryBefore;
 
     // Warmup
-    for (let i = 0; i < this.config.warmupRuns; i++) {
+    for (let i = 0; i < this.config.warmupIterations; i++) {
       await this.createInstance(type, `warmup-${i}`);
     }
 
@@ -73,7 +73,7 @@ export class InstanceBenchmarkRunner {
     const memoryAfter = process.memoryUsage().heapUsed;
 
     return this.createResult(
-      `${InstanceType[type]} Instance Creation`,
+      `${type} Instance Creation`,
       'instance_creation',
       times,
       {
@@ -83,7 +83,7 @@ export class InstanceBenchmarkRunner {
         delta: memoryAfter - memoryBefore
       },
       {
-        instanceType: InstanceType[type],
+        instanceType: type,
         iterations: this.config.iterations
       }
     );
@@ -118,7 +118,7 @@ export class InstanceBenchmarkRunner {
     const memoryAfter = process.memoryUsage().heapUsed;
 
     return this.createResult(
-      `${InstanceType[type]} Operations`,
+      `${type} Operations`,
       'instance_operations',
       times,
       {
@@ -128,7 +128,7 @@ export class InstanceBenchmarkRunner {
         delta: memoryAfter - memoryBefore
       },
       {
-        instanceType: InstanceType[type],
+        instanceType: type,
         operations: operations.length
       }
     );
@@ -163,7 +163,7 @@ export class InstanceBenchmarkRunner {
     const memoryAfter = process.memoryUsage().heapUsed;
 
     return this.createResult(
-      `${InstanceType[type]} Serialization`,
+      `${type} Serialization`,
       'instance_serialization',
       times,
       {
@@ -173,7 +173,7 @@ export class InstanceBenchmarkRunner {
         delta: memoryAfter - memoryBefore
       },
       {
-        instanceType: InstanceType[type],
+        instanceType: type,
         iterations: this.config.iterations
       }
     );
@@ -217,7 +217,7 @@ export class InstanceBenchmarkRunner {
     const memoryAfter = process.memoryUsage().heapUsed;
 
     return this.createResult(
-      `${InstanceType[type]} Communication`,
+      `${type} Communication`,
       'instance_communication',
       times,
       {
@@ -227,7 +227,7 @@ export class InstanceBenchmarkRunner {
         delta: memoryAfter - memoryBefore
       },
       {
-        instanceType: InstanceType[type],
+        instanceType: type,
         iterations: this.config.iterations
       }
     );
@@ -341,40 +341,7 @@ export class InstanceBenchmarkRunner {
     memory: any,
     metadata: Record<string, any>
   ): BenchmarkResult {
-    times.sort((a, b) => a - b);
-    const iterations = times.length;
-    const totalTime = times.reduce((sum, t) => sum + t, 0);
-    const avgTime = totalTime / iterations;
-    const minTime = times[0];
-    const maxTime = times[times.length - 1];
-    const p50 = times[Math.floor(iterations * 0.5)];
-    const p95 = times[Math.floor(iterations * 0.95)];
-    const p99 = times[Math.floor(iterations * 0.99)];
-
-    // Record metrics
-    performanceMonitor.recordMetric(`${category}_avg`, avgTime, 'ms');
-    performanceMonitor.recordMetric(`${category}_p95`, p95, 'ms');
-    performanceMonitor.recordMetric(`${category}_p99`, p99, 'ms');
-
-    return {
-      name,
-      category,
-      iterations,
-      timing: {
-        avg: avgTime,
-        min: minTime,
-        max: maxTime,
-        p50,
-        p95,
-        p99
-      },
-      memory,
-      throughput: {
-        opsPerSecond: 1000 / avgTime
-      },
-      errors: 0,
-      metadata
-    };
+    return createBenchmarkResult(name, category, times, this.config, metadata, memory, 'instance');
   }
 
   private async createInstance(type: InstanceType, id: string, withData = false) {
@@ -387,7 +354,7 @@ export class InstanceBenchmarkRunner {
       spreadsheetId: 'benchmark-spreadsheet'
     };
 
-    let config = baseConfig;
+    let config: typeof baseConfig & Record<string, unknown> = baseConfig;
 
     // Add type-specific configuration
     switch (type) {
@@ -426,14 +393,10 @@ export class InstanceBenchmarkRunner {
   }
 
   private getInstanceOperations(type: InstanceType): string[] {
-    const allOperations = {
+    const allOperations: Partial<Record<InstanceType, string[]>> = {
       [InstanceType.DATA_BLOCK]: ['read', 'write', 'query'],
       [InstanceType.PROCESS]: ['start', 'stop', 'monitor'],
       [InstanceType.LEARNING_AGENT]: ['train', 'predict', 'evaluate'],
-      [InstanceType.VIEWPORT]: ['render', 'update', 'resize'],
-      [InstanceType.CONNECTOR]: ['connect', 'disconnect', 'transfer'],
-      [InstanceType.VALIDATOR]: ['validate', 'check', 'audit'],
-      [InstanceType.TRIGGER]: ['trigger', 'reset', 'configure'],
       [InstanceType.CACHE]: ['get', 'set', 'clear'],
       // Add operations for other types
     };

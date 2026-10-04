@@ -4,7 +4,7 @@
  * Manage baseline data for performance regression detection.
  */
 
-import type { BaselineData, BenchmarkResult, RegressionReport, RegressionIssue } from './types.js';
+import type { BaselineData, BenchmarkResult, BenchmarkMetrics, RegressionReport, RegressionIssue } from './types.js';
 import { BenchmarkReporter } from './benchmark-reporter.js';
 
 /**

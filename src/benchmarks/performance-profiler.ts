@@ -168,7 +168,7 @@ export class PerformanceProfiler {
     const monitor = performanceMonitor;
     const originalRecord = monitor.recordMetric.bind(monitor);
 
-    performanceMonitor.recordMetric = (name: string, value: number, unit: string, tags?: Record<string, string>) => {
+    performanceMonitor.recordMetric = (name: string, value: number, unit: 'ms' | 'count' | 'bytes' | 'percentage', tags?: Record<string, string>) => {
       if (name.includes('method') || name.includes('operation')) {
         this.recordMethodCall(name, value);
       }

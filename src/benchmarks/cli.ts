@@ -17,8 +17,8 @@ import { WorldModelBenchmarks } from './suites/worldmodel-benchmarks.js';
 import { IntegrationBenchmarks } from './suites/integration-benchmarks.js';
 
 export interface CliOptions {
-  suites?: string[];
-  benchmarks?: string[];
+  suites?: string;
+  benchmarks?: string;
   filter?: string;
   iterations?: number;
   warmupIterations?: number;
@@ -395,6 +395,6 @@ async function compareBaseline(options: {
 }
 
 // Run CLI if called directly
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (require.main === module) {
   runBenchmarkCli().catch(console.error);
 }

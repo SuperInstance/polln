@@ -15,6 +15,34 @@ import { calculateStats, calculateThroughput } from '../benchmark-profiler.js';
 /**
  * LearningBenchmarks - Learning system performance tests
  */
+
+/**
+ * Raw benchmark vectors -> Map state accepted by ValueNetwork
+ * (encodeState reads feature content from Map entries).
+ */
+function toMapState(vec: number[]): Map<string, unknown> {
+  return new Map([['features', vec]]);
+}
+
+/**
+ * One-step trajectory — the real update path for ValueNetwork
+ * (addTrajectory + train replaced an older imperative update()).
+ */
+function singleStepTrajectory(state: number[], reward: number, nextState: number[]): import('../../core/valuenetwork.js').Trajectory {
+  const now = Date.now();
+  return {
+    id: `bench-${now}-${Math.random().toString(36).slice(2, 8)}`,
+    agentId: 'benchmark-agent',
+    states: [
+      { state: toMapState(state), action: 'bench-step', reward, timestamp: now },
+      { state: toMapState(nextState), action: 'terminal', reward: 0, timestamp: now + 1 },
+    ],
+    finalValue: reward,
+    length: 2,
+  };
+}
+
+
 export class LearningBenchmarks implements BenchmarkSuite {
   name = 'learning';
   description = 'Hebbian and Value Network learning benchmarks';
@@ -37,8 +65,7 @@ export class LearningBenchmarks implements BenchmarkSuite {
     this.valueNetwork = new ValueNetwork({
       learningRate: 0.01,
       discountFactor: 0.99,
-      lambda: 0.9,
-      eligibilityTraceDecay: 0.95,
+      tdLambda: 0.9,
     });
   }
 
@@ -230,7 +257,7 @@ export class LearningBenchmarks implements BenchmarkSuite {
 
     for (const state of states) {
       const start = performance.now();
-      await this.valueNetwork.predict(state);
+      await this.valueNetwork.predict(toMapState(state));
       const end = performance.now();
 
       samples.push(end - start);
@@ -264,7 +291,7 @@ export class LearningBenchmarks implements BenchmarkSuite {
       const done = Math.random() > 0.9;
 
       const start = performance.now();
-      await this.valueNetwork.update(state, reward, nextState, done);
+      this.valueNetwork.addTrajectory(singleStepTrajectory(state, reward, nextState));
       const end = performance.now();
 
       samples.push(end - start);
@@ -306,7 +333,7 @@ export class LearningBenchmarks implements BenchmarkSuite {
       for (let j = 0; j < trajectory.length; j++) {
         const { state, reward, done } = trajectory[j];
         const nextState = trajectory[j + 1]?.state || state;
-        await this.valueNetwork.update(state, reward, nextState, done);
+        this.valueNetwork.addTrajectory(singleStepTrajectory(state, reward, nextState));
       }
 
       const end = performance.now();
@@ -343,7 +370,7 @@ export class LearningBenchmarks implements BenchmarkSuite {
 
       // Build up eligibility trace
       for (const state of states) {
-        await this.valueNetwork.predict(state);
+        await this.valueNetwork.predict(toMapState(state));
       }
 
       const end = performance.now();
@@ -382,11 +409,11 @@ export class LearningBenchmarks implements BenchmarkSuite {
       await this.hebbian.updateSynapse(sourceId, targetId, 0.8, 0.9, 0.5);
 
       // Value network prediction
-      await this.valueNetwork.predict(state);
+      await this.valueNetwork.predict(toMapState(state));
 
       // Value network update
       const nextState = new Array(128).fill(0).map(() => Math.random());
-      await this.valueNetwork.update(state, 0.5, nextState, false);
+      this.valueNetwork.addTrajectory(singleStepTrajectory(state, 0.5, nextState));
 
       const end = performance.now();
       samples.push(end - start);

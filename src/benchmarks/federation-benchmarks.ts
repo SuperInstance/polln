@@ -6,7 +6,11 @@
  */
 
 import { performanceMonitor } from '../superinstance/performance/SuperInstancePerformanceMonitor';
-import { BenchmarkConfig, BenchmarkResult } from './benchmark-runner';
+import { BenchmarkConfig, BenchmarkResult, createBenchmarkResult } from './benchmark-runner';
+
+interface FederationBenchmarkConfig extends BenchmarkConfig {
+  federationPeers?: number;
+}
 
 // Mock federation modules
 class MockColonyFederation {
@@ -78,14 +82,17 @@ export class FederationBenchmarkRunner {
   private config: BenchmarkConfig;
   private federations: MockColonyFederation[] = [];
 
+  private federationConfig: FederationBenchmarkConfig;
+
   constructor(config: BenchmarkConfig) {
     this.config = config;
+    this.federationConfig = config as FederationBenchmarkConfig;
   }
 
   async runAll(): Promise<BenchmarkResult[]> {
     const results: BenchmarkResult[] = [];
 
-    console.log(`  📊 Federation Benchmarks (${this.config.federationPeers} peers)...`);
+    console.log(`  📊 Federation Benchmarks (${(this.federationConfig.federationPeers ?? 5)} peers)...`);
 
     // Peer registration benchmark
     results.push(await this.benchmarkPeerRegistration());
@@ -94,7 +101,7 @@ export class FederationBenchmarkRunner {
     results.push(await this.benchmarkStateSync());
 
     // Broadcast performance benchmark
-    results.push(await this.benchmarkBroadcast());
+    results.push(...(await this.benchmarkBroadcast()));
 
     // Concurrent operations benchmark
     results.push(await this.benchmarkConcurrentOperations());
@@ -106,7 +113,7 @@ export class FederationBenchmarkRunner {
   }
 
   private async benchmarkPeerRegistration(): Promise<BenchmarkResult> {
-    console.log(`    - Peer Registration (${this.config.federationPeers} peers)...`);
+    console.log(`    - Peer Registration (${(this.federationConfig.federationPeers ?? 5)} peers)...`);
 
     const times: number[] = [];
     let peakMemory = 0;
@@ -116,7 +123,7 @@ export class FederationBenchmarkRunner {
 
     // Setup federation nodes
     this.federations = [];
-    for (let i = 0; i < this.config.federationPeers; i++) {
+    for (let i = 0; i < (this.federationConfig.federationPeers ?? 5); i++) {
       const federation = new MockColonyFederation({
         nodeId: `node-${i}`,
         syncInterval: 60000
@@ -125,7 +132,7 @@ export class FederationBenchmarkRunner {
     }
 
     // Benchmark registration
-    for (let i = 0; i < this.config.federationPeers; i++) {
+    for (let i = 0; i < (this.federationConfig.federationPeers ?? 5); i++) {
       const start = performance.now();
 
       await this.federations[i].start();
@@ -158,13 +165,13 @@ export class FederationBenchmarkRunner {
         delta: memoryAfter - memoryBefore
       },
       {
-        peers: this.config.federationPeers
+        peers: (this.federationConfig.federationPeers ?? 5)
       }
     );
   }
 
   private async benchmarkStateSync(): Promise<BenchmarkResult> {
-    console.log(`    - State Synchronization (${this.config.federationPeers} peers)...`);
+    console.log(`    - State Synchronization (${(this.federationConfig.federationPeers ?? 5)} peers)...`);
 
     const times: number[] = [];
     let peakMemory = 0;
@@ -207,16 +214,17 @@ export class FederationBenchmarkRunner {
         delta: memoryAfter - memoryBefore
       },
       {
-        peers: this.config.federationPeers,
+        peers: (this.federationConfig.federationPeers ?? 5),
         iterations: this.config.iterations
       }
     );
   }
 
-  private async benchmarkBroadcast(): Promise<BenchmarkResult> {
-    console.log(`    - Broadcast Performance (${this.config.federationPeers} peers)...`);
+  private async benchmarkBroadcast(): Promise<BenchmarkResult[]> {
+    console.log(`    - Broadcast Performance (${(this.federationConfig.federationPeers ?? 5)} peers)...`);
 
     const times: number[] = [];
+    const results: BenchmarkResult[] = [];
     const messageSizes = [100, 1000, 10000]; // different message sizes in bytes
 
     for (const messageSize of messageSizes) {
@@ -248,7 +256,7 @@ export class FederationBenchmarkRunner {
       // Calculate throughput
       const memoryAfter = process.memoryUsage().heapUsed;
       const avgTime = loopTimes.reduce((sum, t) => sum + t, 0) / loopTimes.length;
-      const throughput = (messageSize * this.config.federationPeers) / (avgTime / 1000); // bytes per second
+      const throughput = (messageSize * (this.federationConfig.federationPeers ?? 5)) / (avgTime / 1000); // bytes per second
 
       results.push(this.createResult(
         `Broadcast ${messageSize}B Message`,
@@ -262,7 +270,7 @@ export class FederationBenchmarkRunner {
         },
         {
           messageSize,
-          peers: this.config.federationPeers,
+          peers: (this.federationConfig.federationPeers ?? 5),
           throughput
         }
       ));
@@ -272,7 +280,7 @@ export class FederationBenchmarkRunner {
   }
 
   private async benchmarkConcurrentOperations(): Promise<BenchmarkResult> {
-    console.log(`    - Concurrent Operations (${this.config.federationPeers} peers)...`);
+    console.log(`    - Concurrent Operations (${(this.federationConfig.federationPeers ?? 5)} peers)...`);
 
     const times: number[] = [];
 
@@ -324,7 +332,7 @@ export class FederationBenchmarkRunner {
       },
       {
         concurrentOps: 20,
-        peers: this.config.federationPeers
+        peers: (this.federationConfig.federationPeers ?? 5)
       }
     );
   }
@@ -336,7 +344,7 @@ export class FederationBenchmarkRunner {
     const peerCounts = [10, 50, 100, 250, 500, 1000];
 
     for (const peerCount of peerCounts) {
-      if (peerCount > this.config.federationPeers) break;
+      if (peerCount > (this.federationConfig.federationPeers ?? 5)) break;
 
       const memoryBefore = process.memoryUsage().heapUsed;
       const start = performance.now();
@@ -373,7 +381,7 @@ export class FederationBenchmarkRunner {
       },
       {
         peerCounts,
-        maxPeers: this.config.federationPeers
+        maxPeers: (this.federationConfig.federationPeers ?? 5)
       }
     );
   }
@@ -385,34 +393,6 @@ export class FederationBenchmarkRunner {
     memory: any,
     metadata: Record<string, any>
   ): BenchmarkResult {
-    times.sort((a, b) => a - b);
-    const iterations = times.length;
-    const totalTime = times.reduce((sum, t) => sum + t, 0);
-    const avgTime = totalTime / iterations;
-    const minTime = times[0];
-    const maxTime = times[times.length - 1];
-    const p50 = times[Math.floor(iterations * 0.5)];
-    const p95 = times[Math.floor(iterations * 0.95)];
-    const p99 = times[Math.floor(iterations * 0.99)];
-
-    return {
-      name,
-      category,
-      iterations,
-      timing: {
-        avg: avgTime,
-        min: minTime,
-        max: maxTime,
-        p50,
-        p95,
-        p99
-      },
-      memory,
-      throughput: {
-        opsPerSecond: 1000 / avgTime
-      },
-      errors: 0,
-      metadata
-    };
+    return createBenchmarkResult(name, category, times, this.config, metadata, memory, 'federation');
   }
 }

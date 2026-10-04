@@ -5,23 +5,23 @@
  */
 
 import { performanceMonitor } from '../superinstance/performance/SuperInstancePerformanceMonitor';
-import { BenchmarkConfig, BenchmarkResult } from './benchmark-runner';
+import { BenchmarkConfig, BenchmarkResult, createBenchmarkResult } from './benchmark-runner';
 
 // Mock GPU compute classes
 class MockGPUProcessor {
   private available: boolean;
-  private forceCPU: boolean = false;
+  private forceCPUFlag: boolean = false;
 
   constructor() {
     this.available = Math.random() > 0.5; // Simulate GPU availability
   }
 
   isAvailable(): boolean {
-    return this.available && !this.forceCPU;
+    return this.available && !this.forceCPUFlag;
   }
 
   forceCPU(value: boolean): void {
-    this.forceCPU = value;
+    this.forceCPUFlag = value;
   }
 
   async processBatch(data: Float32Array, operation: string): Promise<{ result: Float32Array, executionTime: number, usedGPU: boolean }> {
@@ -239,16 +239,16 @@ export class GPUBenchmarkRunner {
     results.push(await this.benchmarkGPUAvailability());
 
     // GPU vs CPU batch processing comparison
-    results.push(await this.benchmarkBatchProcessing());
+    results.push(...(await this.benchmarkBatchProcessing()));
 
     // WebGPU shader performance
-    results.push(await this.benchmarkShaderPerformance());
+    results.push(...(await this.benchmarkShaderPerformance()));
 
     // Matrix operations benchmark
-    results.push(await this.benchmarkMatrixOperations());
+    results.push(...(await this.benchmarkMatrixOperations()));
 
     // Vector operations benchmark
-    results.push(await this.benchmarkVectorOperations());
+    results.push(...(await this.benchmarkVectorOperations()));
 
     // GPU memory usage benchmark
     results.push(await this.benchmarkGPUMemory());
@@ -280,7 +280,7 @@ export class GPUBenchmarkRunner {
     );
   }
 
-  private async benchmarkBatchProcessing(): Promise<BenchmarkResult> {
+  private async benchmarkBatchProcessing(): Promise<BenchmarkResult[]> {
     console.log('    - Batch Processing Comparison...');
 
     const results = [];
@@ -332,7 +332,7 @@ export class GPUBenchmarkRunner {
     return results;
   }
 
-  private async benchmarkShaderPerformance(): Promise<BenchmarkResult> {
+  private async benchmarkShaderPerformance(): Promise<BenchmarkResult[]> {
     console.log('    - WebGPU Shader Performance...');
 
     const results = [];
@@ -377,7 +377,7 @@ export class GPUBenchmarkRunner {
     return results;
   }
 
-  private async benchmarkMatrixOperations(): Promise<BenchmarkResult> {
+  private async benchmarkMatrixOperations(): Promise<BenchmarkResult[]> {
     console.log('    - Matrix Operations...');
 
     const matrixSizes = [16, 32, 64, 128, 256];
@@ -431,7 +431,7 @@ export class GPUBenchmarkRunner {
     return results;
   }
 
-  private async benchmarkVectorOperations(): Promise<BenchmarkResult> {
+  private async benchmarkVectorOperations(): Promise<BenchmarkResult[]> {
     console.log('    - Vector Operations...');
 
     const vectorSizes = [1000, 10000, 100000, 1000000];
@@ -526,42 +526,7 @@ export class GPUBenchmarkRunner {
     category: string,
     times: number[],
     metadata: Record<string, any> = {}
-  ): BenchmarkResult | BenchmarkResult[] {
-    times.sort((a, b) => a - b);
-    const iterations = times.length;
-    const totalTime = times.reduce((sum, t) => sum + t, 0);
-    const avgTime = totalTime / iterations;
-    const minTime = times[0];
-    const maxTime = times[times.length - 1];
-    const p50 = times[Math.floor(iterations * 0.5)];
-    const p95 = times[Math.floor(iterations * 0.95)];
-    const p99 = times[Math.floor(iterations * 0.99)];
-
-    const result = {
-      name,
-      category,
-      iterations,
-      timing: {
-        avg: avgTime,
-        min: minTime,
-        max: maxTime,
-        p50,
-        p95,
-        p99
-      },
-      memory: {
-        before: 0,
-        after: 0,
-        peak: 0,
-        delta: 0
-      },
-      throughput: {
-        opsPerSecond: 1000 / avgTime
-      },
-      errors: 0,
-      metadata
-    };
-
-    return result;
+  ): BenchmarkResult {
+    return createBenchmarkResult(name, category, times, this.config, metadata, {}, 'gpu');
   }
 }
