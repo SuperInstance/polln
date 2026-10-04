@@ -57,7 +57,7 @@ program.addCommand(syncCommand);
 program.addCommand(cacheCommand);
 program.addCommand(loraCommand);
 program.addCommand(coloniesCommand);
-program.addCommand(scaleCommand);
+program.addCommand(scaleCommand());
 
 // Configuration command
 program

@@ -11,7 +11,7 @@ backupCreateCommand.description('Create a backup of the colony');
 
 backupCreateCommand.option('-t, --type <type>', 'Backup type (full, incremental, snapshot)', 'full');
 backupCreateCommand.option('--tags <tags>', 'Comma-separated tags');
-backupCreateCommand.option('--label <key=value>', 'Custom labels (can be used multiple times)', [], collectLabels);
+backupCreateCommand.option('--label <key=value>', 'Custom labels (can be used multiple times)', collectLabels, []);
 backupCreateCommand.option('--reason <reason>', 'Reason for backup');
 backupCreateCommand.option('--no-validate', 'Skip post-backup validation');
 

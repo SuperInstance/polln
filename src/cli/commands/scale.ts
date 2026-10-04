@@ -21,8 +21,7 @@ export function scaleStatusCommand(): Command {
   cmd.option('-j, --json', 'Output as JSON');
 
   cmd.action(async (options) => {
-    const config = ConfigManager.load();
-    const output = new OutputFormatter(options);
+    const config = new ConfigManager();
 
     try {
       // Create scaling system
@@ -34,12 +33,12 @@ export function scaleStatusCommand(): Command {
       const metrics = manager.getCurrentMetrics();
 
       if (!metrics) {
-        output.error('No metrics available');
+        OutputFormatter.error('No metrics available');
         process.exit(1);
       }
 
       if (options.json) {
-        output.json({
+        OutputFormatter.json({
           metrics,
           stats: manager.getStats(),
           policies: manager.getPolicies(),
@@ -91,7 +90,7 @@ export function scaleStatusCommand(): Command {
           status: metrics.tasks.averageLatency > 5000 ? 'WARNING' : 'OK',
         });
 
-        metricsTable.renderTable();
+        metricsTable.printTable();
 
         // Display policies table
         const policies = manager.getPolicies();
@@ -114,7 +113,7 @@ export function scaleStatusCommand(): Command {
           });
         }
 
-        policyTable.renderTable();
+        policyTable.printTable();
 
         // Display stats
         const stats = manager.getStats();
@@ -151,12 +150,12 @@ export function scaleStatusCommand(): Command {
           value: `${stats.averageResponseTime.toFixed(0)}ms`,
         });
 
-        statsTable.renderTable();
+        statsTable.printTable();
       }
 
       manager.stop();
     } catch (error) {
-      output.error(`Failed to get scaling status: ${error}`);
+      OutputFormatter.error(`Failed to get scaling status: ${error}`);
       process.exit(1);
     }
   });
@@ -178,7 +177,6 @@ export function scalePolicyCommand(): Command {
   cmd.option('-j, --json', 'Output as JSON');
 
   cmd.action(async (action, options) => {
-    const output = new OutputFormatter(options);
 
     try {
       const { manager } = createScalingSystem({
@@ -189,7 +187,7 @@ export function scalePolicyCommand(): Command {
 
       if (action === 'list') {
         if (options.json) {
-          output.json(policies);
+          OutputFormatter.json(policies);
         } else {
           const table = new Table({
             title: 'Scaling Policies',
@@ -214,24 +212,24 @@ export function scalePolicyCommand(): Command {
             });
           }
 
-          table.renderTable();
+          table.printTable();
         }
       } else if (action === 'enable' || action === 'disable') {
         if (!options.id) {
-          output.error('Policy ID required');
+          OutputFormatter.error('Policy ID required');
           process.exit(1);
         }
 
         manager.setPolicyEnabled(options.id, action === 'enable');
-        output.success(`Policy ${options.id} ${action}d`);
+        OutputFormatter.success(`Policy ${options.id} ${action}d`);
       } else {
-        output.error(`Unknown action: ${action}`);
+        OutputFormatter.error(`Unknown action: ${action}`);
         process.exit(1);
       }
 
       manager.stop();
     } catch (error) {
-      output.error(`Failed to manage policies: ${error}`);
+      OutputFormatter.error(`Failed to manage policies: ${error}`);
       process.exit(1);
     }
   });
@@ -252,7 +250,6 @@ export function scaleManualCommand(): Command {
   cmd.option('-j, --json', 'Output as JSON');
 
   cmd.action(async (options) => {
-    const output = new OutputFormatter(options);
 
     try {
       const { manager } = createScalingSystem({
@@ -278,18 +275,18 @@ export function scaleManualCommand(): Command {
       );
 
       if (options.json) {
-        output.json(decision);
+        OutputFormatter.json(decision);
       } else {
-        output.success(`Manual scaling initiated:`);
-        output.info(`  Type: ${options.type}`);
-        output.info(`  Magnitude: ${options.magnitude}`);
-        output.info(`  Decision ID: ${decision.id}`);
-        output.info(`  Status: ${decision.status}`);
+        OutputFormatter.success(`Manual scaling initiated:`);
+        OutputFormatter.info(`  Type: ${options.type}`);
+        OutputFormatter.info(`  Magnitude: ${options.magnitude}`);
+        OutputFormatter.info(`  Decision ID: ${decision.id}`);
+        OutputFormatter.info(`  Status: ${decision.status}`);
       }
 
       manager.stop();
     } catch (error) {
-      output.error(`Failed to execute manual scaling: ${error}`);
+      OutputFormatter.error(`Failed to execute manual scaling: ${error}`);
       process.exit(1);
     }
   });
@@ -308,7 +305,6 @@ export function scalePredictCommand(): Command {
   cmd.option('-j, --json', 'Output as JSON');
 
   cmd.action(async (options) => {
-    const output = new OutputFormatter(options);
 
     try {
       const { manager } = createScalingSystem({
@@ -322,10 +318,10 @@ export function scalePredictCommand(): Command {
       const predictions = manager.getPredictions();
 
       if (options.json) {
-        output.json(predictions);
+        OutputFormatter.json(predictions);
       } else {
         if (predictions.length === 0) {
-          output.info('No predictions available yet');
+          OutputFormatter.info('No predictions available yet');
         } else {
           const table = new Table({
             title: 'Scaling Predictions',
@@ -346,13 +342,13 @@ export function scalePredictCommand(): Command {
             });
           }
 
-          table.renderTable();
+          table.printTable();
         }
       }
 
       manager.stop();
     } catch (error) {
-      output.error(`Failed to get predictions: ${error}`);
+      OutputFormatter.error(`Failed to get predictions: ${error}`);
       process.exit(1);
     }
   });
@@ -371,7 +367,6 @@ export function scaleHistoryCommand(): Command {
   cmd.option('-j, --json', 'Output as JSON');
 
   cmd.action(async (options) => {
-    const output = new OutputFormatter(options);
 
     try {
       const { manager } = createScalingSystem({
@@ -382,10 +377,10 @@ export function scaleHistoryCommand(): Command {
       const history = manager.getHistory(limit);
 
       if (options.json) {
-        output.json(history);
+        OutputFormatter.json(history);
       } else {
         if (history.length === 0) {
-          output.info('No scaling events recorded yet');
+          OutputFormatter.info('No scaling events recorded yet');
         } else {
           const table = new Table({
             title: 'Scaling Event History',
@@ -408,13 +403,13 @@ export function scaleHistoryCommand(): Command {
             });
           }
 
-          table.renderTable();
+          table.printTable();
         }
       }
 
       manager.stop();
     } catch (error) {
-      output.error(`Failed to get history: ${error}`);
+      OutputFormatter.error(`Failed to get history: ${error}`);
       process.exit(1);
     }
   });

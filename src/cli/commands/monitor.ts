@@ -280,6 +280,6 @@ function table(data: string[][]): string {
       joinRight: '┤',
       joinJoin: '┼'
     },
-    drawHorizontalLine: true,
+    drawHorizontalLine: () => true,
   });
 }
