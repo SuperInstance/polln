@@ -67,7 +67,7 @@ export class SnapshotBackupStrategy {
       metrics.sizeBytes = Buffer.byteLength(jsonData, 'utf8');
 
       // Compress if enabled (use faster compression for snapshots)
-      let dataToStore = Buffer.from(jsonData, 'utf8');
+      let dataToStore: Buffer = Buffer.from(jsonData, 'utf8');
       const compressStart = Date.now();
 
       if (config.compression.enabled) {
@@ -152,8 +152,8 @@ export class SnapshotBackupStrategy {
       metadata: {} as any,
       colony: {
         id: colony.id,
-        config: colony.config,
-        stats: await colony.getStats(),
+        config: { ...colony.config } as Record<string, unknown>,
+        stats: { ...(await colony.getStats()) } as Record<string, unknown>,
         distributedState: colony.isDistributed()
           ? colony.getDistributedCoordination()?.getState()
           : undefined

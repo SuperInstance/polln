@@ -16,6 +16,7 @@ import type {
   ChangeSet,
   BackupConfig
 } from '../types.js';
+import { BackupStatus } from '../types.js';
 import type { StorageBackend } from '../storage/types.js';
 import type { Colony } from '../../core/colony.js';
 
@@ -61,7 +62,7 @@ export class IncrementalBackupStrategy {
 
       if (changes.length === 0) {
         // No changes, return early
-        metadata.status = 'COMPLETED';
+        metadata.status = BackupStatus.COMPLETED;
         metadata.completedAt = Date.now();
         metadata.duration = Date.now() - startTime;
 
@@ -94,7 +95,7 @@ export class IncrementalBackupStrategy {
       metrics.sizeBytes = Buffer.byteLength(jsonData, 'utf8');
 
       // Compress if enabled
-      let dataToStore = Buffer.from(jsonData, 'utf8');
+      let dataToStore: Buffer = Buffer.from(jsonData, 'utf8');
       const compressStart = Date.now();
 
       if (config.compression.enabled) {
@@ -265,9 +266,9 @@ export class IncrementalBackupStrategy {
   /**
    * Infer entity type from data
    */
-  private inferEntityType(data: any): string {
+  private inferEntityType(data: any): 'AGENT' | 'SYNAPSE' | 'PATTERN' | 'VALUE_NETWORK' | 'KV_ANCHOR' | 'TILE' {
     if (data.type) {
-      const typeMap: Record<string, string> = {
+      const typeMap: Record<string, 'AGENT' | 'SYNAPSE' | 'PATTERN' | 'VALUE_NETWORK' | 'KV_ANCHOR' | 'TILE'> = {
         'AGENT': 'AGENT',
         'SYNAPSE': 'SYNAPSE',
         'KV_ANCHOR': 'KV_ANCHOR',

@@ -148,8 +148,8 @@ export class FullBackupStrategy {
       metadata: {} as any,
       colony: {
         id: colony.id,
-        config: colony.config,
-        stats: await colony.getStats(),
+        config: { ...colony.config } as Record<string, unknown>,
+        stats: { ...(await colony.getStats()) } as Record<string, unknown>,
         distributedState: colony.isDistributed()
           ? colony.getDistributedCoordination()?.getState()
           : undefined
