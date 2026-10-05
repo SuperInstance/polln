@@ -2,7 +2,7 @@
  * Format detection utilities
  */
 
-import type { ExportFormat, ImportSource } from '../types.js';
+import { ExportFormat, ImportSource } from '../types.js';
 
 /**
  * Detect format from file extension

@@ -8,12 +8,8 @@
 import { WebSocket } from 'ws';
 import { v4 as uuidv4 } from 'uuid';
 import type {
-  CellReference,
-  CellId,
-  Sensation,
-  SensationType,
-  TimeOptions,
-} from '../core/types.js';
+  CellReference, CellId, Sensation, TimeOptions, } from '../core/types.js';
+import { SensationType } from '../core/types.js';
 
 /**
  * Helper class for cell relationship testing

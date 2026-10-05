@@ -5,14 +5,9 @@
 
 import { randomUUID } from 'crypto';
 import type {
-  Incident,
-  IncidentType,
-  IncidentSeverity,
-  DetectionRule,
-  DetectionCondition,
-  IncidentStatus,
-  IncidentUtils
+  Incident, DetectionRule, DetectionCondition, IncidentUtils
 } from './types.js';
+import { IncidentType, IncidentSeverity, IncidentStatus } from './types.js';
 
 /**
  * Detection result

@@ -6,15 +6,8 @@
 import { EventEmitter } from 'events';
 import { v4 as uuidv4 } from 'uuid';
 import type {
-  ColonyManagerConfig,
-  ColonyInstance,
-  ColonyInstanceState,
-  OrchestrationEvent,
-  OrchestrationEventType,
-  ManagerMetrics,
-  Colony,
-  ColonyConfig,
-} from './types.js';
+  ColonyManagerConfig, ColonyInstance, ColonyInstanceState, OrchestrationEvent, OrchestrationEventType, ManagerMetrics, ColonyConfig, } from './types.js';
+import { Colony } from './types.js';
 import { ColonyScheduler } from './scheduler.js';
 import { ColonyLoadBalancer } from './load-balancer.js';
 import { ResourceTracker } from './resource-tracker.js';

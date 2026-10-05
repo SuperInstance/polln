@@ -5,16 +5,9 @@
 
 import { randomUUID } from 'crypto';
 import type {
-  Incident,
-  IncidentStatus,
-  EscalationRule,
-  EscalationCondition,
-  EscalationStep,
-  NotificationChannel,
-  IncidentAction,
-  ActionType,
-  IncidentUtils
+  Incident, EscalationRule, EscalationCondition, EscalationStep, NotificationChannel, IncidentAction, IncidentUtils
 } from './types.js';
+import { IncidentStatus, ActionType } from './types.js';
 
 /**
  * Escalation result

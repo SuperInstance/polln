@@ -8,14 +8,9 @@ import { promisify } from 'util';
 import { readFile, readdir } from 'fs/promises';
 import { join } from 'path';
 import type {
-  Vulnerability,
-  SecurityFinding,
-  ScanResult,
-  ScanSummary,
-  FindingLocation,
-  Severity,
-  ScanType
+  Vulnerability, SecurityFinding, ScanResult, ScanSummary, FindingLocation
 } from './types.js';
+import { ScanType, Severity } from './types.js';
 
 const execAsync = promisify(exec);
 

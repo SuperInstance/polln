@@ -5,13 +5,9 @@
 
 import { randomUUID } from 'crypto';
 import type {
-  Incident,
-  IncidentStatus,
-  IncidentSeverity,
-  IncidentAction,
-  ActionResult,
-  DashboardFilter
+  Incident, IncidentAction, ActionResult, DashboardFilter
 } from './types.js';
+import { IncidentStatus, IncidentSeverity } from './types.js';
 
 /**
  * Incident Manager Configuration

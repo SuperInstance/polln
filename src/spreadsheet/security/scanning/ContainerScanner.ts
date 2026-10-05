@@ -7,11 +7,9 @@ import { exec } from 'child_process';
 import { promisify } from 'util';
 import { randomUUID } from 'crypto';
 import type {
-  ScanResult,
-  ScanType,
-  SecurityFinding,
-  ScanOptions
+  ScanResult, SecurityFinding, ScanOptions
 } from './types.js';
+import { ScanType } from './types.js';
 
 const execAsync = promisify(exec);
 

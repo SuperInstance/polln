@@ -12,13 +12,12 @@
  */
 
 import type {
-  ColonyConfig,
-  AgentConfig,
-  ColonyState,
-  AgentState
+  ColonyConfig, AgentConfig, AgentState
 } from '../../core/types';
+import { ColonyState } from '../../core/types';
 import { PollnColony } from '../../core/Colony';
-import type { LogCell } from '../LogCell';
+import type {
+ LogCell } from '../LogCell';
 import { CellTestHelper, type TestCellConfig } from './CellTestHelper';
 
 /**

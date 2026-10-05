@@ -5,7 +5,7 @@
  */
 
 import { EventEmitter } from 'events';
-import type { LoadBalancingStrategy } from './types.js';
+import { LoadBalancingStrategy } from './types.js';
 
 /**
  * Load balancer config

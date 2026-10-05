@@ -3,14 +3,8 @@
  */
 
 import type {
-  ExportConfig,
-  ImportConfig,
-  PDFExportConfig,
-  MergeStrategy,
-  ConflictResolution,
-  ExportFormat,
-  ImportSource,
-} from '../types.js';
+  ExportConfig, ImportConfig, PDFExportConfig, } from '../types.js';
+import { MergeStrategy, ConflictResolution, ExportFormat, ImportSource } from '../types.js';
 
 /**
  * Create export configuration with defaults

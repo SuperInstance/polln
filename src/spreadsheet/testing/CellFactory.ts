@@ -27,9 +27,8 @@ import {
   LogicLevel,
 } from '../core/types.js';
 import type {
-  CellConfig,
-  ColonyPattern,
-} from './types.js';
+  CellConfig, } from './types.js';
+import { ColonyPattern } from './types.js';
 
 /**
  * Factory for creating test cells
