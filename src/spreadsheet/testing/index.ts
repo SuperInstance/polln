@@ -175,8 +175,6 @@ export { IntegrationTestSuite } from './IntegrationTestSuite.js';
 export type {
   TestUser as IntegrationTestUser,
   CollaborationSession as IntegrationCollaborationSession,
-  IntegrationTestConfig,
-  IntegrationTestResult,
 } from './IntegrationTestSuite.js';
 
 /**

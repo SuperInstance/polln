@@ -50,7 +50,6 @@ export interface TokenResponse {
   refreshToken?: string;
   scope?: string;
   idToken?: string;
-  expiresIn?: number;
 }
 
 export interface RefreshTokenRequest {

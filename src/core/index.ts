@@ -591,7 +591,6 @@ export type {
   LoRATrainingResult,
   // Performance Types
   LoRAPerformanceMetrics,
-  EmergentAbility,
   // Memory Types
   LoRAMemoryState,
   LoRAMemoryConfig,
@@ -682,8 +681,8 @@ export type {
   ProtocolMessage,
   MessageResponse,
   BridgeStats,
-  QueuedMessage,
-  MessageQueueConfig,
+  QueuedMessage as ColonyQueuedMessage,
+  MessageQueueConfig as ColonyMessageQueueConfig,
   BroadcastResult,
   BroadcastConfig as ColonyBroadcastConfig,
   GatewayRequest,
@@ -708,16 +707,16 @@ export type {
   MigrationConfig,
   MigrationPlan as ColonyMigrationPlan,
   MigrationStep,
-  MigrationIssue,
-  MigrationState,
+  MigrationIssue as LifecycleMigrationIssue,
+  MigrationState as LifecycleMigrationState,
   RollbackPlan,
   ScalingConfig,
-  ScalingEvent,
+  ScalingEvent as LifecycleScalingEvent,
   ScalingTrigger,
   ScalingConstraints,
   ScalingPlan,
   ScalingAction,
-  ScalingMetrics,
+  ScalingMetrics as LifecycleScalingMetrics,
   ColonyLifecycleState,
 } from './colony-lifecycle/index.js';
 
@@ -774,7 +773,6 @@ export {
   META_CONFIG,
 } from './config/optimized.js';
 export type {
-  PlinkoConfig,
   TDLambdaConfig,
   VAEConfig,
   GraphEvolutionConfig,

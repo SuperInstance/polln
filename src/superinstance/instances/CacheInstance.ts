@@ -162,7 +162,7 @@ export class ConcreteCacheInstance extends BaseSuperInstance implements CacheIns
   policy: CachePolicy;
   private cache: Map<string, CacheEntry> = new Map();
   private metricsCache = new Map<string, { timestamp: number; value: any }[]>();
-  private prefetch: boolean = false;
+  private prefetchEnabled: boolean = false;
   private prefetchConfig?: CachePrefetchConfig;
   private evictionTimer?: NodeJS.Timeout;
 
@@ -280,7 +280,7 @@ export class ConcreteCacheInstance extends BaseSuperInstance implements CacheIns
         configuration: this.configuration,
         policy: this.policy,
         cacheEntries: cacheEntries,
-        prefetchEnabled: this.prefetch,
+        prefetchEnabled: this.prefetchEnabled,
         prefetchConfig: this.prefetchConfig,
         metrics: this.getCacheMetrics(),
         operationMetrics: this.getStatistics()
@@ -301,7 +301,7 @@ export class ConcreteCacheInstance extends BaseSuperInstance implements CacheIns
     const data = snapshot.data;
     this.configuration = data.configuration;
     this.policy = data.policy;
-    this.prefetch = data.prefetchEnabled;
+    this.prefetchEnabled = data.prefetchEnabled;
     this.prefetchConfig = data.prefetchConfig;
 
     // Restore cache entries
@@ -569,12 +569,12 @@ export class ConcreteCacheInstance extends BaseSuperInstance implements CacheIns
 
   // Prefetch operations
   enablePrefetch(config: CachePrefetchConfig): void {
-    this.prefetch = true;
+    this.prefetchEnabled = true;
     this.prefetchConfig = config;
   }
 
   disablePrefetch(): void {
-    this.prefetch = false;
+    this.prefetchEnabled = false;
     this.prefetchConfig = undefined;
   }
 

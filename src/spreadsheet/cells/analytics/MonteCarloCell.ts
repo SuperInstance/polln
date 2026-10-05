@@ -156,7 +156,7 @@ export class MonteCarloCell extends LogCell {
   private confidenceLevels: number[];
 
   private simulationResult?: SimulationResult;
-  private sensitivityAnalysis?: SensitivityAnalysis[];
+  private sensitivityAnalysisResult?: SensitivityAnalysis[];
 
   constructor(config: MonteCarloCellConfig) {
     super({
@@ -680,7 +680,7 @@ export class MonteCarloCell extends LogCell {
       results.sort((a, b) => Math.abs(b.correlationWithOutput) - Math.abs(a.correlationWithOutput));
       results.forEach((r, i) => r.rank = i + 1);
 
-      this.sensitivityAnalysis = results;
+      this.sensitivityAnalysisResult = results;
 
       this.state = CellState.EMITTING;
 
@@ -850,7 +850,7 @@ export class MonteCarloCell extends LogCell {
     if (input.action === 'simulate') {
       return this.simulate(input.iterations);
     } else if (input.action === 'sensitivity') {
-      return this.sensitivityAnalysis();
+      return this.sensitivityAnalysisResult();
     } else {
       return this.simulate();
     }
@@ -865,6 +865,6 @@ export class MonteCarloCell extends LogCell {
   }
 
   getSensitivityAnalysis(): SensitivityAnalysis[] | undefined {
-    return this.sensitivityAnalysis;
+    return this.sensitivityAnalysisResult;
   }
 }

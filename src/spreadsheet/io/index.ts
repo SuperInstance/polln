@@ -74,7 +74,6 @@ export type {
   NetworkStatus,
   SaveSnapshot,
   SaveResult,
-  ConflictResolution,
   SaveConflict,
   AutoSaveConfig,
   SaveEventHandler,

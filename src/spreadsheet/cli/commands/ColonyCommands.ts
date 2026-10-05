@@ -73,12 +73,12 @@ interface ColonyMetrics {
  * Handles all colony-related CLI operations.
  */
 export class ColonyCommands {
-  private config: ConfigManager;
+  private configManager: ConfigManager;
   private coloniesDir: string;
 
   constructor(config: ConfigManager) {
-    this.config = config;
-    this.coloniesDir = path.join(this.config.getDataDir(), 'colonies');
+    this.configManager = config;
+    this.coloniesDir = path.join(this.configManager.getDataDir(), 'colonies');
   }
 
   /**

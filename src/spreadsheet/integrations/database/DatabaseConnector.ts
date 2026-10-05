@@ -111,14 +111,14 @@ class QueryBuilder {
   private tableName: string;
   private action: 'SELECT' | 'INSERT' | 'UPDATE' | 'DELETE';
   private columns: string[] = [];
-  private where: string[] = [];
-  private orderBy: string[] = [];
+  private _where: string[] = [];
+  private _orderBy: string[] = [];
   private parameters: any[] = [];
-  private limit?: number;
-  private offset?: number;
+  private _limit?: number;
+  private _offset?: number;
   private joins: string[] = [];
-  private groupBy: string[] = [];
-  private having: string[] = [];
+  private _groupBy: string[] = [];
+  private _having: string[] = [];
 
   constructor(table: string, action: 'SELECT' | 'INSERT' | 'UPDATE' | 'DELETE') {
     this.tableName = table;
@@ -146,7 +146,7 @@ class QueryBuilder {
   }
 
   where(condition: string, ...params: any[]): this {
-    this.where.push(condition);
+    this._where.push(condition);
     this.parameters.push(...params);
     return this;
   }
@@ -162,28 +162,28 @@ class QueryBuilder {
   }
 
   groupBy(...columns: string[]): this {
-    this.groupBy.push(...columns);
+    this._groupBy.push(...columns);
     return this;
   }
 
   having(condition: string, ...params: any[]): this {
-    this.having.push(condition);
+    this._having.push(condition);
     this.parameters.push(...params);
     return this;
   }
 
   orderBy(column: string, direction: 'ASC' | 'DESC' = 'ASC'): this {
-    this.orderBy.push(`${column} ${direction}`);
+    this._orderBy.push(`${column} ${direction}`);
     return this;
   }
 
   limit(count: number): this {
-    this.limit = count;
+    this._limit = count;
     return this;
   }
 
   offset(count: number): this {
-    this.offset = count;
+    this._offset = count;
     return this;
   }
 
@@ -233,28 +233,28 @@ class QueryBuilder {
       query += ' ' + this.joins.join(' ');
     }
 
-    if (this.where.length > 0) {
-      query += ' WHERE ' + this.where.join(' AND ');
+    if (this._where.length > 0) {
+      query += ' WHERE ' + this._where.join(' AND ');
     }
 
-    if (this.groupBy.length > 0) {
-      query += ' GROUP BY ' + this.groupBy.join(', ');
+    if (this._groupBy.length > 0) {
+      query += ' GROUP BY ' + this._groupBy.join(', ');
     }
 
-    if (this.having.length > 0) {
-      query += ' HAVING ' + this.having.join(' AND ');
+    if (this._having.length > 0) {
+      query += ' HAVING ' + this._having.join(' AND ');
     }
 
-    if (this.orderBy.length > 0) {
-      query += ' ORDER BY ' + this.orderBy.join(', ');
+    if (this._orderBy.length > 0) {
+      query += ' ORDER BY ' + this._orderBy.join(', ');
     }
 
-    if (this.limit !== undefined) {
-      query += ` LIMIT ${this.limit}`;
+    if (this._limit !== undefined) {
+      query += ` LIMIT ${this._limit}`;
     }
 
-    if (this.offset !== undefined) {
-      query += ` OFFSET ${this.offset}`;
+    if (this._offset !== undefined) {
+      query += ` OFFSET ${this._offset}`;
     }
 
     return query;
@@ -272,9 +272,9 @@ class QueryBuilder {
       .join(', ');
     let query = `UPDATE ${this.tableName} SET ${setClause}`;
 
-    if (this.where.length > 0) {
+    if (this._where.length > 0) {
       const offset = this.columns.length;
-      const whereClause = this.where
+      const whereClause = this._where
         .map((cond, i) => cond.replace(/\$(\d+)/g, (_, n) => `$${parseInt(n) + offset}`))
         .join(' AND ');
       query += ' WHERE ' + whereClause;
@@ -287,8 +287,8 @@ class QueryBuilder {
   private buildDelete(): string {
     let query = `DELETE FROM ${this.tableName}`;
 
-    if (this.where.length > 0) {
-      query += ' WHERE ' + this.where.join(' AND ');
+    if (this._where.length > 0) {
+      query += ' WHERE ' + this._where.join(' AND ');
     }
 
     query += ' RETURNING *';

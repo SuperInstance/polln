@@ -133,7 +133,6 @@ export class POLLNSDK {
 // API Classes
 // ============================================================================
 
-export { POLLNClient } from './POLLNClient.js';
 export { CellAPI } from './CellAPI.js';
 export { SheetAPI } from './SheetAPI.js';
 export { ColonyAPI } from './ColonyAPI.js';

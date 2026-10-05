@@ -368,7 +368,7 @@ export class AnomalyModel {
     this.buildAutoencoder(features[0].length);
 
     // Train
-    const history = await this.autoencoder.fit(normalizedFeatures, normalizedFeatures, {
+    const fitHistory = await this.autoencoder.fit(normalizedFeatures, normalizedFeatures, {
       epochs: this.config.epochs,
       batchSize: this.config.batchSize,
       validationSplit: this.config.validationSplit,
@@ -387,7 +387,7 @@ export class AnomalyModel {
     normalizedFeatures.dispose();
     this.isTrained = true;
 
-    return history;
+    return fitHistory;
   }
 
   /**

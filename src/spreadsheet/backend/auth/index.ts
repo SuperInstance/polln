@@ -69,12 +69,10 @@ export {
   RequirePermission,
   RequireRole,
   requirePermission,
-  requireRole,
   requireAdmin as requireAdminPerm,
   requireReadWrite,
   requireCellOperations,
 } from './Permissions.js';
-export { Permission, Role, ResourceType } from './Permissions.js';
 export type { PermissionCheckResult } from './Permissions.js';
 
 export { createAuthRouter } from './AuthRouter.js';
@@ -87,6 +85,5 @@ export default {
   createRateLimiter,
   createAuthRouter,
   PermissionsManager,
-  Permission,
   Role,
 };

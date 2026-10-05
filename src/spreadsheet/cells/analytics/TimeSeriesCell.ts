@@ -154,7 +154,7 @@ export class TimeSeriesCell extends LogCell {
 
   private data: TimeSeriesPoint[] = [];
   private decomposition?: SeasonalDecomposition;
-  private forecast?: ForecastResult;
+  private forecastResult?: ForecastResult;
   private anomalies?: AnomalyResult;
   private trend?: TrendAnalysis;
 
@@ -185,7 +185,7 @@ export class TimeSeriesCell extends LogCell {
    */
   private invalidateCache(): void {
     this.decomposition = undefined;
-    this.forecast = undefined;
+    this.forecastResult = undefined;
     this.anomalies = undefined;
     this.trend = undefined;
   }
@@ -411,7 +411,7 @@ export class TimeSeriesCell extends LogCell {
       // Calculate accuracy metrics
       const accuracy = this.calculateAccuracy(values, forecast.slice(0, values.length));
 
-      this.forecast = {
+      this.forecastResult = {
         forecast,
         confidenceIntervals,
         timestamps,
@@ -427,7 +427,7 @@ export class TimeSeriesCell extends LogCell {
 
       return {
         success: true,
-        value: this.forecast,
+        value: this.forecastResult,
         confidence: 0.85,
         explanation: `${steps}-step forecast using ${this.model}. RMSE: ${accuracy.rmse.toFixed(2)}`,
         trace: this.body.trace,
@@ -959,7 +959,7 @@ export class TimeSeriesCell extends LogCell {
   }
 
   getForecast(): ForecastResult | undefined {
-    return this.forecast;
+    return this.forecastResult;
   }
 
   getAnomalies(): AnomalyResult | undefined {

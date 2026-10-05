@@ -30,7 +30,6 @@ export {
   UserSegmenter,
   type Segment,
   type SegmentRule,
-  type RuleCondition,
   type UserAttributes,
   type UserBehavior,
   type SegmentAssignment,

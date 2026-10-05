@@ -193,7 +193,7 @@ export class TrendModel {
     ]);
 
     // Train model
-    const history = await this.model!.fit(reshapedSequences, targets, {
+    const fitHistory = await this.model!.fit(reshapedSequences, targets, {
       epochs: this.config.epochs,
       batchSize: this.config.batchSize,
       validationSplit: this.config.validationSplit,
@@ -212,7 +212,7 @@ export class TrendModel {
     reshapedSequences.dispose();
 
     this.isTrained = true;
-    return history;
+    return fitHistory;
   }
 
   /**
