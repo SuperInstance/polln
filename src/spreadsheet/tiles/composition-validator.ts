@@ -1288,36 +1288,3 @@ export function formatValidationResult(result: ValidationResult): string {
 
   return lines.join('\n');
 }
-
-// ============================================================================
-// EXPORTS
-// ============================================================================
-
-export default {
-  // Core functions
-  checkTypeCompatibility,
-  composeConstraints,
-  validateComposition,
-  detectCompositionParadox,
-  calculateConfidenceBounds,
-  checkAlgebraLaws,
-
-  // Examples and utilities
-  createUnsafeCompositionExample,
-  runUnsafeCompositionExample,
-  createSafeTile,
-  createConstrainedTile,
-  formatValidationResult,
-
-  // Types
-  TileDataType,
-  ValidationResult,
-  Composition,
-  Tile,
-  ConstraintBound,
-  TypeConstraint,
-  ConfidenceBounds,
-  Paradox,
-  ValidationIssue,
-  LawViolation
-};

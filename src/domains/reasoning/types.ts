@@ -457,22 +457,3 @@ export type OptionalConfig<T> = {
 export type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
 };
-
-// ========================================
-// Export Default
-// ========================================
-
-export default {
-  ReasoningDomainConfig,
-  DialogueConfig,
-  ChainOfThoughtConfig,
-  ContextConfig,
-  DepthConfig,
-  ConsistencyConfig,
-  AgentComposition,
-  DialogueType,
-  ReasoningMode,
-  ExplorationStrategy,
-  CompressionStrategy,
-  ConsistencyType
-};

@@ -143,8 +143,9 @@ export class FunctionRegistry {
     try {
       return func.implementation(...args);
     } catch (err) {
-      if (err instanceof FormulaError) {
-        return this.createError(err.type, err.message);
+      // FormulaError is an interface, not a class — duck-type it for instanceof
+      if (err && typeof err === 'object' && 'type' in err && 'message' in err) {
+        return this.createError((err as FormulaError).type, (err as FormulaError).message);
       }
       return this.createError(ErrorType.VALUE, `Error in ${name}: ${err instanceof Error ? err.message : 'Unknown error'}`);
     }

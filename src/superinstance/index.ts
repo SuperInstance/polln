@@ -11,6 +11,7 @@
 
 // Export type definitions
 export * from './types/base';
+import { InstanceType } from './types/base';
 
 // Export concrete instance implementations
 export { ConcreteDataBlockInstance as DataBlockInstance } from './instances/DataBlockInstance';
