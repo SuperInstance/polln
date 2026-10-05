@@ -5,6 +5,7 @@
  * with various storage backends and access patterns.
  */
 
+import type { SuperInstance } from '../types/base';
 import {
   BaseSuperInstance, InstanceType, InstanceState, InstanceCapability,
   CellPosition, InstanceConfiguration, InstancePermissions,

@@ -6,7 +6,7 @@
  */
 
 import { ITile, Tile, Schema, ValidationResult, SerializedTile, TileConfig } from '../core/Tile';
-import SMPbot, { ConcreteSMPbot } from './ConcreteSMPbot';
+import SMPbot, { ConcreteSMPbot, ConcreteSeed } from './ConcreteSMPbot';
 
 // ============================================================================
 // SMPBOT AS TILE ADAPTER
@@ -604,7 +604,7 @@ export class SMPbotTileMonitor {
 // HELPER FUNCTIONS AND TYPES
 // ============================================================================
 
-function createOutputSchema<O>(bot: SMPbot<I, O>): Schema<O> {
+function createOutputSchema<I, O>(bot: SMPbot<I, O>): Schema<O> {
   // Create schema based on bot output type
   return {
     type: 'smpbot_output',

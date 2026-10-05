@@ -172,6 +172,7 @@ export type {
 
 // Integration testing (existing)
 export { IntegrationTestSuite } from './IntegrationTestSuite.js';
+import { IntegrationTestSuite } from './IntegrationTestSuite.js';
 export type {
   TestUser as IntegrationTestUser,
   CollaborationSession as IntegrationCollaborationSession,

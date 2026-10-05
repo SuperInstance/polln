@@ -25,6 +25,7 @@ export { ConcreteCacheInstance as CacheInstance } from './instances/CacheInstanc
 
 // Export validation engine
 export { SuperInstanceValidator } from './validation/SuperInstanceValidator';
+import { SuperInstanceValidator } from './validation/SuperInstanceValidator';
 export type {
   CompatibilityResult,
   ConfigurationValidationResult,

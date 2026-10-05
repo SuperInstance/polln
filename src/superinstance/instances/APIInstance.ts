@@ -5,6 +5,7 @@
  * handle responses, manage authentication, and cache results.
  */
 
+import type { SuperInstance } from '../types/base';
 import {
   BaseSuperInstance, InstanceType, InstanceState, InstanceCapability,
   CellPosition, InstanceConfiguration, InstancePermissions,

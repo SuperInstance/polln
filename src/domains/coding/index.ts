@@ -9,6 +9,7 @@
 export { CODING_DOMAIN_CONFIG } from './config';
 export { CODE_QUALITY_VALUE_CONFIG } from './value-network-config';
 export { CODING_TASKS } from './tasks';
+import { CODING_TASKS } from './tasks';
 
 // Re-export types
 export type { TaskDefinition } from '../../core/types';

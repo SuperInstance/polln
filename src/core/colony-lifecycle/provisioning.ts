@@ -5,7 +5,7 @@
 
 import { EventEmitter } from 'events';
 import { v4 as uuidv4 } from 'uuid';
-import type { Colony } from '../colony.js';
+import type { Colony, ColonyConfig } from '../colony.js';
 import type {
   ProvisioningConfig,
   ProvisioningRequest,

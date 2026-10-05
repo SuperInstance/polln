@@ -5,6 +5,7 @@
  * monitored, and interacted with via standard I/O streams.
  */
 
+import type { SuperInstance } from '../types/base';
 import {
   BaseSuperInstance, InstanceType, InstanceState, InstanceCapability,
   CellPosition, InstanceConfiguration, InstancePermissions,

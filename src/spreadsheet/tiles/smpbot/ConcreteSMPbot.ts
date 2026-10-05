@@ -477,7 +477,7 @@ export class ConcreteSMPbot<I, O> extends Tile<I, O> implements SMPbot<I, O> {
 /**
  * Create output schema based on model type
  */
-function createOutputSchema<O>(model: Model<I, O>): Schema<O> {
+function createOutputSchema<I, O>(model: Model<I, O>): Schema<O> {
   // Simplified schema creation
   // In real implementation, this would be based on model output type
 

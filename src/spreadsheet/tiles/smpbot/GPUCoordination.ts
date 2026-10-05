@@ -5,7 +5,7 @@
  * Based on GPU Scaling Specialist Round 1 report and SMPbot architecture requirements
  */
 
-import SMPbot, { GPUExecutionPlan } from './SMPbot';
+import SMPbot, { GPUExecutionPlan, Model } from './SMPbot';
 
 // ============================================================================
 // GPU COORDINATION INTERFACE
@@ -14,7 +14,7 @@ import SMPbot, { GPUExecutionPlan } from './SMPbot';
 /**
  * Interface for coordinating GPU execution between SMPbot framework and GPU scaling system
  */
-export interface GPUCoordination {
+export interface GPUCoordination<I, O> {
   // GPU capability detection
   detectGPUCapabilities(): Promise<GPUCapabilities>;
 
@@ -75,7 +75,7 @@ export interface GPUCapabilities {
 /**
  * Model optimized for GPU execution
  */
-export interface GPUOptimizedModel extends Model<I, O> {
+export interface GPUOptimizedModel<I, O> extends Model<I, O> {
   // GPU-specific optimizations
   readonly gpuOptimized: true;
   readonly quantization: 'fp32' | 'fp16' | 'int8';
@@ -215,7 +215,7 @@ export interface GPUExecutionMetrics {
  * Concrete implementation of GPU coordination
  * Bridges SMPbot framework with GPU scaling system
  */
-export class ConcreteGPUCoordination implements GPUCoordination {
+export class ConcreteGPUCoordination<I, O> implements GPUCoordination<I, O> {
   private gpuDevice: GPUDevice | null = null;
   private modelCache: Map<string, GPUOptimizedModel> = new Map();
 
@@ -663,13 +663,13 @@ export class ConcreteGPUCoordination implements GPUCoordination {
 /**
  * Adapter to make SMPbot GPU execution plans compatible with GPU scaling system
  */
-export class GPUSMPbotAdapter {
+export class GPUSMPbotAdapter<I, O> {
   constructor(private gpuCoordination: GPUCoordination) {}
 
   /**
    * Convert SMPbot GPU execution plan to GPU scaling system format
    */
-  async adaptExecutionPlan(smpbotPlan: GPUExecutionPlan): Promise<GPUBatchPlan> {
+  async adaptExecutionPlan(smpbotPlan: GPUExecutionPlan<I, O>): Promise<GPUBatchPlan> {
     // Extract bots from execution plan
     const bots = smpbotPlan.execute ? [] : []; // Would extract from plan
 
@@ -690,7 +690,7 @@ export class GPUSMPbotAdapter {
   async executeWithGPU(
     bots: SMPbot<I, O>[],
     inputs: I[],
-    plan: GPUExecutionPlan
+    plan: GPUExecutionPlan<I, O>
   ): Promise<O[]> {
     console.log(`Executing ${bots.length} SMPbots with GPU acceleration...`);
 

@@ -2,6 +2,7 @@
  * ConnectorInstance - Implementation for external system connection instances
  */
 
+import type { SuperInstance } from '../types/base';
 import {
   BaseSuperInstance, InstanceType, InstanceState, InstanceCapability,
   CellPosition, InstanceConfiguration, InstancePermissions,

@@ -17,7 +17,7 @@ import SMPbot, {
 /**
  * Concrete implementation of stability validation framework
  */
-export class ConcreteStabilityValidator<O> implements StabilityValidator<O> {
+export class ConcreteStabilityValidator<I, O> implements StabilityValidator<I, O> {
   private readonly significanceLevel: number = 0.01; // α = 0.01
   private readonly minSamples: number = 1000;
 

@@ -5,6 +5,7 @@
  * transformations, and analyses based on LOG-Tensor research.
  */
 
+import type { SuperInstance } from '../types/base';
 import {
   BaseSuperInstance, InstanceType, InstanceState, InstanceCapability,
   CellPosition, InstanceConfiguration, InstancePermissions,

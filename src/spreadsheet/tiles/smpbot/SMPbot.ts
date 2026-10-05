@@ -171,7 +171,7 @@ export interface SMPbot<I, O> extends ITile<I, O> {
  * GPU execution plan for SMPbot batch processing
  * Coordinated with GPU Scaling Specialist's architecture
  */
-export interface GPUExecutionPlan {
+export interface GPUExecutionPlan<I, O> {
   // Resource allocation
   gpuCount: number;
   memoryPerGPU: number;
@@ -217,7 +217,7 @@ export interface CommPattern {
 /**
  * Stability validation framework
  */
-export interface StabilityValidator<O> {
+export interface StabilityValidator<I, O> {
   // Test stability across variations
   testModelVariation(bot: SMPbot<I, O>, variations: number): StabilityReport;
   testInputVariation(bot: SMPbot<I, O>, inputRange: InputRange): StabilityReport;

@@ -6,6 +6,7 @@
 
 // Core WebGPU compute shader wrapper
 export { ComputeShaders, getComputeShaders } from './ComputeShaders.js';
+import { getComputeShaders } from './ComputeShaders.js';
 export type {
   ComputeShaderConfig,
   BufferBinding,

@@ -102,6 +102,19 @@ export interface NativeCapabilities {
   };
 }
 
+/** Minimal Web Speech API surface used here (not in lib.dom for TS 5.9). */
+interface SpeechRecognition {
+  lang: string;
+  continuous: boolean;
+  interimResults: boolean;
+  start(): void;
+  stop(): void;
+  abort(): void;
+  onresult: ((event: unknown) => void) | null;
+  onerror: ((event: unknown) => void) | null;
+  onend: (() => void) | null;
+}
+
 /**
  * NativeMobileAdapter - Bridge to native mobile features
  *
