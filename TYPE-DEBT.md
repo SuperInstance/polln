@@ -1,8 +1,11 @@
 # Type Debt — known, documented, not blocking 0.1.0
 
-`npx tsc --noEmit` reports ~5,900 pre-existing TYPE errors across src
-(heaviest: spreadsheet/ui/admin/*, spreadsheet/charts, spreadsheet/mobile —
-mostly .tsx UI components; plus src/server/yjs-server.ts, src/backup/*).
+`npx tsc --noEmit` reports **~2,372** pre-existing TYPE errors across src
+(down from ~5,900 on 2026-09-29; retirement lane executed 2026-10-04,
+see TYPESCRIPT_FIX_PLAN.md progress receipt for the 11-batch breakdown).
+Heaviest remaining: spreadsheet/ui/admin/*, spreadsheet/charts,
+spreadsheet/mobile (.tsx UI components), plus superinstance/index.ts
+and scattered backend files.
 ZERO syntax errors remain — the corruption that once produced 308 errors in
 12 files is fully repaired, and `tsc` emits dist normally.
 

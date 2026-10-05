@@ -7,6 +7,46 @@
 
 ---
 
+## PROGRESS RECEIPT — 2026-10-04 lane (batches 1-11)
+
+**5,900 -> 2,372 total errors (-3,528, -60%). All commits on main, never a redder intermediate state.**
+
+| Batch | Category | Before | After | Commit |
+|-------|----------|--------|-------|--------|
+| 1 | Missing types: @types/react-dom | 5900 | 5899 | 5fd2168 |
+| 2 | UI cascade root cause: tsconfig jsx + DOM lib (killed TS17004 x1771, TS2812/2584 x418 + cascades) | 5899 | 3027 | 6a641e0 |
+| 3 | Backup module (enum values, Buffer variance, index signatures) | 3027 | 3015 | eababbb |
+| 4 | API module | 3015 | 3015 | (already 0 — skipped) |
+| 5 | CLI module (static-vs-instance, real vendor types exposed 2 API-name bugs) | 3015 | 2981 | 02b69ae |
+| 6 | Benchmarks module — API-drift repair, shared result adapter, suites rewritten against real Colony/Meadow/TileDreamer APIs | 2981 | 2829 | 2210d08 |
+| 7 | Vendor declarations for thin optional integrations (Category 1A) | 2829 | 2796 | 6fd4abf |
+| 8 | TS1361 import-type-as-value, all 131 | 2796 | 2665 | 11b1220 |
+| 9 | TS2693 type-used-as-value, all 83 (dead default-export type registries excised) | 2665 | 2590 | 390bf7b |
+| 10 | TS2300 duplicate identifiers, all 59 | 2590 | 2498 | 2903909 |
+| 11 | TS2304 cannot-find-name, 140/255 (SuperInstance imports, smpbot I/O generics, barrel re-export bindings) | 2498 | 2372 | 5018328 |
+
+### Dominant debt patterns (what the 5,900 actually was)
+1. **One tsconfig root cause** (~48% of the debt): no `jsx` flag + no DOM lib — every .tsx and every DOM API errored. Single config fix killed 2,872.
+2. **Imagined APIs**: benchmarks + CLI written against APIs that never existed (spawnAgent, generateDream, OutputFormatter instances, renderTable). tsc had silenced them via unresolved imports/any.
+3. **Barrel re-export without binding** (`export {X} from` then local use of X) — InstanceType, SuperInstanceValidator, CODING_TASKS.
+4. **import type on runtime enums** (TS1361) — the repo's prevailing 'import type' style applied to enums switched on at runtime.
+5. **Undeclared generics** — smpbot I/O type params used in non-generic interfaces.
+
+### What NOT to do (measured)
+- Don't install types for pg/socket.io/prom-client/@elastic yet, don't declare them, and don't install @types/d3/chart.js yet: consumers are drifted enough that ANY resolution net-increases errors (measured +27..+38). Fix consumers first (see vendor-modules.d.ts header).
+
+### Remaining 2,372 — suggested next batches
+- TS2339 (~380) + TS2322/TS2345/TS2353 (~700): spreadsheet ui/admin, visualizations, backend — per-module design work.
+- TS7006 (~250): implicit-any annotations, spread thin.
+- TS18046/TS18004 (~130): unknown-type tightening + shorthand-property bugs.
+- Remaining TS2304 (115): 1-3-per-file long tail.
+- TS2307 (122): missing RELATIVE modules (LogCell, io/Logger, SecretScanner...) — files that don't exist or moved; per-module archaeology.
+- 5 pre-existing jest failures in benchmarks suites (logic/test drift, was invisible behind compile failure).
+
+---
+
+**Original plan below (kept for history):**
+
 ## Error Categories & Fix Patterns
 
 ### Category 1: Module Resolution Errors (~40%)
